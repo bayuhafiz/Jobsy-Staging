@@ -1,0 +1,124 @@
+<!-- BEGIN VENDOR JS -->
+<script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery.autosize.js" type="text/javascript"></script>
+<script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+<script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+<script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script type="text/javascript" src="assets/plugins/bootstrap-select2/select2.min.js"></script>
+<script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
+<!-- END VENDOR JS -->
+<!-- BEGIN CORE TEMPLATE JS -->
+<script src="pages/js/pages.min.js"></script>
+<script src="pages/js/pages.homepage.js" type="text/javascript"></script>
+<!-- END CORE TEMPLATE JS -->
+<!-- BEGIN PAGE LEVEL JS -->
+<script src="assets/plugins/jquery.jscroll.min.js" type="text/javascript"></script>
+
+<script>
+
+    $(document).ready(function() {
+        $('#item-list').jscroll({ // Infinite scroll trigger
+            loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
+            padding: 20,
+            contentSelector: 'li'
+        });
+
+        $('#form-create').validate();
+        $('#form-edit').validate();
+        $('#form-register').validate();
+        $('#applyForm').validate();
+    });
+
+
+$(function() { 
+
+    // Notification show up /////
+    var msg = $('.msg-container').text();
+    var type = $('.msg-container').attr('data-type');
+    if (msg) {
+        $('body').pgNotification({'message':msg,'type':type,'style':'flip','position':'top-left','timeout':'5000'}).show();
+    }
+
+
+    // Search function //////
+    $(".searchJob").on("keyup", function() {
+        var g = $(this).val().toLowerCase();
+        //var a =  $('div.list-view-group-container li.item');
+        $("li.email-list-search div.middle div.inline").each(function() {
+            var id = $('li.email-list-search').attr('data-email-id');
+            //alert(id);
+            var s = $(this).text().toLowerCase();
+            $(this).closest('li.email-list-search')[ s.indexOf(g) !== -1 ? 'show' : 'hide' ]();
+        });
+    });
+
+    // Dropdown filters /////
+    $("select.job-filter-dropdown").on("change", function() {
+        var filters = $.map($("select.job-filter-dropdown").toArray(), function(e){
+            return $(e).val();
+        }).join(".");
+        
+        $("ul#item-list").find("li").hide();
+        $("ul#item-list").find("li." + filters).show();
+    });
+    
+    // reset filters function
+    $("a[href='#reset']").click(function() {
+
+        $("select.job-filter-dropdown").select2('val', 'all');
+
+        var filters = $.map($("select.job-filter-dropdown").toArray(), function(e){
+            return $(e).val();
+        }).join(".");
+
+        $("ul#item-list").find("li").hide();
+        $("ul#item-list").find("li." + filters).show();
+    });
+
+
+    // Overlay trigger button /////
+    $('.login-btn').click(function() {
+        $('.signUp-panel').hide();
+        $('.forgetPass-panel').hide();
+        $('.signIn-panel').fadeIn('3000').css({
+            'display': 'table-cell',
+            'vertical-align': 'middle'
+        });
+    });
+
+    $('.signUp-btn').click(function() {
+        $('.signIn-panel').hide();
+        $('.forgetPass-panel').hide();
+        $('.signUp-panel').fadeIn('3000').css({
+            'display': 'table-cell',
+            'vertical-align': 'middle'
+        });
+    });
+
+    $('.forgotPassword-btn').click(function() {
+        $('.signUp-panel').hide();
+        $('.signIn-panel').hide();
+        $('.forgetPass-panel').fadeIn('3000').css({
+            'display': 'table-cell',
+            'vertical-align': 'middle'
+        });
+    });
+    // end of Overlay trigger button /////
+
+    // Validate forms
+
+})
+    
+   
+</script>
+<!-- END PAGE LEVEL JS -->

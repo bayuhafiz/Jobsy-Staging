@@ -1,0 +1,158 @@
+<!-- BEGIN VENDOR JS -->
+    <script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery/jquery.autosize.js" type="text/javascript"></script>
+    <script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+    <script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+    <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
+    <script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+    <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/bootstrap-select2/select2.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
+    <script type="text/javascript" src="assets/plugins/dropzone/dropzone.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
+    <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/summernote/js/summernote.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
+
+    <!-- END VENDOR JS -->
+
+
+    <!-- BEGIN CORE TEMPLATE JS -->
+    <script src="pages/js/pages.min.js"></script>
+    <script src="pages/js/pages.dashboard.js" type="text/javascript"></script>
+    <!-- END CORE TEMPLATE JS -->
+
+
+    <!-- BEGIN PAGE LEVEL JS -->
+    <script src="assets/js/form_elements.js" type="text/javascript"></script>
+    <script src="assets/js/scripts.js" type="text/javascript"></script>
+    <script src="assets/js/words-counter.js" type="text/javascript"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('#detailedTable tr[data-status="deleted"]').hide();
+
+        $('input[type=radio][name=hide-radio]').change(function() {
+            if (this.value == 'show') {
+                $('#detailedTable tr[data-status="deleted"]').show();
+            }
+            else if (this.value == 'hide') {
+                $('#detailedTable tr[data-status="deleted"]').hide();
+            }
+        });
+
+        // Forms validation
+        $('#form-create').validate();
+        $('#form-edit').validate();
+        $('#form-register').validate();
+        $('#applyForm').validate();
+    });
+
+      $(function() {
+        // Reset/clear form function
+        $('.clear-btn').click(function () {
+            $('#edit-form input, #edit-form textarea').attr('value','');
+        });
+
+        // Notification show up /////
+        var msg = $('.msg-container').text();
+        var type = $('.msg-container').attr('data-type');
+        if (msg) {
+            $('body').pgNotification({'message':msg,'type':type,'style':'circle','position':'top-left'}).show();
+
+        }
+
+        $(".searchApplicant").on("keyup", function() {
+            var g = $(this).val().toLowerCase();
+
+            $("tr.applyDetail td span.job-applicant").each(function() {
+                var s = $(this).text().toLowerCase();
+                $(this).closest('tr.applyDetail')[ s.indexOf(g) !== -1 ? 'show' : 'hide' ]();
+            });
+        });
+        
+        $('textarea').autosize();
+
+        //$('.description-text').keydown(counter1);
+        //$('.jobScope-text').keydown(counter2);
+        //$('.requirements-text').keydown(counter3);
+
+        $('#summernote2').summernote({
+          height: 200
+        });
+
+        $('textarea').autosize();
+
+        $('.login-btn').click(function() {
+            $('.signUp-panel').hide();
+            $('.forgetPass-panel').hide();
+            $('.signIn-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.signUp-btn').click(function() {
+            $('.signIn-panel').hide();
+            $('.forgetPass-panel').hide();
+            $('.signUp-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.forgotPassword-btn').click(function(){
+            $('.signUp-panel').hide();
+            $('.signIn-panel').hide();
+            $('.forgetPass-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.updatePassword-btn').click(function(){
+            $('.password1').hide();
+            $('.password2').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+        $('.btn-cancel-reset').click(function(){
+            $('.password2').hide();
+            $('.password1').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $("#pauseButton").click(function() {
+            var $row = $(this).closest("tr"),
+                $tds = $row.find("td:nth-child(1)");
+
+            $.each($tds, function() {
+                console.log($(this).text());
+            });
+        });
+
+      });
+
+    // Date formatter function
+    function localDate(date) {
+        var result = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear() ;
+        return result;
+    }
+</script>
+<!-- END PAGE LEVEL JS -->

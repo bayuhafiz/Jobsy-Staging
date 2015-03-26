@@ -1,0 +1,59 @@
+<div class="header ">
+    <!-- START MOBILE CONTROLS -->
+    <!-- LEFT SIDE -->
+    <div class="pull-left full-height visible-sm visible-xs">
+    
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="pull-right full-height visible-sm visible-xs">
+        <!-- START ACTION BAR -->
+
+    </div>
+    <!-- END MOBILE CONTROLS -->
+    <div class="pull-left sm-table">
+        <div class="header-inner">
+            <div class="brand inline pull-left">
+                <a href="/home">
+                <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="73">
+                </a>
+            </div>
+            <!-- START NOTIFICATION LIST -->
+            <!-- END NOTIFICATIONS LIST -->
+             <a href="#" class="search-link"><i class="pg-search"></i><input type="text" placeholder="Click here to search" class="searchApplicant" style="border: none;opacity:1;color: #626262;font-size: 16px;"></a>
+        </div>
+    </div>
+
+    <div class=" pull-right">
+        <!-- START User Info-->
+        <div class="dropdown-default theeee">
+            <div class="visible-lg visible-md m-t-10" id="btnGroupVerticalDrop1" data-target="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                <div class="pull-left p-r-10 p-t-10 fs-16 font-heading user-name" style="cursor:pointer;">
+                    <span class="semi-bold"><%= user.firstName %></span> <span class="text-master"><%= user.lastName %></span>
+                </div>
+                <div class="thumbnail-wrapper d32 circular inline m-t-5" style="cursor:pointer">
+                    <img src="<%= 'uploads/profile/' + user.image %>" alt="" width="32" height="32">
+                </div>
+                <ul class="dropdown-menu pull-right m-r-20 dropdown-user" role="menu" aria-labelledby="btnGroupVerticalDrop1" style="margin-top:0;padding-top:0">
+                    <li><a href="#" data-target="#PostNewJob" data-toggle="modal">Post Job</a>
+                    </li>
+                    <% if (title == 'Homepage') { %>
+                        <li><a href="#" onclick="location.href='/dash'">Dashboard</a></li>
+                    <% } else { %>
+                        <li><a href="#" onclick="location.href='/home'">Home Page</a></li>
+                    <% } %>
+                    <li><a href="#" data-target="#accountSettings" data-toggle="modal">Account Setting</a>
+                    </li>
+                    <li><a href="#" data-target="#billingForm" data-toggle="modal">Billing</a>
+                    </li>
+                    <li><a href="#" onclick="location.href='/logout'">Logout</a>
+                    </li>
+                </ul>
+
+                <div class="pull-right p-l-10 p-t-10 fs-16 font-heading" style="cursor:pointer">
+                    <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+        </div>
+        <!-- END User Info-->
+    </div>
+</div>

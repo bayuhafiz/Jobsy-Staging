@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ./partial/head_reset %>
+  </head>
+  <body class="fixed-header">
+    <div class="register-container full-height sm-p-t-30">
+      <div class="container-sm-height full-height" style="margin:50px 0">
+        <div class="row row-sm-height">
+          <div class="col-sm-12 col-sm-height col-middle">
+            <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="../assets/img/jobsy_logo_black.png" width="78" height="22" style="height: auto;">
+            <h3>Edit Job</h3>
+                    <form action="../update/<%= job._id %>" id="edit-form" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                        <p>Company Profile</p>
+                        <div class="row">
+                            <div class="col-sm-6 pull-down ">
+                                <div class="form-group form-group-default">
+                                    <label style="padding-bottom:10px;">Company Logo</label>
+                                    <input type="file" accept="image/*" id="logo" name="logo" resize-max-height="300" resize-max-width="300" resize-quality="0.7" value="<%= job.profile.logo %>" />
+                                    <input type="hidden" name="oldLogo" value="<%= job.profile.logo %>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 pull-down">
+                                <div class="text-center">
+                                    <img id="logoPreview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" src="<%= '../uploads/logo/' + job.profile.logo %>"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Company Name</label>
+                                    <input name="companyName" type="text" class="form-control" value="<%= job.profile.name %>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Location</label>
+                                    <input name="location" type="text" value="<%= job.profile.location %>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    <label>Description</label>
+                                    <textarea id="desc-text" name="description" class="form-control description-text" placeholder="" aria-invalid="false" style="height: 167px;"><%= job.profile.description %></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <p>Job Description</p>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    <label>Job Title</label>
+                                    <input type="text" class="form-control" name="jobTitle" value="<%= job.details.jobTitle %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Category</label>
+                                    <input type="text" name="category" class="form-control" value="<%= job.details.category %>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-default">
+                                    <label>Job Type</label>
+                                    <input type="text" name="jobType" class="form-control" value="<%= job.details.jobType %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default ">
+                                    <label>Job Scope</label>
+                                    <textarea id="jobScope-text" name="jobScope" class="form-control jobScope-text" aria-invalid="false" style="height: 167px;"><%= job.details.jobScope %></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default ">
+                                    <label>Requirements</label>
+                                    <textarea id="requirements-text" name="requirements" class="form-control requirements-text" aria-invalid="false" style="height: 167px;"><%= job.details.requirements %></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <p>Salary : </p>
+                        <div class="row btn-group">
+                            <div class="col-sm-7">
+                                <div class="row input-group">
+                                    <div class="col-sm-2 col-xs-2">
+                                        <select name="currency" class="cs-select cs-skin-slide" tabindex="0" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:38px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
+                                            <% if (job.details.currency == 'idr') { %>
+                                              <option value="idr" selected="selected">IDR</option>
+                                              <option value="usd">USD</option>
+                                            <% } else { %>
+                                              <option value="idr">IDR</option>
+                                              <option value="usd" selected="selected">USD</option>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-10 col-xs-10">
+                                        <div class="input-daterange input-group">
+                                            <input type="text" class="input-sm form-control" name="salaryFrom" value="<%= job.details.salaryFrom %>" style="height: 38px;"/>
+                                            <span class="input-group-addon">to</span>
+                                            <input type="text" class="input-sm form-control" name="salaryTo" value="<%= job.details.salaryTo %>" style="height: 38px;"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group salary-type">
+                                    <select name="salaryType" class="cs-select cs-skin-slide" tabindex="0" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:38px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;" ="job.salaryType">
+                                      <% if (job.details.salaryType == 'Hourly') { %>
+                                        <option value="Hourly" selected="selected">Hourly</option>
+                                        <option value="Daily">Daily</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Annually">Annually</option>
+                                      <% } else if (job.details.salaryType =='Daily') { %>
+                                        <option value="Hourly">Hourly</option>
+                                        <option value="Daily" selected="selected">Daily</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Annually">Annually</option>
+                                      <% } else if (job.details.salaryType == 'Monthly') { %>
+                                        <option value="Hourly">Hourly</option>
+                                        <option value="Daily">Daily</option>
+                                        <option value="Monthly" selected="selected">Monthly</option>
+                                        <option value="Annually">Annually</option>
+                                      <% } else if (job.details.salaryType == 'Annually') { %>
+                                        <option value="Hourly">Hourly</option>
+                                        <option value="Daily">Daily</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Annually" selected="selected">Annually</option>
+                                      <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <button class="btn btn-primary btn-cons btn-animated from-top fa fa-check-square-o" type="submit">
+                            <span>Submit</span>
+                        </button>
+                        <button class="btn btn-default pull-right" id="reset-button" type="button"><i class="pg-close"></i> Clear</button>
+                    </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% include ./script/edit %>
+
+  </body>
+</html>

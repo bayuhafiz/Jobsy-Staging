@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ./partial/head_pass %>
+  </head>
+  <body class="fixed-header">
+    <div class="register-container full-height sm-p-t-30">
+      <div class="container-sm-height full-height">
+        <div class="row row-sm-height">
+          <div class="col-sm-12 col-sm-height col-middle">
+            <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="78" height="22" style="height: auto;">
+            <h3><%= title %></h3>
+            <form id="form-register" class="p-t-15" role="form" method="POST" action="/password">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default">
+                    <label>New Password</label>
+                    <input type="password" name="password" placeholder="" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default">
+                    <label>Confirm New Password</label>
+                    <input type="password" name="confirmPassword" placeholder="" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              
+              <button class="btn btn-primary btn-cons m-t-10" type="submit">Reset my password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% include ./script/pass %>
+
+  </body>
+</html>

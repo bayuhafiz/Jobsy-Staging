@@ -1,0 +1,134 @@
+body{color: #777}
+.email-wrapper .email-opened {margin-left: 0px;}
+.email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-complete{position: absolute;top:0;right: 0;margin-top: 7px;margin-right: 21px;}
+body.fixed-header .header .btn-complete{width: 142px;}
+.modal.fade.slide-right .modal-dialog{width: 40%;}
+.modal.fade.slide-right .modal-dialog-userdashboard{width: 55%;}
+.post_job{font-weight: bold;cursor: pointer;padding-top: 7px;margin-right: 5px;}
+.email-wrapper .email-list{width: 35%}
+
+.notification-panel .notification-body .notification-item .heading.open .thumbnail-wrapper i{-webkit-transform: rotate(-90deg);-ms-transform: rotate(-90deg);transform: rotate(-180deg);}
+
+.modal-dialog-userdashboard .panel.panel-transparent .panel-body{padding-left: 70px;padding-right: 70px;padding-top: 35px;padding-bottom: 50px;}
+
+.select2-drop-active{z-index: 10000!important}
+.signIn-panel,.signUp-panel,.forgetPass-panel{display: none;}
+
+.notification-panel{padding-top: 10px;}
+.icon-set.globe-fill{top:4px;}
+
+textarea{resize:none;}
+.img-uploader-preview{width: 130px; height: auto;border:3px solid #fff;display: none;}
+.img-uploader-preview img{width: 100%; height: auto}
+#target-img{display: none;}
+
+
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{width: 110px;}
+.email-wrapper .email-opened .email-content-wrapper .email-content{width: 700px;padding-top: 114px;}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box{margin-bottom: 45px;}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{text-align: right;}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc{width: 20%;padding-right:0}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header{height: 120px}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 15px}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .name{font-size: 11px;line-height: 0px;position: relative;top: 9px;}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .datetime{color: #000; opacity: 1}
+
+.company_overview p,
+.job_scope p,
+.requirements p{line-height: 30px;}
+
+.responsive-search{color: #626262;font-size: 15px;width:98%;display: none;margin-bottom: 11px;border: 1px solid rgba(0,0,0,0.07);padding: 5px;padding-left: 10px;margin-top: 9px;}
+
+.outer {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+
+.table.table-hover tbody tr#applyDetail:hover td {
+  background: #daeffd !important;
+}
+
+.table.table-hover tbody tr.row-details td table#appTable tbody tr:hover {
+  background: #daeffd !important;
+}
+
+.table.table-condensed.table-detailed > tbody > tr.shown + tr > td{
+    background: rgb(255,255,255)!important;
+    cursor: default;
+}
+.table.table-condensed.table-detailed > tbody > tr.shown + tr > td .table-inline tbody tr{cursor: pointer;}
+
+#message .pgn-wrapper{margin-top: 60px;}
+.password2{display: none;}
+@media(max-width: 768px){
+    .salary-type{margin-top: 10px;}
+    .modal.fade.slide-right .modal-dialog{width: auto;}
+
+
+    .modal-dialog-userdashboard .panel.panel-transparent .panel-body{padding: 15px;}
+
+ 
+    .notification-panel{width: 100%!important;}
+    .header .search-link input{width: 90%!important;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content{width: 100%;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box{margin-bottom: 20px;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 0!important;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{width: 100%!important}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .middle{width: 100%!important}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc{width: auto;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{margin-top: 40px;margin-bottom: 15px;}
+    .company_overview p,.job_scope p,.requirements p{line-height: 20px;}
+    .job-title-hover{display: none;}
+    .email-wrapper .email-list .item .datetime{opacity: 1!important}
+
+
+
+}
+@media(max-width: 991px){
+    .responsive-search{display: block;}
+    .email-wrapper{z-index: 1}
+    .email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-success{top: 0px;}
+    .email-wrapper .email-list{width: 100%;}
+    .header .notification-list {display: inline-block!important;border:0;position: absolute;top: 11px;right: -30px;}
+    .icon-set.globe-fill{z-index: 1}
+
+    
+
+
+    .post-job-bar{top: 30%;}
+
+    .notification-toggle{left: -300px!important;}
+    .notification-panel{width: 400px;}
+
+    .email-wrapper .email-opened .email-content-wrapper{height: 100%;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{text-align: left;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{left: 0}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 20px;}
+
+    #btnGroupVerticalDrop1{display: block!important;}
+    .user-name{display: none;}
+    .theeee{display: none;}
+    .dropdown-user{margin-top: 6px!important;right: -17px!important;}
+    .list-view-fake-header,.list-view-group-header{display: none;}
+    .list-view-group-container{padding: 0}
+    .email-wrapper .email-list .email-refresh{display: none;}
+
+    .page-container{position: initial;z-index: initial}
+
+}
+
+@media(max-width: 1200px){
+    .modal.fade.slide-right .modal-dialog-userdashboard{width: 100%}
+    .email-wrapper .email-opened .email-content-wrapper .email-content{width: 100%;}
+}
+
+
+.list-view-group-container li[data=active]{border-right: 4px solid #48b0f7}

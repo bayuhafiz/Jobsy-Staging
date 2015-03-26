@@ -1,0 +1,127 @@
+<div class="header ">
+    <!-- START MOBILE CONTROLS -->
+    <!-- LEFT SIDE -->
+    <div class="pull-left full-height visible-sm visible-xs">
+
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="pull-right full-height visible-sm visible-xs">
+        <!--<div class="sm-action-bar post-job-bar">
+            <p class="post_job" style="width: 72px;" data-target="#modalSlideLeft1" data-toggle="modal"><i class="fs-14 pg-plus"></i>Post Job</p>
+          </div>-->
+    </div>
+    <!-- END MOBILE CONTROLS -->
+    <div class=" pull-left sm-table">
+        <div class="header-inner">
+            <div class="brand inline pull-left">
+                <% if (title == 'Homepage') { %>
+                    <a href="/dash">
+                <% } else { %>
+                    <a href="/">
+                <% } %>
+                    <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="73">
+                </a>
+            </div>
+            <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
+                <li class="p-r-15 inline">
+                    <div class="dropdown">
+                        <a href="javascript:;" id="notification-center" class="icon-set globe-fill" data-toggle="dropdown">
+                        </a>
+                        <!-- START Notification Dropdown -->
+                        <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
+                            <!-- START Notification -->
+                            <div class="notification-panel">
+                                <!-- START Notification Body-->
+                                <div class="notification-body scrollable">
+                                    <!-- START Notification Item-->
+                                    <div class="notification-item unread clearfix">
+                                        <!-- START Notification Item-->
+                                        <div class="heading">
+                                                <input type="text" class="responsive-search" placeholder="Click here to search">
+                                                <div class="form-group ">
+                                                    <% include ../dropdown/category_filter %>
+                                                </div>
+                                        </div>
+
+                                        <div class="heading">
+                                                <div class="form-group">
+                                                    <% include ../dropdown/location_filter %>
+                                                </div>
+                                        </div>
+
+                                        <div class="heading">
+                                                <div class="form-group ">
+                                                    <select class="full-width job-filter-dropdown" id="jobType-filter" data-init-plugin="select2" style="width: 98%;">
+                                                        <option selected="" value="all">All Positions</option>
+                                                        <option value="full-time">Full Time</option>
+                                                        <option value="contract">Contract</option>
+                                                        <option value="part-time">Part Time</option>
+                                                    </select>
+                                                </div>
+                                        </div>
+
+                                        <!-- END Notification Item-->
+
+                                    </div>
+
+                                </div>
+                                <!-- END Notification Body-->
+                                <!-- START Notification Footer-->
+                                <div class="notification-footer text-center">
+                                    <a href="#reset">Reset All Filters</a>
+                                    <!--<a data-toggle="refresh" class="portlet-refresh text-black pull-right" href="#">
+                                        <i class="pg-refresh_new"></i>
+                                    </a>-->
+                                </div>
+                                <!-- START Notification Footer-->
+                            </div>
+                            <!-- END Notification -->
+                        </div>
+                        <!-- END Notification Dropdown -->
+                    </div>
+                </li>
+            </ul>
+            <a href="#" class="search-link"><i class="pg-search"></i><input type="text" placeholder="Click here to search" class="searchJob" style="border: none;opacity:1;color: #626262;font-size: 16px;"></a>
+        </div>
+    </div>
+    <div class=" pull-right">
+        <!-- START User Info-->
+        <% if (user) { %>
+        <div class="dropdown-default theeee">
+            <div class="visible-lg visible-md m-t-10" id="btnGroupVerticalDrop1" data-target="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                <div class="pull-left p-r-10 p-t-10 fs-16 font-heading user-name" style="cursor:pointer;">
+                    <span class="semi-bold"><%= user.firstName %></span> <span class="text-master"><%= user.lastName %></span>
+                </div>
+                <div class="thumbnail-wrapper d32 circular inline m-t-5" style="cursor:pointer">
+                    <img src="<%= 'uploads/profile/' + user.image %>" alt="" width="32" height="32">
+                </div>
+                <ul class="dropdown-menu pull-right m-r-20 dropdown-user" role="menu" aria-labelledby="btnGroupVerticalDrop1" style="margin-top:0;padding-top:0">
+                    <li><a href="#" data-target="#PostNewJob" data-toggle="modal">Post Job</a>
+                    </li>
+                    <% if (title == 'Homepage') { %>
+                        <li><a href="#" onclick="location.href='/dash'">Dashboard</a></li>
+                    <% } else { %>
+                        <li><a href="#" onclick="location.href='/home'">Home Page</a></li>
+                    <% } %>
+                    <li><a href="#" data-target="#accountSettings" data-toggle="modal">Account Setting</a>
+                    </li>
+                    <li><a href="#" data-target="#billingForm" data-toggle="modal">Billing</a>
+                    </li>
+                    <li><a href="#" onclick="location.href='/logout'">Logout</a>
+                    </li>
+                </ul>
+
+                <div class="pull-right p-l-10 p-t-10 fs-16 font-heading" style="cursor:pointer">
+                    <i class="fa fa-caret-down"></i>
+                </div>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="visible-lg visible-md m-t-10">
+            <p class="post_job" data-target="#modalSlideLeft1" data-toggle="modal">Sign In to Post</p>
+        </div>
+        <% } %>
+        <!-- END User Info-->
+    </div>
+
+</div>

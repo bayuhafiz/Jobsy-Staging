@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <% include ./partial/head %>
+
+  </head>
+  <body class="fixed-header menu-behind">
+
+
+    <!-- START PAGE-CONTAINER -->
+    <div class="page-container">
+      <!-- START HEADER -->
+
+        <% include ./partial/header_dash %>
+
+      <!-- END HEADER -->
+
+      <!-- START PAGE CONTENT WRAPPER -->
+      <div class="page-content-wrapper">
+        <!-- START PAGE CONTENT -->
+        <div class="content">
+
+          <div id="message"></div>
+          
+          <% include ./partial/jumbotron %>
+
+          <!-- START CONTAINER FLUID -->
+          <div class="container-fluid container-fixed-lg">
+            <div class="row">
+              <div class="col-md-12">
+                <!-- START PANEL -->
+                <div class="panel panel-transparent">
+                <% if (jobs.length == 0) { %>
+                  <div class="no-email text-center">
+                    <h1>Oops.. you don't have any job post yet.</h1>
+                    <p><a href="#" data-target="#PostNewJob" data-toggle="modal">click here</a> to create a new job post or click on purple button above.</p>
+                  </div>
+                <% } else { %>
+                  <div class="panel-heading">
+                    <span class="panel-title">
+                    <% if (jobs.length == 1) { %>
+                      You have 1 job post
+                    <% } else { %>
+                      You have <%= jobs.length %> job posts
+                    <% } %>
+                    </span>
+                    <span class="radio radio-primary pull-right">
+                        <input type="radio" checked="checked" value="hide" name="hide-radio" id="hide-radio-hide">
+                        <label for="hide-radio-hide">Hide Deleted Post</label>
+                        <input type="radio" value="show" name="hide-radio" id="hide-radio-show">
+                        <label for="hide-radio-show">Show Deleted Post</label>
+                    </span>
+                  </div>
+                  
+                  <div class="panel-body">
+
+                    <% if (info.length > 0) { %>
+                      <div class="msg-container" data-type="info" style="display:none;"><%= info %></div>
+                    <% } else if (success.length > 0) { %>
+                      <div class="msg-container" data-type="success" style="display:none;"><%= success %></div>
+                    <% } else if (error.length > 0) { %>
+                      <div class="msg-container" data-type="error" style="display:none;"><%= error %></div>
+                    <% } %>
+
+                    <div class="table-responsive">
+                      <table class="table table-hover table-condensed table-detailed" id="detailedTable">
+                        <thead>
+                          <tr>
+                            <th style="width:25%">Job Title</th>
+                            <th style="width:15%" class="text-center">Status</th>
+                            <th style="width:20%" class="text-center hidden-xs">Total Views</th>
+                            <th style="width:20%" class="text-center hidden-xs hidden-sm">Total Applicants</th>
+                            <th style="width:20%" class="text-center">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% jobs.forEach(function(job) { %>
+                              <tr data-id="<%= job._id %>" id="<%= job._id %>" class="applyDetail" data-status="<%= job.status %>">
+                                <td class="v-align-middle">
+                                  <span class="job-applicant">
+                                  <% if (job.details.jobTitle == '') { %> 
+                                    <span class="hint-text small">~ No Job Title ~</span>
+                                  <% } else { %>
+                                    <span class="semi-bold"><%= job.details.jobTitle %></span>
+                                  <% } %>
+                                  <% if (job.newApp > 0) { %>
+                                    <span class="badge badge-danger"><%= job.newApp %></span>
+                                  <% } %>
+                                  </span>
+                                </td>
+                                <td class="v-align-middle text-center">
+                                  <% if (job.status == 'published') { %>
+                                      <span class="label label-success hidden-xs">PUBLISHED</span>
+                                      <i class="fa fa-check fs-28 visible-xs" style="color: #10cfbd; font-size: 1.5em;"></i>
+                                  <% } else if (job.status == 'paused') { %>
+                                      <span class="label label-warning hidden-xs">PAUSED</span>
+                                      <i class="fa fa-pause fs-15 visible-xs" style="color: #f8d053; font-size: 1.5em;"></i>
+                                  <% } else if (job.status == 'deleted') { %>
+                                    <span class="label label-important hidden-xs">DELETED</span>
+                                    <i class="fa fa-times fs-18 visible-xs" style="color: #f55753; font-size: 1.5em;"></i>
+                                  <% } %>
+                                </td>
+                                <td class="v-align-middle text-center hidden-xs">#</td>
+                                <td class="v-align-middle text-center hidden-xs hidden-sm"><%= job.app %></td>
+                                <td class="v-align-middle text-center">
+                                    <div class="btn-group btn-group-justified">
+                                    <% if (job.status != 'deleted') { %>
+                                      <div class="btn-group"> <!-- edit button -->
+                                        <a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">
+                                          <span class="p-t-5 p-b-5">
+                                            <i class="fa fa-pencil fs-15"></i>
+                                          </span>
+                                        </a>
+                                      </div>
+                                      <div class="btn-group hidden-xs"> <!-- pause/published button -->
+                                        <a href="/job/stat/<%= job._id %>" id="pauseButton" class="btn btn-default">
+                                          <span class="p-t-5 p-b-5">
+                                            <% if (job.status == 'published') { %>
+                                              <i class="fa fa-pause fs-15"></i>
+                                            <% } else if (job.status == 'paused') { %>
+                                              <i class="fa fa-play fs-15"></i>
+                                            <% } %>
+                                          </span>
+                                        </a>
+                                      </div>
+                                      <div class="btn-group"> <!-- delete button -->
+                                        <a href="/job/del/<%= job._id %>" id="deleteButton" class="btn btn-default">
+                                          <span class="p-t-5 p-b-5">
+                                            <i class="fa fa-times fs-15"></i>
+                                          </span>
+                                        </a>
+                                      </div>
+                                    <% } else { %>
+                                      <div class="btn-group"> <!-- restore button -->
+                                        <a href="/job/del/<%= job._id %>" id="restoreButton" class="btn btn-default ">
+                                          <span class="p-t-5 p-b-5">
+                                            <i class="fa fa-undo fs-15"></i>
+                                          </span>
+                                        </a>
+                                      </div>
+                                    <% } %>
+                                  </td>
+                                </tr>
+                          <% }); %>
+                        </tbody>  
+                      </table>
+                    </div>
+                  </div>
+                <% } %>
+                <!-- END PANEL -->
+              </div>
+            </div>
+          </div>
+          <!-- END CONTAINER FLUID -->
+        </div>
+        <!-- END PAGE CONTENT -->
+
+        <!-- START COPYRIGHT -->
+        
+        <!-- END COPYRIGHT -->
+
+      </div>
+      <% include ./partial/copyright %>
+      <!-- END PAGE CONTENT WRAPPER -->
+    </div>
+    <!-- END PAGE CONTAINER -->
+    
+    <!-- START MODAL -->
+
+    <% include ./partial/modal %>
+
+    <!-- END MODAL -->
+
+
+    <!-- BEGIN VENDOR JS -->
+
+    <% include ./script/dash %>
+
+    <!-- END PAGE LEVEL JS -->
+  </body>
+</html>
