@@ -72,7 +72,7 @@ module.exports = function(app, passport) {
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
-        req.session.destroy(function (err) {
+        req.session.destroy(function(err) {
             res.redirect('/'); //Inside a callback… bulletproof!
         });
     });
@@ -130,7 +130,7 @@ module.exports = function(app, passport) {
             });
     });
 
-    
+
 
     // =============================================================================
     // AUTHORIZE (ALREADY LOGGED IN  ===============================================
@@ -164,7 +164,7 @@ module.exports = function(app, passport) {
                                 }
                             });
                         }
-                        fs.rename(tmpPath, targetPath, function(err) { 
+                        fs.rename(tmpPath, targetPath, function(err) {
                             if (err) {
                                 req.flash('error', err);
                                 res.redirect('/dash');
@@ -189,7 +189,7 @@ module.exports = function(app, passport) {
             user.companyName = req.body.companyName;
 
             user.save(function(err) {
-                if (err) 
+                if (err)
                     return next(err);
                 req.flash('success', 'Your account has been updated.');
                 res.redirect('/dash');
