@@ -126,6 +126,7 @@ module.exports = function(app, passport) {
             });
     });
 
+    
 
     // =============================================================================
     // AUTHORIZE (ALREADY LOGGED IN  ===============================================
@@ -142,15 +143,15 @@ module.exports = function(app, passport) {
             var filePath = './public/uploads/profile/' + random_id + '.png';
             var database_filepath = random_id + '.png';
 
+            // Begin uploading image
             if (req.files.img) {
                 var tmpPath = req.files.img.path;
                 var targetPath = path.resolve(filePath);
 
-                if (req.body.oldImg == req.files.img.name) {
+                if (req.body.oldImg == req.files.img.name) { // if no new image presents
                     image = req.body.oldImg;
                 } else {
                     if (path.extname(req.files.img.name).toLowerCase() == '.png' || path.extname(req.files.img.name).toLowerCase() == '.jpg') {
-
                         if (req.body.oldImg != 'dummy.png') {
                             fs.unlink('./public/uploads/profile/' + req.body.oldImg, function(err) {
                                 if (err) {
@@ -159,16 +160,13 @@ module.exports = function(app, passport) {
                                 }
                             });
                         }
-
-                        fs.rename(tmpPath, targetPath, function(err) {
+                        fs.rename(tmpPath, targetPath, function(err) { 
                             if (err) {
                                 req.flash('error', err);
                                 res.redirect('/dash');
                             }
                         });
-
                         image = database_filepath;
-
                     } else {
                         fs.unlink(tmpPath, function(err) {
                             req.flash('error', 'Error! only .png or .jpg file allowed');
@@ -187,10 +185,8 @@ module.exports = function(app, passport) {
             user.companyName = req.body.companyName;
 
             user.save(function(err) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('/dash');
-                }
+                if (err) 
+                    return next(err);
                 req.flash('success', 'Your account has been updated.');
                 res.redirect('/dash');
             });
@@ -236,6 +232,8 @@ module.exports = function(app, passport) {
         failureRedirect: '/connect/local', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
     }));
+
+
 
     // =============================================================================
     // UNLINK ACCOUNTS =============================================================

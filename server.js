@@ -1,5 +1,7 @@
 // server.js
-
+require('pmx').init();
+var http = require('http');
+var pmx = require('pmx');
 // set up ======================================================================
 // get all the tools we need
 var express  = require('express');
@@ -33,7 +35,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
-app.use(session({ secret: 'madewithlovebycolorblindlabs' })); // session secret
+var hour = 3600000;
+var day = hour * 24;
+var week = day * 7;
+app.use(session({ 
+	secret: 'madewithlovebycolorblindlabs',
+    cookie: { maxAge : week } // 1 week
+})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -44,6 +52,9 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 // seeding (development stage ONLY!!!) =========================================
 require('./app/seeding/job.js'); // loads sample job
 require('./app/seeding/user.js'); // loads sample user
+
+// PMX Monitoring setting ======================================================
+app.use(pmx.expressErrorHandler());
 
 // launch ======================================================================
 app.listen(port);

@@ -53,7 +53,7 @@
 
     }
 
-    /* ============== DETAILS JOB FUNCTION ==========================
+    /* ============== DETAILS APP FUNCTION ==========================
     ==============================================================*/
     $('body').on('click', '#appDetailsButton', function() {
         $('#appDetailsCloseBtn').removeAttr('onClick'); // dummy clean button's onClick attribute
@@ -68,15 +68,9 @@
                 if (data) {
                     $.each(data, function(i) {
                         dataHtml = '<div class="form-group">' +
-                            '<label for="fname" class="col-sm-3 control-label">First Name</label>' +
+                            '<label for="fname" class="col-sm-3 control-label">Full Name</label>' +
                             '<div class="col-sm-9">' +
-                            '<p>' + data[i].firstName + '</p>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="form-group">' +
-                            '<label for="fname" class="col-sm-3 control-label">Last Name</label>' +
-                            '<div class="col-sm-9">' +
-                            '<p>' + data[i].lastName + '</p>' +
+                            '<p>' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
                             '</div>' +
                             '</div>' +
                             '<div class="form-group">' +
@@ -113,7 +107,7 @@
                             '<div class="form-group">' +
                             '<label for="fname" class="col-sm-3 control-label">Resume File</label>' +
                             '<div class="col-sm-9">' +
-                            '<a class="btn btn-success" href="uploads/resume/' + data[i].resumeFile + '"><i class="fa fa-arrow-down"></i> Download</a>' +
+                            '<a class="btn btn-success" href="uploads/resume/' + data[i].resumeFile + '" target="_blank"><i class="fa fa-arrow-down"></i> Download</a>' +
                             '</div>';
                     });
                 }
