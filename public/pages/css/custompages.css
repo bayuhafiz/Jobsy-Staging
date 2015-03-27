@@ -36,6 +36,25 @@ textarea{resize:none;}
 .company_overview p,
 .job_scope p,
 .requirements p{line-height: 30px;}
+.note-editable{height: 200px;}
+
+.summernote-wrapper .note-toolbar .note-style,
+.summernote-wrapper .note-toolbar .note-fontname,
+.summernote-wrapper .note-toolbar .note-color,
+.summernote-wrapper .note-toolbar .note-height,
+.summernote-wrapper .note-toolbar .note-table,
+.summernote-wrapper .note-toolbar .note-view button[data-event="fullscreen"],
+.summernote-wrapper .note-toolbar .note-help,
+.summernote-wrapper .note-toolbar .note-insert button[data-event="showLinkDialog"],
+.summernote-wrapper .note-toolbar .note-insert button[data-event="showImageDialog"],
+.summernote-wrapper .note-toolbar .note-insert button[data-event="showVideoDialog"],
+.summernote-wrapper .note-toolbar .note-para button[data-original-title="Paragraph"],
+.summernote-wrapper .note-toolbar .note-insert button[data-event="insertHorizontalRule"],
+.summernote-wrapper .note-toolbar .note-font button[data-event="subscript"],
+.summernote-wrapper .note-toolbar .note-font button[data-event="superscript"],
+.summernote-wrapper .note-toolbar .note-font button[data-event="strikethrough"],
+.summernote-wrapper .note-toolbar .note-font button[data-event="removeFormat"]
+{display: none;}
 
 .responsive-search{color: #626262;font-size: 15px;width:98%;display: none;margin-bottom: 11px;border: 1px solid rgba(0,0,0,0.07);padding: 5px;padding-left: 10px;margin-top: 9px;}
 
@@ -68,6 +87,72 @@ textarea{resize:none;}
 
 #message .pgn-wrapper{margin-top: 60px;}
 .password2{display: none;}
+
+.job_scope ul,.requirements ul,.job_scope ol,.requirements ol{padding-left: 14px;}
+.company_overview,.job_scope, .requirements,.job_scope li, .requirements li{line-height: 29px}
+#typed-cursor {
+    font-size: 19px;
+    color: #2E3D48;
+    font-weight: 200;
+}
+
+#typed-cursor.blinking {
+  -webkit-animation: 1s blink step-end infinite;
+    -moz-animation: 1s blink step-end infinite;
+    -ms-animation: 1s blink step-end infinite;
+    -o-animation: 1s blink step-end infinite;
+    animation: 1s blink step-end infinite;
+}
+
+@keyframes "blink" {
+    from,to {
+    color: transparent;
+}
+ 50% {
+    color: black;
+ }
+
+}
+
+@-moz-keyframes blink {
+    from,to {
+    color: transparent;
+}
+ 50% {
+   color: black;
+ }
+
+}
+
+@-webkit-keyframes "blink" {
+    from,to {
+    color: transparent;
+}
+ 50% {
+   color: black;
+ }
+
+}
+
+@-ms-keyframes "blink" {
+    from,to {
+    color: transparent;
+}
+ 50% {
+   color: black;
+ }
+
+}
+
+@-o-keyframes "blink" {
+    from,to {
+    color: transparent;
+}
+ 50% {
+   color: black;
+ }
+}
+
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
     .modal.fade.slide-right .modal-dialog{width: auto;}

@@ -53,7 +53,7 @@
 
     }
 
-    /* ============== DETAILS APP FUNCTION ==========================
+    /* ============== DETAILS JOB FUNCTION ==========================
     ==============================================================*/
     $('body').on('click', '#appDetailsButton', function() {
         $('#appDetailsCloseBtn').removeAttr('onClick'); // dummy clean button's onClick attribute
@@ -68,9 +68,15 @@
                 if (data) {
                     $.each(data, function(i) {
                         dataHtml = '<div class="form-group">' +
-                            '<label for="fname" class="col-sm-3 control-label">Full Name</label>' +
+                            '<label for="fname" class="col-sm-3 control-label">First Name</label>' +
                             '<div class="col-sm-9">' +
-                            '<p>' + data[i].firstName + ' ' + data[i].lastName + '</p>' +
+                            '<p>' + data[i].firstName + '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                            '<label for="fname" class="col-sm-3 control-label">Last Name</label>' +
+                            '<div class="col-sm-9">' +
+                            '<p>' + data[i].lastName + '</p>' +
                             '</div>' +
                             '</div>' +
                             '<div class="form-group">' +
@@ -107,7 +113,7 @@
                             '<div class="form-group">' +
                             '<label for="fname" class="col-sm-3 control-label">Resume File</label>' +
                             '<div class="col-sm-9">' +
-                            '<a class="btn btn-success" href="uploads/resume/' + data[i].resumeFile + '" target="_blank"><i class="fa fa-arrow-down"></i> Download</a>' +
+                            '<a class="btn btn-success" href="uploads/resume/' + data[i].resumeFile + '"><i class="fa fa-arrow-down"></i> Download</a>' +
                             '</div>';
                     });
                 }
@@ -136,12 +142,13 @@
                     $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                     $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
                     $("#EditJob div.panel form#form-edit select#location").val(data.profile.location);
-                    $('#EditJob div.panel form#form-edit textarea.description-text').text(data.profile.description);
+                    $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                     $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
                     $('#EditJob div.panel form#form-edit select#category').val(data.details.category);
                     $('#EditJob div.panel form#form-edit input#jobType').val(data.details.jobType);
-                    $('#EditJob div.panel form#form-edit textarea.jobScope-text').text(data.details.jobScope);
-                    $('#EditJob div.panel form#form-edit textarea.requirements-text').text(data.details.requirements);
+                    $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
+                    $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
+          
 
                     if ((data.details.currency == 'IDR') || (data.details.currency == 'idr')) {
                         $('#EditJob div.panel form#form-edit select.currency').append($("<option selected='selected'></option>").val('idr').html("IDR"));

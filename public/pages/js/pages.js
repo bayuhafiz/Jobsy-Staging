@@ -209,7 +209,7 @@
     Pages.prototype.initListView = function() {
         $.fn.ioslist && $('[data-init-list-view="ioslist"]').ioslist();
         $.fn.scrollbar && $('.list-view-wrapper').scrollbar({
-            ignoreOverlay: false
+            ignoreOverlay: true
         });
     }
 

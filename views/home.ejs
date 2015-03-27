@@ -46,7 +46,9 @@
                     <% if (user) { %> <!-- disable apply button if user logged in -->
                       <button class="btn btn-complete btn-cons" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize" disabled>Apply for this job</button>
                     <% } else { %>
-                      <button class="btn btn-complete btn-cons" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize">Apply for this job</button>
+                      <!--<button class="btn btn-complete btn-cons"></button>-->
+                      <button class="btn btn-complete btn-animated from-top fa fa-arrow-down" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize"><span>Apply for this job</span></button>
+                      <!--<button class="btn btn-complete btn-cons" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize" disabled>Apply for this job</button>-->
                     <% } %>
                   </ul>
                   <div class="clearfix"></div>
@@ -81,7 +83,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 email-content-desc">
-                            <p class="bold" style="font-size:10px;line-height: 30px;">COMPANY OVERVIEW</p>
+                            <p class="bold" style="font-size:10px;line-height: 30px;color:#000">COMPANY OVERVIEW</p>
                         </div>
                         <div class="col-sm-9 company_overview">
                             <p></p>
@@ -90,7 +92,7 @@
                     <br>
                     <div class="row">
                         <div class="col-sm-3 email-content-desc">
-                            <p class="bold" style="font-size:10px;">JOB SCOPE</p>
+                            <p class="bold" style="font-size:10px;color:#000">JOB SCOPE</p>
                         </div>
                         <div class="col-sm-9 job_scope">
                             <p></p>
@@ -99,7 +101,7 @@
                     <br>
                     <div class="row">
                         <div class="col-sm-3 email-content-desc">
-                            <p class="bold" style="font-size:10px;">REQUIREMENTS</p>
+                            <p class="bold" style="font-size:10px;color:#000">REQUIREMENTS</p>
                         </div>
                         <div class="col-sm-9 requirements">
                             <p></p>
