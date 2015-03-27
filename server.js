@@ -35,24 +35,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // Session settings ============================================================
-app.use(passport.initialize());
 
 var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
 app.use(session({ 
-	secret: 'jobsy2015',
-	resave: false,
-  	saveUninitialized: true,
+	secret: 'madewithlovebycolorblindlabs',
     cookie: { 
-    	maxAge : week, 
-    	secure: true
+    	maxAge : week
     } // 1 week
 })); // session secret
 
-app.use(passport.session({
-	secret: 'madewithlovebycolorblindlabs' // 1 week
-})); // persistent login sessions
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Load our main route =========================================================
