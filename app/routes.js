@@ -647,14 +647,17 @@ module.exports = function(app, passport) {
     // Delete job post ----------------------------------------------
     app.get('/job/del/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
+            var status = '';
             if (err) {
                 req.flash('error', err);
                 res.redirect('back');
             }
             if ((job.status == 'published') || (job.status == 'paused')) {
                 job.status = 'deleted';
+                status = 0;
             } else {
                 job.status = 'published';
+                status = 1;
             }
 
 
@@ -663,7 +666,13 @@ module.exports = function(app, passport) {
                     req.flash('error', err);
                     res.redirect('back');
                 }
-                req.flash('success', 'Job post has been deleted');
+
+                if (status == 0) {
+                    req.flash('success', 'Job post has been deleted');
+                } else if (status == 1) {
+                    req.flash('success', 'Job post has been restored');
+                }
+
                 res.redirect('/dash');
             });
 

@@ -118,8 +118,13 @@
                     //console.log('Now >> ' + now.format('DD-MM-YYYY') + '\nCreated >> ' + moment(data[i].createdAt).format('DD-MM-YYYY') + '\nDue >> ' + dueDate.format('DD-MM-YYYY') + '\nLeft >> ' + diff + ' days left\n\n');
 
                     var li = '';
-                    li += '<li class="item padding-15 email-list-search all ' + category + ' ' + smLocation + ' ' + smJobType + '" data-id="' + id + '" job-index="' + i + '" style="height:110px;"> \
-                                <div class="middle img-list-box" style="width: 110px;"> \
+                    if (i == 0) {
+                        li += '<li class="item padding-15 email-list-search all ' + category + ' ' + smLocation + ' ' + smJobType + '" data-id="' + id + '" job-index="' + i + '" style="height:110px;" data="active">';
+                    } else {
+                        li += '<li class="item padding-15 email-list-search all ' + category + ' ' + smLocation + ' ' + smJobType + '" data-id="' + id + '" job-index="' + i + '" style="height:110px;">';
+                    }
+                    
+                        li += '<div class="middle img-list-box" style="width: 110px;"> \
                                     <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
                                         <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                     </div> \
