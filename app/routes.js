@@ -25,6 +25,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/home', function(req, res) {
+        console.log('Your session >> ' + JSON.stringify(req.session));
         if (req.isAuthenticated()) {
             var user = req.user;
             res.render('home.ejs', {
@@ -47,6 +48,7 @@ module.exports = function(app, passport) {
 
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
+        console.log('Your session >> ' + JSON.stringify(req.session));
         Job.find({
             email: req.user.email
         }, null, {
@@ -69,8 +71,9 @@ module.exports = function(app, passport) {
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect('/');
+        req.session.destroy(function (err) {
+            res.redirect('/'); //Inside a callback… bulletproof!
+        });
     });
 
     // =============================================================================
