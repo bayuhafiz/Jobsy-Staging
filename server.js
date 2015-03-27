@@ -4,17 +4,19 @@ var http = require('http');
 var pmx = require('pmx');
 // set up ======================================================================
 // get all the tools we need
-var express  = require('express');
-var app      = express();
-var port     = process.env.PORT || 1234;
+var express = require('express');
+var app = express();
+var port = process.env.PORT || 1234;
 var mongoose = require('mongoose');
 var passport = require('passport');
-var flash    = require('connect-flash');
+var flash = require('connect-flash');
 
-var morgan       = require('morgan');
+var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var session      = require('express-session');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+
+var MongoStore = require('connect-mongo')({ session: session });
 
 // Multer setting ==============================================================
 var multer = require('multer');
@@ -30,7 +32,9 @@ app.use(express.static(__dirname + '/public')); // set the static files location
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
@@ -39,12 +43,19 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
-app.use(session({ 
-	secret: 'madewithlovebycolorblindlabs',
-    cookie: { 
-    	maxAge : week
+
+app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'madewithlovebycolorblindlabs',
+    store: new MongoStore({
+        url: configDB.url,
+        autoReconnect: true
+    }),
+    cookie: {
+        maxAge: week
     } // 1 week
-})); // session secret
+}));
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
