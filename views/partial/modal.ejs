@@ -44,17 +44,17 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div class="form-group form-group-default">
-                                                    <label>Email</label>
-                                                    <input type="email" name="email" placeholder="We will send loging details to you" class="form-control" required>
+                                                <div class="fform-group form-group-default required">
+                                                    <label>Password</label>
+                                                    <input type="password" name="password" placeholder="Minimum of 4 Characters" class="form-control" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div class="fform-group form-group-default required">
-                                                    <label>Password</label>
-                                                    <input type="text" name="password" placeholder="Minimum of 4 Characters" class="form-control" required>
+                                                <div class="form-group form-group-default">
+                                                    <label>Email</label>
+                                                    <input type="email" name="email" placeholder="We will send loging details to you" class="form-control" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="panel-body" style="height:auto">
                                     <h5>Sign into your pages account</h5>
-                                    <form id="form-login" role="form" method="POST" action="/login">
+                                    <form id="form-login" class="" role="form" method="POST" action="/login">
                                         <div class="form-group form-group-default">
                                             <label>Login</label>
                                             <div class="controls">
@@ -101,7 +101,7 @@
                                         <div class="form-group form-group-default">
                                             <label>Password</label>
                                             <div class="controls">
-                                                <input type="password" class="form-control" name="password" placeholder="Your Password" required>
+                                                <input type="password" class="form-control" name="password" placeholder="Credentials" required>
                                             </div>
                                         </div>
                                         <div class="checkbox check-success pull-left">
@@ -215,8 +215,8 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label>Description</label>
-                                <div class="wysiwyg5-wrapper b-a b-grey">
-                                    <textarea id="wysiwyg5_1" name="description" class="wysiwyg demo-form-wysiwyg" placeholder="Type some text ..."></textarea>
+                                <div class="summernote-wrapper">
+                                  <textarea id="summernote1" name="description" class="description-text"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -257,8 +257,8 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label>Job Scope <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</span></label>
-                                <div class="wysiwyg5-wrapper b-a b-grey">
-                                  <textarea id="wysiwyg5" name="jobScope" class="wysiwyg demo-form-wysiwyg" placeholder="Type some text ..."></textarea>
+                                <div class="summernote-wrapper">
+                                  <textarea id="summernote2" name="jobScope"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -266,8 +266,8 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label>Requirements  <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</label>
-                                <div class="wysiwyg5-wrapper b-a b-grey">
-                                  <textarea id="wysiwyg5_2" name="requirements" class="wysiwyg demo-form-wysiwyg" placeholder="Type some text ..."></textarea>
+                                <div class="summernote-wrapper">
+                                  <textarea id="summernote3" name="requirements"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -334,7 +334,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group form-group-default">
                                     <label>First name</label>
-                                    <input type="text" name="firstName" class="form-control" required>
+                                    <input type="text" name="firstName" class="form-control" required autofocus>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -365,7 +365,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-4 m-t-10 sm-m-t-10 pull-right">
-                                <button type="submit" class="btn btn-success btn-block m-t-5t">Submit Application</button>
+                                <button type="submit" class="btn btn-success btn-animated from-top fa fa-check btn-block" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize"><span>Submit Application</span></button>
                             </div>
                         </div>
                     </form>
@@ -625,9 +625,9 @@
                         </div>
                         <div class="row">
                           <div class="col-sm-12">
-                              <label>Description</label>
-                              <div class="wysiwyg5-wrapper b-a b-grey">
-                                    <textarea id="wysiwyg5_1" name="description" class="wysiwyg demo-form-wysiwyg description-text"></textarea>
+                                <label>Description</label>
+                                <div class="summernote-wrapper">
+                                  <textarea id="summernote1" name="description" class="description-text"></textarea>
                                 </div>
                           </div>
                         </div>
@@ -666,19 +666,20 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label>Job Scope <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</span></label>
-                                <div class="wysiwyg5-wrapper b-a b-grey">
-                                    <textarea id="wysiwyg5_1" name="jobScope" class="wysiwyg demo-form-wysiwyg jobScope-text"></textarea>
+                             
+                                <div class="summernote-wrapper">
+                                  <textarea id="summernote2" name="jobScope" class="jobScope-text" style="height: 200px;"></textarea>
                                 </div>
                             </div>
                         </div>
                         <br />
                         <div class="row">
-                          <div class="col-sm-12">
-                              <label>Requirements <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</span></label>
-                              <div class="wysiwyg5-wrapper b-a b-grey">
-                                    <textarea id="wysiwyg5_2" name="requirements" class="wysiwyg demo-form-wysiwyg requirements-text"></textarea>
+                            <div class="col-sm-12">
+                                <label>Requirements <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</span></label>
+                                <div class="summernote-wrapper">
+                                  <textarea id="summernote3" name="requirements" class="requirements-text" style="height: 200px;"></textarea>
                                 </div>
-                          </div>
+                            </div>
                         </div>
                         <br>
                         <p>Salary : </p>

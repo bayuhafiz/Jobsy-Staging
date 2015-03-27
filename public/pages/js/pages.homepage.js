@@ -86,7 +86,7 @@
                 var listViewGroupCont = $('<div/>', {
                     "class": "list-view-group-container"
                 });
-                listViewGroupCont.append('<div class="list-view-group-header"><span> Job Lists</span></div>');
+                listViewGroupCont.append('<div class="list-view-group-header"><span>Job Lists</span></div>');
                 var ul = $('<ul/>', {
                     "id": "item-list",
                     "class": "no-padding"
@@ -119,7 +119,7 @@
 
                     var li = '';
                     li += '<li class="item padding-15 email-list-search all ' + category + ' ' + smLocation + ' ' + smJobType + '" data-id="' + id + '" job-index="' + i + '" style="height:110px;"> \
-                                <div class="middle" style="width: 110px;"> \
+                                <div class="middle img-list-box" style="width: 110px;"> \
                                     <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
                                         <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                     </div> \
@@ -128,7 +128,7 @@
                                     <input type="checkbox" value="1" id="emailcheckbox"> \
                                     <label for="emailcheckbox"></label> \
                                 </div> \
-                                <div class="middle"> \
+                                <div class="middle details-list-box"> \
                                     <div class="inline"> \
                                         <p class="recipients no-margin hint-text small">' + name + '</p> \
                                         <p class="recipients no-margin" style="font-size:16px;white-space: normal;color: #3b4752;">' + jobTitle + '</p> \
@@ -139,12 +139,12 @@
                                 </div>';
                             if (diff <= 3) {
                                 if (diff == 1) {
-                                    li += '<div class="datetime"><span class="text-danger bold">' + diff + ' day left to apply</span></div>';
+                                    li += '<div class="datetime"><span class="text-danger bold">' + diff + ' day left</span></div>';
                                 } else {
-                                    li += '<div class="datetime"><span class="text-danger bold">' + diff + ' days left to apply</span></div>';
+                                    li += '<div class="datetime"><span class="text-danger bold">' + diff + ' days left</span></div>';
                                 }
                             } else {
-                                li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left to apply</span></div>';
+                                li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
                             }
                     
                     li +=  '<p class="job-title job-title-hover bold" style="right:20px;line-height: 28px;position: absolute;opacity:0">' + currency + ' ' + salaryFrom + ' - ' + salaryTo + '</p> \
@@ -181,6 +181,7 @@
                                 $('.no-email').hide();
                                 $('.actions-dropdown').toggle();
                                 $('.actions, .email-content-wrapper').show();
+
                                 if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
                                     $('.email-list').toggleClass('slideLeft');
                                 }
@@ -212,6 +213,13 @@
                 'right': '20px',
                 'opacity': '1'
             });
+            $(this).children('.img-list-box,.details-list-box').css('position','relative');
+            $(this).children('.img-list-box').animate({
+                'left': '-130px'
+            });
+            $(this).children('.details-list-box').animate({
+                'left': '-100px'
+            });
             $(this).children('.datetime').css('opacity', '0');
         });
 
@@ -219,6 +227,13 @@
             $(this).children('.job-title').animate({
                 'right': '0px',
                 'opacity': '0'
+            });
+            $(this).children('.img-list-box,.details-list-box').css('position','relative');
+            $(this).children('.img-list-box').animate({
+                'left': '0px'
+            });
+            $(this).children('.details-list-box').animate({
+                'left': '0px'
             });
             $(this).children('.datetime').css('opacity', '1');
         });
@@ -263,6 +278,7 @@
                     $('.no-email').hide();
                     $('.actions-dropdown').toggle();
                     $('.actions, .email-content-wrapper').show();
+                    $('.email-content-wrapper .email-content').fadeIn();
                     if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
                         $('.email-list').toggleClass('slideLeft');
                     }
