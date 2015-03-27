@@ -25,8 +25,8 @@ module.exports = function(app, passport) {
     });
 
     app.get('/home', function(req, res) {
-        //console.log('Your session >> ' + JSON.stringify(req.session));
         var sess = req.session;
+        console.log('Your session >> ' + sess.passport.user);
         if (sess.id) {
             var user = req.user;
             res.render('home.ejs', {
@@ -49,7 +49,8 @@ module.exports = function(app, passport) {
 
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
-        //console.log('Your session >> ' + JSON.stringify(req.session));
+        var sess = req.session;
+        console.log('Your session >> ' + sess.passport.user);
         Job.find({
             email: req.user.email
         }, null, {
