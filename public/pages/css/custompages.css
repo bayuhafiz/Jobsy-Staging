@@ -153,6 +153,9 @@ textarea{resize:none;}
  }
 }
 
+.close{  padding: 10px!important;}
+.fs-14 {font-size: 27px !important;}
+
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
     .modal.fade.slide-right .modal-dialog{width: auto;}

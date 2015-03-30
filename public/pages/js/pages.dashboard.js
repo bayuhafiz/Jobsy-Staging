@@ -1,31 +1,6 @@
 (function($) {
 
     'use strict';
-
-    function readURL(input) {
-        // read logo file being uploaded
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#editJobImg-preview').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    // Date formatter function
-    function localDate(date) {
-        var result = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-        return result;
-    }
-
-    // Formatting function for row details
-    var _format = function(d) {
-        return '<div id="appList"></div>';
-    }
-
     // ===================== SHOW USER JOBS FUNCTION ============================
     var showJobs = function(apiUrl, condition) {
         var dataHtml = '';
@@ -262,33 +237,105 @@
     }
 
 
+    // ===================== Init DataTable
+    // Initialize a basic dataTable with row selection option
+    var initBasicTable = function() {
 
-    // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
-    $(document).ready(function() {
+        var table = $('#basicTable');
 
-        /////////// initiate user jobs table !!! ////////////
-        var uEmail = $('#user-email').val(); // Get logged user email
-        showJobs('/api/jobs/' + uEmail, 'hide');
+        var settings = {
+            "sDom": "t",
+            "sPaginationType": "bootstrap",
+            "destroy": true,
+            "paging": false,
+            "scrollCollapse": true,
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [0]
+            }],
+            "order": [
+                [1, "desc"]
+            ]
 
+        };
+
+        table.dataTable(settings);
+
+        $('#basicTable input[type=checkbox]').click(function() {
+            if ($(this).is(':checked')) {
+                $(this).closest('tr').addClass('selected');
+            } else {
+                $(this).closest('tr').removeClass('selected');
+            }
+
+        });
+
+    }
+
+    // Initialize a dataTable having bootstrap's stripes style
+    var initStripedTable = function() {
+
+        var table = $('#stripedTable');
+
+        var settings = {
+            "sDom": "t",
+            "sPaginationType": "bootstrap",
+            "destroy": true,
+            "paging": false,
+            "scrollCollapse": true
+
+        };
+        table.dataTable(settings);
+
+    }
+
+    // Initialize a dataTable with collapsible rows to show more details
+    var initDetailedViewTable = function() {
 
         /* ============== SHOW APPS FUNCTION ==========================
         ==============================================================*/
-        $('#detailedTable tbody').on('click', 'tr.applyDetail', function() {
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
+        $('#detailedTable tbody').on('click', 'tr.applyDetail td:not(:last-child)', function() {
 
-            alert('You clicked!');
+            var table = $('#detailedTable')
+
+            var _format = function(d) {
+                // `d` is the original data object for the row
+                return '<table id="appTable" class="table table-inline">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>Name</th>' +
+                    '<th>Email</th>' +
+                    '<th>Applied</th>' +
+                    '<th></th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '</tbody>' +
+                    '</table>';
+            }
+
+            var tr = $(this).closest('tr');
+            var row = table.row( tr ); // fuck this!!!
+
+            alert(row);
+
+            //var row = $(this).parent()
+            if (tr.hasClass('shown') && tr.next().hasClass('row-details')) {
+                tr.removeClass('shown');
+                tr.next().remove();
+                return;
+            }
 
             $(this).parents('tbody').find('.shown').removeClass('shown');
             $(this).parents('tbody').find('.row-details').remove();
 
-            row.child(_format(row.data())).show(); // Add child 
+            row.child(_format(row.data())).show('slow'); // This is how we append the child
+
             tr.addClass('shown');
             tr.next().addClass('row-details');
 
             // Load list of applicants
             var id = tr.attr('data-id');
-
 
             $.ajax({
                 dataType: "json",
@@ -316,11 +363,71 @@
                     } else {
                         $('#appTable').html('<div class="text-center hint-text">' +
                             '<h5>No applicants yet..</h5>' +
-                            '</div>').hode().show('slow');
+                            '</div>');
                     }
+
+
                 }
             });
         });
+    }
+
+    // Initialize a condensed table which will truncate the content 
+    // if they exceed the cell width
+    var initCondensedTable = function() {
+        var table = $('#condensedTable');
+
+        var settings = {
+            "sDom": "t",
+            "sPaginationType": "bootstrap",
+            "destroy": true,
+            "paging": false,
+            "scrollCollapse": true
+        };
+
+        table.dataTable(settings);
+    }
+
+    initBasicTable();
+    initStripedTable();
+    initDetailedViewTable();
+    initCondensedTable();
+    // ===================== End of Init DataTable
+
+    function readURL(input) {
+        // read logo file being uploaded
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#editJobImg-preview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Date formatter function
+    function localDate(date) {
+        var result = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        return result;
+    }
+
+
+    // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
+    $(document).ready(function() {
+
+        /////////// initiate user jobs table !!! ////////////
+        $('#detailedTable').DataTable({
+            "sDom": "t",
+            "sPaginationType": "bootstrap",
+            "destroy": true,
+            "paging": false,
+            "scrollCollapse": true
+        });
+
+        var uEmail = $('#user-email').val(); // Get logged user email
+        showJobs('/api/jobs/' + uEmail, 'hide');
 
 
         /* ============== DETAILS APP FUNCTION ==========================
@@ -611,7 +718,7 @@
 
         // Dropdown init
         $("#dd-location-edit").select2({
-          placeholder: "jfkdsljfls"
+            placeholder: "jfkdsljfls"
         });
 
     });
