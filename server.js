@@ -22,6 +22,13 @@ var MongoStore = require('connect-mongo')({ session: session });
 var multer = require('multer');
 app.use(multer())
 
+// Elasticsearch configuration =================================================
+var elasticsearch = require('elasticsearch');
+var client = new elasticsearch.Client({
+  host: 'localhost:1234',
+  log: 'trace'
+});
+
 // configuration ===============================================================
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url); // connect to our database

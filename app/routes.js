@@ -823,13 +823,15 @@ module.exports = function(app, passport) {
     });
 
     // Fetch all published jobs based on keywords
-    app.get('/api/jobs/s/:query', function(req, res) {
-        var q = req.params.query;
+    app.get('/api/jobs/s/:keyword', function(req, res) {
+        var regex = RegExp("/.*" + req.params.keyword + ".*/");
+        console.log('Keyword >> ' + req.params.keyword);
+
         var query = {
             $and: [{
                 'status': "published"
             }, {
-                'details.jobTitle': '/.*' + q + '*./'
+                'details.jobTitle': regex
             }]
         }
 
