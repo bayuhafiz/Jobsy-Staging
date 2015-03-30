@@ -66,6 +66,16 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.post('/s/', function(req, res) {
+        client.search({
+            q: 'pants'
+        }).then(function(body) {
+            var hits = body.hits.hits;
+        }, function(error) {
+            console.trace(error.message);
+        });
+    });
+
     // =============================================================================
     // END OF MAIN PAGES ROUTES ====================================================
     // =============================================================================
@@ -198,7 +208,7 @@ module.exports = function(app, passport) {
     app.post('/account/profile', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
             if (err) return next(err);
-            
+
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
             user.companyName = req.body.companyName;

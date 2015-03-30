@@ -26,7 +26,9 @@ app.use(multer())
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
   host: 'localhost:1234',
-  log: 'trace'
+  log: 'trace',
+  sniffOnStart: true,
+  sniffInterval: 60000,
 });
 
 // configuration ===============================================================

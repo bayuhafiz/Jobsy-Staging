@@ -6,7 +6,6 @@
         return url.substr(0, url.lastIndexOf('/'));
     }
 
-
     // Check user mail to matches w/ job email
     var checkJob = function(jobEmail, jobId) {
         var userEmail = $('#user_email').val(); // get user email
@@ -26,7 +25,6 @@
             }
         }
     }
-
 
     // ============================ LOAD JOB LIST FUNCTION ==================================
 
@@ -216,12 +214,38 @@
         customTemplates: editorTemplate
     };
 
+    function nFormatter(num) {
+        if (num >= 1000000000) {
+            return (num / 1000000000).toFixed(2).replace(/\.0$/, '') + ' Milyar';
+        }
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(2).replace(/\.0$/, '') + ' Juta';
+        }
+        if (num >= 1000) {
+            return (num / 1000).toFixed(2).replace(/\.0$/, '') + ' Ribu';
+        }
+        return num;
+    }
 
+    function nl2br(str, is_xhtml) {
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    }
+
+    function replaceDash(str) {
+        return str.replace(/-/g, ' ');
+    }
+
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+
+    // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
         // run the load job list function
         loadJobList('/api/jobs');
-
 
 
         // SEARCH INPUT ACTIONS //////
@@ -229,8 +253,8 @@
         $('body').on("click", '.clear-search', function() {
             if ($(".searchJob").val() != '') {
                 // remove clear icon
-                alert('hey! you cleared the search!');
-
+                $(".searchJob").val('');
+                $('.clear-search').css('display', 'none');
                 //loadJobList('/api/jobs');
                 //$(this).css('display', 'none'); 
             }
@@ -243,7 +267,7 @@
         $(".searchJob").on("blur", function() {
             var q = $(this).text();
             if (q == '') {
-                $('.clear-search').css('display', 'none'); // remove clear icon
+                //$('.clear-search').css('display', 'none'); // remove clear icon
                 $(this).attr('placeholder', 'Search here..');
             }
         });
@@ -482,6 +506,92 @@
                 $('.email-list').removeClass('slideLeft');
                 $('.email-sidebar').show();
             }
+        });
+
+        $('#summernote1,#summernote2,#summernote3').summernote();
+        $('#item-list').jscroll({ // Infinite scroll trigger
+            loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
+            padding: 20,
+            contentSelector: 'li'
+        });
+
+        $('#form-create').validate();
+        $('#form-edit').validate();
+        $('#form-register').validate();
+        $('#applyForm').validate();
+
+
+        // create user avatar based on name
+        $('#user-avatar').initial({
+            width: 80,
+            height: 80
+        });
+
+        // Notification show up /////
+        var msg = $('.msg-container').text();
+        var type = $('.msg-container').attr('data-type');
+        if (msg) {
+            $('body').pgNotification({
+                'message': msg,
+                'type': type,
+                'style': 'flip',
+                'position': 'top-left',
+                'timeout': '5000'
+            }).show();
+        }
+
+
+        // Overlay trigger button /////
+        $('.login-btn').click(function() {
+            $('.signUp-panel').hide();
+            $('.forgetPass-panel').hide();
+            $('.signIn-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.signUp-btn').click(function() {
+            $('.signIn-panel').hide();
+            $('.forgetPass-panel').hide();
+            $('.signUp-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.forgotPassword-btn').click(function() {
+            $('.signUp-panel').hide();
+            $('.signIn-panel').hide();
+            $('.forgetPass-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.updatePassword-btn').click(function() {
+            $('.password1').hide();
+            $('.password2').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.btn-cancel-reset').click(function() {
+            $('.password2').hide();
+            $('.password1').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+        // end of Overlay trigger button /////
+
+        $('#btnToggleSlideUpSize').click(function() {
+            var jobTitle = $('.profile .job-title').text();
+            var companyName = $('.profile .name').text();
+            var location = $('.profile .datetime').text();
+
+            $('#app-to').text(jobTitle + ' at ' + companyName + ' ( ' + location + ' )');
         });
 
     });
