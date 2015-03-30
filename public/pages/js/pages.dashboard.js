@@ -482,10 +482,12 @@
         $('#form-register').validate();
         $('#applyForm').validate();
 
-        // create user avatar based on name
+        // create user avatar based on name initial
         $('#user-avatar').initial({
             width: 80,
-            height: 80
+            height: 80,
+            charCount: 2,
+            fontSize: 45
         });
 
         // Reset/clear form function
@@ -607,6 +609,11 @@
             aSep: '.',
             aDec: ',',
             mDec: '0'
+        });
+
+        // Dropdown init
+        $("#dd-location-edit").select2({
+          placeholder: "jfkdsljfls"
         });
 
     });
