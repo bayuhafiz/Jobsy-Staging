@@ -40,7 +40,7 @@
                     <span class="semi-bold"><%= user.firstName %> <%= user.lastName %></span>
                 </div>
                 <div class="thumbnail-wrapper d32 circular inline m-t-5" style="cursor:pointer">
-                    <img id="user-avatar" data-name="<%= user.firstName %>" alt="" width="32" height="32" class="user-info-pict">
+                    <img id="user-avatar" data-name="<%= user.firstName.charAt(0) %><%= user.lastName.charAt(0) %>" alt="" width="32" height="32" class="user-info-pict">
                 </div>
                 <ul class="dropdown-menu profile-dropdown pull-right m-r-20 dropdown-user" role="menu" aria-labelledby="btnGroupVerticalDrop1" style="margin-top:0;padding-top:0">
                    <li><a href="#" data-target="#PostNewJob" data-toggle="modal">

@@ -122,7 +122,7 @@
 
                         ul.append(li);
 
-                        if (i == 0) { // Auto open first index
+                        if (i == 0) { // AUTO OPEN FIRST INDEXED JOB POST
                             $.ajax({
                                 dataType: "json",
                                 url: "/api/job/" + id,
@@ -336,7 +336,7 @@
         });
 
 
-        // Opened job post >> details
+        // Opened job post details //////////////////////////////////////////////////
         $('body').on('click', '.item', function(e) {
 
             $('.list-view-group-container li').attr('data', '');
@@ -524,7 +524,9 @@
         // create user avatar based on name
         $('#user-avatar').initial({
             width: 80,
-            height: 80
+            height: 80,
+            charCount: 2,
+            fontSize: 45
         });
 
         // Notification show up /////
