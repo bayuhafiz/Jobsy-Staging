@@ -1,6 +1,8 @@
 (function($) {
 
     'use strict';
+
+
     // ===================== SHOW USER JOBS FUNCTION ============================
     var showJobs = function(apiUrl, condition) {
         var dataHtml = '';
@@ -500,11 +502,19 @@
                         $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
-                        $("#EditJob div.panel form#form-edit select#location").val(data.profile.location);
+
+                        $("#EditJob div.panel form#form-edit div#s2id_dd-location-edit span.select2-chosen").text(data.profile.location);
+                        $('#EditJob div.panel form#form-edit select#dd-location-edit option:selected').val(data.profile.location);
+
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
-                        $('#EditJob div.panel form#form-edit select#category').val(data.details.category);
-                        $('#EditJob div.panel form#form-edit input#jobType').val(data.details.jobType);
+
+                        $('#EditJob div.panel form#form-edit div#s2id_category span.select2-chosen').text(data.details.category);
+                        $('#EditJob div.panel form#form-edit select#category option:selected').val(data.details.category);
+
+                        $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
+                        $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
+                        
                         $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
                         $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
 
@@ -599,6 +609,7 @@
         $('.clear-btn').click(function() {
             $('#form-edit input').attr('value', '');
             $('textarea#summernote1,textarea#summernote2,textarea#summernote3').parent().children('.note-editor').children('.note-editable').text('');
+            $('#Crd option:selected').text();
         });
 
 
@@ -612,7 +623,7 @@
                     'type': type,
                     'style': 'circle',
                     'position': 'top-left',
-                    'thumbnail': '<img width="40" height="40" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
+                    'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
                 }).show();
             }
 
@@ -714,11 +725,6 @@
             aSep: '.',
             aDec: ',',
             mDec: '0'
-        });
-
-        // Dropdown init
-        $("#dd-location-edit").select2({
-            placeholder: "jfkdsljfls"
         });
 
     });

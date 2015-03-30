@@ -582,7 +582,7 @@ module.exports = function(app, passport) {
                     res.redirect('back');
                 }
 
-                req.flash('success', 'Job information has been successfully updated.');
+                req.flash('success', 'Job has been updated.');
                 res.redirect('/dash');
             });
 
