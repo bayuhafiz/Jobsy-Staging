@@ -507,7 +507,7 @@
                     'type': type,
                     'style': 'circle',
                     'position': 'top-left',
-                    'thumbnail': '<img width="40" height="40" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
+                    'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
                 }).show();
             }
 
