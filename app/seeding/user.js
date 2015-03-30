@@ -7,7 +7,6 @@ newUser.firstName = 'Jobsy';
 newUser.lastName = 'Admin';
 newUser.companyName = 'Colorblind Labs';
 newUser.email = 'bayu@colorblindlabs.com';
-newUser.image = 'dummy.png';
 newUser.password = newUser.generateHash('qwpo');
 newUser.actStatus = 'activated';
 

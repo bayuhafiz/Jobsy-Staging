@@ -35,7 +35,7 @@
             <!-- START OPENED EMAIL -->
             <div class="email-opened">
               <div class="no-email">
-                <h1>JOBSY&trade;</h1>
+                <h1><img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="73"><span class="small">&trade;</span></h1>
               </div>
               <div class="email-content-wrapper">
                 <div class="actions-wrapper bg-master-lightest">
@@ -43,13 +43,7 @@
                     <li class="visible-sm-inline-block visible-xs-inline-block">
                       <a href="#" class="email-list-toggle"><i class="fa fa-angle-left"></i> All Job Lists</a>
                     </li>
-                    <% if (user) { %> <!-- disable apply button if user logged in -->
-                      <button class="btn btn-complete btn-cons" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize" disabled>Apply for this job</button>
-                    <% } else { %>
-                      <!--<button class="btn btn-complete btn-cons"></button>-->
-                      <button class="btn btn-complete btn-animated from-top fa fa-arrow-down" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize"><span>Apply for this job</span></button>
-                      <!--<button class="btn btn-complete btn-cons" data-toggle="modal" data-target="#applyModal" id="btnToggleSlideUpSize" disabled>Apply for this job</button>-->
-                    <% } %>
+                      <button class="btn btn-complete btn-animated from-top fa fa-arrow-down" data-toggle="modal" id="btnToggleSlideUpSize"><span id="button-text">Apply for this job</span></button>
                   </ul>
                   <div class="clearfix"></div>
                 </div>
@@ -67,7 +61,7 @@
                                 <div class="sender profile inline m-l-10">
                                   <p class="name no-margin bold" style="text-transform: uppercase;"></p>
                                   <h3 class="job-title semi-bold p-t-10" style="line-height: 30px;"></h3>
-                                  <p class="datetime location no-margin"></p>
+                                  <p class="datetime location no-margin hint-text"></p>
                                 </div>
                                 </div>
                             </div>
@@ -107,11 +101,6 @@
                             <p></p>
                         </div>
                     </div>
-                  <!--<div class="email-content-body m-t-20">
-                    <p>Thank you for taking the time to meet with me and other representatives of the last week regarding the challenges facing public transportation, especially. We enjoyed meeting with you and . I’m glad we had the opportunity to discuss an issue that affects so many people in [city/state/community]. We especially appreciate your commitment to [describe any commitment made by the official].</p>
-                    <p>The [coalition name] believes that public transportation is vital to quality of life of our community. As we discussed …</p>
-                    <p>Our coalition would greatly appreciate your support in ensuring that public transportation is widely available to all who need it – especially the people living in . On behalf of all our members and the thousands of citizens they represent, I want to thank you for taking the time out of your busy schedule to discuss this important matter.</p>
-                  </div>-->
                 </div>
               </div>
             </div>
@@ -128,14 +117,17 @@
     </div>
     <!-- END PAGE CONTAINER -->
 
-    <!-- MODAL STICK UP SMALL ALERT -->
-
+    <!-- BEGIN MODAL OVERLAY -->
     <% include ./partial/modal %>
-    
-    <!-- END MODAL STICK UP SMALL ALERT -->
-    
-    <% include ./script/home %>
+    <!-- END MODAL OVERLAY -->
 
+    <% if (user) { %>
+      <input type="hidden" id="user_email" value="<%= user.email %>">
+    <% } else { %>
+      <input type="hidden" id="user_email" value="none">
+    <% } %>  
+
+    <% include ./script/home %>
 
   </body>
 </html>

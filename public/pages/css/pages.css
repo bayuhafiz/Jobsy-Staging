@@ -1124,6 +1124,7 @@ body.dashboard .page-container {
   overflow: hidden;
   display: block;
   padding: 0;
+  padding-top: 40px;
   background-color: #f0f0f0;
 }
 
@@ -9737,7 +9738,7 @@ input.list-view-search {
   overflow: auto;
   height: 100%;
 }
-.email-wrapper .email-opened .no-email {
+.email-wrapper .email-opened .no-email{
   bottom: 0;
   left: 0;
   margin-top: -34px;

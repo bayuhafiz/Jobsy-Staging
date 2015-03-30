@@ -53,7 +53,7 @@ app.use(session({
         autoReconnect: true
     }),
     cookie: {
-        maxAge: week
+        maxAge: day
     } // 1 week
 }));
 

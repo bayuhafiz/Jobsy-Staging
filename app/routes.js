@@ -16,7 +16,7 @@ var App = require('./models/app');
 module.exports = function(app, passport) {
 
     // =============================================================================
-    // MAIN PAGES ROUTES ===========================================================
+    // =========================================================== MAIN PAGES ROUTES
     // =============================================================================
 
     // show the home page ===========================
@@ -26,7 +26,6 @@ module.exports = function(app, passport) {
 
     app.get('/home', function(req, res) {
         var sess = req.session;
-        console.log('Your session >> ' + sess.passport.user);
         if (sess.id) {
             var user = req.user;
             res.render('home.ejs', {
@@ -49,8 +48,6 @@ module.exports = function(app, passport) {
 
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
-        var sess = req.session;
-        console.log('Your session >> ' + sess.passport.user);
         Job.find({
             email: req.user.email
         }, null, {
@@ -59,11 +56,9 @@ module.exports = function(app, passport) {
             }
         }, function(err, jobs) {
             var user = req.user;
-
             res.render('dash.ejs', {
                 title: 'Dashboard',
                 user: user,
-                jobs: jobs,
                 success: req.flash('success'),
                 error: req.flash('error'),
                 info: req.flash('info')
@@ -71,15 +66,15 @@ module.exports = function(app, passport) {
         });
     });
 
-    // LOGOUT ==============================
-    app.get('/logout', function(req, res) {
-        req.session.destroy(function(err) {
-            res.redirect('/'); //Inside a callback… bulletproof!
-        });
-    });
+    // =============================================================================
+    // END OF MAIN PAGES ROUTES ====================================================
+    // =============================================================================
+
+
+
 
     // =============================================================================
-    // AUTHENTICATE (FIRST LOGIN) ==================================================
+    // ================================================== AUTHENTICATE (FIRST LOGIN)
     // =============================================================================
 
     // process the login form
@@ -196,57 +191,14 @@ module.exports = function(app, passport) {
 
 
     // =============================================================================
-    // AUTHORIZE (ALREADY LOGGED IN  ===============================================
+    // ================================================ AUTHORIZE (ALREADY LOGGED IN
     // =============================================================================
 
     // update account settings --------------------------------
     app.post('/account/profile', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
             if (err) return next(err);
-
-            // Doing image replacement
-            var image = '';
-            var random_id = crypto.randomBytes(10).toString('hex');
-            var filePath = './public/uploads/profile/' + random_id + '.png';
-            var database_filepath = random_id + '.png';
-
-            // Begin uploading image
-            if (req.files.img) {
-                var tmpPath = req.files.img.path;
-                var targetPath = path.resolve(filePath);
-
-                if (req.body.oldImg == req.files.img.name) { // if no new image presents
-                    image = req.body.oldImg;
-                } else {
-                    if (path.extname(req.files.img.name).toLowerCase() == '.png' || path.extname(req.files.img.name).toLowerCase() == '.jpg') {
-                        if (req.body.oldImg != 'dummy.png') {
-                            fs.unlink('./public/uploads/profile/' + req.body.oldImg, function(err) {
-                                if (err) {
-                                    req.flash('error', err);
-                                    res.redirect('/dash');
-                                }
-                            });
-                        }
-                        fs.rename(tmpPath, targetPath, function(err) {
-                            if (err) {
-                                req.flash('error', err);
-                                res.redirect('/dash');
-                            }
-                        });
-                        image = database_filepath;
-                    } else {
-                        fs.unlink(tmpPath, function(err) {
-                            req.flash('error', 'Error! only .png or .jpg file allowed');
-                            res.redirect('/dash');
-                        });
-                    }
-                }
-            } else {
-                image = req.body.oldImg;
-            }
-
-            // save user settings into databse
-            user.image = image;
+            
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
             user.companyName = req.body.companyName;
@@ -300,6 +252,12 @@ module.exports = function(app, passport) {
         failureFlash: true // allow flash messages
     }));
 
+    // LOGOUT ==============================
+    app.get('/logout', function(req, res) {
+        req.session.destroy(function(err) {
+            res.redirect('/'); //Inside a callback… bulletproof!
+        });
+    });
 
 
     // =============================================================================
@@ -439,6 +397,8 @@ module.exports = function(app, passport) {
             res.redirect('/');
         });
     });
+
+
 
     // =============================================================================
     // JOB MANIPULATION ROUTES =====================================================
@@ -647,11 +607,12 @@ module.exports = function(app, passport) {
     // Delete job post ----------------------------------------------
     app.get('/job/del/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
-            var status = '';
             if (err) {
                 req.flash('error', err);
                 res.redirect('back');
             }
+
+            var status = '';
             if ((job.status == 'published') || (job.status == 'paused')) {
                 job.status = 'deleted';
                 status = 0;
@@ -660,6 +621,7 @@ module.exports = function(app, passport) {
                 status = 1;
             }
 
+            job.updatedAt = Date.now();
 
             job.save(function(err) {
                 if (err) {
@@ -830,9 +792,24 @@ module.exports = function(app, passport) {
             });
     });
 
+
+
     // =============================================================================
-    // API ROUTES ==================================================================
+    // ================================================================== API ROUTES 
     // =============================================================================
+
+    // Fetch all activated users
+    app.get('/api/users', function(req, res) {
+        User.find({
+            actStatus: 'activated'
+        }, {
+            _id: 0
+        }, function(err, users) {
+            res.json(users);
+        });
+    });
+
+    // Fetch all published jobs
     app.get('/api/jobs', function(req, res) {
         Job.find({
             status: 'published'
@@ -845,25 +822,127 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/api/users', function(req, res) {
-        User.find({
-            actStatus: 'activated'
-        }, {
-            _id: 0
-        }, function(err, users) {
-            res.json(users);
+    // Fetch all published jobs based on keywords
+    app.get('/api/jobs/s/:query', function(req, res) {
+        var q = req.params.query;
+        var query = {
+            $and: [{
+                'status': "published"
+            }, {
+                'details.jobTitle': '/.*' + q + '*./'
+            }]
+        }
+
+        console.log('Query >> ' + JSON.stringify(query));
+
+        Job.find(query, null, {
+            sort: {
+                createdAt: -1
+            }
+        }, function(err, jobs) {
+            console.log('Result >> ' + JSON.stringify(jobs));
+            res.json(jobs);
         });
     });
 
+    // Fetch all published jobs based on filters
+    app.get('/api/jobs/:category/:location/:jobType', function(req, res) {
+
+        // ----------------------------- Filters w/ one 'all' -----------------------------
+        if ((req.params.category == 'all') && (req.params.location != 'all') && (req.params.jobType != 'all')) {
+            var filter = {
+                $and: [{
+                    'status': "published"
+                }, {
+                    'profile.location': req.params.location
+                }, {
+                    'details.jobType': req.params.jobType
+                }]
+            };
+        } else if ((req.params.category != 'all') && (req.params.location == 'all') && (req.params.jobType != 'all')) {
+            var filter = {
+                $and: [{
+                    'status': "published"
+                }, {
+                    'details.category': req.params.category
+                }, {
+                    'details.jobType': req.params.jobType
+                }]
+            };
+        } else if ((req.params.category != 'all') && (req.params.location != 'all') && (req.params.jobType == 'all')) {
+            var filter = {
+                $and: [{
+                    'status': "published"
+                }, {
+                    'profile.location': req.params.location
+                }, {
+                    'details.category': req.params.category
+                }]
+            };
+        }
+        // -------------------------- Filters with 2 'all's ------------------------
+        if ((req.params.category == 'all') && (req.params.location == 'all') && (req.params.jobType != 'all')) {
+            var filter = {
+                $and: [{
+                    'status': "published"
+                }, {
+                    'details.jobType': req.params.jobType
+                }]
+            };
+        } else if ((req.params.category == 'all') && (req.params.location != 'all') && (req.params.jobType == 'all')) {
+            var filter = {
+                $and: [{
+                    'status': "published"
+                }, {
+                    'profile.location': req.params.location
+                }]
+            };
+        } else if ((req.params.category != 'all') && (req.params.location == 'all') && (req.params.jobType == 'all')) {
+            var filter = {
+                $and: [{
+                    'status': "published"
+                }, {
+                    'details.category': req.params.category
+                }]
+            };
+        }
+        // ---------------------------- Filters with 3 'all's ----------------------------
+        else if ((req.params.category == 'all') && (req.params.location == 'all') && (req.params.jobType == 'all')) {
+            var filter = {
+                'status': "published"
+            };
+        }
+        // ---------------------------- Filters with NO 'all' ----------------------------
+        else if ((req.params.category != 'all') && (req.params.location != 'all') && (req.params.jobType != 'all')) {
+            var filter = {
+                $and: [{
+                    'status': "published"
+                }, {
+                    'profile.location': req.params.location
+                }, {
+                    'details.jobType': req.params.jobType
+                }, {
+                    'details.category': req.params.category
+                }]
+            };
+        }
+
+        // ============================= Execute the filters ==============================
+        Job.find(filter, null, {
+                sort: {
+                    createdAt: -1
+                }
+            },
+            function(err, jobs) {
+                res.json(jobs);
+            });
+    });
+
+
+    // Fetch user related jobs
     app.get('/api/jobs/:email', function(req, res) {
         Job.find({
-            $and: [{
-                email: req.params.email
-            }, {
-                status: {
-                    $not: /deleted/
-                }
-            }]
+            email: req.params.email
         }, null, {
             sort: {
                 createdAt: -1
@@ -873,6 +952,7 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Fetch spesific job based on job ID
     app.get('/api/job/:id', function(req, res) {
         var id = req.params.id;
         Job.findOne({
@@ -882,6 +962,7 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Edit job post API based on job ID
     app.get('/api/job/edit/:id', function(req, res) {
         var id = req.params.id;
         Job.findOne({
@@ -891,14 +972,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/api/job/app/:id', function(req, res) {
-        App.find({
-            _id: req.params.id
-        }, function(err, app) {
-            res.json(app);
-        });
-    });
-
+    // Fetch applications related to spesific job post
     app.get('/api/job/apps/:id', function(req, res) {
         App.find({
             jobId: req.params.id
@@ -911,59 +985,19 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Fetch spesific application based on application ID
+    app.get('/api/job/app/:id', function(req, res) {
+        App.find({
+            _id: req.params.id
+        }, function(err, app) {
+            res.json(app);
+        });
+    });
 
-    /**
-     * Pause /api/job/pause/:id
-     */
-    exports.getPauseJob = function(req, res) {
-        var id = req.params._id;
-        if (id) {
-            Job.findOne({
-                _id: id
-            }, function(err, job) {
-                res.json({
-                    info: 'You clicked PAUSE button!.'
-                });
-            });
-        } else {
-            res.json({
-                info: 'Job has not been deleted.'
-            });
-        }
-    };
+    // =============================================================================
+    // END OF API ROUTES ===========================================================
+    // =============================================================================
 
-
-    /**
-     * Delete /api/job/delete/:id
-     */
-
-    exports.getDeleteJob = function(req, res) {
-        var id = req.params.id;
-
-        if (id) {
-            Job.findOne({
-                _id: id
-            }, function(err, job) {
-                job.update({
-                    _id: req.params.id
-                }, function(err) {
-                    if (err) return;
-                    res.json({
-                        info: 'Job has been deleted successfully.'
-                    });
-                });
-                /*if(job.remove()) {
-                  res.json({info:'Job has been deleted successfully.'});
-                } else {
-                  res.json({info:'Job has not been deleted.'});
-                }*/
-            });
-        } else {
-            res.json({
-                info: 'Job has not been deleted.'
-            });
-        }
-    };
 
 };
 

@@ -22,10 +22,6 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    image: {
-        type: String,
-        default: ''
-    },
     actStatus: {
         type: String,
         default: ''

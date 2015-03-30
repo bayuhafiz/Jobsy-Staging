@@ -6,6 +6,180 @@
         return url.substr(0, url.lastIndexOf('/'));
     }
 
+
+    // Check user mail to matches w/ job email
+    var checkJob = function(jobEmail, jobId) {
+        var userEmail = $('#user_email').val(); // get user email
+        var button = $('#btnToggleSlideUpSize');
+        var initialState = button.attr('data-target', '#applyModal').attr('disabled', false).attr('class', 'btn btn-complete btn-animated from-top fa fa-arrow-down').find('#button-text').text('Apply for this job');
+
+        if (userEmail == 'none') {
+            initialState;
+        } else {
+            if (userEmail == jobEmail) {
+                initialState;
+                $('#button-text').text('Edit this job');
+                button.attr('data-id', jobId).attr('data-target', '#EditJob').attr('class', 'btn btn-success btn-animated from-top fa fa-pencil').css('right', '0').css('margin-top', '7px').css('margin-right', '21px').css('position', 'absolute');
+            } else if (userEmail != jobEmail) {
+                initialState;
+                button.attr('disabled', true);
+            }
+        }
+    }
+
+
+    // ============================ LOAD JOB LIST FUNCTION ==================================
+
+    var loadJobList = function(apiUrl) {
+        $.ajax({
+            dataType: "json",
+            url: apiUrl,
+            success: function(data) {
+
+                var listViewGroupCont = $('<div/>', {
+                    "class": "list-view-group-container"
+                });
+
+                $('div.list-view-wrapper').html(''); // clear the list before we do the magic
+
+                if (data.length < 1) { // If there is no job to display
+
+                    var noJob = '<div class="text-center" style="margin-top: auto; margin-bottom: auto;"><h1 class="hint-text"><br/><i class="fa fa-ban fa-2x"></i><br/>oops, no job post found!</h1><span class="hint-text">Hint: Try changing your filter preference or your search keyword</span></div>';
+                    $('.list-view-wrapper').html(noJob);
+
+                    $('div.email-opened .email-content-wrapper').css('display', 'none');
+                    $('div.email-opened .no-email').show();
+
+                } else {
+
+                    // Let's do the magic!
+                    listViewGroupCont.append('<div class="list-view-group-header"><span>Job Lists</span></div>');
+
+                    var ul = $('<ul/>', {
+                        "id": "item-list",
+                        "class": "no-padding"
+                    });
+
+                    $.each(data, function(i) {
+                        var id = data[i]._id;
+                        var logo = 'uploads/logo/' + data[i].profile.logo;
+                        var name = data[i].profile.name.toUpperCase();
+                        var smLocation = data[i].profile.location;
+                        var location = capitalize(data[i].profile.location);
+                        var description = data[i].profile.description;
+                        var jobTitle = data[i].details.jobTitle;
+                        var category = data[i].details.category;
+                        var smJobType = data[i].details.jobType;
+                        var jobType = capitalize(data[i].details.jobType);
+                        var jobScope = data[i].details.jobScope;
+                        var requirements = data[i].details.requirements;
+                        var currency = data[i].details.currency.toUpperCase();
+                        var salaryFrom = data[i].details.salaryFrom;
+                        var salaryTo = data[i].details.salaryTo;
+                        var salaryType = data[i].details.salaryType;
+
+                        // Time manipulation
+                        var now = moment(Date.now());
+                        var dueDate = moment(data[i].createdAt).add(30, 'd');
+                        var diff = dueDate.diff(now, 'days');
+
+                        var li = '';
+                        if (i == 0) {
+                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '" style="height:110px;" data="active">';
+                        } else {
+                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '" style="height:110px;">';
+                        }
+
+                        li += '<div class="middle img-list-box" style="width: 110px;"> \
+                                        <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
+                                            <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
+                                        </div> \
+                                    </div> \
+                                    <div class="checkbox  no-margin p-l-10"> \
+                                        <input type="checkbox" value="1" id="emailcheckbox"> \
+                                        <label for="emailcheckbox"></label> \
+                                    </div> \
+                                    <div class="middle details-list-box"> \
+                                        <div class="inline"> \
+                                            <p class="recipients no-margin hint-text small">' + name + '</p> \
+                                            <p class="recipients no-margin" style="font-size:16px;white-space: normal;color: #3b4752;">' + jobTitle + '</p> \
+                                            <p class="recipients no-margin hint-text small"> \
+                                             ' + replaceDash(location) + ', ' + replaceDash(jobType) + ' \
+                                            </p> \
+                                        </div> \
+                                    </div>';
+                        if (diff <= 3) {
+                            if (diff == 1) {
+                                li += '<div class="datetime"><span class="text-danger bold">' + diff + ' day left</span></div>';
+                            } else {
+                                li += '<div class="datetime"><span class="text-danger bold">' + diff + ' days left</span></div>';
+                            }
+                        } else {
+                            li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
+                        }
+
+                        li += '<p class="job-title job-title-hover bold" style="right:20px;line-height: 28px;position: absolute;opacity:0">' + currency + ' ' + salaryFrom + ' - ' + salaryTo + '</p> \
+                                    <div class="clearfix"></div> \
+                                </li>';
+
+                        ul.append(li);
+
+                        if (i == 0) { // Auto open first index
+                            $.ajax({
+                                dataType: "json",
+                                url: "/api/job/" + id,
+                                success: function(data) {
+
+                                    //if (data != null) return;
+                                    var emailOpened = $('.email-opened');
+                                    var loc = capitalize(data.profile.location);
+                                    var jobType = capitalize(data.details.jobType);
+                                    var jobScopeText = nl2br(data.details.jobScope);
+                                    var requirementsText = nl2br(data.details.requirements);
+
+                                    emailOpened.find('.profile .name').text(data.profile.name);
+                                    emailOpened.find('.profile .job-title').text(data.details.jobTitle);
+                                    emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
+                                    emailOpened.find('.company_overview p').text(data.profile.description);
+                                    emailOpened.find('.details .salary .salary-from').text(data.details.currency.toUpperCase() + ' ' + data.details.salaryFrom);
+                                    emailOpened.find('.details .salary .salary-to').text(data.details.salaryTo);
+                                    emailOpened.find('.details .salary-type').text('/ ' + data.details.salaryType);
+                                    emailOpened.find('.company_overview').html(data.profile.description);
+                                    emailOpened.find('.job_scope').html(jobScopeText);
+                                    emailOpened.find('.requirements').html(requirementsText);
+
+                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'd48b-danger');
+
+                                    $('.no-email').hide();
+                                    $('.actions-dropdown').toggle();
+                                    $('.actions, .email-content-wrapper').show();
+
+                                    if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
+                                        $('.email-list').toggleClass('slideLeft');
+                                    }
+
+                                    $(".email-content-wrapper").scrollTop(0);
+                                    $('#applyForm').attr('action', '/apply/' + id);
+
+                                    checkJob(data.email, id);
+
+                                }
+                            });
+                        }
+
+                    });
+
+                    listViewGroupCont.append(ul);
+                    $('#emailList').append(listViewGroupCont).hide().show('slow'); // give it a little effect :P
+                    $("#emailList").ioslist();
+
+                }
+
+            }
+        })
+    };
+    // =================================== END OF LOAD JOB LIST FUNCTION ===============================================
+
     // Wysiwyg editor custom options
 
     var editorTemplate = {
@@ -45,170 +219,76 @@
 
     $(document).ready(function() {
 
-        $('#mark-email').click(function() {
-            $('.item .checkbox').toggle();
-        });
-
-        // function to shorten currency
-        function nFormatter(num) {
-            if (num >= 1000000000) {
-                return (num / 1000000000).toFixed(2).replace(/\.0$/, '') + ' Milyar';
-            }
-            if (num >= 1000000) {
-                return (num / 1000000).toFixed(2).replace(/\.0$/, '') + ' Juta';
-            }
-            if (num >= 1000) {
-                return (num / 1000).toFixed(2).replace(/\.0$/, '') + ' Ribu';
-            }
-            return num;
-        }
-
-        function nl2br(str, is_xhtml) {
-            var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
-            return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
-        }
-
-        function replaceDash(str) {
-            return str.replace(/-/g, ' ');
-        }
-
-        function capitalize(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+        // run the load job list function
+        loadJobList('/api/jobs');
 
 
-        // Load list of emails
-        $.ajax({
-            dataType: "json",
-            url: "/api/jobs",
-            success: function(data) {
 
-                var listViewGroupCont = $('<div/>', {
-                    "class": "list-view-group-container"
-                });
-                listViewGroupCont.append('<div class="list-view-group-header"><span>Job Lists</span></div>');
-                var ul = $('<ul/>', {
-                    "id": "item-list",
-                    "class": "no-padding"
-                });
+        // SEARCH INPUT ACTIONS //////
 
-                $.each(data, function(i) {
-                    var id = data[i]._id;
-                    var logo = 'uploads/logo/' + data[i].profile.logo;
-                    var name = data[i].profile.name.toUpperCase();
-                    var smLocation = data[i].profile.location;
-                    var location = capitalize(data[i].profile.location);
-                    var description = data[i].profile.description;
-                    var jobTitle = data[i].details.jobTitle;
-                    var category = data[i].details.category;
-                    var smJobType = data[i].details.jobType;
-                    var jobType = capitalize(data[i].details.jobType);
-                    var jobScope = data[i].details.jobScope;
-                    var requirements = data[i].details.requirements;
-                    var currency = data[i].details.currency.toUpperCase();
-                    var salaryFrom = data[i].details.salaryFrom;
-                    var salaryTo = data[i].details.salaryTo;
-                    var salaryType = data[i].details.salaryType;
+        $('body').on("click", '.clear-search', function() {
+            if ($(".searchJob").val() != '') {
+                // remove clear icon
+                alert('hey! you cleared the search!');
 
-                    // Time manipulation
-                    var now = moment(Date.now());
-                    var dueDate = moment(data[i].createdAt).add(30, 'd');
-                    var diff = dueDate.diff(now, 'days');
-
-                    //console.log('Now >> ' + now.format('DD-MM-YYYY') + '\nCreated >> ' + moment(data[i].createdAt).format('DD-MM-YYYY') + '\nDue >> ' + dueDate.format('DD-MM-YYYY') + '\nLeft >> ' + diff + ' days left\n\n');
-
-                    var li = '';
-                    if (i == 0) {
-                        li += '<li class="item padding-15 email-list-search all ' + category + ' ' + smLocation + ' ' + smJobType + '" data-id="' + id + '" job-index="' + i + '" style="height:110px;" data="active">';
-                    } else {
-                        li += '<li class="item padding-15 email-list-search all ' + category + ' ' + smLocation + ' ' + smJobType + '" data-id="' + id + '" job-index="' + i + '" style="height:110px;">';
-                    }
-                    
-                        li += '<div class="middle img-list-box" style="width: 110px;"> \
-                                    <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
-                                        <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
-                                    </div> \
-                                </div> \
-                                <div class="checkbox  no-margin p-l-10"> \
-                                    <input type="checkbox" value="1" id="emailcheckbox"> \
-                                    <label for="emailcheckbox"></label> \
-                                </div> \
-                                <div class="middle details-list-box"> \
-                                    <div class="inline"> \
-                                        <p class="recipients no-margin hint-text small">' + name + '</p> \
-                                        <p class="recipients no-margin" style="font-size:16px;white-space: normal;color: #3b4752;">' + jobTitle + '</p> \
-                                        <p class="recipients no-margin hint-text small"> \
-                                         ' + replaceDash(location) + ', ' + replaceDash(jobType) + ' \
-                                        </p> \
-                                    </div> \
-                                </div>';
-                            if (diff <= 3) {
-                                if (diff == 1) {
-                                    li += '<div class="datetime"><span class="text-danger bold">' + diff + ' day left</span></div>';
-                                } else {
-                                    li += '<div class="datetime"><span class="text-danger bold">' + diff + ' days left</span></div>';
-                                }
-                            } else {
-                                li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
-                            }
-                    
-                    li +=  '<p class="job-title job-title-hover bold" style="right:20px;line-height: 28px;position: absolute;opacity:0">' + currency + ' ' + salaryFrom + ' - ' + salaryTo + '</p> \
-                                <div class="clearfix"></div> \
-                            </li>';
-                    ul.append(li);
-
-                    if (i == 0) { // Auto open first index
-                        $.ajax({
-                            dataType: "json",
-                            url: "/api/job/" + id,
-                            success: function(data) {
-
-                                //if (data != null) return;
-                                var emailOpened = $('.email-opened');
-                                var loc = capitalize(data.profile.location);
-                                var jobType = capitalize(data.details.jobType);
-                                var jobScopeText = nl2br(data.details.jobScope);
-                                var requirementsText = nl2br(data.details.requirements);
-
-                                emailOpened.find('.profile .name').text(data.profile.name);
-                                emailOpened.find('.profile .job-title').text(data.details.jobTitle);
-                                emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
-                                emailOpened.find('.company_overview p').text(data.profile.description);
-                                emailOpened.find('.details .salary .salary-from').text(data.details.currency.toUpperCase() + ' ' + data.details.salaryFrom);
-                                emailOpened.find('.details .salary .salary-to').text(data.details.salaryTo);
-                                emailOpened.find('.details .salary-type').text('/ ' + data.details.salaryType);
-                                emailOpened.find('.company_overview').html(data.profile.description);
-                                emailOpened.find('.job_scope').html(jobScopeText);
-                                emailOpened.find('.requirements').html(requirementsText);
-
-                                emailOpened.find('#opened-thumbnail').html('<img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'd48b-danger');
-
-                                $('.no-email').hide();
-                                $('.actions-dropdown').toggle();
-                                $('.actions, .email-content-wrapper').show();
-
-                                if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
-                                    $('.email-list').toggleClass('slideLeft');
-                                }
-
-                                $(".email-content-wrapper").scrollTop(0);
-                                $('#applyForm').attr('action', '/apply/' + id);
-
-                            }
-                        });
-                    }
-
-                });
-
-                listViewGroupCont.append(ul);
-                $('#emailList').append(listViewGroupCont);
-
-                $("#emailList").ioslist();
-
+                //loadJobList('/api/jobs');
+                //$(this).css('display', 'none'); 
             }
         });
 
+        $(".searchJob").on("focus", function() {
+            $(this).attr('placeholder', '');
+        });
 
+        $(".searchJob").on("blur", function() {
+            var q = $(this).text();
+            if (q == '') {
+                $('.clear-search').css('display', 'none'); // remove clear icon
+                $(this).attr('placeholder', 'Search here..');
+            }
+        });
+        // main search input fn
+        $(".searchJob").on("keyup", function() {
+            var q = $(this).val();
+            if (q == '') {
+                $('.clear-search').css('display', 'none'); // remove clear icon
+                loadJobList('/api/jobs');
+            } else {
+                if ($('.clear-search').css('display') == 'none') {
+                    $('.clear-search').css('display', 'inline'); // add clear icon
+                }
+                // run the load job list function
+                loadJobList('/api/jobs/s/' + q);
+            }
+
+        });
+
+
+        // DROPDOWN FILTERS ACTION
+        $("select.job-filter-dropdown").on("change", function() {
+            var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
+                return $(e).val();
+            }).join("/");
+
+            // run the load job list function
+            loadJobList('/api/jobs/' + filters);
+        });
+
+        // RESET FILTERS
+        $("a[href='#reset']").click(function() {
+
+            $("select.job-filter-dropdown").select2('val', 'all');
+
+            var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
+                return $(e).val();
+            }).join("/");
+
+            // run the load job list function
+            loadJobList('/api/jobs/' + filters);
+        });
+
+
+        // CLICK ON JOB LIST ITEM ACTION
         $('body').on('click', '.item .checkbox', function(e) {
             e.stopPropagation();
         });
@@ -218,13 +298,7 @@
                 'right': '20px',
                 'opacity': '1'
             });
-            /*$(this).children('.img-list-box,.details-list-box').css('position','relative');
-            $(this).children('.img-list-box').animate({
-                'left': '-130px'
-            });
-            $(this).children('.details-list-box').animate({
-                'left': '-100px'
-            });*/
+
             $(this).children('.datetime').css('opacity', '0');
         });
 
@@ -233,15 +307,10 @@
                 'right': '0px',
                 'opacity': '0'
             });
-            /*$(this).children('.img-list-box,.details-list-box').css('position','relative');
-            $(this).children('.img-list-box').animate({
-                'left': '0px'
-            });
-            $(this).children('.details-list-box').animate({
-                'left': '0px'
-            });*/
+
             $(this).children('.datetime').css('opacity', '1');
         });
+
 
         // Opened job post >> details
         $('body').on('click', '.item', function(e) {
@@ -254,6 +323,7 @@
             var id = $(this).attr('data-id');
             var email = null;
             var thumbnailWrapper = $(this).find('.thumbnail-wrapper');
+
             $.ajax({
                 dataType: "json",
                 url: "/api/job/" + id,
@@ -291,7 +361,99 @@
                     $(".email-content-wrapper").scrollTop(0);
                     $('#applyForm').attr('action', '/apply/' + id);
 
+                    checkJob(data.email, id);
+
                 }
+            });
+
+        });
+
+        /* ============== EDIT JOB FUNCTION ==========================
+        ==============================================================*/
+        $('#btnToggleSlideUpSize').click(function() {
+            var dataHtml = '';
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                dataType: "json",
+                url: "/api/job/edit/" + id,
+                success: function(data) {
+                    if (data) {
+                        var img = 'uploads/logo/' + data.profile.logo;
+                        $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
+                        $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
+                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
+                        $("#EditJob div.panel form#form-edit select#location").val(data.profile.location);
+                        $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
+                        $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
+                        $('#EditJob div.panel form#form-edit select#category').val(data.details.category);
+                        $('#EditJob div.panel form#form-edit input#jobType').val(data.details.jobType);
+                        $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
+                        $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
+
+
+                        if ((data.details.currency == 'IDR') || (data.details.currency == 'idr')) {
+                            $('#EditJob div.panel form#form-edit select.currency').append($("<option selected='selected'></option>").val('idr').html("IDR"));
+                            $('#EditJob div.panel form#form-edit select.currency').append($("<option></option>").val('usd').html("USD"));
+                        } else if ((data.details.currency == 'USD') || (data.details.currency == 'usd')) {
+                            $('#EditJob div.panel form#form-edit select.currency').append($("<option></option>").val('idr').html("IDR"));
+                            $('#EditJob div.panel form#form-edit select.currency').append($("<option selected='selected'></option>").val('usd').html("USD"));
+                        };
+
+                        $('#EditJob div.panel form#form-edit input.salaryFrom').attr('value', data.details.salaryFrom);
+                        $('#EditJob div.panel form#form-edit input.salaryTo').attr('value', data.details.salaryTo);
+
+                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
+
+
+                        if (data.details.salaryType == 'Monthly') {
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
+                        } else if (data.details.salaryType == 'Annually') {
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Annually').html("Annually"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
+                        } else if (data.details.salaryType == 'Daily') {
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Daily').html("Daily"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
+                        } else if (data.details.salaryType == 'Hourly') {
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
+                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Hourly').html("Hourly"));
+                        };
+
+
+                        $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
+
+                    }
+
+                    //$('#appDetailsCloseBtn').attr('onClick', 'location.href=\'/job/app/' + dataId + '\'');
+
+                }
+
+            });
+
+
+            function readURL(input) {
+                // read logo file being uploaded
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#editJobImg-preview').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#editJobImg").change(function() {
+                readURL(this);
             });
 
         });

@@ -81,16 +81,8 @@
                     </div>
                 </li>
             </ul>
-            <!--<a href="#" class="search-link">
-                <span class="input input--kohana" style="margin:0">
-                    <input class="input__field input__field--kohana searchJob" type="text" id="input-29" style="padding:0;  padding-left: 2.75em;" />
-                    <label class="input__label input__label--kohana" for="input-29" style="font-size: 93.25%;color:#000000">
-                        <i class="fa fa-fw fa-search icon icon--kohana" style="margin-top:0;color:#000000;font-size: 18px;"></i>
-                        <span class="input__label-content input__label-content--kohana" style="padding-top: 1px;"><span id="typed-cursor" class="blinking">|</span> Search...</span>
-                    </label>
-                </span>
-            </a>-->
-            <a href="#" class="search-link"><i class="pg-search"></i><input type="text" placeholder="Click here to search" class="searchJob" style="border: none;opacity:1;color: #626262;font-size: 16px;"></a>
+            <!-- search input -->
+            <span class="search-link"><i class="pg-search"></i><input type="text" placeholder="Search here.." id="searchJob" class="searchJob" style="border: none;opacity:1;color: #626262;font-size: 16px;"><a href="#" class="clear-search" style="display: none;"> <i class="fa fa-times"></i></a></span>
         </div>
     </div>
     <div class=" pull-right">
@@ -98,28 +90,24 @@
         <% if (user) { %>
         <div class="dropdown-default theeee">
             <div class="visible-lg visible-md m-t-10" id="btnGroupVerticalDrop1" data-target="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                <div class="pull-left p-r-10 p-t-10 fs-16 font-heading user-name" style="cursor:pointer;">
-                    <span class="semi-bold"><%= user.firstName %></span> <span class="text-master"><%= user.lastName %></span>
+                <div class="pull-left p-r-10 p-t-10 fs-16 font-heading" style="cursor:pointer;">
+                    <span class="semi-bold"><%= user.firstName %> <%= user.lastName %></span>
                 </div>
                 <div class="thumbnail-wrapper d32 circular inline m-t-5" style="cursor:pointer">
-                    <img src="<%= 'uploads/profile/' + user.image %>" alt="" width="32" height="32">
+                    <img id="user-avatar" data-name="<%= user.firstName %>" alt="" width="32" height="32" class="user-info-pict">
                 </div>
-                <ul class="dropdown-menu pull-right m-r-20 dropdown-user" role="menu" aria-labelledby="btnGroupVerticalDrop1" style="margin-top:0;padding-top:0">
-                    <li><a href="#" data-target="#PostNewJob" data-toggle="modal">Post Job</a>
-                    </li>
-                    <% if (title == 'Homepage') { %>
-                        <li><a href="#" onclick="location.href='/dash'">Dashboard</a></li>
-                    <% } else { %>
-                        <li><a href="#" onclick="location.href='/home'">Home Page</a></li>
-                    <% } %>
-                    <li><a href="#" data-target="#accountSettings" data-toggle="modal">Account Setting</a>
-                    </li>
-                    <li><a href="#" data-target="#billingForm" data-toggle="modal">Billing</a>
-                    </li>
-                    <li><a href="#" onclick="location.href='/logout'">Logout</a>
-                    </li>
+                <ul class="dropdown-menu profile-dropdown pull-right m-r-20 dropdown-user" role="menu" aria-labelledby="btnGroupVerticalDrop1" style="margin-top:0;padding-top:0">
+                   <li><a href="#" data-target="#PostNewJob" data-toggle="modal">
+                        <span class="pull-right bold">Create New Post <i class="pg-arrow_right"></i></span>
+                    </a></li>
+                    <li><a href="#" onclick="location.href='/home'">Home Page</a></li>
+                    <li><a href="#" data-target="#accountSettings" data-toggle="modal">Account Setting</a></li>
+                    <li><a href="#" data-target="#billingForm" data-toggle="modal">Payment</a></li>
+                    <li class="bg-master-lighter" style="padding-bottom:0px;"><a href="#" onclick="location.href='/logout'">
+                        <span>Logout</span>
+                        <span class="pull-right"><i class="pg-power"></i></span>
+                    </a></li>
                 </ul>
-
                 <div class="pull-right p-l-10 p-t-10 fs-16 font-heading" style="cursor:pointer">
                     <i class="fa fa-caret-down"></i>
                 </div>

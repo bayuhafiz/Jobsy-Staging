@@ -1,13 +1,14 @@
+<!-- ===============================================================================================================
+=========================================== USER AUTHENTICATION FORM =============================================== -->
+
 <div class="modal fade slide-right" id="modalSlideLeft1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content-wrapper">
             <div class="modal-content">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
                 </button>
-
                 <div class="container-xs-height full-height">
                     <div class="row-xs-height outer">
-
                         <div class="signUp-panel">
                             <!-- START PANEL -->
                             <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0;">
@@ -17,7 +18,7 @@
                                     </div>
                                 </div>
                                 <div class="panel-body" style="height:auto">
-                                    <h5>Pages default style</h5>
+                                    <h5>Create your account in under a minute</h5>
                                     <form id="form-register" action="/signup" class="" method="POST" role="form" autocomplete="off">
                                         <input type="hidden" name="_csrf" />
                                         <div class="row">
@@ -30,7 +31,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group form-group-default required">
                                                     <label>Last Names</label>
-                                                    <input type="text" name="lastName" placeholder="Smith" class="form-control" required>
+                                                    <input type="text" name="lastName" placeholder="Appleseed" class="form-control" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -46,7 +47,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group form-group-default">
                                                     <label>Email</label>
-                                                    <input type="email" name="email" placeholder="We will send loging details to you" class="form-control" required>
+                                                    <input type="email" name="email" placeholder="We will send activation details to you" class="form-control" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,7 +58,8 @@
                                                     <input type="text" name="password" placeholder="Minimum of 4 Characters" class="form-control" required>
                                                 </div>
                                             </div>
-                                        </div>                                        <div class="row m-t-10">
+                                        </div>
+                                        <div class="row m-t-10">
                                             <div class="col-md-8">
                                                 <p>By clicking the button below, you are agree to our <a href="#" class="text-info small">Service Terms</a> and <a href="#" class="text-info small">Privacy</a>.</p>
                                             </div>
@@ -79,7 +81,6 @@
                             </div>
                             <!-- END PANEL -->
                         </div>
-
                         <div class="signIn-panel middle">
                             <!-- START PANEL -->
                             <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0">
@@ -121,8 +122,7 @@
                             </div>
                             <!-- END PANEL -->
                         </div>
-
-                       <div class="forgetPass-panel">
+                        <div class="forgetPass-panel">
                             <!-- START PANEL -->
                             <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0">
                                 <div class="panel-heading">
@@ -152,10 +152,8 @@
                             </div>
                             <!-- END PANEL -->
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
         <!-- /.modal-content -->
@@ -163,99 +161,103 @@
     <!-- /.modal-dialog -->
 </div>
 
+<!-- ======================================= END OF USER AUTHENTICATION FORM ============================================
+==================================================================================================================== -->
+
+
+
+<!-- ===============================================================================================================
+============================================ CREATE JOB POSTING FORM =============================================== -->
 
 <div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-userdashboard">
-              <div class="modal-content-wrapper">
-                <div class="modal-content outer" style="background: #FAFAFA;">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
-                  </button>
-                  <div class="panel panel-transparent middle">
+    <div class="modal-dialog modal-lg modal-dialog-userdashboard">
+        <div class="modal-content-wrapper">
+            <div class="modal-content outer" style="background: #FAFAFA;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+                </button>
+                <div class="panel panel-transparent middle">
                     <div class="panel-body">
-                      <div class="panel-heading" style="padding:0">
-                        <div class="panel-title" style="text-transform: none;">
-                          <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:25px; margin-bottom:25px;">
-                          <div class="col-sm-12" style="padding-left: 0;">
-                            <p class="bold">CREATE A NEW JOB POSTING</p>
-                            <p>Fill the following for to create a new job Listing Be as detailer as possible - this ensures quality of your candidates</p>
-                          </div>
-                        </div>
-                      </div>
-                      <br>
-                      <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
-                        <p>Company Profile</p>
-                        <div class="row">
-                                              <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                  <label style="padding-bottom:10px;">Profile Picture</label>
-                                                  <input type="file" class="form-control" id="createJobImg" name="file">
-                                                </div>
-                                              </div>
-                                              <div class="col-sm-6">
-                                                  <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
-                                               
-                                              </div>
-                                            </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default">
-                              <label>Company Name</label>
-                              <input type="text" name="companyName" placeholder="" class="form-control" required>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default form-group-default-select2 required">
-                              <label>Location</label>
-                              <!--<input type="text" name="location" placeholder="" class="form-control" required>-->
-                              <% include ../dropdown/location_create %>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label>Description</label>
-                                <div class="summernote-wrapper">
-                                  <textarea id="summernote1" name="description" class="description-text"></textarea>
+                        <div class="panel-heading" style="padding:0">
+                            <div class="panel-title" style="text-transform: none;">
+                                <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:25px; margin-bottom:25px;">
+                                <div class="col-sm-12" style="padding-left: 0;">
+                                    <p class="bold">CREATE A NEW JOB POSTING</p>
+                                    <p>Fill the following for to create a new job Listing Be as detailer as possible - this ensures quality of your candidates</p>
                                 </div>
                             </div>
                         </div>
-
                         <br>
-                        <p>Job Description</p>
-
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group form-group-default">
-                              <label>Job Title</label>
-                                <input type="text" class="form-control" name="jobTitle">
+                        <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                            <p>Company Profile</p>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+                                        <label style="padding-bottom:10px;">Profile Picture</label>
+                                        <input type="file" class="form-control" id="createJobImg" name="file">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
+                                </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default form-group-default-select2 required">
-                              <label>Category</label>
-                              <!--<input type="text" name="category" placeholder="" class="form-control" required>-->
-                              <% include ../dropdown/category_create %>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+                                        <label>Company Name</label>
+                                        <input type="text" name="companyName" placeholder="" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                        <label>Location</label>
+                                        <!--<input type="text" name="location" placeholder="" class="form-control" required>-->
+                                        <% include ../dropdown/location_create %>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default form-group-default-select2 required">
-                                <label>Job Type</label>
-                                <select class="full-width" name="jobType" data-init-plugin="select2" required>
-                                  <optgroup label="Position Type">
-                                    <option selected=""></option>
-                                    <option value="full-time">Full Time</option>
-                                    <option value="contract">Contract</option>
-                                    <option value="part-time">Part Time</option>
-                                  </optgroup>
-                                </select>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label>Description</label>
+                                    <div class="summernote-wrapper">
+                                        <textarea id="summernote1" name="description" class="description-text"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label>Job Scope <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</span></label>
+                            <br>
+                            <p>Job Description</p>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default">
+                                        <label>Job Title</label>
+                                        <input type="text" class="form-control" name="jobTitle">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                        <label>Category</label>
+                                        <!--<input type="text" name="category" placeholder="" class="form-control" required>-->
+                                        <% include ../dropdown/category_create %>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                        <label>Job Type</label>
+                                        <select class="full-width" name="jobType" data-init-plugin="select2" required>
+                                            <optgroup label="Position Type">
+                                                <option selected=""></option>
+                                                <option value="full-time">Full Time</option>
+                                                <option value="contract">Contract</option>
+                                                <option value="part-time">Part Time</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label>Job Scope <span class="hint-text small"></label>
                                 <div class="summernote-wrapper">
                                   <textarea id="summernote2" name="jobScope"></textarea>
                                 </div>
@@ -264,7 +266,7 @@
                         <br />
                         <div class="row">
                             <div class="col-sm-12">
-                                <label>Requirements  <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</label>
+                                <label>Requirements  <span class="hint-text small"></label>
                                 <div class="summernote-wrapper">
                                   <textarea id="summernote3" name="requirements"></textarea>
                                 </div>
@@ -285,37 +287,43 @@
                                   <div class="input-daterange input-group">
                                         <input name="salaryFrom" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control"/>
                                         <span class="input-group-addon">to</span>
-                                        <input name="salaryTo" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control"/>
-                                  </div>
+                                        <input name="salaryTo" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control" />
                                 </div>
-                              </div>
-                          </div>
-                          <div class="col-sm-5">
-                            <form role="form">
-                              <div class="form-group salary-type">
-                                <select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
-                                  <option value="Monthly" selected="selected">Monthly</option>
-                                  <option value="Annually">Annually</option>
-                                  <option value="Daily">Daily</option>
-                                  <option value="Hourly">Hourly</option>
-                                </select>
-                              </div>
-                          </div>
-                        </div>
-                        <br>
-                        <br>
-                        <button class="btn btn-success" type="submit">Submit</button>
-                        <button class="btn btn-default"><i class="pg-close"></i> Clear</button>
-                      </form>
+                            </div>
                     </div>
-                  </div>
-
                 </div>
-              </div>
-              <!-- /.modal-content -->
+                <div class="col-sm-5">
+                    <form role="form">
+                        <div class="form-group salary-type">
+                            <select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
+                                <option value="Monthly" selected="selected">Monthly</option>
+                                <option value="Annually">Annually</option>
+                                <option value="Daily">Daily</option>
+                                <option value="Hourly">Hourly</option>
+                            </select>
+                        </div>
+                </div>
             </div>
-            <!-- /.modal-dialog -->
-          </div>
+            <br>
+            <br>
+            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-default"><i class="pg-close"></i> Clear</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- ======================================= END OF CREATE JOB POSTING FORM =============================================
+==================================================================================================================== -->
+
+
+
+<!-- ===============================================================================================================
+=============================================== APPLY JOB FORM ===================================================== -->
 
 <div class="modal fade slide-up disable-scroll" id="applyModal" tabindex="-1" role="dialog" aria-hidden="false" style="overflow:auto">
     <div class="modal-dialog modal-lg">
@@ -324,16 +332,16 @@
                 <div class="modal-header clearfix text-left">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
                     </button>
-                    <h5>Application Form<span class="semi-bold"></span></h5>
+                    <h5>Application form for <span class="semi-bold" id="app-to"></span></h5>
                     <p class="p-b-10">Fill you informations bellow to apply</p>
                 </div>
                 <div class="modal-body">
-                    <form id="applyForm" class="applyForm" method="POST" enctype="multipart/form-data" autocomplete="off">
+                    <form id="applyForm" class="applyForm" method="POST" enctype="multipart/form-data" autocomplete="off" role="form">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group form-group-default">
                                     <label>First name</label>
-                                    <input type="text" name="firstName" class="form-control" required autofocus>
+                                    <input type="text" name="firstName" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -374,9 +382,15 @@
         <!-- /.modal-content -->
     </div>
 </div>
-    
-        <!-- START ACCOUNT SETTINGS OVERLAY -->
-    <% if (user) { %>
+
+<!-- =========================================== END OF APPLY JOB FORM ==================================================
+==================================================================================================================== -->
+
+
+<!-- ===============================================================================================================
+========================================= USER LOGGED VARIOUS FORMS ================================================ -->
+
+<% if (user) { %>
     <div class="modal fade slide-right" id="accountSettings" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-userdashboard">
             <div class="modal-content-wrapper">
@@ -385,105 +399,92 @@
                     </button>
                     <div class="panel panel-transparent middle password1">
                         <div class="panel-body">
-                          <div class="panel-heading" style="padding:0">
-                            <div class="panel-title" style="text-transform: none;">
-                              <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:25px; margin-bottom:25px;">
-                              <div class="col-sm-12" style="padding-left: 0;">
-                                <p class="bold">ACCOUNT SETTING</p>
-                                <!--<p>Fill the following for to create a new job Listing Be as detailer as possible - this ensures quality of your candidates</p>-->
-                              </div>
+                            <div class="panel-heading" style="padding:0">
+                                <div class="panel-title" style="text-transform: none;">
+                                    <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:25px; margin-bottom:25px;">
+                                    <div class="col-sm-12" style="padding-left: 0;">
+                                        <p class="bold">ACCOUNT SETTING</p>
+                                        <p>Change the profile settings of your profile account</p>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                          <br>
-                          <form id="form-account" action="/account/profile" class="" method="POST" enctype="multipart/form-data" role="form">
-                                            <div class="row">
-                                              <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                  <label style="padding-bottom:10px;">Profile Picture</label>
-                                                  <input type="file" class="form-control" id="profile-img" name="img" value="<%= user.image %>">
-                                                  <input type="hidden" name="oldImg" value="<%= user.image %>">
-                                                </div>
-                                              </div>
-                                              <div class="col-sm-6">
-                                                  <img src="uploads/profile/<%= user.image %>" id="profile-img-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
-                                              </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group form-group-default">
-                                                        <label>First Name</label>
-                                                        <input type="text" name="firstName" value="<%= user.firstName %>" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group form-group-default">
-                                                        <label>Last Names</label>
-                                                        <input type="text" name="lastName" value="<%= user.lastName %>" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group form-group-default">
-                                                        <label>Company Name</label>
-                                                        <input type="text" name="companyName" value="<%= user.companyName %>" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group form-group-default">
-                                                        <label for="password">Password:</label>
-                                                        <a href="#" class="updatePassword-btn"><span class="link">Click here to change your password</span></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="clearfix"></div>
-                                            <button class="btn btn-primary btn-cons">Save Edited</button>
-                                            <div class="clearfix"></div>
-                                            <div class="clearfix"></div>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <button data-target="#deleteAccount" data-toggle="modal" class="btn btn-danger btn-cons" style="margin-top: 20px !important;" disabled>Deactivate My Account</button>
-                                        </form>
-                          
+                            <br>
+                            <form id="form-account" action="/account/profile" class="" method="POST" enctype="multipart/form-data" role="form">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default">
+                                            <label>First Name</label>
+                                            <input type="text" name="firstName" value="<%= user.firstName %>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default">
+                                            <label>Last Names</label>
+                                            <input type="text" name="lastName" value="<%= user.lastName %>" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label>Company Name</label>
+                                            <input type="text" name="companyName" value="<%= user.companyName %>" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label for="password">Password:</label>
+                                            <a href="#" class="updatePassword-btn"><span class="link">Click here to change your password</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="clearfix"></div>
+                                <button class="btn btn-primary btn-cons">Save Edited</button>
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <button data-target="#deleteAccount" data-toggle="modal" class="btn btn-danger btn-cons" style="margin-top: 20px !important;" disabled>Deactivate My Account</button>
+                            </form>
                         </div>
                     </div>
-
-                     <div class="panel panel-transparent password2">
+                    <div class="panel panel-transparent password2">
                         <div class="panel-body">
-                          <div class="panel-heading" style="padding:0">
-                            <div class="panel-title" style="text-transform: none;">
-                               <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="78" height="22" style="height: auto;">
-                                <h3><%= title %></h3>
+                            <div class="panel-heading" style="padding-top:20px;">
+                                <div class="panel-title" style="display: none;">
+                                    <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="78" height="22" style="height: auto;">
+                                    <h3>Update Password</h3>
+                                </div>
                             </div>
-                          </div>
-                          <br>
+                            <br>
                             <form id="form-register" class="p-t-15" role="form" method="POST" action="/password">
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <div class="form-group form-group-default">
-                                    <label>New Password</label>
-                                    <input type="password" name="password" placeholder="" class="form-control" required>
-                                  </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label>New Password</label>
+                                            <input type="password" name="password" placeholder="" class="form-control" required>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <div class="form-group form-group-default">
-                                    <label>Confirm New Password</label>
-                                    <input type="password" name="confirmPassword" placeholder="" class="form-control" required>
-                                  </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label>Confirm New Password</label>
+                                            <input type="password" name="confirmPassword" placeholder="" class="form-control" required>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
-                              
-                              <button class="btn btn-primary btn-cons m-t-10" type="submit">Reset my password</button>
-                              <button class="btn btn-primary m-t-10 btn-cancel-reset" type="button">Cancel</button>
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div>
+                                <div class="hint-text"><span class="bold">Attention!</span> After you hit the update button, you will be logged out and redirected to homepage. You will need to re-login using your new password.</div>
+                                <button class="btn btn-primary btn-cons m-t-10" type="submit">Update</button>
+                                <button class="btn m-t-10 btn-cancel-reset" type="button">Cancel</button>
                             </form>
-                          
                         </div>
                     </div>
                 </div>
@@ -493,7 +494,6 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- END ACCOUNT SETTINGS OVERLAY -->
-
     <!-- START BILLING OVERLAY -->
     <div class="modal fade slide-right" id="billingForm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-userdashboard">
@@ -509,7 +509,7 @@
                                         <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:5px; margin-bottom:25px;">
                                         <div class="col-sm-12" style="padding-left: 0;">
                                             <p class="bold">BILLING</p>
-                                            <p>Oops, this feature is temporarily disabled. Will be here soon :)</p>
+                                            <p>Sorry, this feature is temporarily disabled. Will be here soon :)</p>
                                         </div>
                                     </div>
                                 </div>
@@ -527,145 +527,136 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- END BILLING OVERLAY -->
-
     <!-- BEGIN DELETE ACCOUNT MODAL  -->
     <div class="modal fade stick-up in" id="deleteAccount" tabindex="-1" role="dialog" aria-hidden="false">
         <div class="modal-dialog">
             <div class="modal-content text-center title">
                 <div class="modal-header clearfix text-left">
-                   <br/>
+                    <br/>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <p class="semi-bold">You are about to delete your account. Continue?</p><br/>
+                        <p class="semi-bold">You are about to delete your account. Continue?</p>
+                        <br/>
                         <button type="button" data-dismiss="modal" class="btn btn-complete m-t-5 text-center" onclick="location.href='/logout'">Yeah, delete mine</button>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
     <!-- END DELETE ACCOUNT MODAL -->
-
-     <!-- START APPLICANTS OVERLAY -->
-    
-
-<div class="modal fade slide-right disable-scroll" id="seeDetailApplicant" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-userdashboard">
-        <div class="modal-content-wrapper">
-            <div class="modal-content" style="height:auto;  min-height: 100%;">
-                <div class="modal-header clearfix text-left">
-                    <button id="appDetailsCloseBtn" type="button" class="close"><i class="pg-close fs-14"></i>
-                    </button>
-                    <div class="modal-heading" style="padding:0;padding-left: 40px;">
-                                    <div class="panel-title" style="text-transform: none;">
-                                        <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:5px; margin-bottom:25px;">
-                                        <div class="col-sm-12" style="padding-left: 0;">
-                                            <p class="bold">APPLICATION DETAILS</p>
-                                        </div>
-                                    </div>
+    <!-- START APPLICANTS OVERLAY -->
+    <div class="modal fade slide-right disable-scroll" id="seeDetailApplicant" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-userdashboard">
+            <div class="modal-content-wrapper">
+                <div class="modal-content" style="height:auto;  min-height: 100%;">
+                    <div class="modal-header clearfix text-left">
+                        <button id="appDetailsCloseBtn" type="button" class="close"><i class="pg-close fs-14"></i>
+                        </button>
+                        <div class="modal-heading" style="padding:0;padding-left: 40px;">
+                            <div class="panel-title" style="text-transform: none;">
+                                <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:5px; margin-bottom:25px;">
+                                <div class="col-sm-12" style="padding-left: 0;">
+                                    <p class="bold">APPLICATION DETAILS</p>
                                 </div>
-                </div>
-                <div class="modal-body" style="padding:80px;padding-top:0">
-                    <form id="form-work" class="form-horizontal" role="form" autocomplete="off">
-                      
-                    </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body" style="padding:80px;padding-top:0">
+                        <form id="form-work" class="form-horizontal" role="form" autocomplete="off">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <!-- END APPLICANTS OVERLAY -->
-<div class="modal fade slide-right" id="EditJob" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-userdashboard">
-        <div class="modal-content-wrapper">
-            <div class="modal-content outer" style="background: #FAFAFA;">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
-                <div class="panel panel-transparent middle">
-                    <div class="panel-body">
-                        <div class="panel-heading" style="padding:0">
-                            <div class="panel-title" style="text-transform: none;">
-                                <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:25px; margin-bottom:25px;">
-                                <div class="col-sm-12" style="padding-left: 0;">
-                                    <p class="bold">EDIT JOB POSTING</p>
-                                    <p>Fill the following for to create a new job Listing Be as detailer as possible - this ensures quality of your candidates</p>
+    <div class="modal fade slide-right" id="EditJob" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-userdashboard">
+            <div class="modal-content-wrapper">
+                <div class="modal-content outer" style="background: #FAFAFA;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                    <div class="panel panel-transparent middle">
+                        <div class="panel-body">
+                            <div class="panel-heading" style="padding:0">
+                                <div class="panel-title" style="text-transform: none;">
+                                    <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:25px; margin-bottom:25px;">
+                                    <div class="col-sm-12" style="padding-left: 0;">
+                                        <p class="bold">EDIT JOB POSTING</p>
+                                        <p>Fill the following for to create a new job Listing Be as detailer as possible - this ensures quality of your candidates</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <br>
-                        <form id="form-edit" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
-                            <p>Company Profile</p>
-                        <div class="row">
-                                              <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                  <label style="padding-bottom:10px;">Profile Picture</label>
-                                                  <input type="file" class="form-control" id="editJobImg" name="logo">
-                                                  <input type="hidden" name="oldLogo" id="oldJobImg">
-                                                </div>
-                                              </div>
-                                              <div class="col-sm-6">
-                                                  <img id="editJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;">
-                                 
-                                              </div>
-                                            </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default">
-                              <label>Company Name</label>
-                              <input type="text" name="companyName" placeholder="" class="form-control companyName" required style="  height: 39px;">
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default">
-                              <label>Location</label>
-                              <% include ../dropdown/location_edit %>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                                <label>Description</label>
-                                <div class="summernote-wrapper">
-                                  <textarea id="summernote1" name="description" class="description-text"></textarea>
+                            <br>
+                            <form id="form-edit" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                                <p>Company Profile</p>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default">
+                                            <label style="padding-bottom:10px;">Profile Picture</label>
+                                            <input type="file" class="form-control" id="editJobImg" name="logo">
+                                            <input type="hidden" name="oldLogo" id="oldJobImg">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <img id="editJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;">
+                                    </div>
                                 </div>
-                          </div>
-                        </div>
-
-                        <br>
-                        <p>Job Description</p>
-
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group form-group-default">
-                              <label>Job Title</label>
-                                <input type="text" class="form-control jobTitle" name="jobTitle">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default">
-                              <label>Category</label>
-                              <% include ../dropdown/category_edit %>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group form-group-default">
-                              <label>Job Type</label>
-                              <select class="full-width" data-init-plugin="select2" id="jobType" name="jobType" required>
-                                  <optgroup label="Position Type">
-                                    <option value="full-time">Full Time</option>
-                                    <option value="contract">Contract</option>
-                                    <option value="part-time">Part Time</option>
-                                  </optgroup>
-                                </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label>Job Scope <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</span></label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default">
+                                            <label>Company Name</label>
+                                            <input type="text" name="companyName" placeholder="" class="form-control companyName" required style="  height: 39px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default">
+                                            <label>Location</label>
+                                            <% include ../dropdown/location_edit %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>Description</label>
+                                        <div class="summernote-wrapper">
+                                            <textarea id="summernote1" name="description" class="description-text"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <p>Job Description</p>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label>Job Title</label>
+                                            <input type="text" class="form-control jobTitle" name="jobTitle">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default">
+                                            <label>Category</label>
+                                            <% include ../dropdown/category_edit %>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default">
+                                            <label>Job Type</label>
+                                            <select class="full-width" data-init-plugin="select2" id="jobType" name="jobType" required>
+                                                <optgroup label="Position Type">
+                                                    <option value="full-time">Full Time</option>
+                                                    <option value="contract">Contract</option>
+                                                    <option value="part-time">Part Time</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>Job Scope <span class="hint-text small"></label>
                              
                                 <div class="summernote-wrapper">
                                   <textarea id="summernote2" name="jobScope" class="jobScope-text" style="height: 200px;"></textarea>
@@ -675,7 +666,7 @@
                         <br />
                         <div class="row">
                             <div class="col-sm-12">
-                                <label>Requirements <span class="hint-text small"> Hint: hit <strong>enter</strong> to insert auto-bulleting</span></label>
+                                <label>Requirements <span class="hint-text small"></label>
                                 <div class="summernote-wrapper">
                                   <textarea id="summernote3" name="requirements" class="requirements-text" style="height: 200px;"></textarea>
                                 </div>
@@ -695,34 +686,33 @@
                                   <div class="input-daterange input-group">
                                       <input name="salaryFrom" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control salaryFrom"/>
                                       <span class="input-group-addon">to</span>
-                                      <input name="salaryTo" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control salaryTo"/>
-                                  </div>
+                                            <input name="salaryTo" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control salaryTo" />
+                                    </div>
                                 </div>
-                              </div>
-                          </div>
-                          <div class="col-sm-5">
-                            <form role="form">
-                              <div class="form-group salary-type">
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <form role="form">
+                            <div class="form-group salary-type">
                                 <select name="salaryType" class="full-width salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;cursor:pointer ">
                                 </select>
-                              </div>
-                          </div>
-                        </div>
-                        <br>
-                        <br>
-                        <button class="btn btn-success" type="submit">Submit</button>
-                        <button class="btn btn-default clear-btn" type="button"><i class="pg-close"></i> Clear</button>
-                        </form>
+                            </div>
                     </div>
                 </div>
-
+                <br>
+                <br>
+                <button class="btn btn-success" type="submit">Submit</button>
+                <button class="btn btn-default clear-btn" type="button"><i class="pg-close"></i> Clear</button>
+                </form>
             </div>
         </div>
-              <!-- /.modal-content -->
     </div>
-            <!-- /.modal-dialog -->
-</div>
+    </div>
+    <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    </div>
 
-
-
-    <% } %>
+<% } %>
+<!-- ================================ END OF USER LOGGED VARIOUS FORMS =============================================
+==================================================================================================================== -->

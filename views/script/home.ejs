@@ -17,6 +17,9 @@
 <script src="assets/plugins/summernote/js/summernote.min.js" type="text/javascript"></script>
 <script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
+<script type="text/javascript" src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js"></script>
+<script src="assets/plugins/initial.min.js" type="text/javascript"></script>
+
 <!-- END VENDOR JS -->
 <!-- BEGIN CORE TEMPLATE JS -->
 <script src="pages/js/pages.min.js"></script>
@@ -39,41 +42,47 @@
         $('#form-edit').validate();
         $('#form-register').validate();
         $('#applyForm').validate();
+
+
+        // create user avatar based on name
+        $('#user-avatar').initial({width:80,height:80});
     });
 
 (function() {
-                // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
-                if (!String.prototype.trim) {
-                    (function() {
-                        // Make sure we trim BOM and NBSP
-                        var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-                        String.prototype.trim = function() {
-                            return this.replace(rtrim, '');
-                        };
-                    })();
-                }
+    
+    // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+    if (!String.prototype.trim) {
+        (function() {
+            // Make sure we trim BOM and NBSP
+            var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+            String.prototype.trim = function() {
+                return this.replace(rtrim, '');
+            };
+        })();
+    }
 
-                [].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
-                    // in case the input is already filled..
-                    if( inputEl.value.trim() !== '' ) {
-                        classie.add( inputEl.parentNode, 'input--filled' );
-                    }
+    [].slice.call(document.querySelectorAll('input.input__field')).forEach(function(inputEl) {
+        // in case the input is already filled..
+        if (inputEl.value.trim() !== '') {
+            classie.add(inputEl.parentNode, 'input--filled');
+        }
 
-                    // events:
-                    inputEl.addEventListener( 'focus', onInputFocus );
-                    inputEl.addEventListener( 'blur', onInputBlur );
-                } );
+        // events:
+        inputEl.addEventListener('focus', onInputFocus);
+        inputEl.addEventListener('blur', onInputBlur);
+    });
 
-                function onInputFocus( ev ) {
-                    classie.add( ev.target.parentNode, 'input--filled' );
-                }
+    function onInputFocus(ev) {
+        classie.add(ev.target.parentNode, 'input--filled');
+    }
 
-                function onInputBlur( ev ) {
-                    if( ev.target.value.trim() === '' ) {
-                        classie.remove( ev.target.parentNode, 'input--filled' );
-                    }
-                }
-            })();
+    function onInputBlur(ev) {
+    if (ev.target.value.trim() === '') {
+        classie.remove(ev.target.parentNode, 'input--filled');
+    }
+    }
+    })();
+
             
 $(function() { 
 
@@ -83,44 +92,6 @@ $(function() {
     if (msg) {
         $('body').pgNotification({'message':msg,'type':type,'style':'flip','position':'top-left','timeout':'5000'}).show();
     }
-
-
-    // Search function //////
-    $(".searchJob").on("keyup", function() {
-        var g = $(this).val().toLowerCase();
-        //var a =  $('div.list-view-group-container li.item');
-        $("li.email-list-search div.middle div.inline").each(function() {
-            var id = $('li.email-list-search').attr('data-email-id');
-            //alert(id);
-            var s = $(this).text().toLowerCase();
-            $(this).closest('li.email-list-search')[ s.indexOf(g) !== -1 ? 'show' : 'hide' ]();
-        });
-    });
-
-    // Dropdown filters /////
-    $("select.job-filter-dropdown").on("change", function() {
-        var filters = $.map($("select.job-filter-dropdown").toArray(), function(e){
-            return $(e).val();
-        }).join(".");
-
-        console.log(filters);
-        
-        $("ul#item-list").find("li").hide();
-        $("ul#item-list").find("li." + filters).show();
-    });
-    
-    // reset filters function
-    $("a[href='#reset']").click(function() {
-
-        $("select.job-filter-dropdown").select2('val', 'all');
-
-        var filters = $.map($("select.job-filter-dropdown").toArray(), function(e){
-            return $(e).val();
-        }).join(".");
-
-        $("ul#item-list").find("li").hide();
-        $("ul#item-list").find("li." + filters).show();
-    });
 
 
     // Overlay trigger button /////
@@ -150,11 +121,61 @@ $(function() {
             'vertical-align': 'middle'
         });
     });
+
+        $('.updatePassword-btn').click(function(){
+            $('.password1').hide();
+            $('.password2').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.btn-cancel-reset').click(function(){
+            $('.password2').hide();
+            $('.password1').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
     // end of Overlay trigger button /////
 
-    // Validate forms
+    $('#btnToggleSlideUpSize').click(function(){
+        var jobTitle = $('.profile .job-title').text();
+        var companyName = $('.profile .name').text();
+        var location = $('.profile .datetime').text();
+
+        $('#app-to').text(jobTitle + ' at ' + companyName + ' ( ' + location + ' )');
+    });
 
 })
+
+// function to shorten currency
+        function nFormatter(num) {
+            if (num >= 1000000000) {
+                return (num / 1000000000).toFixed(2).replace(/\.0$/, '') + ' Milyar';
+            }
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(2).replace(/\.0$/, '') + ' Juta';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(2).replace(/\.0$/, '') + ' Ribu';
+            }
+            return num;
+        }
+
+        function nl2br(str, is_xhtml) {
+            var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+            return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+        }
+
+        function replaceDash(str) {
+            return str.replace(/-/g, ' ');
+        }
+
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
     
    
 </script>

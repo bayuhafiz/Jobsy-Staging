@@ -1,5 +1,5 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<meta charset="utf-8" />
+<meta charset="UTF-8" />
 <title>Jobsy&trade; - <%= title %></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <link rel="apple-touch-icon" href="pages/ico/60.png">
@@ -25,9 +25,11 @@
 <link media="screen" type="text/css" rel="stylesheet" href="assets/plugins/summernote/css/summernote.css">
 <link rel="stylesheet" type="text/css" href="assets/css/codrops/normalize.css">
 <link rel="stylesheet" type="text/css" href="assets/css/codrops/set2.css">
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 <!--[if lte IE 9]>
         <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
     <![endif]-->
+
 <script type="text/javascript">
 
 // Text area manipulation functions
@@ -177,37 +179,6 @@ window.onload = function() {
     $("#profile-img").change(function() {
         readURL3(this);
     });
-
-    $('.jobScope-text').keyup(function (event) {
-      if (event.keyCode == 13) { // If enter is pressed.
-        var content = this.value;
-        var sel = getInputSelection(this);
-        var caret = getCaret(this);
-        var bullet = "• ";
-        var bulletLength = bullet.length;
-        this.value = content.substring(0,caret) +
-                     bullet +
-                     content.substring(caret,content.length);
-        setInputSelection(this, sel.start + bulletLength, sel.end + bulletLength);
-        event.stopPropagation();
-    
-      }
-    });
-
-    $('.requirements-text').keyup(function (event) {
-      if (event.keyCode == 13) { // If enter is pressed.
-        var content = this.value;
-        var sel = getInputSelection(this);
-        var caret = getCaret(this);
-        var bullet = "• ";
-        var bulletLength = bullet.length;
-        this.value = content.substring(0,caret) +
-                     bullet +
-                     content.substring(caret,content.length);
-        setInputSelection(this, sel.start + bulletLength, sel.end + bulletLength);
-        event.stopPropagation();
-    
-      }
-    });
 }
+
 </script>
