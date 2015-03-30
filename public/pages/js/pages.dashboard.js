@@ -275,9 +275,10 @@
         /* ============== SHOW APPS FUNCTION ==========================
         ==============================================================*/
         $('#detailedTable tbody').on('click', 'tr.applyDetail', function() {
+   
             var tr = $(this).closest('tr');
             var row = table.row(tr);
-
+            
             alert('You clicked!');
 
             $(this).parents('tbody').find('.shown').removeClass('shown');

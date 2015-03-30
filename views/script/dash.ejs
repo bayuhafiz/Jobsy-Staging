@@ -28,6 +28,8 @@
     <script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js"></script>
     <script src="assets/plugins/initial.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/d3/d3.min.js"></script>
+    <script src="assets/plugins/rickshaw/rickshaw.min.js"></script>
 
     <!-- END VENDOR JS -->
 
@@ -44,6 +46,20 @@
     <script src="assets/js/words-counter.js" type="text/javascript"></script>
 
     <script>
+
+    var data = [ { x: 0, y: 40 }, { x: 1, y: 49 }, { x: 2, y: 17 }, { x: 3, y: 42 } ];
+
+    var graph = new Rickshaw.Graph( {
+            element: document.querySelector("#chart"),
+            width: 580,
+            height: 250,
+            series: [ {
+                    color: 'steelblue',
+                    data: data
+            } ]
+    } );
+
+    graph.render();
     
      (function() {
          // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
