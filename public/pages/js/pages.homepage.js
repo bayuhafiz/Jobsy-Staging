@@ -424,8 +424,8 @@
                             $('#EditJob div.panel form#form-edit select.currency').append($("<option selected='selected'></option>").val('usd').html("USD"));
                         };
 
-                        $('#EditJob div.panel form#form-edit input.salaryFrom').attr('value', data.details.salaryFrom);
-                        $('#EditJob div.panel form#form-edit input.salaryTo').attr('value', data.details.salaryTo);
+                        $('#EditJob div.panel form#form-edit input.salaryFrom').val(data.details.salaryFrom);
+                        $('#EditJob div.panel form#form-edit input.salaryTo').val(data.details.salaryTo);
 
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
@@ -592,6 +592,28 @@
             var location = $('.profile .datetime').text();
 
             $('#app-to').text(jobTitle + ' at ' + companyName + ' ( ' + location + ' )');
+        });
+
+        // Input masking
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
         });
 
     });

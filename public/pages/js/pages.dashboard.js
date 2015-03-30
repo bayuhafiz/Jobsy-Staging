@@ -2,119 +2,29 @@
 
     'use strict';
 
-    // Date formatter function
-    function localDate(date) {
-        var result = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear() ;
-        return result;
-    }
-    
+    function readURL(input) {
+        // read logo file being uploaded
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-    // Initialize a dataTable with collapsible rows to show more details
-    var initDetailedViewTable = function() {
-
-        var _format = function(d) {
-            // `d` is the original data object for the row
-            return '<table id="appTable" class="table table-inline">' +
-                '<thead>' +
-                '<tr>' +
-                '<th>Name</th>' +
-                '<th>Email</th>' +
-                '<th>Applied</th>' +
-                '<th></th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody>' +
-                '</tbody>' +
-                '</table>';
-        }
-
-        var table = $('#detailedTable');
-        table.DataTable({
-            "sDom": "t",
-
-            "scrollCollapse": true,
-            "paging": false,
-            "bSort": false
-        });
-
-        // Add event listener for opening and closing details
-        $('#detailedTable tbody').on('click', 'tr.applyDetail', function() {
-
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
-
-            if (row.child.isShown()) {
-                // This row is already open - close it
-                row.child.hide();
-                tr.removeClass('shown');
-            } else {
-                // Open this row
-                row.child(format(row.data())).show();
-                tr.addClass('shown');
+            reader.onload = function(e) {
+                $('#editJobImg-preview').attr('src', e.target.result);
             }
 
-            /*$(this).parents('tbody').find('.shown').removeClass('shown');
-            $(this).parents('tbody').find('.row-details').remove();
-
-            row.child(_format(row.data())).show(); // Add child 
-            tr.addClass('shown');
-            tr.next().addClass('row-details');
-
-            // Load list of applicants
-            var id = tr.attr('data-id');*/
-
-            $.ajax({
-                dataType: "json",
-                url: "/api/job/apps/" + id,
-                success: function(data) {
-                    if (data.length > 0) {
-                        $.each(data, function(i) {
-                            if (data[i].read == false) {
-                                var dataHtml = '<tr data="' + data[i]._id + '">' +
-                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + ' <span class="badge badge-primary hint-text new-details">new</span></td>' +
-                                    '<td>' + data[i].email + '</td>' +
-                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
-                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
-                                    '</tr>';
-                            } else if (data[i].read == true) {
-                                var dataHtml = '<tr data="' + data[i]._id + '">' +
-                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + '</td>' +
-                                    '<td>' + data[i].email + '</td>' +
-                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
-                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
-                                    '</tr>';
-                            }
-                            $('#appTable').append(dataHtml);
-                        });
-                    } else {
-                        $('#appTable').html('<div class="text-center hint-text">' +
-                            '<h5>No applicants yet..</h5>' +
-                            '</div>').hode().show('slow');
-                    }
-                }
-            });
-
-        });
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
-    // Initialize a condensed table which will truncate the content 
-    // if they exceed the cell width
-    var initCondensedTable = function() {
-        var table = $('#condensedTable');
-
-        var settings = {
-            "sDom": "t",
-            "sPaginationType": "bootstrap",
-            "destroy": true,
-            "paging": false,
-            "scrollCollapse": true
-        };
-
-        table.dataTable(settings);
+    // Date formatter function
+    function localDate(date) {
+        var result = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        return result;
     }
 
-    initDetailedViewTable();
-    initCondensedTable();
+    // Formatting function for row details
+    var _format = function(d) {
+        return '<div id="appList"></div>';
+    }
 
     // ===================== SHOW USER JOBS FUNCTION ============================
     var showJobs = function(apiUrl, condition) {
@@ -353,34 +263,63 @@
 
 
 
+    // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-        function readURL(input) {
-            // read logo file being uploaded
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#editJobImg-preview').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
+        /////////// initiate user jobs table !!! ////////////
         var uEmail = $('#user-email').val(); // Get logged user email
-
-        // initiate user jobs list
         showJobs('/api/jobs/' + uEmail, 'hide');
 
-        // 'show deleted job' radio button action
-        $("input:radio[name=hide-radio]").click(function() {
-            var value = $(this).val();
-            showJobs('/api/jobs/' + uEmail, value);
-        });
 
-        $("#editJobImg").change(function() {
-            readURL(this);
+        /* ============== SHOW APPS FUNCTION ==========================
+        ==============================================================*/
+        $('#detailedTable tbody').on('click', 'tr.applyDetail', function() {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            alert('You clicked!');
+
+            $(this).parents('tbody').find('.shown').removeClass('shown');
+            $(this).parents('tbody').find('.row-details').remove();
+
+            row.child(_format(row.data())).show(); // Add child 
+            tr.addClass('shown');
+            tr.next().addClass('row-details');
+
+            // Load list of applicants
+            var id = tr.attr('data-id');
+
+
+            $.ajax({
+                dataType: "json",
+                url: "/api/job/apps/" + id,
+                success: function(data) {
+                    if (data.length > 0) {
+                        $.each(data, function(i) {
+                            if (data[i].read == false) {
+                                var dataHtml = '<tr data="' + data[i]._id + '">' +
+                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + ' <span class="badge badge-primary hint-text new-details">new</span></td>' +
+                                    '<td>' + data[i].email + '</td>' +
+                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
+                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
+                                    '</tr>';
+                            } else if (data[i].read == true) {
+                                var dataHtml = '<tr data="' + data[i]._id + '">' +
+                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + '</td>' +
+                                    '<td>' + data[i].email + '</td>' +
+                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
+                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
+                                    '</tr>';
+                            }
+                            $('#appTable').append(dataHtml);
+                        });
+                    } else {
+                        $('#appTable').html('<div class="text-center hint-text">' +
+                            '<h5>No applicants yet..</h5>' +
+                            '</div>').hode().show('slow');
+                    }
+                }
+            });
         });
 
 
@@ -471,8 +410,8 @@
                             $('#EditJob div.panel form#form-edit select.currency').append($("<option selected='selected'></option>").val('usd').html("USD"));
                         };
 
-                        $('#EditJob div.panel form#form-edit input.salaryFrom').attr('value', data.details.salaryFrom);
-                        $('#EditJob div.panel form#form-edit input.salaryTo').attr('value', data.details.salaryTo);
+                        $('#EditJob div.panel form#form-edit input.salaryFrom').val(data.details.salaryFrom);
+                        $('#EditJob div.panel form#form-edit input.salaryTo').val(data.details.salaryTo);
 
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
@@ -511,7 +450,18 @@
             });
         });
 
-    
+
+        // 'show deleted job' radio button action
+        $("input:radio[name=hide-radio]").click(function() {
+            var value = $(this).val();
+            showJobs('/api/jobs/' + uEmail, value);
+        });
+
+        $("#editJobImg").change(function() {
+            readURL(this);
+        });
+
+
         $('#summernote1,#summernote2,#summernote3').summernote();
 
         $('#detailedTable tr[data-status="deleted"]').hide();
@@ -519,8 +469,7 @@
         $('input[type=radio][name=hide-radio]').change(function() {
             if (this.value == 'show') {
                 $('#detailedTable tr[data-status="deleted"]').show();
-            }
-            else if (this.value == 'hide') {
+            } else if (this.value == 'hide') {
                 $('#detailedTable tr[data-status="deleted"]').hide();
             }
         });
@@ -532,23 +481,32 @@
         $('#applyForm').validate();
 
         // create user avatar based on name
-        $('#user-avatar').initial({width:80,height:80});
+        $('#user-avatar').initial({
+            width: 80,
+            height: 80
+        });
 
         // Reset/clear form function
-        $('.clear-btn').click(function () {
-            $('#form-edit input').attr('value','');
+        $('.clear-btn').click(function() {
+            $('#form-edit input').attr('value', '');
             $('textarea#summernote1,textarea#summernote2,textarea#summernote3').parent().children('.note-editor').children('.note-editable').text('');
         });
 
 
         // Notification show up /////
         var msg = $('.msg-container').text();
-        var type = $('.msg-container').attr('data-type');        
+        var type = $('.msg-container').attr('data-type');
         if (msg) {
             if (type == 'success') {
-                $('body').pgNotification({'message':msg,'type':type,'style':'circle','position':'top-left','thumbnail':'<img width="40" height="40" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'}).show();
+                $('body').pgNotification({
+                    'message': msg,
+                    'type': type,
+                    'style': 'circle',
+                    'position': 'top-left',
+                    'thumbnail': '<img width="40" height="40" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
+                }).show();
             }
-            
+
         }
 
 
@@ -558,10 +516,10 @@
 
             $("tr.applyDetail td span.job-applicant").each(function() {
                 var s = $(this).text().toLowerCase();
-                $(this).closest('tr.applyDetail')[ s.indexOf(g) !== -1 ? 'show' : 'hide' ]();
+                $(this).closest('tr.applyDetail')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
             });
         });
-        
+
         $('textarea').autosize();
 
         //$('.description-text').keydown(counter1);
@@ -569,7 +527,7 @@
         //$('.requirements-text').keydown(counter3);
 
         $('#summernote2').summernote({
-          height: 200
+            height: 200
         });
 
         $('textarea').autosize();
@@ -592,7 +550,7 @@
             });
         });
 
-        $('.forgotPassword-btn').click(function(){
+        $('.forgotPassword-btn').click(function() {
             $('.signUp-panel').hide();
             $('.signIn-panel').hide();
             $('.forgetPass-panel').fadeIn('3000').css({
@@ -601,15 +559,15 @@
             });
         });
 
-        $('.updatePassword-btn').click(function(){
+        $('.updatePassword-btn').click(function() {
             $('.password1').hide();
             $('.password2').fadeIn('3000').css({
                 'display': 'table-cell',
                 'vertical-align': 'middle'
             });
         });
-        
-        $('.btn-cancel-reset').click(function(){
+
+        $('.btn-cancel-reset').click(function() {
             $('.password2').hide();
             $('.password1').fadeIn('3000').css({
                 'display': 'table-cell',
@@ -624,6 +582,29 @@
             $.each($tds, function() {
                 console.log($(this).text());
             });
+        });
+
+        // Input masking
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
         });
 
     });

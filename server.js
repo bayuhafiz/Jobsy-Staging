@@ -23,13 +23,13 @@ var multer = require('multer');
 app.use(multer())
 
 // Elasticsearch configuration =================================================
-var elasticsearch = require('elasticsearch');
+/* var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
   host: 'localhost:1234',
   log: 'trace',
   sniffOnStart: true,
   sniffInterval: 60000,
-});
+}); */
 
 // configuration ===============================================================
 var configDB = require('./config/database.js');
