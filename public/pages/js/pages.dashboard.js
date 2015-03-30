@@ -39,7 +39,7 @@
 
         // Add event listener for opening and closing details
         $('#detailedTable tbody').on('click', 'tr.applyDetail', function() {
-
+            
             var tr = $(this).closest('tr');
             var row = table.row(tr);
 
@@ -53,7 +53,7 @@
                 tr.addClass('shown');
             }
 
-            /*$(this).parents('tbody').find('.shown').removeClass('shown');
+            $(this).parents('tbody').find('.shown').removeClass('shown');
             $(this).parents('tbody').find('.row-details').remove();
 
             row.child(_format(row.data())).show(); // Add child 
@@ -61,7 +61,7 @@
             tr.next().addClass('row-details');
 
             // Load list of applicants
-            var id = tr.attr('data-id');*/
+            var id = tr.attr('data-id');
 
             $.ajax({
                 dataType: "json",
