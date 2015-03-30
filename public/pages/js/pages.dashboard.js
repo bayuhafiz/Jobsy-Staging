@@ -278,6 +278,8 @@
                     $('#job-counter').html('You have ' + pub + pau + del + ' job post' + s);
 
                 } else { // if no job post at all
+                    $('#user-job-counter').hide();
+                    $('#user-job-table').hide();
                     $('#no-job-post').show('slow');
                 }
 
