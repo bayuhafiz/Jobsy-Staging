@@ -81,18 +81,20 @@
 
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
-                            badge = '<span class="pull-right badge badge-danger">DELETED</span>';
+                            badge = '<span class="badge badge-danger">DELETED</span>';
                         } else if (data[i].status == 'paused') {
                             pauCounter = pauCounter + 1; // Count paused job
-                            badge = '<span class="pull-right badge badge-warning">PAUSED</span>';
+                            badge = '<span class="badge badge-warning">PAUSED</span>';
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
-                            badge = '<span class="pull-right badge badge-success">PUBLISHED</span>';
+                            badge = '<span class="badge badge-success">PUBLISHED</span>';
                         }
 
                         // Generate datas
                         dataHtml += '<li>' +
-                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' ' + badge + '</h3>' +
+                            '<h5 style="color:#000" class="cbp-nttrigger">' + data[i].details.jobTitle + '</h5>' +
+                            '<h5 style="  text-align: center;">' + badge + '</h5>' +
+                            '<h5 style="  text-align: right;"><a href="#" id="editButton" data-target="#EditJob" data-toggle="modal"><span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span></a><a href="/job/stat/551a261fcedee3186ffe6c8c" id="pauseButton"><span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span></a><a href="/job/del/551a261fcedee3186ffe6c8c" id="deleteButton"><span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span></a></h5>' +
                             '<div class="cbp-ntcontent">' +
                               '<p></p>' +
                               '<ul class="cbp-ntsubaccordion">' +

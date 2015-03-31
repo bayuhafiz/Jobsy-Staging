@@ -236,7 +236,10 @@ textarea{resize:none;}
     margin: 0;
     padding: 0;
 }
-.cbp-ntaccordion li{border-bottom: 1px solid #ddd;}
+.cbp-ntaccordion li{border-bottom: 1px solid #ddd;padding-top: 10px;}
+.cbp-ntaccordion li h5{display: inline-block;width: 33%;}
+.cbp-ntaccordion li h5 a{color:#8B8585;padding-right: 35px;}
+
 .cbp-ntsubaccordion {
     list-style: none;
 }
