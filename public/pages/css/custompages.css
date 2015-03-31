@@ -334,6 +334,7 @@ textarea{resize:none;}
 .cbp-ntsubaccordion .cbp-ntopen > .cbp-ntcontent,
 .no-js .cbp-ntaccordion .cbp-ntcontent {
     height: auto;
+      margin-bottom: 55px;
 }
 
 /* Example for media query */
