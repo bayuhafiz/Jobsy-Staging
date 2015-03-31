@@ -2,6 +2,25 @@
 
     'use strict';
 
+    function readURL(input) {
+        // read logo file being uploaded
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#editJobImg-preview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Date formatter function
+    function localDate(date) {
+        var result = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        return result;
+    }
+
 
     // ===================== SHOW USER JOBS FUNCTION ============================
     var showJobs = function(apiUrl, condition) {
@@ -11,7 +30,6 @@
         var pubCounter = 0;
 
         $('#job-table-content').html(''); // Dummy clear the job table
-
 
         $.ajax({
             dataType: "json",
@@ -29,7 +47,7 @@
 
                         if (condition == 'hide') { // if condition is 'hide deleted'
                             if (data[i].status != 'deleted') {
-                                dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail" role="row">' +
+                                dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail">' +
                                     '<td class="v-align-middle">' +
                                     '<span class="job-applicant">' +
                                     '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
@@ -90,7 +108,7 @@
                                     '</tr>'; // Show only published job
                             }
                         } else if (condition == 'show') { // if the condition is 'show deleted'
-                            dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail" role="row">' +
+                            dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail">' +
                                 '<td class="v-align-middle">' +
                                 '<span class="job-applicant">' +
                                 '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
@@ -162,70 +180,72 @@
                                 '</td>' +
                                 '</tr>';
                         }
+
+                        // --------------------- and the here goes LOADING APPLICATIONS -----------------------
+                        $.ajax({
+                            dataType: "json",
+                            url: "/api/job/apps/" + data[i]._id,
+                            success: function(data) {
+
+                                if (data.length > 0) {
+
+                                    dataHtml += '<tr><td colspan="5"><table class="table table-inline">' +
+                                        '<thead>' +
+                                        '<tr>' +
+                                        '<th>Full Name</th>' +
+                                        '<th>Email</th>' +
+                                        '<th>Applied</th>' +
+                                        '<th></th>' +
+                                        '</tr>' +
+                                        '</thead>' +
+                                        '<tbody>';
+
+                                    $.each(data, function(j) {
+                                        if (data[j].read == false) {
+                                            dataHtml += '<tr data="' + data[j]._id + '">' +
+                                                '<td>' + data[j].firstName + ' ' + data[j].lastName + ' <span class="badge badge-primary hint-text new-details">new</span></td>' +
+                                                '<td>' + data[j].email + '</td>' +
+                                                '<td>' + moment(data[j].applyDate).startOf('minute').fromNow() + '</td>' +
+                                                '<td><button type="button" id="appDetailsButton" app-id="' + data[j]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
+                                                '</tr>';
+                                        } else if (data[j].read == true) {
+                                            dataHtml += '<tr data="' + data[j]._id + '">' +
+                                                '<td>' + data[j].firstName + ' ' + data[j].lastName + '</td>' +
+                                                '<td>' + data[j].email + '</td>' +
+                                                '<td>' + moment(data[j].applyDate).startOf('minute').fromNow() + '</td>' +
+                                                '<td><button type="button" id="appDetailsButton" app-id="' + data[j]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
+                                                '</tr>';
+                                        }
+                                    });
+
+                                    dataHtml += '</tbody></table></td></tr>';
+
+                                } else {
+                                    dataHtml += '<tr><td colspan="5"><div class="text-center hint-text">' +
+                                        '<h5>No applicants yet..</h5>' +
+                                        '</div></td></tr>';
+                                }
+                            }
+                        }); 
+                        // -------------   End of apps fetcing  --------------
+
                     });
 
+                    console.log(dataHtml);
 
-                    $('#job-table-content').append(dataHtml).hide().show('slow');
+                    //$('#detailedTable').append(dataHtml);
+                    $("#detailedTable").closest( "tr" ).after(dataHtml);
 
                     // Set the job post counter
-                    if (data.length > 1) {
-                        var s = 's';
-                    } else {
-                        var s = '';
-                    }
-
-                    if (delCounter > 0) {
-                        var del = '<span class="h5 font-montserrat bold text-danger">' + delCounter + ' deleted</span>';
-                    } else {
-                        var del = '';
-                    }
-
-                    if (pauCounter > 0) {
-                        var pau = '<span class="h5 font-montserrat bold text-warning">' + pauCounter + ' paused</span>';
-                    } else {
-                        var pau = '';
-                    }
-
-                    if (pubCounter > 0) {
-                        var pub = '<span class="h5 font-montserrat bold text-success">' + pubCounter + ' published</span>';
-                    } else {
-                        var pub = '';
-                    }
-
-                    ////// begin ',' and '&' logic /////
-                    if (pub != '') {
-                        if (pau != '') {
-                            if (del != '') {
-                                pub += ', ';
-                                pau += ' & ';
-                            } else {
-                                pub += ' & ';
-                            }
-                        } else {
-                            if (del != '') {
-                                pub += ' & ';
-                            } else {
-                                pub += '';
-                            }
-                        }
-                    } else { // if pub is empty
-                        if (pau != '') {
-                            if (del != '') {
-                                pau += ' & ';
-                            } else {
-                                pau += '';
-                            }
-                        } else {
-                            if (del != '') {
-                                pau += '';
-                            } else {
-                                pub += 'no';
-                            }
-                        }
-                    }
-
-                    // Show them up!
-                    $('#job-counter').html('You have ' + pub + pau + del + ' job post' + s);
+                    if (data.length > 1) var s = "s";
+                    else var s = "";
+                    if (delCounter > 0) var del = '<span class="h5 font-montserrat bold text-danger">' + delCounter + " deleted</span>";
+                    else var del = "";
+                    if (pauCounter > 0) var pau = '<span class="h5 font-montserrat bold text-warning">' + pauCounter + " paused</span>";
+                    else var pau = "";
+                    if (pubCounter > 0) var pub = '<span class="h5 font-montserrat bold text-success">' + pubCounter + " published</span>";
+                    else var pub = "";
+                    "" != pub ? "" != pau ? "" != del ? (pub += ", ", pau += " & ") : pub += " & " : pub += "" != del ? " & " : "" : "" != pau ? pau += "" != del ? " & " : "" : "" != del ? pau += "" : pub += "no", $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
 
                 } else { // if no job post at all
                     $('#user-job-counter').hide();
@@ -238,195 +258,10 @@
         });
     }
 
-
-    // ===================== Init DataTable
-    // Initialize a basic dataTable with row selection option
-    var initBasicTable = function() {
-
-        var table = $('#basicTable');
-
-        var settings = {
-            "sDom": "t",
-            "sPaginationType": "bootstrap",
-            "destroy": true,
-            "paging": false,
-            "scrollCollapse": true,
-            "aoColumnDefs": [{
-                'bSortable': false,
-                'aTargets': [0]
-            }],
-            "order": [
-                [1, "desc"]
-            ]
-
-        };
-
-        table.dataTable(settings);
-
-        $('#basicTable input[type=checkbox]').click(function() {
-            if ($(this).is(':checked')) {
-                $(this).closest('tr').addClass('selected');
-            } else {
-                $(this).closest('tr').removeClass('selected');
-            }
-
-        });
-
-    }
-
-    // Initialize a dataTable having bootstrap's stripes style
-    var initStripedTable = function() {
-
-        var table = $('#stripedTable');
-
-        var settings = {
-            "sDom": "t",
-            "sPaginationType": "bootstrap",
-            "destroy": true,
-            "paging": false,
-            "scrollCollapse": true
-
-        };
-        table.dataTable(settings);
-
-    }
-
-    // Initialize a dataTable with collapsible rows to show more details
-    var initDetailedViewTable = function() {
-
-        /* ============== SHOW APPS FUNCTION ==========================
-        ==============================================================*/
-        $('#detailedTable tbody').on('click', 'tr.applyDetail td:not(:last-child)', function() {
-
-            var table = $('#detailedTable')
-
-            var _format = function(d) {
-                // `d` is the original data object for the row
-                return '<table id="appTable" class="table table-inline">' +
-                    '<thead>' +
-                    '<tr>' +
-                    '<th>Name</th>' +
-                    '<th>Email</th>' +
-                    '<th>Applied</th>' +
-                    '<th></th>' +
-                    '</tr>' +
-                    '</thead>' +
-                    '<tbody>' +
-                    '</tbody>' +
-                    '</table>';
-            }
-
-            var tr = $(this).closest('tr');
-            var row = table.row( tr ); // fuck this!!!
-
-            alert(row);
-
-            //var row = $(this).parent()
-            if (tr.hasClass('shown') && tr.next().hasClass('row-details')) {
-                tr.removeClass('shown');
-                tr.next().remove();
-                return;
-            }
-
-            $(this).parents('tbody').find('.shown').removeClass('shown');
-            $(this).parents('tbody').find('.row-details').remove();
-
-            row.child(_format(row.data())).show('slow'); // This is how we append the child
-
-            tr.addClass('shown');
-            tr.next().addClass('row-details');
-
-            // Load list of applicants
-            var id = tr.attr('data-id');
-
-            $.ajax({
-                dataType: "json",
-                url: "/api/job/apps/" + id,
-                success: function(data) {
-                    if (data.length > 0) {
-                        $.each(data, function(i) {
-                            if (data[i].read == false) {
-                                var dataHtml = '<tr data="' + data[i]._id + '">' +
-                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + ' <span class="badge badge-primary hint-text new-details">new</span></td>' +
-                                    '<td>' + data[i].email + '</td>' +
-                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
-                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
-                                    '</tr>';
-                            } else if (data[i].read == true) {
-                                var dataHtml = '<tr data="' + data[i]._id + '">' +
-                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + '</td>' +
-                                    '<td>' + data[i].email + '</td>' +
-                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
-                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
-                                    '</tr>';
-                            }
-                            $('#appTable').append(dataHtml);
-                        });
-                    } else {
-                        $('#appTable').html('<div class="text-center hint-text">' +
-                            '<h5>No applicants yet..</h5>' +
-                            '</div>');
-                    }
-
-
-                }
-            });
-        });
-    }
-
-    // Initialize a condensed table which will truncate the content 
-    // if they exceed the cell width
-    var initCondensedTable = function() {
-        var table = $('#condensedTable');
-
-        var settings = {
-            "sDom": "t",
-            "sPaginationType": "bootstrap",
-            "destroy": true,
-            "paging": false,
-            "scrollCollapse": true
-        };
-
-        table.dataTable(settings);
-    }
-
-    initBasicTable();
-    initStripedTable();
-    initDetailedViewTable();
-    initCondensedTable();
-    // ===================== End of Init DataTable
-
-    function readURL(input) {
-        // read logo file being uploaded
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#editJobImg-preview').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    // Date formatter function
-    function localDate(date) {
-        var result = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-        return result;
-    }
-
-
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
         /////////// initiate user jobs table !!! ////////////
-        $('#detailedTable').DataTable({
-            "sDom": "t",
-            "sPaginationType": "bootstrap",
-            "destroy": true,
-            "paging": false,
-            "scrollCollapse": true
-        });
 
         var uEmail = $('#user-email').val(); // Get logged user email
         showJobs('/api/jobs/' + uEmail, 'hide');
@@ -514,7 +349,7 @@
 
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
-                        
+
                         $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
                         $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
 
@@ -726,6 +561,8 @@
             aDec: ',',
             mDec: '0'
         });
+
+        $('#detailedTable').jExpand();
 
     });
 

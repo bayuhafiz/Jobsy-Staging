@@ -1,0 +1,114 @@
+ // ===================== Init DataTable
+    // Initialize a basic dataTable with row selection option
+    var initBasicTable = function() {
+
+        var table = $('#basicTable');
+
+        var settings = {
+            "sDom": "t",
+            "sPaginationType": "bootstrap",
+            "destroy": true,
+            "paging": false,
+            "scrollCollapse": true,
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [0]
+            }],
+            "order": [
+                [1, "desc"]
+            ]
+
+        };
+
+        table.dataTable(settings);
+
+        $('#basicTable input[type=checkbox]').click(function() {
+            if ($(this).is(':checked')) {
+                $(this).closest('tr').addClass('selected');
+            } else {
+                $(this).closest('tr').removeClass('selected');
+            }
+
+        });
+    }
+
+    // Initialize a dataTable having bootstrap's stripes style
+    var initStripedTable = function() {
+
+        var table = $('#stripedTable');
+
+        var settings = {
+            "sDom": "t",
+            "sPaginationType": "bootstrap",
+            "destroy": true,
+            "paging": false,
+            "scrollCollapse": true
+
+        };
+        table.dataTable(settings);
+    }
+
+    // Initialize a dataTable with collapsible rows to show more details
+    var initDetailedViewTable = function() {
+
+        /* ============== SHOW APPS FUNCTION ==========================
+        ==============================================================*/
+        $('#detailedTable tbody').on('click', 'tr.applyDetail td:not(:last-child)', function() {
+
+            var table = $('#detailedTable').DataTable();
+
+            var _format = function(d) {
+                // `d` is the original data object for the row
+                return '<table id="appTable" class="table table-inline">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>Name</th>' +
+                    '<th>Email</th>' +
+                    '<th>Applied</th>' +
+                    '<th></th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '</tbody>' +
+                    '</table>';
+            }
+
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Open this row
+                row.child(_format(row.data())).hide().show('slow');
+                tr.addClass('shown');
+            }
+
+            // This was laying AJAX
+
+        });
+    }
+
+    // Initialize a condensed table which will truncate the content 
+    // if they exceed the cell width
+    var initCondensedTable = function() {
+        var table = $('#condensedTable');
+
+        var settings = {
+            "sDom": "t",
+            "sPaginationType": "bootstrap",
+            "destroy": true,
+            "paging": false,
+            "scrollCollapse": true
+        };
+
+        table.dataTable(settings);
+    }
+
+    //initBasicTable();
+    //initStripedTable();
+    //initDetailedViewTable();
+    //initCondensedTable();
+    // ===================== End of Init DataTable
