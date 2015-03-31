@@ -13,135 +13,120 @@
 
             reader.readAsDataURL(input.files[0]);
         }
-    }
+    };
 
     // Date formatter function
     function localDate(date) {
         var result = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         return result;
-    }
+    };
+
+    // ===================== GET APPS FUNCTION ============================
+    var getApps = function(id) {
+        var appHtml = '';
+
+        $.ajax({
+            dataType: "json",
+            url: "/api/job/apps/" + id,
+            success: function(data) {
+                if (data.length > 0) {
+                    appHtml += '<div class="Row">' + JSON.stringify(data) + '</div>';
+                    /*$.each(data, function(i) {
+
+                        if (data[i].read == false) {
+                            var badge = '<span class="badge badge-primary hint-text new-details">New</span>';
+                        } else if (data[i].read == true) {
+                            var badge = '';
+                        }
+
+                        appHtml += '<div class="Row" app-data="' + data[i]._id + '">' +
+                            '<div class="CellRow">' + data[i].firstName + ' ' + data[i].lastName + ' ' + badge + '</div>' +
+                            '<div class="CellRow">' + data[i].email + '</div>' +
+                            '<div class="CellRow">' + moment(data[i].applyDate).startOf('minute').fromNow() + '</div>' +
+                            '<div class="CellRow"><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></div>' +
+                            '</div>';
+
+                    });*/
+
+                } else {
+                    appHtml += '<div class="Row"><div class="CellRow text-center hint-text">' +
+                        '<h5>No applicants yet..</h5>' +
+                        '</div></div>';
+                }
+
+                return appHtml;
+            }
+        });
+    };
 
 
     // ===================== SHOW USER JOBS FUNCTION ============================
-    var showJobs = function(apiUrl) {
+    var showJobs = function(url) {
         var dataHtml = '';
+        var badge = '';
         var delCounter = 0;
         var pauCounter = 0;
         var pubCounter = 0;
 
-        $('#user-jobs-heading').nextAll().remove(); // Dummy clear the job table
+        // Dummy clear the job table
+        $('div.jobs-panel').html('');
 
         $.ajax({
             dataType: "json",
-            url: apiUrl,
+            url: url,
             success: function(data) {
                 if (data.length > 0) {
+                    dataHtml += '<ul id="user-job-list" class="cbp-ntaccordion">';
                     $.each(data, function(i) {
+
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
+                            badge = '<span class="pull-right badge badge-danger">DELETED</span>';
                         } else if (data[i].status == 'paused') {
                             pauCounter = pauCounter + 1; // Count paused job
+                            badge = '<span class="pull-right badge badge-warning">PAUSED</span>';
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
+                            badge = '<span class="pull-right badge badge-success">PUBLISHED</span>';
                         }
 
-                        dataHtml += '<div class="Row" data-id="' + data[i]._id + '">'; // Row container DIV start
+                        // Generate datas
+                        dataHtml += '<li>' +
+                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + '</h3>' +
+                            '<div class="cbp-ntcontent">' +
+                              '<p>Jelly sweet roll dragée gummies. Jelly-o cotton candy gingerbread. Dessert tart bear claw gummi bears I love oat cake cotton candy sesame snaps carrot cake. Croissant marshmallow tiramisu icing soufflé chocolate cake. I love pie icing. Sweet I love sweet roll cheesecake dessert. Tiramisu gingerbread I love. Muffin chocolate cake powder cheesecake oat cake tootsie roll candy soufflé. Brownie toffee powder tiramisu. Wafer I love jujubes croissant. Chocolate cake candy jujubes tootsie roll bonbon toffee I love. Topping candy jelly-o. Halvah faworki I love I love toffee pastry icing chupa chups. Pie gingerbread candy canes oat cake.</p>' +
+                              '<ul class="cbp-ntsubaccordion">' +
+                                '<li>' +
+                                  '<h4 class="cbp-nttrigger">Donut pastry</h4>' +
+                                  '<div class="cbp-ntcontent">' +
+                                    '<p>Gingerbread cotton candy halvah gingerbread. Apple pie wypas liquorice I love chocolate cake I love. Jelly cotton candy wypas lemon drops. Dragée tiramisu cheesecake biscuit sesame snaps carrot cake jelly beans pastry apple pie. Chocolate cake cotton candy candy canes brownie ice cream. Muffin chocolate cake jelly-o cake pudding. Jujubes I love cookie. I love cupcake I love bear claw sweet croissant. Wypas bonbon chocolate cake bonbon bear claw gummies. Liquorice danish jelly tootsie roll. I love danish icing lemon drops dessert pie jujubes. Fruitcake wafer I love biscuit. Donut pastry apple pie sugar plum soufflé ice cream tart bonbon candy.</p>' +
+                                  '</div>' +
+                                '</li>' +
+                                '<li>' +
+                                  '<h4 class="cbp-nttrigger">Carrot cake</h4>' +
+                                  '<div class="cbp-ntcontent">' +
+                                    '<p>Wafer muffin cupcake apple pie tootsie roll I love. Carrot cake apple pie I love dessert. I love carrot cake lollipop jelly jelly-o brownie cake. Croissant brownie donut gingerbread dessert icing. Sugar plum jelly candy pudding liquorice liquorice cotton candy pie. Powder sesame snaps I love chocolate bar bonbon. Pudding gummi bears donut applicake carrot cake I love I love icing cake.</p>' +
+                                  '</div>' +
+                                '</li>' +
+                                '<li>' +
+                                  '<h4 class="cbp-nttrigger">Tootsie roll marshmallow</h4>' +
+                                  '<div class="cbp-ntcontent">' +
+                                    '<p>I love tootsie roll marshmallow. Halvah jelly bear claw lemon drops lollipop. Brownie tiramisu I love I love halvah wafer. Powder jelly beans sesame snaps. Powder biscuit I love wypas soufflé apple pie marzipan. Cheesecake apple pie halvah croissant jelly I love.</p>' +
+                                  '</div>' +
+                                '</li>' +
+                              '</ul>' +
+                            '</div>' +
+                        '</li>';
 
-                        // 1st column
-                        dataHtml += '<div class="CellRow">' +
-                            '<span style="display:inline-block;padding-right:5px;"><i class="fa fa-chevron-right"></i></span>' +
-                            '<span class="semi-bold" style="display:inline-block">' + data[i].details.jobTitle + '</span>';
-                        if (data[i].newApp > 0) {
-                            dataHtml += ' &nbsp;<span class="badge badge-danger">' + data[i].newApp + '</span>';
-                        }
-                        dataHtml += '</div>';
+                        // and here goes LOADING APPLICATIONS
+                        //dataHtml = dataHtml + getApps(data[i]._id);
 
-                        // 2nd column
-                        dataHtml += '<div class="CellRow">';
-                        if (data[i].status == 'deleted') {
-                            dataHtml += '<span class="label label-important hidden-xs" data-toggle="tooltip" data-original-title="Deleted on ' + data[i].updatedAt + '">DELETED</span>' +
-                                '<i class="fa fa-times fs-18 visible-xs" style="color: #f55753; font-size: 1.5em;"></i>';
-                        } else if (data[i].status == 'paused') {
-                            dataHtml += '<span class="label label-warning hidden-xs" data-toggle="tooltip" data-original-title="Paused on ' + data[i].updatedAt + '">PAUSED</span>' +
-                                '<i class="fa fa-pause fs-18 visible-xs" style="color: #f55753; font-size: 1.2em;"></i>';
-                        } else if (data[i].status == 'published') {
-                            dataHtml += '<span class="label label-success hidden-xs" data-toggle="tooltip" data-original-title="Paused on ' + data[i].updatedAt + '">PUBLISHED</span>' +
-                                '<i class="fa fa-check fs-18 visible-xs" style="color: #f55753; font-size: 1.5em;"></i>';
-                        }
-                        dataHtml += '</div>';
-
-                        // 3rd column
-                        dataHtml += '<div class="CellRow">#</div>';
-
-                        // 4th column
-                        dataHtml += '<div class="CellRow hidden-xs hidden-sm">' + data[i].app + '</div>';
-
-                        // Last column
-                        dataHtml += '<div class="CellRow">';
-                        if (data[i].status == 'published') {
-                            dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 25px;">' +
-                                '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                '</a>';
-                            dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" style="color: #000;padding-right: 25px;">' +
-                                '<span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span>' +
-                                '</a>';
-                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 25px;">' +
-                                '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                '</a>';
-                        } else if (data[i].status == 'paused') {
-                            dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 25px;">' +
-                                '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                '</a>';
-                            dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="publishButton" style="color: #000;padding-right: 25px;">' +
-                                '<span class="p-t-5 p-b-5"><i class="fa fa-play fs-15"></i></span>' +
-                                '</a>';
-                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 25px;">' +
-                                '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                '</a>';
-                        } else if (data[i].status == 'deleted') {
-                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="restoreButton" style="color: #000;padding-right: 25px;">' +
-                                '<span class="p-t-5 p-b-5">' +
-                                '<i class="fa fa-undo fs-15"></i>' +
-                                '</span>' +
-                                '</a>';
-                        }
-                        dataHtml += '</div>';
-
-                        dataHtml += '</div>';
-
-                        // --------------------- and here goes LOADING APPLICATIONS -----------------------
-                        $.ajax({
-                            dataType: "json",
-                            url: "/api/job/apps/" + data[i]._id,
-                            success: function(app) {
-
-                                if (app.length > 0) {
-
-                                    $.each(app, function(j) {
-                                        if (app[j].read == false) {
-                                            var badge = '<span class="badge badge-primary hint-text new-details">New</span>';
-                                        } else if (app[j].read == true) {
-                                            var badge = '';
-                                        }
-
-                                        dataHtml += '<div class="Row" data="' + app[j]._id + '">' +
-                                            '<div class="CellRow">' + app[j].firstName + ' ' + app[j].lastName + ' ' + badge + '</div>' +
-                                            '<div class="CellRow">' + app[j].email + '</div>' +
-                                            '<div class="CellRow">' + moment(app[j].applyDate).startOf('minute').fromNow() + '</div>' +
-                                            '<div class="CellRow"><button type="button" id="appDetailsButton" app-id="' + app[j]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></div>' +
-                                            '</div>';
-                                    });
-
-                                } else {
-                                    dataHtml += '<div class="Row"><div class="CellRow text-center hint-text">' +
-                                        '<h5>No applicants yet..</h5>' +
-                                        '</div></div>';
-                                }
-                            }
-                        });
-                        // -------------   End of apps fetcing  --------------
+                        // FINALLY, SHOW THE WHOLE RESULTS...
+                        $('div.jobs-panel').html(dataHtml);
 
                     });
+
+                    dataHtml += '</ul>';
 
                     // Set the job post counter
                     if (data.length > 1) var s = "s";
@@ -154,8 +139,7 @@
                     else var pub = "";
                     "" != pub ? "" != pau ? "" != del ? (pub += ", ", pau += " & ") : pub += " & " : pub += "" != del ? " & " : "" : "" != pau ? pau += "" != del ? " & " : "" : "" != del ? pau += "" : pub += "no", $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
 
-                    // FINALLY, SHOW THE WHOLE RESULTS...
-                    $('#user-jobs-heading').after(dataHtml).hide().show('slow');
+
 
                 } else { // if no job post at all
                     $('#user-job-counter').hide();
@@ -163,9 +147,9 @@
                     $('#no-job-post').show('slow');
                 }
 
-
             }
         });
+        
     }
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
@@ -756,7 +740,8 @@
             mDec: '0'
         });
 
-        $('#detailedTable').jExpand();
+
+        $('#user-job-list').cbpNTAccordion();
 
     });
 
