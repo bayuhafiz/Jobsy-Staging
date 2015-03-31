@@ -407,11 +407,20 @@
                         $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
-                        $("#EditJob div.panel form#form-edit select#location").val(data.profile.location);
+
+                        $("#EditJob div.panel form#form-edit div#s2id_dd-location-edit span.select2-chosen").text(data.profile.location);
+                        $('#EditJob div.panel form#form-edit select#dd-location-edit option:selected').val(data.profile.location);
+
+
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
-                        $('#EditJob div.panel form#form-edit select#category').val(data.details.category);
-                        $('#EditJob div.panel form#form-edit input#jobType').val(data.details.jobType);
+
+                        $('#EditJob div.panel form#form-edit div#s2id_category span.select2-chosen').text(data.details.category);
+                        $('#EditJob div.panel form#form-edit select#category option:selected').val(data.details.category);
+
+                        $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
+                        $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
+
                         $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
                         $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
 

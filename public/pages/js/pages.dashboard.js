@@ -407,7 +407,7 @@
 
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
-                        
+
                         $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
                         $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
 
@@ -471,6 +471,7 @@
             readURL(this);
         });
 
+    
 
         $('#summernote1,#summernote2,#summernote3').summernote();
 
