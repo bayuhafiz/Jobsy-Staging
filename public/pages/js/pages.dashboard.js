@@ -77,7 +77,10 @@
             success: function(data) {
                 if (data.length > 0) {
                     dataHtml += '<ul id="user-job-list" class="cbp-ntaccordion">';
+
                     $.each(data, function(i) {
+
+                        var random = 1 + Math.floor(Math.random() * 100);
 
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
@@ -92,11 +95,12 @@
 
                         // Generate datas
                         dataHtml += '<li>' +
-                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' ' + badge + '</h3>' +
+                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' <span class="small">'+random+' views & ' + data[i].app + ' applications</span> ' + badge + '</h3>' +
                             '<div class="cbp-ntcontent">' +
                               '<p></p>' +
-                              '<ul class="cbp-ntsubaccordion">' +
-                                '<li>' +
+                              '<ul class="cbp-ntsubaccordion">';
+
+                                dataHtml += '<li>' +
                                   '<h4 class="cbp-nttrigger">Donut pastry</h4>' +
                                   '<div class="cbp-ntcontent">' +
                                     '<p>Gingerbread cotton candy halvah gingerbread. Apple pie wypas liquorice I love chocolate cake I love. Jelly cotton candy wypas lemon drops. Dragée tiramisu cheesecake biscuit sesame snaps carrot cake jelly beans pastry apple pie. Chocolate cake cotton candy candy canes brownie ice cream. Muffin chocolate cake jelly-o cake pudding. Jujubes I love cookie. I love cupcake I love bear claw sweet croissant. Wypas bonbon chocolate cake bonbon bear claw gummies. Liquorice danish jelly tootsie roll. I love danish icing lemon drops dessert pie jujubes. Fruitcake wafer I love biscuit. Donut pastry apple pie sugar plum soufflé ice cream tart bonbon candy.</p>' +
@@ -113,8 +117,10 @@
                                   '<div class="cbp-ntcontent">' +
                                     '<p>I love tootsie roll marshmallow. Halvah jelly bear claw lemon drops lollipop. Brownie tiramisu I love I love halvah wafer. Powder jelly beans sesame snaps. Powder biscuit I love wypas soufflé apple pie marzipan. Cheesecake apple pie halvah croissant jelly I love.</p>' +
                                   '</div>' +
-                                '</li>' +
-                              '</ul>' +
+                                '</li>';
+
+                                
+                        dataHtml += '</ul>' +
                             '</div>' +
                         '</li>';
 
@@ -122,7 +128,7 @@
                         //dataHtml = dataHtml + getApps(data[i]._id);
 
                         // FINALLY, SHOW THE WHOLE RESULTS...
-                        $('div.jobs-panel').html(dataHtml);
+                        $('div.jobs-panel').html(dataHtml).hide().show('slow');
 
                     });
 
@@ -738,9 +744,6 @@
             aDec: ',',
             mDec: '0'
         });
-
-
-        $('#user-job-list').cbpNTAccordion();
 
     });
 
