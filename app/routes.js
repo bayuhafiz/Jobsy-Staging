@@ -952,10 +952,25 @@ module.exports = function(app, passport) {
 
 
     // Fetch user related jobs
-    app.get('/api/jobs/:email', function(req, res) {
-        Job.find({
-            email: req.params.email
-        }, null, {
+    app.get('/api/jobs/:email/:condition', function(req, res) {
+        var cond = req.params.condition;
+        if (cond == 'hide') {
+            var filter = {
+                $and: [{
+                    'status': { $not: /deleted/ }
+                }, {
+                    'email': req.params.email
+                }]
+            };
+        } else if (cond == 'show') {
+            var filter = {
+                $and: [{
+                    'email': req.params.email
+                }]
+            };
+        }
+
+        Job.find(filter, null, {
             sort: {
                 createdAt: -1
             }
