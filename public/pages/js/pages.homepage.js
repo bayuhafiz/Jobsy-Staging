@@ -415,9 +415,218 @@
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
 
+                        if (data.details.category==130) {
+                            data.details.category = 'Audit & Pajak';
+                        }
+                        if (data.details.category==135) {
+                            data.details.category = 'Perbankan/Keuangan';
+                        }
+                        if (data.details.category==132) {
+                            data.details.category = 'Keuangan/Investasi';
+                        }
+                        if (data.details.category==131) {
+                            data.details.category = 'Akuntansi Umum/Pembiayaan';
+                        }
+                        if (data.details.category==133) {
+                            data.details.category = 'Staf/Administrasi umum';
+                        }
+                        if (data.details.category==137) {
+                            data.details.category = 'Personalia';
+                        }
+                        if (data.details.category==146) {
+                            data.details.category = 'Sekretaris';
+                        }
+                        if (data.details.category==148) {
+                            data.details.category = 'Manajemen Atas';
+                        }
+                        if (data.details.category==100) {
+                            data.details.category = 'Periklanan';
+                        }
+                        if (data.details.category==101) {
+                            data.details.category = 'Seni/Desain Kreatif';
+                        }
+                        if (data.details.category==106) {
+                            data.details.category = 'Hiburan/Seni Panggung';
+                        }
+                        if (data.details.category==141) {
+                            data.details.category = 'Hubungan Masyarakat';
+                        }
+                        if (data.details.category==180) {
+                            data.details.category = 'Arsitek/Desain Interior';
+                        }
+                        if (data.details.category==184) {
+                            data.details.category = 'Sipil/Konstruksi Bangunan';
+                        }
+                        if (data.details.category==150) {
+                            data.details.category = 'Properti/Real Estate';
+                        }
+                        if (data.details.category==198) {
+                            data.details.category = 'Survei Kuantitas';
+                        }
+                        if (data.details.category==192) {
+                            data.details.category = 'IT-Perangkat Keras';
+                        }
+                        if (data.details.category==193) {
+                            data.details.category = 'IT-Jaringan/Sistem/Sistem Database';
+                        }
+                        if (data.details.category==191) {
+                            data.details.category = 'IT-Perangkat Lunak';
+                        }
+                        if (data.details.category==105) {
+                            data.details.category = 'Pendidikan';
+                        }
+                        if (data.details.category==121) {
+                            data.details.category = 'Penelitian & Pengembangan';
+                        }
+                        if (data.details.category==185) {
+                            data.details.category = 'Teknik Kimia';
+                        }
+                        if (data.details.category==187) {
+                            data.details.category = 'Teknik Elektrikal';
+                        }
+                        if (data.details.category==186) {
+                            data.details.category = 'Teknik Elektro';
+                        }
+                        if (data.details.category==189) {
+                            data.details.category = 'Teknik Lingkungan';
+                        }
+                        if (data.details.category==200) {
+                            data.details.category = 'Teknik';
+                        }
+                        if (data.details.category==195) {
+                            data.details.category = 'Mekanik/Otomotif';
+                        }
+                        if (data.details.category==190) {
+                            data.details.category = 'Teknik Perminyakan';
+                        }
+                        if (data.details.category==188) {
+                            data.details.category = 'Teknik Lainnya';
+                        }
+                        if (data.details.category==113) {
+                            data.details.category = 'Dokter/Diagnosa';
+                        }
+                        if (data.details.category==112) {
+                            data.details.category = 'Farmasi';
+                        }
+                        if (data.details.category==111) {
+                            data.details.category = 'Praktisi/Asisten Medis';
+                        }
+                        if (data.details.category==107) {
+                            data.details.category = 'Makanan/Minuman/Pelayanan Restoran';
+                        }
+                        if (data.details.category==114) {
+                            data.details.category = 'Hotel/Pariwisata';
+                        }
+                        if (data.details.category==115) {
+                            data.details.category = 'Pemeliharaan';
+                        }
+                        if (data.details.category==194) {
+                            data.details.category = 'Manufaktur';
+                        }
+                        if (data.details.category==196) {
+                            data.details.category = 'Kontrol Proses';
+                        }
+
+                        if (data.details.category==140) {
+                            data.details.category = 'Pembelian/Manajemen Material';
+                        }
+                        if (data.details.category==197) {
+                            data.details.category = 'Penjaminan Kualitas / QA';
+                        }
+                        if (data.details.category==142) {
+                            data.details.category = 'Penjualan - Korporasi';
+                        }
+                        if (data.details.category==139) {
+                            data.details.category = 'Pemasaran/Pengembangan Bisnis';
+                        }
+                        if (data.details.category==149) {
+                            data.details.category = 'Merchandising';
+                        }
+                        if (data.details.category==145) {
+                            data.details.category = 'Penjualan Ritel';
+                        }
+                        if (data.details.category==143) {
+                            data.details.category = 'Penjualan - Teknik/Teknikal/IT';
+                        }
+                        if (data.details.category==144) {
+                            data.details.category = 'Proses desain dan kontrol';
+                        }
+                        if (data.details.category==151) {
+                            data.details.category = 'Tele-sales/Telemarketing';
+                        }
+                        if (data.details.category==103) {
+                            data.details.category = 'Aktuaria/Statistik';
+                        }
+                        if (data.details.category==102) {
+                            data.details.category = 'Pertanian';
+                        }
+                        if (data.details.category==181) {
+                            data.details.category = 'Penerbangan';
+                        }
+                        if (data.details.category==182) {
+                            data.details.category = 'Bioteknologi';
+                        }
+                        if (data.details.category==183) {
+                            data.details.category = 'Kimia';
+                        }
+                        if (data.details.category==108) {
+                            data.details.category = 'Teknologi Makanan/Ahli Gizi';
+                        }
+                        if (data.details.category==109) {
+                            data.details.category = 'Geologi/Geofisika';
+                        }
+                        if (data.details.category==199) {
+                            data.details.category = 'Ilmu Pengetahuan & Teknologi/Lab';
+                        }
+                        if (data.details.category==119) {
+                            data.details.category = 'Keamanan / Angkatan Bersenjata';
+                        }
+                        if (data.details.category==134) {
+                            data.details.category = 'Pelayanan Pelanggan';
+                        }
+                        if (data.details.category==147) {
+                            data.details.category = 'Logistik/Jaringan distribusi';
+                        }
+                        if (data.details.category==138) {
+                            data.details.category = 'Hukum / Legal';
+                        }
+                        if (data.details.category==118) {
+                            data.details.category = 'Perawatan Kesehatan / Kecantikan';
+                        }
+                        if (data.details.category==120) {
+                            data.details.category = 'Pelayanan kemasyarakatan';
+                        }
+                        if (data.details.category==152) {
+                            data.details.category = 'Teknikal &amp; Bantuan Pelanggan';
+                        }
+                        if (data.details.category==110) {
+                            data.details.category = 'Pekerjaan Umum';
+                        }
+                        if (data.details.category==104) {
+                            data.details.category = 'Jurnalis/Editor';
+                        }
+                        if (data.details.category==117) {
+                            data.details.category = 'Penerbitan';
+                        }
+                        if (data.details.category==116) {
+                            data.details.category = 'Lainnya/Kategori tidak tersedia';
+                        }
+
                         $('#EditJob div.panel form#form-edit div#s2id_category span.select2-chosen').text(data.details.category);
                         $('#EditJob div.panel form#form-edit select#category option:selected').val(data.details.category);
 
+                        if (data.details.jobType == 'full-time') {
+                            data.details.jobType = 'Full Time';
+                        } 
+
+                        if (data.details.jobType == 'contract') {
+                            data.details.jobType = 'Contract';
+                        }
+
+                        if (data.details.jobType == 'part-time') {
+                            data.details.jobType = 'Part Time';
+                        }
+                        
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
 

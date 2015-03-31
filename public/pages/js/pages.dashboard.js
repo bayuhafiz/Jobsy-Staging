@@ -258,7 +258,6 @@
                         $('#EditJob div.panel form#form-edit select#location option:selected').val(data.profile.location);
               
                         
-                        
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
 
@@ -475,7 +474,7 @@
                             data.details.jobType = 'Part Time';
                         }
 
-                        
+
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         //$('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
         
