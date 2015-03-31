@@ -168,7 +168,7 @@ textarea{resize:none;}
 .Cell{border-bottom: 1px solid rgba(230, 230, 230, 0.7);}
 .CellRow p, .Cell p{font-size: 13px;}
 .Row:hover div{background: #daeffd !important;cursor: pointer;}
-.CellRow{border-bottom: 1px solid rgba(230, 230, 230, 0.7);;padding-top: 15px;padding-bottom: 5px;background: #fff;}
+.CellRow{border-bottom: 1px solid rgba(230, 230, 230, 0.7);padding-top: 15px;padding-bottom: 15px;background: #fff;}
 
 
 @media(max-width: 768px){

@@ -79,23 +79,23 @@
                                 // Last column
                                 dataHtml += '<div class="CellRow">' ;
                                 if (data[i].status == 'published') {
-                                    dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
+                                    dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 15px;">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
                                         '</a>';
-                                    dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" class="btn btn-default">' +
+                                    dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" style="color: #000;padding-right: 15px;">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span>' +
                                         '</a>';
-                                    dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
+                                    dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 15px;">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
                                         '</a>';
                                 } else if (data[i].status == 'paused') {
-                                    dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
+                                    dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 15px;">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
                                         '</a>';
-                                    dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="publishButton" class="btn btn-default">' +
+                                    dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="publishButton" style="color: #000;padding-right: 15px;">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-play fs-15"></i></span>' +
                                         '</a>';
-                                    dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
+                                    dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 15px;">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
                                         '</a>';
                                 }
@@ -288,7 +288,7 @@
         ==============================================================*/
         $('body').on('click', '#editButton', function() {
             var dataHtml = '';
-            var id = $(this).parent().parent().parent().parent().attr('data-id');
+            var id = $(this).parent().parent().attr('data-id');
 
             $.ajax({
                 dataType: "json",
@@ -300,9 +300,11 @@
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        $("#EditJob div.panel form#form-edit div#s2id_dd-location-edit span.select2-chosen").text(data.profile.location);
-                        $('#EditJob div.panel form#form-edit select#dd-location-edit option:selected').val(data.profile.location);
-
+                        $("#EditJob div.panel form#form-edit div#s2id_location span.select2-chosen").text(data.profile.location);
+                        $('#EditJob div.panel form#form-edit select#location option:selected').val(data.profile.location);
+                        //alert(a);
+                        
+                        
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
 
@@ -310,7 +312,13 @@
                         $('#EditJob div.panel form#form-edit select#category option:selected').val(data.details.category);
 
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
-                        $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
+                        //$('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
+
+                        $('#EditJob div.panel form#form-edit select#jobType').on('change',function () {
+                            var a = $('#EditJob div.panel form#form-edit select#location option:selected').val();
+                            alert(a);
+                        });
+                        
 
                         $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
                         $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
