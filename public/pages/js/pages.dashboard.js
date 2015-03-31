@@ -92,9 +92,9 @@
 
                         // Generate datas
                         dataHtml += '<li>' +
-                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + '</h3>' +
+                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' ' + badge + '</h3>' +
                             '<div class="cbp-ntcontent">' +
-                              '<p>Jelly sweet roll dragée gummies. Jelly-o cotton candy gingerbread. Dessert tart bear claw gummi bears I love oat cake cotton candy sesame snaps carrot cake. Croissant marshmallow tiramisu icing soufflé chocolate cake. I love pie icing. Sweet I love sweet roll cheesecake dessert. Tiramisu gingerbread I love. Muffin chocolate cake powder cheesecake oat cake tootsie roll candy soufflé. Brownie toffee powder tiramisu. Wafer I love jujubes croissant. Chocolate cake candy jujubes tootsie roll bonbon toffee I love. Topping candy jelly-o. Halvah faworki I love I love toffee pastry icing chupa chups. Pie gingerbread candy canes oat cake.</p>' +
+                              '<p></p>' +
                               '<ul class="cbp-ntsubaccordion">' +
                                 '<li>' +
                                   '<h4 class="cbp-nttrigger">Donut pastry</h4>' +
@@ -147,6 +147,7 @@
                     $('#no-job-post').show('slow');
                 }
 
+                $('#user-job-list').cbpNTAccordion();
             }
         });
         
