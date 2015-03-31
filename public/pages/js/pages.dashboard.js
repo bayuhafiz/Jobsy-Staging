@@ -329,7 +329,9 @@
 
 
                         $("#EditJob div.panel form#form-edit div#s2id_location span.select2-chosen").text(data.profile.location);
-                        $('#EditJob div.panel form#form-edit select#location option:selected').val(data.profile.location);
+                        
+                        $('#EditJob div.panel form#form-edit select#location option:selected').val();
+
               
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);

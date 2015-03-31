@@ -686,8 +686,8 @@
                         }
 
                         $('#EditJob div.panel form#form-edit div#s2id_category span.select2-chosen').text(data.details.category);
-                        $('#EditJob div.panel form#form-edit select#category option:selected').val(data.details.category);
-
+                        $('#EditJob div.panel form#form-edit select#category').val(data.details.category);
+                        
                         if (data.details.jobType == 'full-time') {
                             data.details.jobType = 'Full Time';
                         } 
