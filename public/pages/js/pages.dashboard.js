@@ -21,44 +21,6 @@
         return result;
     };
 
-    // ===================== GET APPS FUNCTION ============================
-    var getApps = function(id) {
-        var appHtml = '';
-
-        $.ajax({
-            dataType: "json",
-            url: "/api/job/apps/" + id,
-            success: function(data) {
-                if (data.length > 0) {
-                    appHtml += '<div class="Row">' + JSON.stringify(data) + '</div>';
-                    /*$.each(data, function(i) {
-
-                        if (data[i].read == false) {
-                            var badge = '<span class="badge badge-primary hint-text new-details">New</span>';
-                        } else if (data[i].read == true) {
-                            var badge = '';
-                        }
-
-                        appHtml += '<div class="Row" app-data="' + data[i]._id + '">' +
-                            '<div class="CellRow">' + data[i].firstName + ' ' + data[i].lastName + ' ' + badge + '</div>' +
-                            '<div class="CellRow">' + data[i].email + '</div>' +
-                            '<div class="CellRow">' + moment(data[i].applyDate).startOf('minute').fromNow() + '</div>' +
-                            '<div class="CellRow"><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></div>' +
-                            '</div>';
-
-                    });*/
-
-                } else {
-                    appHtml += '<div class="Row"><div class="CellRow text-center hint-text">' +
-                        '<h5>No applicants yet..</h5>' +
-                        '</div></div>';
-                }
-
-                return appHtml;
-            }
-        });
-    };
-
 
     // ===================== SHOW USER JOBS FUNCTION ============================
     var showJobs = function(url) {
@@ -94,33 +56,13 @@
                         }
 
                         // Generate datas
-                        dataHtml += '<li>' +
+                        dataHtml += '<li data-id="' + data[i]._id + '">' +
                             '<h5 style="color:#000" class="cbp-nttrigger semi-bold">' + data[i].details.jobTitle + '</h5>' +
                             '<h5 style="  text-align: center;">' + badge + '</h5>' +
                             '<h5 style="  text-align: right;"><a href="#" id="editButton" data-target="#EditJob" data-toggle="modal"><span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span></a><a href="/job/stat/551a261fcedee3186ffe6c8c" id="pauseButton"><span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span></a><a href="/job/del/551a261fcedee3186ffe6c8c" id="deleteButton"><span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span></a></h5>' +
                             '<div class="cbp-ntcontent">' +
                               '<p></p>' +
                               '<ul class="cbp-ntsubaccordion">';
-
-                                dataHtml += '<li>' +
-                                  '<h4 class="cbp-nttrigger">Donut pastry</h4>' +
-                                  '<div class="cbp-ntcontent">' +
-                                    '<p>Gingerbread cotton candy halvah gingerbread. Apple pie wypas liquorice I love chocolate cake I love. Jelly cotton candy wypas lemon drops. Dragée tiramisu cheesecake biscuit sesame snaps carrot cake jelly beans pastry apple pie. Chocolate cake cotton candy candy canes brownie ice cream. Muffin chocolate cake jelly-o cake pudding. Jujubes I love cookie. I love cupcake I love bear claw sweet croissant. Wypas bonbon chocolate cake bonbon bear claw gummies. Liquorice danish jelly tootsie roll. I love danish icing lemon drops dessert pie jujubes. Fruitcake wafer I love biscuit. Donut pastry apple pie sugar plum soufflé ice cream tart bonbon candy.</p>' +
-                                  '</div>' +
-                                '</li>' +
-                                '<li>' +
-                                  '<h4 class="cbp-nttrigger">Carrot cake</h4>' +
-                                  '<div class="cbp-ntcontent">' +
-                                    '<p>Wafer muffin cupcake apple pie tootsie roll I love. Carrot cake apple pie I love dessert. I love carrot cake lollipop jelly jelly-o brownie cake. Croissant brownie donut gingerbread dessert icing. Sugar plum jelly candy pudding liquorice liquorice cotton candy pie. Powder sesame snaps I love chocolate bar bonbon. Pudding gummi bears donut applicake carrot cake I love I love icing cake.</p>' +
-                                  '</div>' +
-                                '</li>' +
-                                '<li>' +
-                                  '<h4 class="cbp-nttrigger">Tootsie roll marshmallow</h4>' +
-                                  '<div class="cbp-ntcontent">' +
-                                    '<p>I love tootsie roll marshmallow. Halvah jelly bear claw lemon drops lollipop. Brownie tiramisu I love I love halvah wafer. Powder jelly beans sesame snaps. Powder biscuit I love wypas soufflé apple pie marzipan. Cheesecake apple pie halvah croissant jelly I love.</p>' +
-                                  '</div>' +
-                                '</li>';
-
                                 
                         dataHtml += '</ul>' +
                             '</div>' +

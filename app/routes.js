@@ -974,7 +974,7 @@ module.exports = function(app, passport) {
             sort: {
                 createdAt: -1
             }
-        }, function(err, jobs, count) {
+        }, function(err, jobs) {
             res.json(jobs);
         });
     });
