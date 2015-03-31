@@ -29,7 +29,7 @@
         var pauCounter = 0;
         var pubCounter = 0;
 
-        $('#job-table-content').html(''); // Dummy clear the job table
+        $('div#user-jobs-heading').after(''); // Dummy clear the job table
 
         $.ajax({
             dataType: "json",
@@ -46,8 +46,12 @@
                         }
 
                         if (condition == 'hide') { // if condition is 'hide deleted'
-                            if (data[i].status != 'deleted') {
-                                dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail">' +
+                            if (data[i].status != 'deleted') { // Show only published job
+
+                                dataHtml += '<div class="Row" data-id="' + data[i]._id + '">'; // Row container DIV start
+
+                                // 1st column 
+                                dataHtml += '<div class="CellRow">' +
                                     '<td class="v-align-middle">' +
                                     '<span class="job-applicant">' +
                                     '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
@@ -55,8 +59,10 @@
                                     dataHtml += ' &nbsp;<span class="badge badge-danger">' + data[i].newApp;
                                 }
                                 dataHtml += '</span>' +
-                                    '</td>' +
-                                    '<td class="v-align-middle text-center">';
+                                    '</div>';
+
+                                // 2nd column
+                                dataHtml += '<div class="CellRow">';
                                 if (data[i].status == 'paused') {
                                     dataHtml += '<span class="label label-warning hidden-xs">PAUSED</span>' +
                                         '<i class="fa fa-pause fs-18 visible-xs" style="color: #eac459; font-size: 1.1em;"></i>';
@@ -64,10 +70,16 @@
                                     dataHtml += '<span class="label label-success hidden-xs">PUBLISHED</span>' +
                                         '<i class="fa fa-check fs-18 visible-xs" style="color: #10cfbd; font-size: 1.5em;"></i>';
                                 }
-                                dataHtml += '</td>' +
-                                    '<td class="v-align-middle text-center hidden-xs">#</td>' +
-                                    '<td class="v-align-middle text-center hidden-xs hidden-sm">' + data[i].app + '</td>' +
-                                    '<td class="v-align-middle text-center">' +
+                                dataHtml += '</div>';
+
+                                // 3rd column
+                                dataHtml += '<div class="CellRow">#</div>';
+
+                                // 4th column
+                                dataHtml += '<div class="CellRow hidden-xs hidden-sm">' + data[i].app + '</div>';
+
+                                // Last column
+                                dataHtml += '<div class="CellRow">' +
                                     '<div class="btn-group btn-group-justified">';
                                 if (data[i].status == 'published') {
                                     dataHtml += '<div class="btn-group">' +
@@ -104,85 +116,53 @@
                                 }
 
                                 dataHtml += '</div>' +
-                                    '</td>' +
-                                    '</tr>'; // Show only published job
+                                    '</div>' +
+                                    '</div>'; 
                             }
                         } else if (condition == 'show') { // if the condition is 'show deleted'
-                            dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail">' +
-                                '<td class="v-align-middle">' +
+
+                            dataHtml += '<div class="Row" data-id="' + data[i]._id + '">';
+
+                            // 1st column
+                            dataHtml += '<div class="CellRow">' +
                                 '<span class="job-applicant">' +
                                 '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
                             if (data[i].newApp > 0) {
                                 dataHtml += ' &nbsp;<span class="badge badge-danger">' + data[i].newApp;
                             }
                             dataHtml += '</span>' +
-                                '</td>' +
-                                '<td class="v-align-middle text-center">';
-                            if (data[i].status == 'deleted') {
-                                dataHtml += '<span class="label label-important hidden-xs" data-toggle="tooltip" data-original-title="Deleted on ' + data[i].updatedAt + '">DELETED</span>' +
-                                    '<i class="fa fa-times fs-18 visible-xs" style="color: #f55753; font-size: 1.5em;"></i>';
-                            } else if (data[i].status == 'paused') {
-                                dataHtml += '<span class="label label-warning hidden-xs">PAUSED</span>' +
-                                    '<i class="fa fa-pause fs-18 visible-xs" style="color: #eac459; font-size: 1.1em;"></i>';
-                            } else if (data[i].status == 'published') {
-                                dataHtml += '<span class="label label-success hidden-xs">PUBLISHED</span>' +
-                                    '<i class="fa fa-check fs-18 visible-xs" style="color: #10cfbd; font-size: 1.5em;"></i>';
-                            }
-                            dataHtml += '</td>' +
-                                '<td class="v-align-middle text-center hidden-xs">#</td>' +
-                                '<td class="v-align-middle text-center hidden-xs hidden-sm">' + data[i].app + '</td>' +
-                                '<td class="v-align-middle text-center">' +
-                                '<div class="btn-group btn-group-justified">';
-                            if (data[i].status == 'published') {
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                    '</a>' +
+                                '</div>';
+
+                            // 2nd column
+                            dataHtml += '<div class="CellRow">' +
+                                    '<span class="label label-important hidden-xs" data-toggle="tooltip" data-original-title="Deleted on ' + data[i].updatedAt + '">DELETED</span>' +
+                                    '<i class="fa fa-times fs-18 visible-xs" style="color: #f55753; font-size: 1.5em;"></i>' +
                                     '</div>';
-                                dataHtml += '<div class="btn-group hidden-xs">' +
-                                    '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                            } else if (data[i].status == 'paused') {
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                                dataHtml += '<div class="btn-group hidden-xs">' +
-                                    '<a href="/job/stat/' + data[i]._id + '" id="publishButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-play fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                            } else if (data[i].status == 'deleted') {
-                                dataHtml += '<div class="btn-group">' +
+
+                            // 3rd column
+                            dataHtml += '<div class="CellRow">#</div>';
+
+                            // 4th column
+                            dataHtml += '<div class="CellRow hidden-xs hidden-sm">' + data[i].app + '</div>';
+
+                            // Last column
+                            dataHtml += '<div class="CellRow">' +
+                                '<div class="btn-group btn-group-justified">' +
+                                '<div class="btn-group">' +
                                     '<a href="/job/del/' + data[i]._id + '" id="restoreButton" class="btn btn-default ">' +
                                     '<span class="p-t-5 p-b-5">' +
                                     '<i class="fa fa-undo fs-15"></i>' +
                                     '</span>' +
                                     '</a>' +
                                     '</div>';
-                            }
-
 
                             dataHtml += '</div>' +
-                                '</td>' +
-                                '</tr>';
+                                '</div>' +
+                                '</div>';
                         }
 
                         // --------------------- and the here goes LOADING APPLICATIONS -----------------------
-                        $.ajax({
+                        /*$.ajax({
                             dataType: "json",
                             url: "/api/job/apps/" + data[i]._id,
                             success: function(data) {
@@ -226,15 +206,13 @@
                                         '</div></td></tr>';
                                 }
                             }
-                        }); 
+                        }); */
                         // -------------   End of apps fetcing  --------------
 
                     });
 
-                    console.log(dataHtml);
-
-                    //$('#detailedTable').append(dataHtml);
-                    $("#detailedTable").closest( "tr" ).after(dataHtml);
+                    // SHOW THE WHOLE RESULTS...
+                    $('div#user-jobs-heading').after(dataHtml).hide().show('slow');
 
                     // Set the job post counter
                     if (data.length > 1) var s = "s";
