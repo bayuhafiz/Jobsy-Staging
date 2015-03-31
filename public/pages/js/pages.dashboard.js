@@ -79,27 +79,27 @@
                         // Last column
                         dataHtml += '<div class="CellRow">';
                         if (data[i].status == 'published') {
-                            dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 15px;">' +
+                            dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 25px;">' +
                                 '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
                                 '</a>';
-                            dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" style="color: #000;padding-right: 15px;">' +
+                            dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" style="color: #000;padding-right: 25px;">' +
                                 '<span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span>' +
                                 '</a>';
-                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 15px;">' +
+                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 25px;">' +
                                 '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
                                 '</a>';
                         } else if (data[i].status == 'paused') {
-                            dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 15px;">' +
+                            dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" style="color: #000;padding-right: 25px;">' +
                                 '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
                                 '</a>';
-                            dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="publishButton" style="color: #000;padding-right: 15px;">' +
+                            dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="publishButton" style="color: #000;padding-right: 25px;">' +
                                 '<span class="p-t-5 p-b-5"><i class="fa fa-play fs-15"></i></span>' +
                                 '</a>';
-                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 15px;">' +
+                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" style="color: #000;padding-right: 25px;">' +
                                 '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
                                 '</a>';
                         } else if (data[i].status == 'deleted') {
-                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="restoreButton" style="color: #000;padding-right: 15px;">' +
+                            dataHtml += '<a href="/job/del/' + data[i]._id + '" id="restoreButton" style="color: #000;padding-right: 25px;">' +
                                 '<span class="p-t-5 p-b-5">' +
                                 '<i class="fa fa-undo fs-15"></i>' +
                                 '</span>' +
@@ -254,12 +254,86 @@
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
+                        if (data.profile.location=='Daerah-Istimewa-Yogyakarta') {
+                            data.profile.location = 'Daerah Istimewa Yogyakarta';
+                        }
+                        if (data.profile.location=='DKI-Jakarta') {
+                            data.profile.location = 'DKI Jakarta';
+                        }
+                        if (data.profile.location=='Jawa-Barat') {
+                            data.profile.location = 'Jawa Barat';
+                        }
+                        if (data.profile.location=='Jawa-Tengah') {
+                            data.profile.location = 'Jawa Tengah';
+                        }
+                        if (data.profile.location=='Jawa-Timur') {
+                            data.profile.location = 'Jawa Timur';
+                        }
+                        if (data.profile.location=='Kalimantan-Barat') {
+                            data.profile.location = 'Kalimantan Barat';
+                        }
+                        if (data.profile.location=='Kalimantan-Selatan') {
+                            data.profile.location = 'Kalimantan Selatan';
+                        }
+                        if (data.profile.location=='Kalimantan-Tengah') {
+                            data.profile.location = 'Kalimantan Tengah';
+                        }
+                        if (data.profile.location=='Kalimantan-Timur') {
+                            data.profile.location = 'Kalimantan Timur';
+                        }
+                        if (data.profile.location=='Kepulauan-Bangka-Belitung') {
+                            data.profile.location = 'Kepulauan Bangka Belitung';
+                        }
+                        if (data.profile.location=='Kepulauan-Riau') {
+                            data.profile.location = 'Kepulauan Riau';
+                        }
+                        if (data.profile.location=='Maluku-Utara') {
+                            data.profile.location = 'Maluku Utara';
+                        }
+                        if (data.profile.location=='Nanggroe-Aceh-Darussalam') {
+                            data.profile.location = 'Nanggroe Aceh Darussalam';
+                        }
+                        if (data.profile.location=='Nusa-Tenggara-Barat') {
+                            data.profile.location = 'Nusa Tenggara Barat';
+                        }
+                        if (data.profile.location=='Nusa-Tenggara-Timur') {
+                            data.profile.location = 'Nusa Tenggara Timur';
+                        }
+                        if (data.profile.location=='Papua-Barat') {
+                            data.profile.location = 'Papua Barat';
+                        }
+                        if (data.profile.location=='Sulawesi-Barat') {
+                            data.profile.location = 'Sulawesi Barat';
+                        }
+                        if (data.profile.location=='Sulawesi-Selatan') {
+                            data.profile.location = 'Sulawesi Selatan';
+                        }
+                        if (data.profile.location=='Sulawesi-Tengah') {
+                            data.profile.location = 'Sulawesi Tengah';
+                        }
+                        if (data.profile.location=='Sulawesi-Tenggara') {
+                            data.profile.location = 'Sulawesi Tenggara';
+                        }
+                        if (data.profile.location=='Sulawesi-Utara') {
+                            data.profile.location = 'Sulawesi Utara';
+                        }
+                        if (data.profile.location=='Sumatera-Selatan') {
+                            data.profile.location = 'Sumatera Selatan';
+                        }
+                        if (data.profile.location=='Sumatera-Utara') {
+                            data.profile.location = 'Sumatera Utara';
+                        }
+                        if (data.profile.location=='Sumatera-Barat') {
+                            data.profile.location = 'Sumatera Barat';
+                        }
+
+
                         $("#EditJob div.panel form#form-edit div#s2id_location span.select2-chosen").text(data.profile.location);
                         $('#EditJob div.panel form#form-edit select#location option:selected').val(data.profile.location);
               
-                        
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
+
 
                         if (data.details.category==130) {
                             data.details.category = 'Audit & Pajak';
@@ -460,7 +534,7 @@
 
 
                         $('#EditJob div.panel form#form-edit div#s2id_category span.select2-chosen').text(data.details.category);
-                        //$('#EditJob div.panel form#form-edit select#category option:selected').val(data.details.category);
+                        $('#EditJob div.panel form#form-edit select#category option:selected').val(data.details.category);
 
                         if (data.details.jobType == 'full-time') {
                             data.details.jobType = 'Full Time';
@@ -475,9 +549,13 @@
                         }
 
 
+                        /*$('#EditJob div.panel form#form-edit select#jobType').change(function () {
+                            var a = $('#EditJob div.panel form#form-edit select#jobType option:selected').val();
+                            $('#EditJob div.panel form#form-edit select#jobType option:selected').val(a);
+                        });*/
+
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
-                        //$('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
-        
+                        $('#EditJob div.panel form#form-edit select#jobType option:selected').val();
 
                         $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
                         $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);

@@ -408,8 +408,81 @@
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        $("#EditJob div.panel form#form-edit div#s2id_dd-location-edit span.select2-chosen").text(data.profile.location);
-                        $('#EditJob div.panel form#form-edit select#dd-location-edit option:selected').val(data.profile.location);
+                        if (data.profile.location=='Daerah-Istimewa-Yogyakarta') {
+                            data.profile.location = 'Daerah Istimewa Yogyakarta';
+                        }
+                        if (data.profile.location=='DKI-Jakarta') {
+                            data.profile.location = 'DKI Jakarta';
+                        }
+                        if (data.profile.location=='Jawa-Barat') {
+                            data.profile.location = 'Jawa Barat';
+                        }
+                        if (data.profile.location=='Jawa-Tengah') {
+                            data.profile.location = 'Jawa Tengah';
+                        }
+                        if (data.profile.location=='Jawa-Timur') {
+                            data.profile.location = 'Jawa Timur';
+                        }
+                        if (data.profile.location=='Kalimantan-Barat') {
+                            data.profile.location = 'Kalimantan Barat';
+                        }
+                        if (data.profile.location=='Kalimantan-Selatan') {
+                            data.profile.location = 'Kalimantan Selatan';
+                        }
+                        if (data.profile.location=='Kalimantan-Tengah') {
+                            data.profile.location = 'Kalimantan Tengah';
+                        }
+                        if (data.profile.location=='Kalimantan-Timur') {
+                            data.profile.location = 'Kalimantan Timur';
+                        }
+                        if (data.profile.location=='Kepulauan-Bangka-Belitung') {
+                            data.profile.location = 'Kepulauan Bangka Belitung';
+                        }
+                        if (data.profile.location=='Kepulauan-Riau') {
+                            data.profile.location = 'Kepulauan Riau';
+                        }
+                        if (data.profile.location=='Maluku-Utara') {
+                            data.profile.location = 'Maluku Utara';
+                        }
+                        if (data.profile.location=='Nanggroe-Aceh-Darussalam') {
+                            data.profile.location = 'Nanggroe Aceh Darussalam';
+                        }
+                        if (data.profile.location=='Nusa-Tenggara-Barat') {
+                            data.profile.location = 'Nusa Tenggara Barat';
+                        }
+                        if (data.profile.location=='Nusa-Tenggara-Timur') {
+                            data.profile.location = 'Nusa Tenggara Timur';
+                        }
+                        if (data.profile.location=='Papua-Barat') {
+                            data.profile.location = 'Papua Barat';
+                        }
+                        if (data.profile.location=='Sulawesi-Barat') {
+                            data.profile.location = 'Sulawesi Barat';
+                        }
+                        if (data.profile.location=='Sulawesi-Selatan') {
+                            data.profile.location = 'Sulawesi Selatan';
+                        }
+                        if (data.profile.location=='Sulawesi-Tengah') {
+                            data.profile.location = 'Sulawesi Tengah';
+                        }
+                        if (data.profile.location=='Sulawesi-Tenggara') {
+                            data.profile.location = 'Sulawesi Tenggara';
+                        }
+                        if (data.profile.location=='Sulawesi-Utara') {
+                            data.profile.location = 'Sulawesi Utara';
+                        }
+                        if (data.profile.location=='Sumatera-Selatan') {
+                            data.profile.location = 'Sumatera Selatan';
+                        }
+                        if (data.profile.location=='Sumatera-Utara') {
+                            data.profile.location = 'Sumatera Utara';
+                        }
+                        if (data.profile.location=='Sumatera-Barat') {
+                            data.profile.location = 'Sumatera Barat';
+                        }
+
+                        $("#EditJob div.panel form#form-edit div#s2id_location span.select2-chosen").text(data.profile.location);
+                        $('#EditJob div.panel form#form-edit select#location option:selected').val(data.profile.location);
 
 
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
@@ -626,7 +699,7 @@
                         if (data.details.jobType == 'part-time') {
                             data.details.jobType = 'Part Time';
                         }
-                        
+
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
 
