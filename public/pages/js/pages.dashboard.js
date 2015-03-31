@@ -2,7 +2,6 @@
 
     'use strict';
 
-
     function readURL(input) {
         // read logo file being uploaded
         if (input.files && input.files[0]) {
@@ -22,10 +21,6 @@
         return result;
     }
 
-    // Formatting function for row details
-    var _format = function(d) {
-        return '<div id="appList"></div>';
-    }
 
     // ===================== SHOW USER JOBS FUNCTION ============================
     var showJobs = function(apiUrl, condition) {
@@ -34,8 +29,7 @@
         var pauCounter = 0;
         var pubCounter = 0;
 
-        $('#job-table-content').html(''); // Dummy clear the job table
-
+        $('div#user-jobs-heading').after(''); // Dummy clear the job table
 
         $.ajax({
             dataType: "json",
@@ -52,8 +46,12 @@
                         }
 
                         if (condition == 'hide') { // if condition is 'hide deleted'
-                            if (data[i].status != 'deleted') {
-                                dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail" role="row">' +
+                            if (data[i].status != 'deleted') { // Show only published job
+
+                                dataHtml += '<div class="Row" data-id="' + data[i]._id + '">'; // Row container DIV start
+
+                                // 1st column 
+                                dataHtml += '<div class="CellRow">' +
                                     '<td class="v-align-middle">' +
                                     '<span class="job-applicant">' +
                                     '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
@@ -61,8 +59,10 @@
                                     dataHtml += ' &nbsp;<span class="badge badge-danger">' + data[i].newApp;
                                 }
                                 dataHtml += '</span>' +
-                                    '</td>' +
-                                    '<td class="v-align-middle text-center">';
+                                    '</div>';
+
+                                // 2nd column
+                                dataHtml += '<div class="CellRow">';
                                 if (data[i].status == 'paused') {
                                     dataHtml += '<span class="label label-warning hidden-xs">PAUSED</span>' +
                                         '<i class="fa fa-pause fs-18 visible-xs" style="color: #eac459; font-size: 1.1em;"></i>';
@@ -70,10 +70,16 @@
                                     dataHtml += '<span class="label label-success hidden-xs">PUBLISHED</span>' +
                                         '<i class="fa fa-check fs-18 visible-xs" style="color: #10cfbd; font-size: 1.5em;"></i>';
                                 }
-                                dataHtml += '</td>' +
-                                    '<td class="v-align-middle text-center hidden-xs">#</td>' +
-                                    '<td class="v-align-middle text-center hidden-xs hidden-sm">' + data[i].app + '</td>' +
-                                    '<td class="v-align-middle text-center">' +
+                                dataHtml += '</div>';
+
+                                // 3rd column
+                                dataHtml += '<div class="CellRow">#</div>';
+
+                                // 4th column
+                                dataHtml += '<div class="CellRow hidden-xs hidden-sm">' + data[i].app + '</div>';
+
+                                // Last column
+                                dataHtml += '<div class="CellRow">' +
                                     '<div class="btn-group btn-group-justified">';
                                 if (data[i].status == 'published') {
                                     dataHtml += '<div class="btn-group">' +
@@ -110,146 +116,114 @@
                                 }
 
                                 dataHtml += '</div>' +
-                                    '</td>' +
-                                    '</tr>'; // Show only published job
+                                    '</div>' +
+                                    '</div>'; 
                             }
                         } else if (condition == 'show') { // if the condition is 'show deleted'
-                            dataHtml += '<tr data-id="' + data[i]._id + '" class="applyDetail" role="row">' +
-                                '<td class="v-align-middle">' +
+
+                            dataHtml += '<div class="Row" data-id="' + data[i]._id + '">';
+
+                            // 1st column
+                            dataHtml += '<div class="CellRow">' +
                                 '<span class="job-applicant">' +
                                 '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
                             if (data[i].newApp > 0) {
                                 dataHtml += ' &nbsp;<span class="badge badge-danger">' + data[i].newApp;
                             }
                             dataHtml += '</span>' +
-                                '</td>' +
-                                '<td class="v-align-middle text-center">';
-                            if (data[i].status == 'deleted') {
-                                dataHtml += '<span class="label label-important hidden-xs" data-toggle="tooltip" data-original-title="Deleted on ' + data[i].updatedAt + '">DELETED</span>' +
-                                    '<i class="fa fa-times fs-18 visible-xs" style="color: #f55753; font-size: 1.5em;"></i>';
-                            } else if (data[i].status == 'paused') {
-                                dataHtml += '<span class="label label-warning hidden-xs">PAUSED</span>' +
-                                    '<i class="fa fa-pause fs-18 visible-xs" style="color: #eac459; font-size: 1.1em;"></i>';
-                            } else if (data[i].status == 'published') {
-                                dataHtml += '<span class="label label-success hidden-xs">PUBLISHED</span>' +
-                                    '<i class="fa fa-check fs-18 visible-xs" style="color: #10cfbd; font-size: 1.5em;"></i>';
-                            }
-                            dataHtml += '</td>' +
-                                '<td class="v-align-middle text-center hidden-xs">#</td>' +
-                                '<td class="v-align-middle text-center hidden-xs hidden-sm">' + data[i].app + '</td>' +
-                                '<td class="v-align-middle text-center">' +
-                                '<div class="btn-group btn-group-justified">';
-                            if (data[i].status == 'published') {
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                    '</a>' +
+                                '</div>';
+
+                            // 2nd column
+                            dataHtml += '<div class="CellRow">' +
+                                    '<span class="label label-important hidden-xs" data-toggle="tooltip" data-original-title="Deleted on ' + data[i].updatedAt + '">DELETED</span>' +
+                                    '<i class="fa fa-times fs-18 visible-xs" style="color: #f55753; font-size: 1.5em;"></i>' +
                                     '</div>';
-                                dataHtml += '<div class="btn-group hidden-xs">' +
-                                    '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                            } else if (data[i].status == 'paused') {
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                                dataHtml += '<div class="btn-group hidden-xs">' +
-                                    '<a href="/job/stat/' + data[i]._id + '" id="publishButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-play fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                                dataHtml += '<div class="btn-group">' +
-                                    '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
-                                    '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                    '</a>' +
-                                    '</div>';
-                            } else if (data[i].status == 'deleted') {
-                                dataHtml += '<div class="btn-group">' +
+
+                            // 3rd column
+                            dataHtml += '<div class="CellRow">#</div>';
+
+                            // 4th column
+                            dataHtml += '<div class="CellRow hidden-xs hidden-sm">' + data[i].app + '</div>';
+
+                            // Last column
+                            dataHtml += '<div class="CellRow">' +
+                                '<div class="btn-group btn-group-justified">' +
+                                '<div class="btn-group">' +
                                     '<a href="/job/del/' + data[i]._id + '" id="restoreButton" class="btn btn-default ">' +
                                     '<span class="p-t-5 p-b-5">' +
                                     '<i class="fa fa-undo fs-15"></i>' +
                                     '</span>' +
                                     '</a>' +
                                     '</div>';
-                            }
-
 
                             dataHtml += '</div>' +
-                                '</td>' +
-                                '</tr>';
+                                '</div>' +
+                                '</div>';
                         }
+
+                        // --------------------- and the here goes LOADING APPLICATIONS -----------------------
+                        /*$.ajax({
+                            dataType: "json",
+                            url: "/api/job/apps/" + data[i]._id,
+                            success: function(data) {
+
+                                if (data.length > 0) {
+
+                                    dataHtml += '<tr><td colspan="5"><table class="table table-inline">' +
+                                        '<thead>' +
+                                        '<tr>' +
+                                        '<th>Full Name</th>' +
+                                        '<th>Email</th>' +
+                                        '<th>Applied</th>' +
+                                        '<th></th>' +
+                                        '</tr>' +
+                                        '</thead>' +
+                                        '<tbody>';
+
+                                    $.each(data, function(j) {
+                                        if (data[j].read == false) {
+                                            dataHtml += '<tr data="' + data[j]._id + '">' +
+                                                '<td>' + data[j].firstName + ' ' + data[j].lastName + ' <span class="badge badge-primary hint-text new-details">new</span></td>' +
+                                                '<td>' + data[j].email + '</td>' +
+                                                '<td>' + moment(data[j].applyDate).startOf('minute').fromNow() + '</td>' +
+                                                '<td><button type="button" id="appDetailsButton" app-id="' + data[j]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
+                                                '</tr>';
+                                        } else if (data[j].read == true) {
+                                            dataHtml += '<tr data="' + data[j]._id + '">' +
+                                                '<td>' + data[j].firstName + ' ' + data[j].lastName + '</td>' +
+                                                '<td>' + data[j].email + '</td>' +
+                                                '<td>' + moment(data[j].applyDate).startOf('minute').fromNow() + '</td>' +
+                                                '<td><button type="button" id="appDetailsButton" app-id="' + data[j]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
+                                                '</tr>';
+                                        }
+                                    });
+
+                                    dataHtml += '</tbody></table></td></tr>';
+
+                                } else {
+                                    dataHtml += '<tr><td colspan="5"><div class="text-center hint-text">' +
+                                        '<h5>No applicants yet..</h5>' +
+                                        '</div></td></tr>';
+                                }
+                            }
+                        }); */
+                        // -------------   End of apps fetcing  --------------
+
                     });
 
-
-                    $('#job-table-content').append(dataHtml).hide().show('slow');
+                    // SHOW THE WHOLE RESULTS...
+                    $('div#user-jobs-heading').after(dataHtml).hide().show('slow');
 
                     // Set the job post counter
-                    if (data.length > 1) {
-                        var s = 's';
-                    } else {
-                        var s = '';
-                    }
-
-                    if (delCounter > 0) {
-                        var del = '<span class="h5 font-montserrat bold text-danger">' + delCounter + ' deleted</span>';
-                    } else {
-                        var del = '';
-                    }
-
-                    if (pauCounter > 0) {
-                        var pau = '<span class="h5 font-montserrat bold text-warning">' + pauCounter + ' paused</span>';
-                    } else {
-                        var pau = '';
-                    }
-
-                    if (pubCounter > 0) {
-                        var pub = '<span class="h5 font-montserrat bold text-success">' + pubCounter + ' published</span>';
-                    } else {
-                        var pub = '';
-                    }
-
-                    ////// begin ',' and '&' logic /////
-                    if (pub != '') {
-                        if (pau != '') {
-                            if (del != '') {
-                                pub += ', ';
-                                pau += ' & ';
-                            } else {
-                                pub += ' & ';
-                            }
-                        } else {
-                            if (del != '') {
-                                pub += ' & ';
-                            } else {
-                                pub += '';
-                            }
-                        }
-                    } else { // if pub is empty
-                        if (pau != '') {
-                            if (del != '') {
-                                pau += ' & ';
-                            } else {
-                                pau += '';
-                            }
-                        } else {
-                            if (del != '') {
-                                pau += '';
-                            } else {
-                                pub += 'no';
-                            }
-                        }
-                    }
-
-                    // Show them up!
-                    $('#job-counter').html('You have ' + pub + pau + del + ' job post' + s);
+                    if (data.length > 1) var s = "s";
+                    else var s = "";
+                    if (delCounter > 0) var del = '<span class="h5 font-montserrat bold text-danger">' + delCounter + " deleted</span>";
+                    else var del = "";
+                    if (pauCounter > 0) var pau = '<span class="h5 font-montserrat bold text-warning">' + pauCounter + " paused</span>";
+                    else var pau = "";
+                    if (pubCounter > 0) var pub = '<span class="h5 font-montserrat bold text-success">' + pubCounter + " published</span>";
+                    else var pub = "";
+                    "" != pub ? "" != pau ? "" != del ? (pub += ", ", pau += " & ") : pub += " & " : pub += "" != del ? " & " : "" : "" != pau ? pau += "" != del ? " & " : "" : "" != del ? pau += "" : pub += "no", $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
 
                 } else { // if no job post at all
                     $('#user-job-counter').hide();
@@ -262,67 +236,13 @@
         });
     }
 
-
-
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
         /////////// initiate user jobs table !!! ////////////
+
         var uEmail = $('#user-email').val(); // Get logged user email
         showJobs('/api/jobs/' + uEmail, 'hide');
-
-
-        /* ============== SHOW APPS FUNCTION ==========================
-        ==============================================================*/
-        $('#detailedTable tbody').on('click', 'tr.applyDetail', function() {
-   
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
-            
-            alert('You clicked!');
-
-            $(this).parents('tbody').find('.shown').removeClass('shown');
-            $(this).parents('tbody').find('.row-details').remove();
-
-            row.child(_format(row.data())).show(); // Add child 
-            tr.addClass('shown');
-            tr.next().addClass('row-details');
-
-            // Load list of applicants
-            var id = tr.attr('data-id');
-
-
-            $.ajax({
-                dataType: "json",
-                url: "/api/job/apps/" + id,
-                success: function(data) {
-                    if (data.length > 0) {
-                        $.each(data, function(i) {
-                            if (data[i].read == false) {
-                                var dataHtml = '<tr data="' + data[i]._id + '">' +
-                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + ' <span class="badge badge-primary hint-text new-details">new</span></td>' +
-                                    '<td>' + data[i].email + '</td>' +
-                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
-                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
-                                    '</tr>';
-                            } else if (data[i].read == true) {
-                                var dataHtml = '<tr data="' + data[i]._id + '">' +
-                                    '<td>' + data[i].firstName + ' ' + data[i].lastName + '</td>' +
-                                    '<td>' + data[i].email + '</td>' +
-                                    '<td>' + moment(data[i].applyDate).startOf('minute').fromNow() + '</td>' +
-                                    '<td><button type="button" id="appDetailsButton" app-id="' + data[i]._id + '" class="btn btn-default p-l-10 p-r-10" data-toggle="modal" data-target="#seeDetailApplicant"><i class="fa fa-search fs-15"></i> See Details</button></td>' +
-                                    '</tr>';
-                            }
-                            $('#appTable').append(dataHtml);
-                        });
-                    } else {
-                        $('#appTable').html('<div class="text-center hint-text">' +
-                            '<h5>No applicants yet..</h5>' +
-                            '</div>').hode().show('slow');
-                    }
-                }
-            });
-        });
 
 
         /* ============== DETAILS APP FUNCTION ==========================
@@ -620,6 +540,8 @@
             aDec: ',',
             mDec: '0'
         });
+
+        $('#detailedTable').jExpand();
 
     });
 
