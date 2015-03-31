@@ -52,14 +52,12 @@
 
                                 // 1st column 
                                 dataHtml += '<div class="CellRow">' +
-                                    '<td class="v-align-middle">' +
-                                    '<span class="job-applicant">' +
-                                    '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
+                                    '<span style="display:inline-block;padding-right:5px;"><i class="fa fa-chevron-right"></i></span>' +
+                                    '<span class="semi-bold" style="display:inline-block">' + data[i].details.jobTitle + '</span>';
                                 if (data[i].newApp > 0) {
                                     dataHtml += ' &nbsp;<span class="badge badge-danger">' + data[i].newApp;
                                 }
-                                dataHtml += '</span>' +
-                                    '</div>';
+                                dataHtml += '</div>';
 
                                 // 2nd column
                                 dataHtml += '<div class="CellRow">';
@@ -79,44 +77,30 @@
                                 dataHtml += '<div class="CellRow hidden-xs hidden-sm">' + data[i].app + '</div>';
 
                                 // Last column
-                                dataHtml += '<div class="CellRow">' +
-                                    '<div class="btn-group btn-group-justified">';
+                                dataHtml += '<div class="CellRow">' ;
                                 if (data[i].status == 'published') {
-                                    dataHtml += '<div class="btn-group">' +
-                                        '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
+                                    dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                        '</a>' +
-                                        '</div>';
-                                    dataHtml += '<div class="btn-group hidden-xs">' +
-                                        '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" class="btn btn-default">' +
+                                        '</a>';
+                                    dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="pauseButton" class="btn btn-default">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span>' +
-                                        '</a>' +
-                                        '</div>';
-                                    dataHtml += '<div class="btn-group">' +
-                                        '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
+                                        '</a>';
+                                    dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                        '</a>' +
-                                        '</div>';
+                                        '</a>';
                                 } else if (data[i].status == 'paused') {
-                                    dataHtml += '<div class="btn-group">' +
-                                        '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
+                                    dataHtml += '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-default ">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span>' +
-                                        '</a>' +
-                                        '</div>';
-                                    dataHtml += '<div class="btn-group hidden-xs">' +
-                                        '<a href="/job/stat/' + data[i]._id + '" id="publishButton" class="btn btn-default">' +
+                                        '</a>';
+                                    dataHtml += '<a href="/job/stat/' + data[i]._id + '" id="publishButton" class="btn btn-default">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-play fs-15"></i></span>' +
-                                        '</a>' +
-                                        '</div>';
-                                    dataHtml += '<div class="btn-group">' +
-                                        '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
+                                        '</a>';
+                                    dataHtml += '<a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-default">' +
                                         '<span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span>' +
-                                        '</a>' +
-                                        '</div>';
+                                        '</a>';
                                 }
 
                                 dataHtml += '</div>' +
-                                    '</div>' +
                                     '</div>'; 
                             }
                         } else if (condition == 'show') { // if the condition is 'show deleted'
@@ -125,7 +109,7 @@
 
                             // 1st column
                             dataHtml += '<div class="CellRow">' +
-                                '<span class="job-applicant">' +
+                                '<span class="job-applicant ">' +
                                 '<span class="semi-bold">' + data[i].details.jobTitle + '</span>';
                             if (data[i].newApp > 0) {
                                 dataHtml += ' &nbsp;<span class="badge badge-danger">' + data[i].newApp;
