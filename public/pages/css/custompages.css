@@ -160,15 +160,7 @@ textarea{resize:none;}
 }
 
 
-.Table{display: table;width: 100%;}
-.Title{display: table-caption;text-align: center;font-weight: bold;font-size: larger;}
-.Heading{ display: table-row;font-weight: bold;color:#000;}
-.Row{display: table-row; margin-bottom: 5px;}
-.CellRow, .Cell{display: table-cell;padding-left: 5px;  padding: 0 20px;}
-.Cell{border-bottom: 1px solid rgba(230, 230, 230, 0.7);}
-.CellRow p, .Cell p{font-size: 13px;}
-.Row:hover div{background: #daeffd !important;cursor: pointer;}
-.CellRow{border-bottom: 1px solid rgba(230, 230, 230, 0.7);padding-top: 20px;padding-bottom: 20px;background: #fff;}
+
 
 
 @media(max-width: 768px){
@@ -244,6 +236,9 @@ textarea{resize:none;}
     margin: 0;
     padding: 0;
 }
+.cbp-ntaccordion li{border-bottom: 1px solid #ddd;padding-top: 10px;}
+.cbp-ntaccordion li h5{display: inline-block;width: 33%;}
+.cbp-ntaccordion li h5 a{color:#8B8585;padding-right: 35px;}
 
 .cbp-ntsubaccordion {
     list-style: none;
@@ -256,7 +251,6 @@ textarea{resize:none;}
 .cbp-ntaccordion h3 {
     margin: 0 0 0.3em;
     padding: 1em 0 0.5em;
-    border-bottom: 1px solid #ddd;
     font-size: 2em;
     font-weight: 300;
 }
