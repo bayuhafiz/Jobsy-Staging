@@ -91,7 +91,7 @@
                         }
 
                         // Generate datas
-                        dataHtml += '<li>' +
+                        dataHtml += '<li data-id="' + data[i]._id + '">' +
                             '<h5 style="color:#000" class="cbp-nttrigger">' + data[i].details.jobTitle + '</h5>' +
                             '<h5 style="  text-align: center;">' + badge + '</h5>' +
                             '<h5 style="  text-align: right;"><a href="#" id="editButton" data-target="#EditJob" data-toggle="modal"><span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span></a><a href="/job/stat/551a261fcedee3186ffe6c8c" id="pauseButton"><span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span></a><a href="/job/del/551a261fcedee3186ffe6c8c" id="deleteButton"><span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span></a></h5>' +
@@ -240,6 +240,7 @@
                         $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
+
 
                         if (data.profile.location=='Daerah-Istimewa-Yogyakarta') {
                             data.profile.location = 'Daerah Istimewa Yogyakarta';

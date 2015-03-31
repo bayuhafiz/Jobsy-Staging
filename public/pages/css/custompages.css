@@ -167,9 +167,7 @@ textarea{resize:none;}
     .salary-type{margin-top: 10px;}
     .modal.fade.slide-right .modal-dialog{width: auto;}
 
-
     .modal-dialog-userdashboard .panel.panel-transparent .panel-body{padding: 15px;}
-
  
     .notification-panel{width: 100%!important;}
     .header .search-link input{width: 90%!important;}
@@ -184,9 +182,9 @@ textarea{resize:none;}
     .job-title-hover{display: none;}
     .email-wrapper .email-list .item .datetime{opacity: 1!important}
 
-
-
 }
+
+
 @media(max-width: 991px){
     .responsive-search{display: block;}
     .email-wrapper{z-index: 1}
@@ -194,9 +192,6 @@ textarea{resize:none;}
     .email-wrapper .email-list{width: 100%;}
     .header .notification-list {display: inline-block!important;border:0;position: absolute;top: 11px;right: -30px;}
     .icon-set.globe-fill{z-index: 1}
-
-    
-
 
     .post-job-bar{top: 30%;}
 
