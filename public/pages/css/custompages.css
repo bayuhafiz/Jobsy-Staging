@@ -161,7 +161,7 @@ textarea{resize:none;}
 
 
 .nav-pills > li.active > a{ background-color: #FAFAFA !important;}
-
+.nav-tabs-linetriangle ~ .tab-content{background: #fafafa!important}
 
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
