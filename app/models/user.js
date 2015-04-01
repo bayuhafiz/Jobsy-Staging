@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
 
 var userSchema = new mongoose.Schema({
     firstName: {
@@ -21,10 +21,6 @@ var userSchema = new mongoose.Schema({
     email: {
         type: String,
         default: ''
-    },
-    initLogin: {
-        type: Boolean,
-        default: true
     },
     actStatus: {
         type: String,
@@ -65,6 +61,28 @@ var userSchema = new mongoose.Schema({
     passTokenExpired: {
         type: Date,
         default: null
+    },
+    initLogin: {
+        type: Boolean,
+        default: true
+    },
+    initCompany: {
+        logo: {
+            type: String,
+            default: ''
+        },
+        name: {
+            type: String,
+            default: ''
+        },
+        location: {
+            type: String,
+            default: ''
+        },
+        description: {
+            type: String,
+            default: ''
+        }
     }
 });
 
