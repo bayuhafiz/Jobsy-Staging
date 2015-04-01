@@ -5,8 +5,15 @@
     <% include ./partial/head %>
     <style type="text/css">
         body{background: #fff}
-        .modal.fade.slide-right .modal-dialog-userdashboard{width: 59%;}
+        .modal.fade.slide-right .modal-dialog-userdashboard{width: 60%;}
         .modal-backdrop.in{display: none;}
+        .nav-tabs-linetriangle ~ .tab-content{background: #fafafa}
+        @media (max-width: 425px){
+            .btn-cons{min-width: 0!important}
+        }
+        @media (max-width: 1200px){
+            .modal.fade.slide-right .modal-dialog-userdashboard{width: 100%}
+        }
     </style>
   </head>
   <body class="fixed-header menu-behind">
@@ -58,11 +65,9 @@
     <div class="col-md-7 wrapper" style="padding:0 0">
         <div style="background:url(assets/img/example.png);width: 100%;height: 1000px;background-position: 50% 50%;background-size: cover;background-repeat: no-repeat;"></div>
     </div>
-</div>
-
-<!-- ===============================================================================================================
+    <!-- ===============================================================================================================
 ============================================ CREATE JOB POSTING FORM =============================================== -->
-
+<div class="col-md-7 wrapper" style="padding:0 0">
 <div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-userdashboard">
         <div class="modal-content-wrapper">
@@ -94,9 +99,9 @@
                             </ul>
                             <br>
                             <!-- Tab panes -->
+                            <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
                             <div class="tab-content">
                                 <div class="tab-pane active slide-left" id="tab1">
-                                    <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group form-group-default">
@@ -209,38 +214,39 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
-                                    <br>
-                                    <button class="btn btn-success" type="submit">Submit</button>
-                                    <button class="btn btn-default"><i class="pg-close"></i> Clear</button>
-                                    </form>
+                                    
                                 </div>
                                 <br>
                                 <br>
                                 <ul class="pager wizard">
-                                    <li class="next">
-                                        <button class="btn btn-primary btn-cons btn-animated from-left fa fa-truck pull-right" type="button">
-                                            <span>Next</span>
-                                        </button>
-                                    </li>
-                                    <li class="next finish" style="display:none;">
-                                        <button class="btn btn-primary btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
-                                            <span>Finish</span>
-                                        </button>
-                                    </li>
-                                    <li class="previous first" style="display:none;">
-                                        <button class="btn btn-white btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
-                                            <span>First</span>
-                                        </button>
-                                    </li>
-                                    <li class="previous">
-                                        <button class="btn btn-white btn-cons pull-right" type="button">
-                                            <span>Previous</span>
-                                        </button>
-                                    </li>
-                                </ul>
+                                        <li class="next">
+                                            <button class="btn btn-primary btn-cons pull-right" type="button">
+                                                <span>Next</span>
+                                            </button>
+                                        </li>
+                                        <li class="next finish" style="display:none;">
+                                            <button class="btn btn-default clear-btn btn-cons pull-right" type="button">
+                                                <span>Clear</span>
+                                            </button>
+                                        </li>
+                                        <li class="next finish" style="display:none;">
+                                            <button class="btn btn-primary btn-cons pull-right" type="submit">
+                                                <span>Submit</span>
+                                            </button>
+                                        </li>
+                                        <li class="previous first" style="display:none;">
+                                            <button class="btn btn-white btn-cons pull-right" type="button">
+                                                <span>First</span>
+                                            </button>
+                                        </li>
+                                        <li class="previous">
+                                            <button class="btn btn-primary btn-cons pull-right" type="button">
+                                                <span>Previous</span>
+                                            </button>
+                                        </li>
+                                    </ul>
                             </div>
-
+                            </form>
                         </div>
 
                     </div>
@@ -249,8 +255,12 @@
         </div>
     </div>
 </div>
+</div>
 <!-- ======================================= END OF CREATE JOB POSTING FORM =============================================
 ==================================================================================================================== -->
+</div>
+
+
 
 
     <!-- BEGIN VENDOR JS -->
