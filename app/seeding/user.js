@@ -8,8 +8,9 @@ newUser.lastName = 'Admin';
 newUser.companyName = 'Colorblind Labs';
 newUser.email = 'bayu@colorblindlabs.com';
 newUser.password = newUser.generateHash('qwpo');
-newUser.actStatus = 'activated';
+newUser.actStatus = 'inactive';
 newUser.initLogin = true;
+newUser.actToken = '123';
 
 User.findOne({
     email: 'bayu@colorblindlabs.com'

@@ -49,6 +49,7 @@ module.exports = function(app, passport) {
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
         var user = req.user;
+        //console.log(req.user.initLogin);
         if ((user.actStatus == 'inactive') || (user.initLogin == true)) { // If user not activated or has no post yet
             res.render('act.ejs', {
                 title: 'Activation',
@@ -458,43 +459,56 @@ module.exports = function(app, passport) {
                 }
             },
             function(src, token, done) {
-                if (req.user.initLogin == true) {
-                    var init_status = false;
-                } else {
-                    var init_status = true;
-                }
 
-                var job = new Job({
-                    profile: {
-                        logo: src,
-                        name: req.body.companyName,
-                        location: req.body.location,
-                        description: req.body.description
-                    },
-                    details: {
-                        jobTitle: req.body.jobTitle,
-                        category: req.body.category,
-                        jobType: req.body.jobType,
-                        jobScope: req.body.jobScope,
-                        requirements: req.body.requirements,
-                        currency: req.body.currency,
-                        salaryFrom: req.body.salaryFrom,
-                        salaryTo: req.body.salaryTo,
-                        salaryType: req.body.salaryType,
-                    },
-                    token: token,
-                    status: 'published',
-                    createdAt: Date.now(),
-                    updatedAt: Date.now(),
-                    email: req.user.email,
-                    initLogin: init_status
-                });
 
-                job.save(function(err) {
+                User.findById(req.user.id, function(err, user) {
                     if (err) return next(err);
-                    req.flash('success', 'Job post successfully created.');
-                    done(err, 'done');
+
+                    var init_status = req.user.initLogin;
+                    if (init_status == true) {
+                        var init_status = false;
+                    }
+
+                    user.initLogin = init_status;
+
+                    user.save(function(err) {
+                        if (err)
+                            return next(err);
+
+                        var job = new Job({
+                            profile: {
+                                logo: src,
+                                name: req.body.companyName,
+                                location: req.body.location,
+                                description: req.body.description
+                            },
+                            details: {
+                                jobTitle: req.body.jobTitle,
+                                category: req.body.category,
+                                jobType: req.body.jobType,
+                                jobScope: req.body.jobScope,
+                                requirements: req.body.requirements,
+                                currency: req.body.currency,
+                                salaryFrom: req.body.salaryFrom,
+                                salaryTo: req.body.salaryTo,
+                                salaryType: req.body.salaryType,
+                            },
+                            token: token,
+                            status: 'published',
+                            createdAt: Date.now(),
+                            updatedAt: Date.now(),
+                            email: req.user.email
+                        });
+
+                        job.save(function(err) {
+                            if (err) return next(err);
+                            req.flash('success', 'Job post successfully created.');
+                            done(err, 'done');
+                        });
+                    });
+
                 });
+
             },
         ], function(err) {
             if (err) {
