@@ -291,7 +291,7 @@
 
 
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
-                        $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
+                        $('input.jobTitle').attr('value', data.details.jobTitle);
 
 
                         if (data.details.category == 130) {
@@ -516,44 +516,44 @@
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         $('#EditJob div.panel form#form-edit select#jobType option:selected').val();
 
-                        $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
-                        $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
+                        $('#EditJob textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
+                        $('#EditJob textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
 
 
                         if ((data.details.currency == 'IDR') || (data.details.currency == 'idr')) {
-                            $('#EditJob div.panel form#form-edit select.currency').append($("<option selected='selected'></option>").val('idr').html("IDR"));
-                            $('#EditJob div.panel form#form-edit select.currency').append($("<option></option>").val('usd').html("USD"));
+                            $('#EditJob select.currency').append($("<option selected='selected'></option>").val('idr').html("IDR"));
+                            $('#EditJob select.currency').append($("<option></option>").val('usd').html("USD"));
                         } else if ((data.details.currency == 'USD') || (data.details.currency == 'usd')) {
-                            $('#EditJob div.panel form#form-edit select.currency').append($("<option></option>").val('idr').html("IDR"));
-                            $('#EditJob div.panel form#form-edit select.currency').append($("<option selected='selected'></option>").val('usd').html("USD"));
+                            $('#EditJob select.currency').append($("<option></option>").val('idr').html("IDR"));
+                            $('#EditJob select.currency').append($("<option selected='selected'></option>").val('usd').html("USD"));
                         };
 
-                        $('#EditJob div.panel form#form-edit input.salaryFrom').val(data.details.salaryFrom);
-                        $('#EditJob div.panel form#form-edit input.salaryTo').val(data.details.salaryTo);
+                        $('#EditJob input.salaryFrom').val(data.details.salaryFrom);
+                        $('#EditJob input.salaryTo').val(data.details.salaryTo);
 
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
 
                         if (data.details.salaryType == 'Monthly') {
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
+                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
                         } else if (data.details.salaryType == 'Annually') {
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Annually').html("Annually"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Annually').html("Annually"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
                         } else if (data.details.salaryType == 'Daily') {
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Daily').html("Daily"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
+                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Daily').html("Daily"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
                         } else if (data.details.salaryType == 'Hourly') {
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
-                            $('#EditJob div.panel form#form-edit select.salaryType').append($("<option selected='selected'></option>").val('Hourly').html("Hourly"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
+                            $('#EditJob select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
+                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Hourly').html("Hourly"));
                         };
 
 
@@ -712,6 +712,8 @@
             aDec: ',',
             mDec: '0'
         });
+
+
 
     });
 
