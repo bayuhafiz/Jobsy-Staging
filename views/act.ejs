@@ -3,7 +3,11 @@
   <head>
 
     <% include ./partial/head %>
-
+    <style type="text/css">
+        body{background: #fff}
+        .modal.fade.slide-right .modal-dialog-userdashboard{width: 59%;}
+        .modal-backdrop.in{display: none;}
+    </style>
   </head>
   <body class="fixed-header menu-behind">
 
@@ -63,7 +67,7 @@
     <div class="modal-dialog modal-lg modal-dialog-userdashboard">
         <div class="modal-content-wrapper">
             <div class="modal-content outer" style="background: #FAFAFA;">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>-->
                 <div class="panel panel-transparent middle">
                     <div class="panel-body">
                         <div class="panel-heading" style="padding:0">
