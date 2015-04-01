@@ -160,7 +160,7 @@ textarea{resize:none;}
 }
 
 
-
+.nav-pills > li.active > a{ background-color: #FAFAFA !important;}
 
 
 @media(max-width: 768px){
