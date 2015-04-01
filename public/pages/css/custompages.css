@@ -232,7 +232,7 @@ textarea{resize:none;}
     padding: 0;
 }
 .cbp-ntaccordion li{border-bottom: 1px solid #ddd;padding-top: 0px;}
-.cbp-ntaccordion li h5{display: inline-block;width: 33%;}
+.cbp-ntaccordion li h5{display: inline-block;width: 80%;}
 .cbp-ntaccordion li h5 a{color:#8B8585;padding-right: 35px;}
 
 .cbp-ntsubaccordion {
