@@ -167,9 +167,7 @@ textarea{resize:none;}
     .salary-type{margin-top: 10px;}
     .modal.fade.slide-right .modal-dialog{width: auto;}
 
-
     .modal-dialog-userdashboard .panel.panel-transparent .panel-body{padding: 15px;}
-
  
     .notification-panel{width: 100%!important;}
     .header .search-link input{width: 90%!important;}
@@ -184,9 +182,9 @@ textarea{resize:none;}
     .job-title-hover{display: none;}
     .email-wrapper .email-list .item .datetime{opacity: 1!important}
 
-
-
 }
+
+
 @media(max-width: 991px){
     .responsive-search{display: block;}
     .email-wrapper{z-index: 1}
@@ -194,9 +192,6 @@ textarea{resize:none;}
     .email-wrapper .email-list{width: 100%;}
     .header .notification-list {display: inline-block!important;border:0;position: absolute;top: 11px;right: -30px;}
     .icon-set.globe-fill{z-index: 1}
-
-    
-
 
     .post-job-bar{top: 30%;}
 
@@ -236,7 +231,7 @@ textarea{resize:none;}
     margin: 0;
     padding: 0;
 }
-.cbp-ntaccordion li{border-bottom: 1px solid #ddd;padding-top: 10px;}
+.cbp-ntaccordion li{border-bottom: 1px solid #ddd;padding-top: 0px;}
 .cbp-ntaccordion li h5{display: inline-block;width: 33%;}
 .cbp-ntaccordion li h5 a{color:#8B8585;padding-right: 35px;}
 
@@ -251,7 +246,7 @@ textarea{resize:none;}
 .cbp-ntaccordion h3 {
     margin: 0 0 0.3em;
     padding: 1em 0 0.5em;
-    font-size: 2em;
+    font-size: 1.75em;
     font-weight: 300;
 }
 
@@ -275,7 +270,7 @@ textarea{resize:none;}
     font-size: 1.25em;
     font-weight: 300;
     line-height: 1.5;
-    padding: 0.2em 0 1.5em;
+    /*padding: 0.2em 0 1.5em;*/
     margin: 0;
 }
 
@@ -334,7 +329,7 @@ textarea{resize:none;}
 .cbp-ntsubaccordion .cbp-ntopen > .cbp-ntcontent,
 .no-js .cbp-ntaccordion .cbp-ntcontent {
     height: auto;
-      margin-bottom: 55px;
+      margin-bottom: 45px;
 }
 
 /* Example for media query */

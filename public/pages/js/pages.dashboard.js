@@ -26,57 +26,78 @@
     var showJobs = function(url) {
         var dataHtml = '';
         var badge = '';
+        var toolbox = '';
         var delCounter = 0;
         var pauCounter = 0;
         var pubCounter = 0;
 
         // Dummy clear the job table
-        $('div.jobs-panel').html('');
+        $('#user-job-list').html('');
 
         $.ajax({
             dataType: "json",
             url: url,
             success: function(data) {
                 if (data.length > 0) {
-                    dataHtml += '<ul id="user-job-list" class="cbp-ntaccordion">';
 
                     $.each(data, function(i) {
 
-                        var random = 1 + Math.floor(Math.random() * 100);
+                        var random = 1 + Math.floor(Math.random() * 999);
 
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
-                            badge = '<span class="badge badge-danger">DELETED</span>';
+                            badge = '<span class="btn btn-sm btn-danger">DELETED</span>';
+                            toolbox = '<div class="btn-group"><a href="/job/del/' + data[i]._id + '" id="restoreButton" class="btn btn-sm btn-white"><i class="fa fa-reply"></i></a></div>';
                         } else if (data[i].status == 'paused') {
                             pauCounter = pauCounter + 1; // Count paused job
-                            badge = '<span class="badge badge-warning">PAUSED</span>';
+                            badge = '<span class="btn btn-sm btn-warning">PAUSED</span>';
+                            toolbox = '<div class="btn-group"><a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a></div>';
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
-                            badge = '<span class="badge badge-success">PUBLISHED</span>';
+                            badge = '<span class="btn btn-sm btn-success">PUBLISHED</span>';
+                            toolbox = '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a>';
                         }
 
                         // Generate datas
                         dataHtml += '<li data-id="' + data[i]._id + '">' +
-                            '<h5 style="color:#000" class="cbp-nttrigger semi-bold">' + data[i].details.jobTitle + '</h5>' +
-                            '<h5 style="  text-align: center;">' + badge + '</h5>' +
-                            '<h5 style="  text-align: right;"><a href="#" id="editButton" data-target="#EditJob" data-toggle="modal"><span class="p-t-5 p-b-5"><i class="fa fa-pencil fs-15"></i></span></a><a href="/job/stat/551a261fcedee3186ffe6c8c" id="pauseButton"><span class="p-t-5 p-b-5"><i class="fa fa-pause fs-15"></i></span></a><a href="/job/del/551a261fcedee3186ffe6c8c" id="deleteButton"><span class="p-t-5 p-b-5"><i class="fa fa-times fs-15"></i></span></a></h5>' +
-                            '<div class="cbp-ntcontent">' +
-                              '<p></p>' +
-                              '<ul class="cbp-ntsubaccordion">';
-                                
+                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' <small>' + random + ' views & ' + data[i].app + ' applications</small><span class="pull-right"><div class="btn-group">' + badge + toolbox + '</div></span>' +
+                            '</h3>';
+
+                        dataHtml += '<div class="cbp-ntcontent">' +
+                            '<p class="small">Date created is bla bla bla<br/>kjdsiaohdisoahdiao</p>' +
+                            '<ul class="cbp-ntsubaccordion">';
+
+                        // Load application list
+                        $.ajax({
+                            dataType: "json",
+                            url: "/api/job/apps/" + data[i]._id,
+                            success: function(app) {
+                                if (app.length > 0) {
+                                    $.each(app, function(i) {
+                                        // do something here
+                                        dataHtml += '<li app-id="' + data[i]._id + '">' +
+                                            '<h4 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + '</h4>' +
+                                            '<div class="cbp-ntcontent">' +
+                                            '<p></p>' +
+                                            '</div>' +
+                                            '</li>';
+                                    });
+                                } else {
+                                    dataHtml += '<li>' +
+                                        '<h4 class="cbp-nttrigger">No applicants yet...</h4>' +
+                                        '</li>';
+                                }
+                            }
+                        });
+
                         dataHtml += '</ul>' +
                             '</div>' +
-                        '</li>';
-
-                        // and here goes LOADING APPLICATIONS
-                        //dataHtml = dataHtml + getApps(data[i]._id);
+                            '</li>';
 
                         // FINALLY, SHOW THE WHOLE RESULTS...
-                        $('div.jobs-panel').html(dataHtml).hide().show('slow');
+                        $('#user-job-list').html(dataHtml).hide().show('slow');
 
                     });
-
-                    dataHtml += '</ul>';
 
                     // Set the job post counter
                     if (data.length > 1) var s = "s";
@@ -100,7 +121,7 @@
                 $('#user-job-list').cbpNTAccordion();
             }
         });
-        
+
     }
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
@@ -177,7 +198,7 @@
         ==============================================================*/
         $('body').on('click', '#editButton', function() {
             var dataHtml = '';
-            var id = $(this).parent().parent().attr('data-id');
+            var id = $(this).closest('li').attr('data-id');
 
             $.ajax({
                 dataType: "json",
@@ -189,283 +210,284 @@
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        if (data.profile.location=='Daerah-Istimewa-Yogyakarta') {
+
+                        if (data.profile.location == 'Daerah-Istimewa-Yogyakarta') {
                             data.profile.location = 'Daerah Istimewa Yogyakarta';
                         }
-                        if (data.profile.location=='DKI-Jakarta') {
+                        if (data.profile.location == 'DKI-Jakarta') {
                             data.profile.location = 'DKI Jakarta';
                         }
-                        if (data.profile.location=='Jawa-Barat') {
+                        if (data.profile.location == 'Jawa-Barat') {
                             data.profile.location = 'Jawa Barat';
                         }
-                        if (data.profile.location=='Jawa-Tengah') {
+                        if (data.profile.location == 'Jawa-Tengah') {
                             data.profile.location = 'Jawa Tengah';
                         }
-                        if (data.profile.location=='Jawa-Timur') {
+                        if (data.profile.location == 'Jawa-Timur') {
                             data.profile.location = 'Jawa Timur';
                         }
-                        if (data.profile.location=='Kalimantan-Barat') {
+                        if (data.profile.location == 'Kalimantan-Barat') {
                             data.profile.location = 'Kalimantan Barat';
                         }
-                        if (data.profile.location=='Kalimantan-Selatan') {
+                        if (data.profile.location == 'Kalimantan-Selatan') {
                             data.profile.location = 'Kalimantan Selatan';
                         }
-                        if (data.profile.location=='Kalimantan-Tengah') {
+                        if (data.profile.location == 'Kalimantan-Tengah') {
                             data.profile.location = 'Kalimantan Tengah';
                         }
-                        if (data.profile.location=='Kalimantan-Timur') {
+                        if (data.profile.location == 'Kalimantan-Timur') {
                             data.profile.location = 'Kalimantan Timur';
                         }
-                        if (data.profile.location=='Kepulauan-Bangka-Belitung') {
+                        if (data.profile.location == 'Kepulauan-Bangka-Belitung') {
                             data.profile.location = 'Kepulauan Bangka Belitung';
                         }
-                        if (data.profile.location=='Kepulauan-Riau') {
+                        if (data.profile.location == 'Kepulauan-Riau') {
                             data.profile.location = 'Kepulauan Riau';
                         }
-                        if (data.profile.location=='Maluku-Utara') {
+                        if (data.profile.location == 'Maluku-Utara') {
                             data.profile.location = 'Maluku Utara';
                         }
-                        if (data.profile.location=='Nanggroe-Aceh-Darussalam') {
+                        if (data.profile.location == 'Nanggroe-Aceh-Darussalam') {
                             data.profile.location = 'Nanggroe Aceh Darussalam';
                         }
-                        if (data.profile.location=='Nusa-Tenggara-Barat') {
+                        if (data.profile.location == 'Nusa-Tenggara-Barat') {
                             data.profile.location = 'Nusa Tenggara Barat';
                         }
-                        if (data.profile.location=='Nusa-Tenggara-Timur') {
+                        if (data.profile.location == 'Nusa-Tenggara-Timur') {
                             data.profile.location = 'Nusa Tenggara Timur';
                         }
-                        if (data.profile.location=='Papua-Barat') {
+                        if (data.profile.location == 'Papua-Barat') {
                             data.profile.location = 'Papua Barat';
                         }
-                        if (data.profile.location=='Sulawesi-Barat') {
+                        if (data.profile.location == 'Sulawesi-Barat') {
                             data.profile.location = 'Sulawesi Barat';
                         }
-                        if (data.profile.location=='Sulawesi-Selatan') {
+                        if (data.profile.location == 'Sulawesi-Selatan') {
                             data.profile.location = 'Sulawesi Selatan';
                         }
-                        if (data.profile.location=='Sulawesi-Tengah') {
+                        if (data.profile.location == 'Sulawesi-Tengah') {
                             data.profile.location = 'Sulawesi Tengah';
                         }
-                        if (data.profile.location=='Sulawesi-Tenggara') {
+                        if (data.profile.location == 'Sulawesi-Tenggara') {
                             data.profile.location = 'Sulawesi Tenggara';
                         }
-                        if (data.profile.location=='Sulawesi-Utara') {
+                        if (data.profile.location == 'Sulawesi-Utara') {
                             data.profile.location = 'Sulawesi Utara';
                         }
-                        if (data.profile.location=='Sumatera-Selatan') {
+                        if (data.profile.location == 'Sumatera-Selatan') {
                             data.profile.location = 'Sumatera Selatan';
                         }
-                        if (data.profile.location=='Sumatera-Utara') {
+                        if (data.profile.location == 'Sumatera-Utara') {
                             data.profile.location = 'Sumatera Utara';
                         }
-                        if (data.profile.location=='Sumatera-Barat') {
+                        if (data.profile.location == 'Sumatera-Barat') {
                             data.profile.location = 'Sumatera Barat';
                         }
 
 
                         $("#EditJob div.panel form#form-edit div#s2id_location span.select2-chosen").text(data.profile.location);
-                        
+
                         $('#EditJob div.panel form#form-edit select#location option:selected').val();
 
-              
+
                         $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
 
 
-                        if (data.details.category==130) {
+                        if (data.details.category == 130) {
                             data.details.category = 'Audit & Pajak';
                         }
-                        if (data.details.category==135) {
+                        if (data.details.category == 135) {
                             data.details.category = 'Perbankan/Keuangan';
                         }
-                        if (data.details.category==132) {
+                        if (data.details.category == 132) {
                             data.details.category = 'Keuangan/Investasi';
                         }
-                        if (data.details.category==131) {
+                        if (data.details.category == 131) {
                             data.details.category = 'Akuntansi Umum/Pembiayaan';
                         }
-                        if (data.details.category==133) {
+                        if (data.details.category == 133) {
                             data.details.category = 'Staf/Administrasi umum';
                         }
-                        if (data.details.category==137) {
+                        if (data.details.category == 137) {
                             data.details.category = 'Personalia';
                         }
-                        if (data.details.category==146) {
+                        if (data.details.category == 146) {
                             data.details.category = 'Sekretaris';
                         }
-                        if (data.details.category==148) {
+                        if (data.details.category == 148) {
                             data.details.category = 'Manajemen Atas';
                         }
-                        if (data.details.category==100) {
+                        if (data.details.category == 100) {
                             data.details.category = 'Periklanan';
                         }
-                        if (data.details.category==101) {
+                        if (data.details.category == 101) {
                             data.details.category = 'Seni/Desain Kreatif';
                         }
-                        if (data.details.category==106) {
+                        if (data.details.category == 106) {
                             data.details.category = 'Hiburan/Seni Panggung';
                         }
-                        if (data.details.category==141) {
+                        if (data.details.category == 141) {
                             data.details.category = 'Hubungan Masyarakat';
                         }
-                        if (data.details.category==180) {
+                        if (data.details.category == 180) {
                             data.details.category = 'Arsitek/Desain Interior';
                         }
-                        if (data.details.category==184) {
+                        if (data.details.category == 184) {
                             data.details.category = 'Sipil/Konstruksi Bangunan';
                         }
-                        if (data.details.category==150) {
+                        if (data.details.category == 150) {
                             data.details.category = 'Properti/Real Estate';
                         }
-                        if (data.details.category==198) {
+                        if (data.details.category == 198) {
                             data.details.category = 'Survei Kuantitas';
                         }
-                        if (data.details.category==192) {
+                        if (data.details.category == 192) {
                             data.details.category = 'IT-Perangkat Keras';
                         }
-                        if (data.details.category==193) {
+                        if (data.details.category == 193) {
                             data.details.category = 'IT-Jaringan/Sistem/Sistem Database';
                         }
-                        if (data.details.category==191) {
+                        if (data.details.category == 191) {
                             data.details.category = 'IT-Perangkat Lunak';
                         }
-                        if (data.details.category==105) {
+                        if (data.details.category == 105) {
                             data.details.category = 'Pendidikan';
                         }
-                        if (data.details.category==121) {
+                        if (data.details.category == 121) {
                             data.details.category = 'Penelitian & Pengembangan';
                         }
-                        if (data.details.category==185) {
+                        if (data.details.category == 185) {
                             data.details.category = 'Teknik Kimia';
                         }
-                        if (data.details.category==187) {
+                        if (data.details.category == 187) {
                             data.details.category = 'Teknik Elektrikal';
                         }
-                        if (data.details.category==186) {
+                        if (data.details.category == 186) {
                             data.details.category = 'Teknik Elektro';
                         }
-                        if (data.details.category==189) {
+                        if (data.details.category == 189) {
                             data.details.category = 'Teknik Lingkungan';
                         }
-                        if (data.details.category==200) {
+                        if (data.details.category == 200) {
                             data.details.category = 'Teknik';
                         }
-                        if (data.details.category==195) {
+                        if (data.details.category == 195) {
                             data.details.category = 'Mekanik/Otomotif';
                         }
-                        if (data.details.category==190) {
+                        if (data.details.category == 190) {
                             data.details.category = 'Teknik Perminyakan';
                         }
-                        if (data.details.category==188) {
+                        if (data.details.category == 188) {
                             data.details.category = 'Teknik Lainnya';
                         }
-                        if (data.details.category==113) {
+                        if (data.details.category == 113) {
                             data.details.category = 'Dokter/Diagnosa';
                         }
-                        if (data.details.category==112) {
+                        if (data.details.category == 112) {
                             data.details.category = 'Farmasi';
                         }
-                        if (data.details.category==111) {
+                        if (data.details.category == 111) {
                             data.details.category = 'Praktisi/Asisten Medis';
                         }
-                        if (data.details.category==107) {
+                        if (data.details.category == 107) {
                             data.details.category = 'Makanan/Minuman/Pelayanan Restoran';
                         }
-                        if (data.details.category==114) {
+                        if (data.details.category == 114) {
                             data.details.category = 'Hotel/Pariwisata';
                         }
-                        if (data.details.category==115) {
+                        if (data.details.category == 115) {
                             data.details.category = 'Pemeliharaan';
                         }
-                        if (data.details.category==194) {
+                        if (data.details.category == 194) {
                             data.details.category = 'Manufaktur';
                         }
-                        if (data.details.category==196) {
+                        if (data.details.category == 196) {
                             data.details.category = 'Kontrol Proses';
                         }
 
-                        if (data.details.category==140) {
+                        if (data.details.category == 140) {
                             data.details.category = 'Pembelian/Manajemen Material';
                         }
-                        if (data.details.category==197) {
+                        if (data.details.category == 197) {
                             data.details.category = 'Penjaminan Kualitas / QA';
                         }
-                        if (data.details.category==142) {
+                        if (data.details.category == 142) {
                             data.details.category = 'Penjualan - Korporasi';
                         }
-                        if (data.details.category==139) {
+                        if (data.details.category == 139) {
                             data.details.category = 'Pemasaran/Pengembangan Bisnis';
                         }
-                        if (data.details.category==149) {
+                        if (data.details.category == 149) {
                             data.details.category = 'Merchandising';
                         }
-                        if (data.details.category==145) {
+                        if (data.details.category == 145) {
                             data.details.category = 'Penjualan Ritel';
                         }
-                        if (data.details.category==143) {
+                        if (data.details.category == 143) {
                             data.details.category = 'Penjualan - Teknik/Teknikal/IT';
                         }
-                        if (data.details.category==144) {
+                        if (data.details.category == 144) {
                             data.details.category = 'Proses desain dan kontrol';
                         }
-                        if (data.details.category==151) {
+                        if (data.details.category == 151) {
                             data.details.category = 'Tele-sales/Telemarketing';
                         }
-                        if (data.details.category==103) {
+                        if (data.details.category == 103) {
                             data.details.category = 'Aktuaria/Statistik';
                         }
-                        if (data.details.category==102) {
+                        if (data.details.category == 102) {
                             data.details.category = 'Pertanian';
                         }
-                        if (data.details.category==181) {
+                        if (data.details.category == 181) {
                             data.details.category = 'Penerbangan';
                         }
-                        if (data.details.category==182) {
+                        if (data.details.category == 182) {
                             data.details.category = 'Bioteknologi';
                         }
-                        if (data.details.category==183) {
+                        if (data.details.category == 183) {
                             data.details.category = 'Kimia';
                         }
-                        if (data.details.category==108) {
+                        if (data.details.category == 108) {
                             data.details.category = 'Teknologi Makanan/Ahli Gizi';
                         }
-                        if (data.details.category==109) {
+                        if (data.details.category == 109) {
                             data.details.category = 'Geologi/Geofisika';
                         }
-                        if (data.details.category==199) {
+                        if (data.details.category == 199) {
                             data.details.category = 'Ilmu Pengetahuan & Teknologi/Lab';
                         }
-                        if (data.details.category==119) {
+                        if (data.details.category == 119) {
                             data.details.category = 'Keamanan / Angkatan Bersenjata';
                         }
-                        if (data.details.category==134) {
+                        if (data.details.category == 134) {
                             data.details.category = 'Pelayanan Pelanggan';
                         }
-                        if (data.details.category==147) {
+                        if (data.details.category == 147) {
                             data.details.category = 'Logistik/Jaringan distribusi';
                         }
-                        if (data.details.category==138) {
+                        if (data.details.category == 138) {
                             data.details.category = 'Hukum / Legal';
                         }
-                        if (data.details.category==118) {
+                        if (data.details.category == 118) {
                             data.details.category = 'Perawatan Kesehatan / Kecantikan';
                         }
-                        if (data.details.category==120) {
+                        if (data.details.category == 120) {
                             data.details.category = 'Pelayanan kemasyarakatan';
                         }
-                        if (data.details.category==152) {
+                        if (data.details.category == 152) {
                             data.details.category = 'Teknikal &amp; Bantuan Pelanggan';
                         }
-                        if (data.details.category==110) {
+                        if (data.details.category == 110) {
                             data.details.category = 'Pekerjaan Umum';
                         }
-                        if (data.details.category==104) {
+                        if (data.details.category == 104) {
                             data.details.category = 'Jurnalis/Editor';
                         }
-                        if (data.details.category==117) {
+                        if (data.details.category == 117) {
                             data.details.category = 'Penerbitan';
                         }
-                        if (data.details.category==116) {
+                        if (data.details.category == 116) {
                             data.details.category = 'Lainnya/Kategori tidak tersedia';
                         }
 
@@ -475,7 +497,7 @@
 
                         if (data.details.jobType == 'full-time') {
                             data.details.jobType = 'Full Time';
-                        } 
+                        }
 
                         if (data.details.jobType == 'contract') {
                             data.details.jobType = 'Contract';
