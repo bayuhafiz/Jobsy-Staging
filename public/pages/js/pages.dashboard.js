@@ -118,7 +118,6 @@
 
                 } else { // if no job post at all
                     $('#user-job-counter').hide();
-                    $('#user-job-table').hide();
                     $('#no-job-post').show('slow');
                 }
 

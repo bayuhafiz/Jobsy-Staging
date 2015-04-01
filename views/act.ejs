@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <% include ./partial/head %>
+
+  </head>
+  <body class="fixed-header menu-behind">
+
+<div class="row" style="height:100%;overflow: hidden;margin-right:0">
+    <div class="col-md-5" style="height:100%;padding:0 0">
+        <div style="display: table;height: 100%;width: 70%;position: relative;margin-left: auto;margin-right: auto;">
+            <div style=" display: table-cell;vertical-align: middle;">
+                <img src="assets/img/jobsy_logo_black.png" style="width: 120px;">
+                <br>
+                <br>
+                <p>Thank you for signing up. Theres just a few tiny things you need to do to get started</p>
+                <br>
+                <% if (actStatus == 'inactive') { %>
+                  <div class="row">
+                      <div class="col-md-2 col-sm-1 col-xs-2 icon">
+                          <i class="fa fa-times-circle-o fa-3x"></i>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8">
+                          <h4 style="font-weight:bold"><span class="hint-text bold">Step 1:</span> <span class="text-danger">Verify your account</span></h4>
+                          <span class="hint-text">We have sent you verification email. If you have not received it, click here.</span>
+                      </div>
+                  </div>
+                <% } else { %>
+                  <div class="row">
+                      <div class="col-md-2 col-sm-1 col-xs-2 icon">
+                          <i class="fa fa-check-circle-o fa-3x"></i>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8">
+                          <h4 style="font-weight:bold"><span class="hint-text bold">Step 1:</span> <span class="text-success">Done!</span></h4>
+                          <span class="hint-text">You have verified your account.</span>
+                      </div>
+                  </div>
+                <% } %>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-md-2 col-sm-1 col-xs-2 icon">
+                        <i class="fa fa-times-circle-o fa-3x"></i>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <h4 style="font-weight:bold"><span class="hint-text bold">Step 2:</span> <span class="text-danger">Create your first job</span></h4>
+                        <span class="hint-text">Don't worry, it's completely FREE!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7 wrapper" style="padding:0 0">
+        <div style="background:url(assets/img/example.png);width: 100%;height: 1000px;background-position: 50% 50%;background-size: cover;background-repeat: no-repeat;"></div>
+    </div>
+</div>
+
+ <!-- BEGIN VENDOR JS -->
+    <% include ./partial/modal %>
+
+    <% include ./script/act %>
+
+    <!-- END PAGE LEVEL JS -->
+
+  </body>
+</html>

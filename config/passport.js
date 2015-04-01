@@ -54,9 +54,6 @@ module.exports = function(passport) {
                 if (!user.validPassword(password))
                     return done(null, false, req.flash('error', 'Oops! Wrong password.'));
 
-                // if user is not activated yet
-                if (user.actStatus == 'inactive')
-                    return done(null, false, req.flash('error', 'You have to activate your account first. Check your email for activation instruction.'));
                 // all is well, return user
                 else
                     return done(null, user);
