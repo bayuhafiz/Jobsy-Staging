@@ -25,16 +25,23 @@ module.exports = function(app, passport) {
     });
 
     app.get('/home', function(req, res) {
-        var sess = req.session;
-        if (sess.id) {
+        if (req.user) {
             var user = req.user;
-            res.render('home.ejs', {
-                title: 'Homepage',
-                user: user,
-                success: req.flash('success'),
-                error: req.flash('error'),
-                info: req.flash('info')
-            });
+            if ((user.actStatus == 'inactive') || (user.initLogin == true)) {
+                res.render('act.ejs', {
+                    title: 'Activation',
+                    actStatus: user.actStatus,
+                    initLogin: user.initLogin
+                });
+            } else {
+                res.render('home.ejs', {
+                    title: 'Homepage',
+                    user: user,
+                    success: req.flash('success'),
+                    error: req.flash('error'),
+                    info: req.flash('info')
+                });
+            }
         } else {
             res.render('home.ejs', {
                 title: 'Homepage',
@@ -105,7 +112,7 @@ module.exports = function(app, passport) {
     }));
 
     // process the signup form
-    app.post('/signup', function(req, res, next) {
+    /*app.post('/signup', function(req, res, next) {
         async.waterfall([
             function(done) {
                 User.findOne({
@@ -122,8 +129,8 @@ module.exports = function(app, passport) {
                     });
                 });
 
-
             },
+
             function(token, done) {
                 var user = new User();
 
@@ -143,6 +150,7 @@ module.exports = function(app, passport) {
                     done(err, token, user);
                 });
             },
+
             function(token, user, done) {
                 var smtpTransport = nodemailer.createTransport({
                     service: 'Mailgun',
@@ -171,7 +179,13 @@ module.exports = function(app, passport) {
             res.redirect('/');
         });
 
-    });
+    });*/
+
+    app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect: '/dash', // redirect to the secure profile section
+        failureRedirect: '/', // redirect back to the signup page if there is an error
+        failureFlash: true // allow flash messages
+    }));
 
     // Get activate account
     app.get('/activate/:token', function(req, res) {
