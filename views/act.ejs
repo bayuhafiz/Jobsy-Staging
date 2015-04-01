@@ -253,9 +253,13 @@
 ==================================================================================================================== -->
 
 
- <!-- BEGIN VENDOR JS -->
+    <!-- BEGIN VENDOR JS -->
+    <% if (actStatus == 'inactive') { %>
+        <% include ./script/act %>
+    <% } else { %>
+        <% include ./script/act2 %>
+    <% } %>
 
-    <% include ./script/act %>
 
     <!-- END PAGE LEVEL JS -->
 
