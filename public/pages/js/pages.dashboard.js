@@ -75,12 +75,13 @@
 
                                     $.each(app, function(i) {
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right">' + app[i].email + '</span></h5>' +
+                                            '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-mail"></i> ' + app[i].email + '</span></h5>' +
                                             '<div class="cbp-ntcontent">' +
-                                            '<div>Phone: <span class="bold">' + app[i].phone + '</span></div>' +
-                                            '<div>Location: <span class="bold">' + app[i].location + '</span></div>' +
-                                            '<div>Cover letter: <span class="bold">' + app[i].coverLetter + '</span></div>' +
-                                            '<div>Resume File: <a class="btn btn-sm btn-success" href="/uploads/resume/' + app[i].resumeFile + '" target="_blank">Click to download</a></div>' +
+                                            '<div>Phone <span class="bold">' + app[i].phone + '</span></div>' +
+                                            '<div>Location <span class="bold">' + app[i].location + '</span></div>' +
+                                            '<div>Apply Date <span class="bold">' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></div>' +
+                                            '<div>Cover letter <span class="bold">' + app[i].coverLetter + '</span></div>' +
+                                            '<div>Resume File <a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div>' +
                                             '</div>' +
                                             '</li>';
                                     });
