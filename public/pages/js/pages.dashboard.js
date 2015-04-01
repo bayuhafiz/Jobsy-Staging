@@ -63,31 +63,34 @@
                             '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' <small>' + random + ' views & ' + data[i].app + ' applications</small><span class="pull-right"><div class="btn-group">' + badge + toolbox + '</div></span>' +
                             '</h3>';
 
-                        dataHtml += '<div class="cbp-ntcontent">' +
-                            '<p class="small">Date created is bla bla bla<br/>kjdsiaohdisoahdiao</p>' +
-                            '<ul class="cbp-ntsubaccordion">';
-
                         // Load application list
                         $.ajax({
                             dataType: "json",
                             url: "/api/job/apps/" + data[i]._id,
                             success: function(app) {
                                 if (app.length > 0) {
+                                    dataHtml += '<div class="cbp-ntcontent">' +
+                                        '<p class="small">Applications:</p>' +
+                                        '<ul class="cbp-ntsubaccordion">';
+
                                     $.each(app, function(i) {
-                                        // do something here
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h4 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + '</h4>' +
+                                            '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right">' + app[i].email + '</span></h5>' +
                                             '<div class="cbp-ntcontent">' +
-                                            '<p></p>' +
+                                            '<div>Phone: <span class="bold">' + app[i].phone + '</span></div>' +
+                                            '<div>Location: <span class="bold">' + app[i].location + '</span></div>' +
+                                            '<div>Cover letter: <span class="bold">' + app[i].coverLetter + '</span></div>' +
+                                            '<div>Resume File: <a class="btn btn-sm btn-success" href="/uploads/resume/' + app[i].resumeFile + '" target="_blank">Click to download</a></div>' +
                                             '</div>' +
                                             '</li>';
                                     });
                                 } else {
-                                    dataHtml += '<li>' +
-                                        '<h4 class="cbp-nttrigger">No applicants yet...</h4>' +
-                                        '</li>';
+                                    dataHtml += '<div class="cbp-ntcontent">' +
+                                        '<p class="small hint-text">No applications yet..</p>' +
+                                        '<ul class="cbp-ntsubaccordion">';
                                 }
-                            }
+                            },
+                            async: false
                         });
 
                         dataHtml += '</ul>' +
