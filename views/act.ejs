@@ -56,8 +56,200 @@
     </div>
 </div>
 
+<!-- ===============================================================================================================
+============================================ CREATE JOB POSTING FORM =============================================== -->
+
+<div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-userdashboard">
+        <div class="modal-content-wrapper">
+            <div class="modal-content outer" style="background: #FAFAFA;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                <div class="panel panel-transparent middle">
+                    <div class="panel-body">
+                        <div class="panel-heading" style="padding:0">
+                            <div class="panel-title" style="text-transform: none;">
+                                <img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="100" style="margin-top:25px; margin-bottom:25px;">
+                                <div class="col-sm-12" style="padding-left: 0;">
+                                    <p class="bold">CREATE A NEW JOB POSTING</p>
+                                    <p>Fill the following for to create a new job Listing Be as detailer as possible - this ensures quality of your candidates</p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                       
+                        <div id="myFormWizard">
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#tab1"><i class="fa fa-shopping-cart tab-icon"></i> <span>Company Profile</span></a>
+                                </li>
+                                <li class="">
+                                    <a data-toggle="tab" href="#tab2"><i class="fa fa-truck tab-icon"></i> <span>Job Details</span></a>
+                                </li>
+                            </ul>
+                            <br>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane active slide-left" id="tab1">
+                                    <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-group-default">
+                                                <label style="padding-bottom:10px;">Profile Picture</label>
+                                                <input type="file" class="form-control" id="createJobImg" name="file">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-group-default">
+                                                <label>Company Name</label>
+                                                <input type="text" name="companyName" placeholder="" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-group-default form-group-default-select2 required">
+                                                <label>Location</label>
+                                                <% include dropdown/location_create %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label>Description</label>
+                                            <div class="summernote-wrapper">
+                                                <textarea id="summernote1" name="description" class="description-text"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane slide-left" id="tab2">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Job Title</label>
+                                                <input type="text" class="form-control" name="jobTitle">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-group-default form-group-default-select2 required">
+                                                <label>Category</label>
+                                                <% include dropdown/category_create %>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-group-default form-group-default-select2 required">
+                                                <label>Job Type</label>
+                                                <select class="full-width" name="jobType" data-init-plugin="select2" required>
+                                                    <optgroup label="Position Type">
+                                                        <option selected=""></option>
+                                                        <option value="full-time">Full Time</option>
+                                                        <option value="contract">Contract</option>
+                                                        <option value="part-time">Part Time</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label>Job Scope <span class="hint-text small"></label>
+                                            <div class="summernote-wrapper">
+                                                <textarea id="summernote2" name="jobScope"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label>Requirements  <span class="hint-text small"></label>
+                                            <div class="summernote-wrapper">
+                                              <textarea id="summernote3" name="requirements"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <p>Salary : </p>
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <div class="row">
+                                                <div class="col-sm-2 col-xs-2"> 
+                                                    <select name="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
+                                                        <option value="USD">USD</option>
+                                                        <option value="IDR" selected="selected">IDR</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-10 col-xs-10">
+                                                    <div class="input-daterange input-group">
+                                                        <input name="salaryFrom" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control"/>
+                                                        <span class="input-group-addon">to</span>
+                                                        <input name="salaryTo" type="text" data-a-dec="," data-a-sep="." class="autonumeric input-sm form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="form-group salary-type">
+                                                <select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
+                                                    <option value="Monthly" selected="selected">Monthly</option>
+                                                    <option value="Annually">Annually</option>
+                                                    <option value="Daily">Daily</option>
+                                                    <option value="Hourly">Hourly</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <button class="btn btn-success" type="submit">Submit</button>
+                                    <button class="btn btn-default"><i class="pg-close"></i> Clear</button>
+                                    </form>
+                                </div>
+                                <br>
+                                <br>
+                                <ul class="pager wizard">
+                                    <li class="next">
+                                        <button class="btn btn-primary btn-cons btn-animated from-left fa fa-truck pull-right" type="button">
+                                            <span>Next</span>
+                                        </button>
+                                    </li>
+                                    <li class="next finish" style="display:none;">
+                                        <button class="btn btn-primary btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
+                                            <span>Finish</span>
+                                        </button>
+                                    </li>
+                                    <li class="previous first" style="display:none;">
+                                        <button class="btn btn-white btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
+                                            <span>First</span>
+                                        </button>
+                                    </li>
+                                    <li class="previous">
+                                        <button class="btn btn-white btn-cons pull-right" type="button">
+                                            <span>Previous</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ======================================= END OF CREATE JOB POSTING FORM =============================================
+==================================================================================================================== -->
+
+
  <!-- BEGIN VENDOR JS -->
-    <% include ./partial/modal %>
 
     <% include ./script/act %>
 
