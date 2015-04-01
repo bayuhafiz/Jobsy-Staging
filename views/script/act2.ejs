@@ -51,31 +51,38 @@
 
             // Read changes on company logo or input field
             $('#createJobImg').change(function(){
-                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x');
+                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#10cfbd');
                 $('#step2-text').removeClass().addClass('text-success').text('Way to go...').hide().show('slow');
                 $('#step2-subtext').text('Don\'t forget to hit Finish button once you are done.').hide().show('slow');
             });
 
+            $('#companyName').change(function(){
+                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#10cfbd');
+                $('#step2-text').removeClass().addClass('text-success').text('Way to go...').hide().show('slow');
+                $('#step2-subtext').text('Don\'t forget to hit Finish button once you are done.').hide().show('slow');
+            });
+
+
             $('#summernote1,#summernote2,#summernote3').summernote();
-            $('#myFormWizard').bootstrapWizard({
+            $('#myFormWizard3').bootstrapWizard({
                 onTabShow: function(tab, navigation, index) {
                     var $total = navigation.find('li').length;
                     var $current = index + 1;
 
                     // If it's the last tab then hide the last button and show the finish instead
                     if ($current >= $total) {
-                        $('#myFormWizard').find('.pager .next').hide();
-                        $('#myFormWizard').find('.pager .finish').show();
-                        $('#myFormWizard').find('.pager .finish').removeClass('disabled');
+                        $('#myFormWizard3').find('.pager .next').hide();
+                        $('#myFormWizard3').find('.pager .finish').show();
+                        $('#myFormWizard3').find('.pager .finish').removeClass('disabled');
                     } else {
-                        $('#myFormWizard').find('.pager .next').show();
-                        $('#myFormWizard').find('.pager .finish').hide();
+                        $('#myFormWizard3').find('.pager .next').show();
+                        $('#myFormWizard3').find('.pager .finish').hide();
                     }
 
                     var li = navigation.find('li.active');
 
-                    var btnNext = $('#myFormWizard').find('.pager .next').find('button');
-                    var btnPrev = $('#myFormWizard').find('.pager .previous').find('button');
+                    var btnNext = $('#myFormWizard3').find('.pager .next').find('button');
+                    var btnPrev = $('#myFormWizard3').find('.pager .previous').find('button');
 
                     // remove fontAwesome icon classes
                     function removeIcons(btn) {

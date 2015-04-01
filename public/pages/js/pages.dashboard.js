@@ -46,15 +46,15 @@
 
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
-                            badge = '<span class="btn btn-sm btn-danger">DELETED</span>';
+                            badge = '<span class="btn btn-sm btn-danger" style="cursor:default">DELETED</span>';
                             toolbox = '<div class="btn-group"><a href="/job/del/' + data[i]._id + '" id="restoreButton" class="btn btn-sm btn-white"><i class="fa fa-reply"></i></a></div>';
                         } else if (data[i].status == 'paused') {
                             pauCounter = pauCounter + 1; // Count paused job
-                            badge = '<span class="btn btn-sm btn-warning">PAUSED</span>';
+                            badge = '<span class="btn btn-sm btn-warning" style="cursor:default">PAUSED</span>';
                             toolbox = '<div class="btn-group"><a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a></div>';
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
-                            badge = '<span class="btn btn-sm btn-success">PUBLISHED</span>';
+                            badge = '<span class="btn btn-sm btn-success" style="cursor:default">PUBLISHED</span>';
                             toolbox = '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a>';
                         }
 
@@ -767,7 +767,9 @@
                 }
             }
         });
+        
 
+        
         $('#myFormWizard2').bootstrapWizard({
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
