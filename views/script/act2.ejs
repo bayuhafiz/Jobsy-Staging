@@ -49,6 +49,13 @@
                 keyboard: false
             })
 
+            // Read changes on company logo or input field
+            $('#createJobImg').change(function(){
+                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x');
+                $('#step2-text').removeClass().addClass('text-success').text('Way to go...').hide().show('slow');
+                $('#step2-subtext').text('Don\'t forget to hit Finish button once you are done.').hide().show('slow');
+            });
+
             $('#summernote1,#summernote2,#summernote3').summernote();
             $('#myFormWizard').bootstrapWizard({
                 onTabShow: function(tab, navigation, index) {

@@ -52,11 +52,11 @@
                 <br>
                 <div class="row">
                     <div class="col-md-2 col-sm-1 col-xs-2 icon">
-                        <i class="fa fa-times-circle-o fa-3x"></i>
+                        <i class="fa fa-times-circle-o fa-3x" id="step2-icon"></i>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8">
-                        <h4 style="font-weight:bold"><span class="hint-text bold">Step 2:</span> <span class="text-danger">Create your first job</span></h4>
-                        <span class="hint-text">Don't worry, it's completely FREE!</span>
+                        <h4 style="font-weight:bold"><span class="hint-text bold">Step 2:</span> <span class="text-danger" id="step2-text">Create your first job</span></h4>
+                        <span class="hint-text" id="step2-subtext">Don't worry, it's completely FREE!</span>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,11 @@
     <div class="col-md-7 wrapper" style="padding:0 0">
         <div style="background:url(assets/img/scooter.jpg);width: 100%;height: 1000px;background-position: 65% 50%;background-size: cover;background-repeat: no-repeat;"></div>
     </div>
-    <!-- ===============================================================================================================
+
+
+
+
+<!-- ===============================================================================================================
 ============================================ CREATE JOB POSTING FORM =============================================== -->
 <div class="col-md-7 wrapper" style="padding:0 0">
 <div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
@@ -105,7 +109,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group form-group-default">
-                                                <label style="padding-bottom:10px;">Profile Picture</label>
+                                                <label style="padding-bottom:10px;">Company Logo</label>
                                                 <input type="file" class="form-control" id="createJobImg" name="file">
                                             </div>
                                         </div>
@@ -129,7 +133,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>Description</label>
+                                            <label>Company Profile
+                                            </label>
                                             <div class="summernote-wrapper">
                                                 <textarea id="summernote1" name="description" class="description-text"></textarea>
                                             </div>
