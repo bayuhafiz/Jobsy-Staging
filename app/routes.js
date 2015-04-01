@@ -458,6 +458,12 @@ module.exports = function(app, passport) {
                 }
             },
             function(src, token, done) {
+                if (req.user.initLogin == true) {
+                    var init_status = false;
+                } else {
+                    var init_status = true;
+                }
+
                 var job = new Job({
                     profile: {
                         logo: src,
@@ -480,7 +486,8 @@ module.exports = function(app, passport) {
                     status: 'published',
                     createdAt: Date.now(),
                     updatedAt: Date.now(),
-                    email: req.user.email
+                    email: req.user.email,
+                    initLogin: init_status
                 });
 
                 job.save(function(err) {
