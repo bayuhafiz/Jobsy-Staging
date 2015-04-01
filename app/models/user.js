@@ -22,6 +22,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    initLogin: {
+        type: Boolean,
+        default: true
+    },
     actStatus: {
         type: String,
         default: ''

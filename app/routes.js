@@ -48,25 +48,33 @@ module.exports = function(app, passport) {
 
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
-        Job.find({
-            email: req.user.email
-        }, null, {
-            sort: {
-                createdAt: -1
-            }
-        }, function(err, jobs) {
-            var user = req.user;
-            res.render('dash.ejs', {
-                title: 'Dashboard',
-                user: user,
-                success: req.flash('success'),
-                error: req.flash('error'),
-                info: req.flash('info')
+        var user = req.user;
+        if ((user.actStatus == 'inactive') || (user.initLogin == true)) { // If user not activated or has no post yet
+            res.render('act.ejs', {
+                title: 'Activation',
+                actStatus: user.actStatus,
+                initLogin: user.initLogin
             });
-        });
+        } else {
+            Job.find({
+                email: req.user.email
+            }, null, {
+                sort: {
+                    createdAt: -1
+                }
+            }, function(err, jobs) {
+                res.render('dash.ejs', {
+                    title: 'Dashboard',
+                    user: user,
+                    success: req.flash('success'),
+                    error: req.flash('error'),
+                    info: req.flash('info')
+                });
+            });
+        }
     });
 
-    app.post('/s/', function(req, res) {
+    /*app.post('/s/', function(req, res) {
         client.search({
             q: 'pants'
         }).then(function(body) {
@@ -74,7 +82,8 @@ module.exports = function(app, passport) {
         }, function(error) {
             console.trace(error.message);
         });
-    });
+    }); */
+
 
     // =============================================================================
     // END OF MAIN PAGES ROUTES ====================================================
@@ -163,6 +172,7 @@ module.exports = function(app, passport) {
 
     });
 
+    // Get activate account
     app.get('/activate/:token', function(req, res) {
         User
             .findOne({
@@ -189,8 +199,6 @@ module.exports = function(app, passport) {
                         //req.flash('success', { msg: 'Your account has been activated. You can now login using your email and password' });
                         req.logIn(user, function(err) {
                             if (err) return next(err);
-                            req.flash('success', 'Congratulation! Your account has been activated.');
-                            // res.redirect(req.session.returnTo || '/');
                             res.redirect('/dash');
                         });
                     }
@@ -957,7 +965,9 @@ module.exports = function(app, passport) {
         if (cond == 'hide') {
             var filter = {
                 $and: [{
-                    'status': { $not: /deleted/ }
+                    'status': {
+                        $not: /deleted/
+                    }
                 }, {
                     'email': req.params.email
                 }]
