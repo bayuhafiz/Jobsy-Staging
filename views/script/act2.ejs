@@ -42,22 +42,47 @@
 
     <script>
         $(document).ready(function(){
+            /// disable previous btn func
+            if ($('.firstTab').hasClass('active')) {
+                $('.btn-previous').hide();
+            };
+
+            $('.firstTab,.btn-previous').click(function () {
+               $('.btn-previous').hide();
+            });
+            $('.secondTab,.btn-next').click(function () {
+               $('.btn-previous').show();
+            });
+
             // Show create job modal
             $('#PostNewJob').modal({
                 show: true,
                 backdrop: false,
-                keyboard: false
-            })
+                keyboard: false,
+            });
+
+            // Input masking
+            $("#salary-from").autoNumeric('init', {
+                aSep: '.',
+                aDec: ',',
+                mDec: '0'
+            });
+            $("#salary-to").autoNumeric('init', {
+                aSep: '.',
+                aDec: ',',
+                mDec: '0'
+            });
+           
 
             // Read changes on company logo or input field
             $('#createJobImg').change(function(){
-                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#10cfbd');
+                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#6DC77A');
                 $('#step2-text').removeClass().addClass('text-success').text('Way to go...').hide().show('slow');
                 $('#step2-subtext').text('Don\'t forget to hit Finish button once you are done.').hide().show('slow');
             });
 
             $('#companyName').change(function(){
-                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#10cfbd');
+                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#6DC77A');
                 $('#step2-text').removeClass().addClass('text-success').text('Way to go...').hide().show('slow');
                 $('#step2-subtext').text('Don\'t forget to hit Finish button once you are done.').hide().show('slow');
             });

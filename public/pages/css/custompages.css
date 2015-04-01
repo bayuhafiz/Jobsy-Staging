@@ -212,7 +212,7 @@ textarea{resize:none;}
     .email-wrapper .email-list .email-refresh{display: none;}
 
     .page-container{position: initial;z-index: initial}
-
+    
 }
 
 @media(max-width: 1200px){

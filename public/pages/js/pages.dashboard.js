@@ -769,7 +769,18 @@
         });
         
 
-        
+        /// disable previous btn func
+            if ($('.firstTab').hasClass('active')) {
+                $('.btn-previous').hide();
+            };
+
+            $('.firstTab,.btn-previous').click(function () {
+               $('.btn-previous').hide();
+            });
+            $('.secondTab,.btn-next').click(function () {
+               $('.btn-previous').show();
+            });
+
         $('#myFormWizard2').bootstrapWizard({
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
