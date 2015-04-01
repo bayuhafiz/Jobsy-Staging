@@ -85,6 +85,9 @@
                 $('#step2-text').removeClass().css('color', '#6DC77A').hide().show('slow');
             });
 
+            // Validate the form
+            $('#form-create-job').validate();
+
 
             $('#summernote1,#summernote2,#summernote3').summernote();
             $('#myFormWizard3').bootstrapWizard({
