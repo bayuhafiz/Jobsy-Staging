@@ -86,6 +86,12 @@
 
     <!-- END MODAL -->
 
+    <% if (user) { %>
+      <input type="hidden" id="hidden-logo" value="<%= user.initCompany.logo %>" />
+      <input type="hidden" id="hidden-name" value="<%= user.initCompany.name %>" />
+      <input type="hidden" id="hidden-location" value="<%= user.initCompany.location %>" />
+      <input type="hidden" id="hidden-description" value="<%= user.initCompany.description %>" />
+    <% } %>
 
     <!-- BEGIN VENDOR JS -->
 

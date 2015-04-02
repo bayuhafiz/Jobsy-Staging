@@ -201,41 +201,85 @@
                             
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <div class="tab-pane active slide-left" id="tab1">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group form-group-default">
-                                                <label style="padding-bottom:10px;">Profile Picture</label>
-                                                <input type="file" class="form-control" id="createJobImg" name="file">
+
+                                <!-- Tab #1 -->
+                                <% if (user) { %>
+                                <% if (initLogin == true) { %>
+                                    <div class="tab-pane active slide-left" id="tab1">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group form-group-default">
+                                                    <label style="padding-bottom:10px;">Profile Picture</label>
+                                                    <input type="file" class="form-control" id="createJobImg" name="file">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group form-group-default">
+                                                    <label>Company Name</label>
+                                                    <input type="text" name="companyName" placeholder="" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group form-group-default form-group-default-select2 required">
+                                                    <label>Location</label>
+                                                    <% include ../dropdown/location_create %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label>Description</label>
+                                                <div class="summernote-wrapper">
+                                                    <textarea id="summernote1" name="description" class="description-text"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group form-group-default">
-                                                <label>Company Name</label>
-                                                <input type="text" name="companyName" placeholder="" class="form-control" required>
+                                <% } else if (initLogin == false) { %>
+                                    <div class="tab-pane active slide-left" id="tab1">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group form-group-default">
+                                                    <label style="padding-bottom:10px;">Profile Picture</label>
+                                                    <input type="file" class="form-control" id="createJobImg" name="file" value="<%= user.initCompany.logo %>">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" src="uploads/logo/<%= user.initCompany.logo %>">
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group form-group-default form-group-default-select2 required">
-                                                <label>Location</label>
-                                                <% include ../dropdown/location_create %>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group form-group-default">
+                                                    <label>Company Name</label>
+                                                    <input type="text" name="companyName" value="<%= user.initCompany.name %>" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group form-group-default form-group-default-select2 required">
+                                                    <label>Location</label>
+                                                    <% include ../dropdown/location_create %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label>Description</label>
+                                                <div class="summernote-wrapper">
+                                                    <textarea id="summernote1" name="description" class="description-text"><%= user.initCompany.description %></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label>Description</label>
-                                            <div class="summernote-wrapper">
-                                                <textarea id="summernote1" name="description" class="description-text"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <% } %>
+                                <% } %>
+
+                                <!-- Tab #2 -->
                                 <div class="tab-pane slide-left" id="tab2">
                                     <div class="row">
                                         <div class="col-sm-12">
