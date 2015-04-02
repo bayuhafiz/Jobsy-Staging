@@ -294,7 +294,7 @@
                     $('.clear-search').css('display', 'inline'); // add clear icon
                 }
                 // run the load job list function
-                loadJobList('/api/jobs/s/' + q);
+                //loadJobList('/api/jobs/s/' + q);
             }*/
             var g = q.toLowerCase();
 
