@@ -607,7 +607,7 @@
         });
 
 
-
+        // Summernote init
         $('#summernote1,#summernote2,#summernote3').summernote();
 
         // Forms validation
@@ -811,6 +811,10 @@
         $('.secondTab,.btn-next').click(function() {
             $('.btn-previous').show();
         });
+
+        if($('.secondTab').hasClass('active')){
+            $('.btn-previous').show();
+        }
 
 
         $('#myFormWizard2').bootstrapWizard({

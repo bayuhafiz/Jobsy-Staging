@@ -242,10 +242,17 @@
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    function stripHTML(string) {
+        var temp = string;
+        var $temp = $(temp).find('span,p').contents().unwrap().end().end();
+        return $temp;
+    }
+
+
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-      
+
 
 
         // run the load job list function
@@ -258,7 +265,7 @@
         if (initLogin == 'false') {
             var logo = $('#hidden-logo').val();
             $('#savedLogo').val(logo);
-            
+
             var location = $('#hidden-location').val();
             $('#create-job-location-dropdown').select2('val', location);
 
@@ -310,7 +317,7 @@
             var g = q.toLowerCase();
 
             $("li.item div.details-list-box div.inline").each(function() {
-                var s = $(this).text().toLowerCase();  
+                var s = $(this).text().toLowerCase();
                 $(this).closest('li.item')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
             });
 
@@ -834,7 +841,9 @@
             }
         });
 
+        // Summernote init
         $('#summernote1,#summernote2,#summernote3').summernote();
+
         $('#item-list').jscroll({ // Infinite scroll trigger
             loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
             padding: 20,
@@ -955,6 +964,9 @@
         $('.secondTab,.btn-next').click(function() {
             $('.btn-previous').show();
         });
+        if($('.secondTab').hasClass('active')){
+            $('.btn-previous').show();
+        }
 
 
         $('#myFormWizard').bootstrapWizard({
