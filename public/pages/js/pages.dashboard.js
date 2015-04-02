@@ -150,6 +150,14 @@
 
         showJobs('/api/jobs/' + uEmail + '/hide');
 
+        // auto-focus Tab #2
+        if ($('#hidden-name').val() != '') {
+            $('#PostNewJob div.panel .firstTab').removeClass('active')
+            $('#PostNewJob div.panel .secondTab').addClass('active')
+            $('#PostNewJob div.panel #tab1').removeClass('active')
+            $('#PostNewJob div.panel #tab2').addClass('active')
+        }
+
         // 'show deleted job' radio button action
         $("input:radio[name=hide-radio]").click(function() {
             var value = $(this).val();
@@ -596,7 +604,7 @@
         $('#summernote1,#summernote2,#summernote3').summernote();
 
         // Forms validation
-        $('#form-create').validate();
+        $('#form-create-job').validate();
         $('#form-edit').validate();
         $('#form-register').validate();
         $('#applyForm').validate();
