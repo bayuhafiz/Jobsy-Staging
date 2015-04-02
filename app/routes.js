@@ -403,8 +403,6 @@ module.exports = function(app, passport) {
                 }
             },
             function(src, token, done) {
-
-
                 User.findById(req.user.id, function(err, user) {
                     if (err) return next(err);
 
@@ -412,8 +410,14 @@ module.exports = function(app, passport) {
                     if (init_status == true) {
                         var init_status = false;
                     }
-
+                    
                     user.initLogin = init_status;
+                    user.initCompany = {
+                        logo: src,
+                        name: req.body.companyName,
+                        location: req.body.location,
+                        description: req.body.description
+                    };
 
                     user.save(function(err) {
                         if (err)

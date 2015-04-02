@@ -66,6 +66,10 @@ var userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    initPost: {
+        type: Boolean,
+        default: true
+    },
     initCompany: {
         logo: {
             type: String,
