@@ -77,15 +77,16 @@
             // Read changes on company logo or input field
             $('#createJobImg').change(function(){
                 $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#6DC77A');
-                $('#step2-text').removeClass().addClass('text-success').text('Way to go...').hide().show('slow');
-                $('#step2-subtext').text('Don\'t forget to hit Finish button once you are done.').hide().show('slow');
+                $('#step2-text').removeClass().css('color', '#6DC77A').hide().show('slow');
             });
 
             $('#companyName').change(function(){
                 $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#6DC77A');
-                $('#step2-text').removeClass().addClass('text-success').text('Way to go...').hide().show('slow');
-                $('#step2-subtext').text('Don\'t forget to hit Finish button once you are done.').hide().show('slow');
+                $('#step2-text').removeClass().css('color', '#6DC77A').hide().show('slow');
             });
+
+            // Validate the form
+            $('#form-create-job').validate();
 
 
             $('#summernote1,#summernote2,#summernote3').summernote();

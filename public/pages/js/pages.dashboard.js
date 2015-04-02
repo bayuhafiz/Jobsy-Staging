@@ -59,14 +59,14 @@
                         }
 
                         if (data[i].newApp > 0) {
-                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + ' un-reviewed</font></span>';
+                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + '</font></span>';
                         } else {
                             var newApp = '';
                         }
 
                         // Generate datas
                         dataHtml += '<li data-id="' + data[i]._id + '">' +
-                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' <small>' + random + ' views & ' + data[i].app + ' applications ' + newApp + '</small><span class="pull-right"><div class="btn-group">' + badge + toolbox + '</div></span>' +
+                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' <small>' + data[i].app + ' applications ' + newApp + '</small><span class="pull-right"><div class="btn-group">' + badge + toolbox + '</div></span>' +
                             '</h3>';
 
                         // Load application list
@@ -76,9 +76,9 @@
                             success: function(app) {
                                 if (app.length > 0) {
                                     if (app[i].read == false) {
-                                        var appBadge = ' <i class="fa fa-cross-circle-o"></i>';
+                                        var appBadge = ' <span class="badge badge-danger">un-reviewed</span>';
                                     } else {
-                                        var appBadge = ' <i class="fa fa-check-circle-o"></i>';
+                                        var appBadge = ' <span class="badge badge-default">reviewed</span>';
                                     }
 
                                     dataHtml += '<div class="cbp-ntcontent">' +
@@ -87,13 +87,13 @@
 
                                     $.each(app, function(i) {
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + appBadge + '<span class="pull-right"><i class="pg-mail"></i> ' + app[i].email + '</span></h5>' +
+                                            '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + ' ' + appBadge + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></h5>' +
                                             '<div class="cbp-ntcontent">' +
                                             '<div class="panel panel-default">' +
                                             '<div class="panel-heading separator">Profile</div><div class="panel-body">' +
+                                            '<div>Email <span class="bold">' + app[i].email + '</span></div>' +
                                             '<div>Phone <span class="bold">' + app[i].phone + '</span></div>' +
                                             '<div>Location <span class="bold">' + app[i].location + '</span></div>' +
-                                            '<div>Apply Date <span class="bold">' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></div>' +
                                             '</div>' +
                                             '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold">' + app[i].coverLetter + '</div>' +
                                             '<div class="panel-heading separator">Resume File</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +
