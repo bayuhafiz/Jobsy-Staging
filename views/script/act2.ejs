@@ -42,6 +42,7 @@
 
     <script>
         $(document).ready(function(){
+            $('.page-activation').fadeOut('fast').fadeIn('slow');
             /// disable previous btn func
             if ($('.firstTab').hasClass('active')) {
                 $('.btn-previous').hide();
@@ -90,6 +91,7 @@
 
 
             $('#summernote1,#summernote2,#summernote3').summernote();
+            
             $('#myFormWizard3').bootstrapWizard({
                 onTabShow: function(tab, navigation, index) {
                     var $total = navigation.find('li').length;
