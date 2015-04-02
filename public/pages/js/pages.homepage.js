@@ -255,7 +255,7 @@
                 // remove clear icon
                 $(".searchJob").val('');
                 $('.clear-search').css('display', 'none');
-                //loadJobList('/api/jobs');
+                loadJobList('/api/jobs');
                 //$(this).css('display', 'none'); 
             }
         });
@@ -271,6 +271,7 @@
                 $(this).attr('placeholder', 'Search here..');
             }
         });
+
         // main search input fn
         $(".searchJob").on("keyup", function() {
             var q = $(this).val();
