@@ -186,9 +186,8 @@
                             </div>
                         </div>
                         <br>
-                       
+                        <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
                         <div id="myFormWizard">
-
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator">
                                 <li class="active firstTab">
@@ -199,7 +198,7 @@
                                 </li>
                             </ul>
                             <br>
-                            <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                            
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active slide-left" id="tab1">
@@ -342,10 +341,8 @@
                                         </li>
                                     </ul>
                             </div>
-                            </form>
-
                         </div>
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -623,22 +620,22 @@
                                 </div>
                             </div>
                             <br>
+                            <form id="form-edit" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
                             <div id="myFormWizard2">
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator">
                                     <li class="active firstTab">
-                                        <a data-toggle="tab" href="#tab3"><i class="fa fa-building-o"></i> <span>Company Profile</span></a>
+                                        <a data-toggle="tab" href="#tab5"><i class="fa fa-building-o"></i> <span>Company Profile</span></a>
                                     </li>
                                     <li class="secondTab">
-                                        <a data-toggle="tab" href="#tab4"><i class="fa fa-info-circle"></i> <span>Job Details</span></a>
+                                        <a data-toggle="tab" href="#tab6"><i class="fa fa-info-circle"></i> <span>Job Details</span></a>
                                     </li>
                                 </ul>
-                                <br>
                                 <!-- Tab panes -->
-                                <form id="form-edit" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                                <br>
                                 <div class="tab-content">
                                     
-                                        <div class="tab-pane slide-left active" id="tab3">
+                                        <div class="tab-pane active slide-left" id="tab5">
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-group-default">
@@ -674,7 +671,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane slide-left" id="tab4">
+                                        <div class="tab-pane slide-left" id="tab6">
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group form-group-default">
@@ -714,7 +711,7 @@
                                             <br />
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <label>Requirements <span class="hint-text small"></label>
+                                                    <label>Requirements <span class="hint-text small"></span></label>
                                                     <div class="summernote-wrapper">
                                                       <textarea id="summernote3" name="requirements" class="requirements-text" style="height: 200px;"></textarea>
                                                     </div>
@@ -772,9 +769,9 @@
                                     </ul>
                                    
                                 </div>
-                                </form>
+                                
                             </div>
-
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -146,6 +146,8 @@
                                     emailOpened.find('.job_scope').html(jobScopeText);
                                     emailOpened.find('.requirements').html(requirementsText);
 
+
+
                                     emailOpened.find('#opened-thumbnail').html('<img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger');
 
                                     $('.no-email').hide();
