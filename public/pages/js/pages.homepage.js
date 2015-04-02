@@ -138,11 +138,10 @@
                                     emailOpened.find('.profile .name').text(data.profile.name);
                                     emailOpened.find('.profile .job-title').text(data.details.jobTitle);
                                     emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
-                                    emailOpened.find('.company_overview p').text(data.profile.description);
+                                    emailOpened.find('.company_overview').html(data.profile.description);
                                     emailOpened.find('.details .salary .salary-from').text(data.details.currency.toUpperCase() + ' ' + data.details.salaryFrom);
                                     emailOpened.find('.details .salary .salary-to').text(data.details.salaryTo);
                                     emailOpened.find('.details .salary-type').text('/ ' + data.details.salaryType);
-                                    emailOpened.find('.company_overview').html(data.profile.description);
                                     emailOpened.find('.job_scope').html(jobScopeText);
                                     emailOpened.find('.requirements').html(requirementsText);
 
@@ -152,6 +151,7 @@
 
                                     $('.no-email').hide();
                                     $('.actions-dropdown').toggle();
+                                    $('.email-content').hide().fadeIn();
                                     $('.actions, .email-content-wrapper').show();
 
                                     if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
@@ -379,6 +379,7 @@
 
                     $('.no-email').hide();
                     $('.actions-dropdown').toggle();
+                    $('.email-content').hide().fadeIn();
                     $('.actions, .email-content-wrapper').show();
                     $('.email-content-wrapper .email-content').fadeIn();
                     if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
