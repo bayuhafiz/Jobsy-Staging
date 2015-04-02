@@ -181,7 +181,7 @@ textarea{resize:none;}
     .company_overview p,.job_scope p,.requirements p{line-height: 20px;}
     .job-title-hover{display: none;}
     .email-wrapper .email-list .item .datetime{opacity: 1!important}
-
+    ul#user-job-list li h3.cbp-nttrigger span.pull-right{display: none;}
 }
 
 

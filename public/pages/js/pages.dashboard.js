@@ -651,11 +651,12 @@
 
         // SEARCH APPLICANT FUNCTION
         $(".searchApplicant").on("keyup", function() {
+
             var g = $(this).val().toLowerCase();
 
-            $("tr.applyDetail td span.job-applicant").each(function() {
+            $("li h3.cbp-nttrigger").each(function() {
                 var s = $(this).text().toLowerCase();
-                $(this).closest('tr.applyDetail')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+                $(this).closest('li')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
             });
         });
 

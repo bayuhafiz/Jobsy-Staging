@@ -245,6 +245,8 @@
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
+      
+
 
         // run the load job list function
         loadJobList('/api/jobs');
@@ -295,7 +297,7 @@
         // main search input fn
         $(".searchJob").on("keyup", function() {
             var q = $(this).val();
-            if (q == '') {
+            /*if (q == '') {
                 $('.clear-search').css('display', 'none'); // remove clear icon
                 loadJobList('/api/jobs');
             } else {
@@ -303,8 +305,14 @@
                     $('.clear-search').css('display', 'inline'); // add clear icon
                 }
                 // run the load job list function
-                loadJobList('/api/jobs/s/' + q);
-            }
+                //loadJobList('/api/jobs/s/' + q);
+            }*/
+            var g = q.toLowerCase();
+
+            $("li.item div.details-list-box div.inline").each(function() {
+                var s = $(this).text().toLowerCase();  
+                $(this).closest('li.item')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+            });
 
         });
 
