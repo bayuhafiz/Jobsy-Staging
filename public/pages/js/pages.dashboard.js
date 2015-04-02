@@ -147,16 +147,23 @@
 
         /////////// initiate user jobs table !!! ////////////
         var uEmail = $('#user-email').val(); // Get logged user email
-
         showJobs('/api/jobs/' + uEmail + '/hide');
 
-        // auto-focus Tab #2
-        if ($('#hidden-name').val() != '') {
-            $('#PostNewJob div.panel .firstTab').removeClass('active')
-            $('#PostNewJob div.panel .secondTab').addClass('active')
-            $('#PostNewJob div.panel #tab1').removeClass('active')
-            $('#PostNewJob div.panel #tab2').addClass('active')
+        // Create job form logic
+        var initLogin = $('#init-login').val();
+        if (initLogin == 'false') {
+            var logo = $('#hidden-logo').val();
+            $('#savedLogo').val(logo);
+
+            var location = $('#hidden-location').val();
+            $('#create-job-location-dropdown').select2('val', location);
+
+            $('#PostNewJob div.panel .firstTab').removeClass('active');
+            $('#PostNewJob div.panel .secondTab').addClass('active');
+            $('#PostNewJob div.panel #tab1').removeClass('active');
+            $('#PostNewJob div.panel #tab2').addClass('active');
         }
+
 
         // 'show deleted job' radio button action
         $("input:radio[name=hide-radio]").click(function() {
@@ -793,16 +800,16 @@
 
 
         /// disable previous btn func
-            if ($('.firstTab').hasClass('active')) {
-                $('.btn-previous').hide();
-            };
+        if ($('.firstTab').hasClass('active')) {
+            $('.btn-previous').hide();
+        };
 
-            $('.firstTab,.btn-previous').click(function () {
-               $('.btn-previous').hide();
-            });
-            $('.secondTab,.btn-next').click(function () {
-               $('.btn-previous').show();
-            });
+        $('.firstTab,.btn-previous').click(function() {
+            $('.btn-previous').hide();
+        });
+        $('.secondTab,.btn-next').click(function() {
+            $('.btn-previous').show();
+        });
 
 
         $('#myFormWizard2').bootstrapWizard({
@@ -856,7 +863,7 @@
                 }
             }
         });
-    
+
 
 
     });

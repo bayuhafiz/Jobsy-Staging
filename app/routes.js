@@ -385,13 +385,14 @@ module.exports = function(app, passport) {
                 if (req.files.file) {
                     var tmpPath = req.files.file.path;
                     var targetPath = path.resolve(filePath);
-
+                    // Begin upload proces
                     if (path.extname(req.files.file.name).toLowerCase() == '.png' || path.extname(req.files.file.name).toLowerCase() == '.jpg') {
                         fs.rename(tmpPath, targetPath, function(err) {
                             if (err) {
                                 req.flash('error', err);
                                 res.redirect('back');
                             }
+                            console.log('Using NEW logo >>> ' + database_filepath);
                             done(err, database_filepath, token);
                         });
                     } else {
@@ -400,8 +401,10 @@ module.exports = function(app, passport) {
                             res.redirect('/dash');
                         });
                     }
-                } else {
-                    done(false, '', token);
+                } else { // if no new logo inserted
+                    database_filepath = req.body.savedLogo;
+                    console.log('Using PREVIOUS logo >>> ' + database_filepath);
+                    done(false, database_filepath, token);
                 }
             },
             function(src, token, done) {
@@ -410,7 +413,7 @@ module.exports = function(app, passport) {
 
                     var init_status = req.user.initLogin;
                     if (init_status == true) {
-                        var init_status = false;
+                        init_status = false;
                     }
                     
                     user.initLogin = init_status;

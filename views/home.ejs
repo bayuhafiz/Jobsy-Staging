@@ -122,6 +122,7 @@
 
     <% if (user) { %>
       <input type="hidden" id="user_email" value="<%= user.email %>">
+      <input type="hidden" id="init-login" value="<%= initLogin %>" />
       <input type="hidden" id="hidden-logo" value="<%= user.initCompany.logo %>" />
       <input type="hidden" id="hidden-name" value="<%= user.initCompany.name %>" />
       <input type="hidden" id="hidden-location" value="<%= user.initCompany.location %>" />

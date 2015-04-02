@@ -249,13 +249,24 @@
         // run the load job list function
         loadJobList('/api/jobs');
 
-        // auto-focus Tab #2
-        if ($('#hidden-name').val() != '') {
-            $('#PostNewJob div.panel .firstTab').removeClass('active')
-            $('#PostNewJob div.panel .secondTab').addClass('active')
-            $('#PostNewJob div.panel #tab1').removeClass('active')
-            $('#PostNewJob div.panel #tab2').addClass('active')
+
+
+        // Create job form logic
+        var initLogin = $('#init-login').val();
+        if (initLogin == 'false') {
+            var logo = $('#hidden-logo').val();
+            $('#savedLogo').val(logo);
+            
+            var location = $('#hidden-location').val();
+            $('#create-job-location-dropdown').select2('val', location);
+
+            $('#PostNewJob div.panel .firstTab').removeClass('active');
+            $('#PostNewJob div.panel .secondTab').addClass('active');
+            $('#PostNewJob div.panel #tab1').removeClass('active');
+            $('#PostNewJob div.panel #tab2').addClass('active');
         }
+
+
 
         // SEARCH INPUT ACTIONS //////
 
@@ -297,6 +308,10 @@
 
         });
 
+        // END OF SEARCH INPUT ACTIONS //////
+
+
+
 
         // DROPDOWN FILTERS ACTION
         $("select.job-filter-dropdown").on("change", function() {
@@ -320,6 +335,7 @@
             // run the load job list function
             loadJobList('/api/jobs/' + filters);
         });
+
 
 
         // CLICK ON JOB LIST ITEM ACTION
@@ -817,7 +833,7 @@
             contentSelector: 'li'
         });
 
-        $('#form-create').validate();
+        $('#form-create-job').validate();
         $('#form-edit').validate();
         $('#form-register').validate();
         $('#applyForm').validate();
