@@ -841,8 +841,10 @@
             }
         });
 
-        // Summernote init
-        $('#summernote1,#summernote2,#summernote3').summernote();
+        // CKEditor configuration
+        $('textarea').ckeditor({
+            language: 'en'
+        });
 
         $('#item-list').jscroll({ // Infinite scroll trigger
             loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',

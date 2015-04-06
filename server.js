@@ -6,7 +6,7 @@ var pmx = require('pmx');
 // get all the tools we need
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 1234;
+var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -85,4 +85,4 @@ app.use(pmx.expressErrorHandler());
 
 // launch ======================================================================
 app.listen(port);
-console.log('JOBSY is running on port ' + port + ' on development mode...');
+console.log('JOBSY is running on port ' + port + ' on staging mode...');
