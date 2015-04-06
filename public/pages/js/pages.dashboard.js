@@ -341,7 +341,9 @@
                         $('#EditJob div.panel form#form-edit select#location option:selected').val();
 
 
-                        $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
+                        //$('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
+                        CKEDITOR.instances['editor1'].setData(data.profile.description)
+
                         $('input.jobTitle').attr('value', data.details.jobTitle);
 
 
@@ -620,19 +622,21 @@
         });
 
 
-        $("#editJobImg").change(function() {
-            readURL(this);
-        });
+        // CKEditor configuration
+        CKEDITOR.inline('editor1');
+        CKEDITOR.inline('editor2');
+        CKEDITOR.inline('editor3');
+        CKEDITOR.inline('editor1-edit');
+        CKEDITOR.inline('editor2-edit');
+        CKEDITOR.inline('editor3-edit');
 
-
-        // Summernote init
-        $('#summernote1,#summernote2,#summernote3').summernote();
 
         // Forms validation
         $('#form-create-job').validate();
         $('#form-edit').validate();
         $('#form-register').validate();
         $('#applyForm').validate();
+
 
         // create user avatar based on name initial
         $('#user-avatar').initial({
@@ -645,7 +649,7 @@
         // Reset/clear form function
         $('.clear-btn').click(function() {
             $('#form-edit input').attr('value', '');
-            $('textarea#summernote1,textarea#summernote2,textarea#summernote3').parent().children('.note-editor').children('.note-editable').text('');
+            $('textarea#editor1,textarea#editor2,textarea#editor3').parent().children('.note-editor').children('.note-editable').text('');
             $('#Crd option:selected').text();
         });
 
@@ -678,17 +682,6 @@
             });
         });
 
-        $('textarea').autosize();
-
-        //$('.description-text').keydown(counter1);
-        //$('.jobScope-text').keydown(counter2);
-        //$('.requirements-text').keydown(counter3);
-
-        $('#summernote2').summernote({
-            height: 200
-        });
-
-        $('textarea').autosize();
 
         $('.login-btn').click(function() {
             $('.signUp-panel').hide();
