@@ -253,7 +253,20 @@
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
+        /// disable previous btn func
+        if ($('.firstTab').hasClass('active')) {
+            $('.btn-previous').hide();
+        };
 
+        $('.firstTab,.btn-previous').click(function() {
+            $('.btn-previous').hide();
+        });
+        $('.secondTab,.btn-next').click(function() {
+            $('.btn-previous').show();
+        });
+        if($('.secondTab').hasClass('active')){
+            $('.btn-previous').show();
+        }
 
         // run the load job list function
         loadJobList('/api/jobs');
@@ -953,20 +966,6 @@
             mDec: '0'
         });
 
-        /// disable previous btn func
-        if ($('.firstTab').hasClass('active')) {
-            $('.btn-previous').hide();
-        };
-
-        $('.firstTab,.btn-previous').click(function() {
-            $('.btn-previous').hide();
-        });
-        $('.secondTab,.btn-next').click(function() {
-            $('.btn-previous').show();
-        });
-        if($('.secondTab').hasClass('active')){
-            $('.btn-previous').show();
-        }
 
 
         $('#myFormWizard').bootstrapWizard({
