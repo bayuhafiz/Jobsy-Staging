@@ -145,6 +145,24 @@
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
+        /// disable previous btn func
+        if ($('.firstTab').hasClass('active')){
+            $('.btn-previous').hide();
+        };
+
+        if($('.secondTab').hasClass('active')){
+            $('.btn-previous').show();
+        };
+
+        $('.firstTab,.btn-previous').click(function() {
+            $('.btn-previous').hide();
+        });
+        $('.secondTab,.btn-next').click(function() {
+            $('.btn-previous').show();
+        });
+
+
+
         /////////// initiate user jobs table !!! ////////////
         var uEmail = $('#user-email').val(); // Get logged user email
         showJobs('/api/jobs/' + uEmail + '/hide');
@@ -747,6 +765,9 @@
             mDec: '0'
         });
 
+
+
+
         $('#myFormWizard').bootstrapWizard({
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
@@ -800,47 +821,6 @@
         });
 
 
-        /// disable previous btn func
-        if ($('.firstTab').hasClass('active')) {
-            $('.btn-previous').hide();
-        };
-
-        $('.firstTab,.btn-previous').click(function() {
-            $('.btn-previous').hide();
-        });
-        $('.secondTab,.btn-next').click(function() {
-            $('.btn-previous').show();
-        });
-
-        if($('.secondTab').hasClass('active')){
-            $('.btn-previous').show();
-        }
-
-        var data = {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          series: [
-            [5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8],
-            [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4]
-          ]
-        };
-
-        var options = {
-          seriesBarDistance: 10,
-          height:400
-        };
-
-        var responsiveOptions = [
-          ['screen and (max-width: 640px)', {
-            seriesBarDistance: 5,
-            axisX: {
-              labelInterpolationFnc: function (value) {
-                return value[0];
-              }
-            }
-          }]
-        ];
-
-        new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
 
 
         $('#myFormWizard2').bootstrapWizard({
@@ -894,6 +874,47 @@
                 }
             }
         });
+
+
+        var data = {
+          // A labels array that can contain any sort of values
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          // Our series array that contains series objects or in this case series data arrays
+          series: [
+            [5, 2, 4, 2, 0]
+          ]
+        };
+
+        // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
+        // as you saw in the previous example
+        var options = {
+          height: '200px'
+        };
+
+        var responsiveOptions = [
+          ['screen and (min-width: 641px) and (max-width: 1024px)', {
+            showPoint: false,
+            axisX: {
+              labelInterpolationFnc: function(value) {
+                // Will return Mon, Tue, Wed etc. on medium screens
+                return value.slice(0, 3);
+              }
+            }
+          }],
+          ['screen and (max-width: 640px)', {
+            showLine: false,
+            axisX: {
+              labelInterpolationFnc: function(value) {
+                // Will return M, T, W etc. on small screens
+                return value[0];
+              }
+            }
+          }]
+        ];
+        // Create a new line chart object where as first parameter we pass in a selector
+        // that is resolving to our chart container element. The Second parameter
+        // is the actual data object. As a third parameter we pass in our custom options.
+        new Chartist.Bar('.ct-chart', data, options,responsiveOptions);
 
 
 
