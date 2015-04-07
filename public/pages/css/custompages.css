@@ -162,6 +162,9 @@ textarea{resize:none;}
 
 .nav-pills > li.active > a{ background-color: #FAFAFA !important;}
 .nav-tabs-linetriangle ~ .tab-content{background: #fafafa!important}
+.cke_editable{min-height: 150px;}
+.cke_editable:focus{outline: none;}
+
 
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
