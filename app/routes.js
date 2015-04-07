@@ -597,6 +597,43 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Set app status as reviewed -------------------------------------
+    app.get('/app/stat/:id', isLoggedIn, function(req, res, next) {
+        App.findById(req.params.id, function(err, app) {
+            if (err) {
+                req.flash('error', err);
+                res.redirect('/dash');
+            }
+            if (app.read == false) {
+                app.read = true;
+            } else {
+                app.read = false;
+            }
+
+            app.save(function(err) {
+                if (err) {
+                    req.flash('error', err);
+                    res.redirect('/dash');
+                }
+
+                Job.findById(app.jobId, function(err, job) {
+                    job.newApp = job.newApp - 1;
+                    job.save(function(err) {
+                        if (err) {
+                            req.flash('error', err);
+                            res.redirect('/dash');
+                        }
+
+                        req.flash('success', 'Application is reviewed!');
+                        res.redirect('/dash');
+
+                    });
+                });
+
+            });
+        });
+    });
+
     // Delete job post ----------------------------------------------
     app.get('/job/del/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
