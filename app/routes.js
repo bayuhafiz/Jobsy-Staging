@@ -815,6 +815,22 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Fetch all published jobs
+    app.get('/api/jobs/0', function(req, res) {
+        Job.find({
+            status: 'published'
+        }, {
+            _id: 0,
+            __v: 0
+        }, {
+            sort: {
+                createdAt: -1
+            }
+        }, function(err, jobs) {
+            res.json(jobs);
+        });
+    });
+
     // Fetch all published jobs based on keywords
     app.get('/api/jobs/s/:keyword', function(req, res) {
         var regex = RegExp("/.*" + req.params.keyword + ".*/");

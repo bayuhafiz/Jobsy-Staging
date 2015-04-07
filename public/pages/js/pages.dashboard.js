@@ -618,7 +618,6 @@
 
 
 
-
         $('#myFormWizard').bootstrapWizard({
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
@@ -670,8 +669,6 @@
                 }
             }
         });
-
-
 
 
         $('#myFormWizard2').bootstrapWizard({
