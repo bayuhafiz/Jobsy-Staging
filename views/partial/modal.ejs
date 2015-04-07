@@ -233,8 +233,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label>Description</label>
                                                 <div class="form-group form-group-default">
+                                                <label>Description</label>
                                                     <textarea id="editor1" name="description" class="description-text"></textarea>
                                                 </div>
                                             </div>
@@ -270,8 +270,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label>Description</label>
                                                 <div class="form-group form-group-default required">
+                                                    <label>Description</label>
                                                     <textarea id="editor1" name="description" class="description-text"><%= user.initCompany.description %></textarea>
                                                 </div>
                                             </div>
@@ -300,8 +300,9 @@
                                         <div class="col-sm-6">
                                             <div class="form-group form-group-default form-group-default-select2 required">
                                                 <label>Job Type</label>
-                                                <select class="full-width" name="jobType" data-init-plugin="select2" required>
+                                                <select class="full-width job-dropdown" name="jobType" data-init-plugin="select2" required>
                                                     <optgroup label="Position Type">
+                                                        <option selected=""></option>
                                                         <option value="full-time">Full Time</option>
                                                         <option value="contract">Contract</option>
                                                         <option value="part-time">Part Time</option>
@@ -314,16 +315,15 @@
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
                                                 <label>Job Scope <span class="hint-text small"></label>
-                                                <textarea id="editor2" name="jobScope"></textarea>
+                                                <textarea id="editor2" name="jobScope" placeholder="Type or copy/paste here to fill job scopes"></textarea>
                                             </div>
                                         </div>
                                     </div>
-                                    <br />
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
                                                 <label>Requirements  <span class="hint-text small"></label>
-                                                <textarea id="editor3" name="requirements"></textarea>
+                                                <textarea id="editor3" name="requirements" placeholder="Type or copy/paste here to fill requirements"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -443,7 +443,7 @@
                             <input type="file" name="resumeFile" id="resumeFile" class="form-control" required>
                         </div>
                         <div class="form-group form-group-default">
-                            <textarea class="form-control" name="coverLetter" placeholder="Type your resume cover letters here (optional)" aria-invalid="false" style="height: 140px;"></textarea>
+                            <textarea class="form-control" id="editor4" name="coverLetter" placeholder="Type your resume cover letters here (optional)" aria-invalid="false" style="height: 140px;"></textarea>
                         </div>
                         <div class="row">
                             <div class="col-sm-4 m-t-10 sm-m-t-10 pull-right">
@@ -706,7 +706,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <div class="form-group form-group-default">
+                                                    <div class="form-group form-group-default" style="min-height:190px;">
                                                         <label>Description</label>
                                                         <textarea id="editor1-edit" name="description"></textarea>
                                                     </div>
@@ -732,7 +732,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-group-default">
                                                         <label>Job Type</label>
-                                                        <select class="full-width" data-init-plugin="select2" id="jobType" name="jobType" required>
+                                                        <select class="full-width job-dropdown" data-init-plugin="select2" id="jobType" name="jobType" required>
                                                             <optgroup label="Position Type">
                                                                 <option value="full-time">Full Time</option>
                                                                 <option value="contract">Contract</option>
@@ -744,7 +744,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <div class="form-group form-group-default">
+                                                    <div class="form-group form-group-default" style="min-height:190px;">
                                                     <label>Job Scope <span class="hint-text small"></label>
                                                       <textarea id="editor2-edit" name="jobScope"></textarea>
                                                     </div>
@@ -753,7 +753,7 @@
                                             <br />
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <div class="form-group form-group-default">
+                                                    <div class="form-group form-group-default" style="min-height:190px;">
                                                     <label>Requirements <span class="hint-text small"></span></label>
                                                       <textarea id="editor3-edit" name="requirements"></textarea>
                                                     </div>
