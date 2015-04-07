@@ -27,28 +27,22 @@
                     <div class="dropdown">
                         <a href="javascript:;" id="notification-center" class="icon-set globe-fill" data-toggle="dropdown" style="color:#000;font-weight:bold;"></i>
                         </a>
-                        <!-- START Notification Dropdown -->
+                        <!-- START Dropdown Filter -->
                         <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
-                            <!-- START Notification -->
                             <div class="notification-panel">
-                                <!-- START Notification Body-->
                                 <div class="notification-body scrollable">
-                                    <!-- START Notification Item-->
                                     <div class="notification-item unread clearfix">
-                                        <!-- START Notification Item-->
                                         <div class="heading">
                                                 <input type="text" class="responsive-search" placeholder="Click here to search">
                                                 <div class="form-group ">
                                                     <% include ../dropdown/category_filter %>
                                                 </div>
                                         </div>
-
                                         <div class="heading">
                                                 <div class="form-group">
                                                     <% include ../dropdown/location_filter %>
                                                 </div>
                                         </div>
-
                                         <div class="heading">
                                                 <div class="form-group ">
                                                     <select class="full-width job-filter-dropdown" id="jobType-filter" data-init-plugin="select2" style="width: 98%;">
@@ -59,25 +53,16 @@
                                                     </select>
                                                 </div>
                                         </div>
-
-                                        <!-- END Notification Item-->
-
                                     </div>
-
                                 </div>
-                                <!-- END Notification Body-->
-                                <!-- START Notification Footer-->
+                                <!-- START Filter Footer-->
                                 <div class="notification-footer text-center">
                                     <a href="#reset">Reset All Filters</a>
-                                    <!--<a data-toggle="refresh" class="portlet-refresh text-black pull-right" href="#">
-                                        <i class="pg-refresh_new"></i>
-                                    </a>-->
                                 </div>
-                                <!-- START Notification Footer-->
+                                <!-- END Filter Footer-->
                             </div>
-                            <!-- END Notification -->
                         </div>
-                        <!-- END Notification Dropdown -->
+                        <!-- END Filter Dropdown -->
                     </div>
                 </li>
             </ul>

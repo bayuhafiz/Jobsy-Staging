@@ -26,8 +26,7 @@
         }
     }
 
-    // ============================ LOAD JOB LIST FUNCTION ==================================
-
+    // LOAD JOB LIST FUNCTION ==================================
     var loadJobList = function(apiUrl) {
         $.ajax({
             dataType: "json",
@@ -178,56 +177,7 @@
             }
         })
     };
-    // =================================== END OF LOAD JOB LIST FUNCTION ===============================================
 
-    // Wysiwyg editor custom options
-
-    var editorTemplate = {
-        "font-styles": function(locale) {
-            return '<li class="dropdown dropup">' + '<a data-toggle="dropdown" class="btn btn-default dropdown-toggle ">    <span class="glyphicon glyphicon-font"></span>    <span class="current-font">Normal text</span>    <b class="caret"></b>  </a>' + '<ul class="dropdown-menu">    <li><a tabindex="-1" data-wysihtml5-command-value="p" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Normal text</a></li>     <li><a tabindex="-1" data-wysihtml5-command-value="h1" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Heading 1</a></li>    <li><a tabindex="-1" data-wysihtml5-command-value="h2" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Heading 2</a></li>    <li><a tabindex="-1" data-wysihtml5-command-value="h3" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Heading 3</a></li>    <li><a tabindex="-1" data-wysihtml5-command-value="h4" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Heading 4</a></li>    <li><a tabindex="-1" data-wysihtml5-command-value="h5" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Heading 5</a></li>    <li><a tabindex="-1" data-wysihtml5-command-value="h6" data-wysihtml5-command="formatBlock" href="javascript:;" unselectable="on">Heading 6</a></li>  </ul>' + '</li>';
-        },
-        emphasis: function(locale) {
-            return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="CTRL+B" data-wysihtml5-command="bold" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-bold"></i></a>' + '<a tabindex="-1" title="CTRL+I" data-wysihtml5-command="italic" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-italic"></i></a>' + '<a tabindex="-1" title="CTRL+U" data-wysihtml5-command="underline" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-underline"></i></a>' + '</div>' + '</li>';
-        },
-        blockquote: function(locale) {
-            return '<li>' + '<a tabindex="-1" data-wysihtml5-display-format-name="false" data-wysihtml5-command-value="blockquote" data-wysihtml5-command="formatBlock" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-quote"></i>' + '</a>' + '</li>'
-        },
-        lists: function(locale) {
-            return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="Unordered list" data-wysihtml5-command="insertUnorderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ul"></i></a>' + '<a tabindex="-1" title="Ordered list" data-wysihtml5-command="insertOrderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ol"></i></a>' + '<a tabindex="-1" title="Outdent" data-wysihtml5-command="Outdent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-outdent"></i></a>' + '<a tabindex="-1" title="Indent" data-wysihtml5-command="Indent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-indent"></i></a>' + '</div>' + '</li>'
-        },
-        image: function(locale) {
-            return '<li>' + '<div class="bootstrap-wysihtml5-insert-image-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert image</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-image-url form-control" value="http://">' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary">Insert image</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert image" data-wysihtml5-command="insertImage" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-image"></i>' + '</a>' + '</li>'
-        },
-        link: function(locale) {
-            return '<li>' + '<div class="bootstrap-wysihtml5-insert-link-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert link</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-link-url form-control" value="http://">' + '<label class="checkbox"> <input type="checkbox" checked="" class="bootstrap-wysihtml5-insert-link-target">Open link in new window</label>' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary" href="#">Insert link</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert link" data-wysihtml5-command="createLink" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-link"></i>' + '</a>' + '</li>'
-        }
-    }
-
-    var editorOptions = {
-        "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
-        "emphasis": false, //Italics, bold, etc. Default true
-        "lists": false, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
-        "html": false, //Button which allows you to edit the generated HTML. Default false
-        "link": true, //Button to insert a link. Default true
-        "image": true, //Button to insert an image. Default true,
-        "color": false, //Button to change color of font  
-        "blockquote": true, //Blockquote  
-        stylesheets: [getBaseURL() + "/pages/css/editor.css"],
-        customTemplates: editorTemplate
-    };
-
-    function nFormatter(num) {
-        if (num >= 1000000000) {
-            return (num / 1000000000).toFixed(2).replace(/\.0$/, '') + ' Milyar';
-        }
-        if (num >= 1000000) {
-            return (num / 1000000).toFixed(2).replace(/\.0$/, '') + ' Juta';
-        }
-        if (num >= 1000) {
-            return (num / 1000).toFixed(2).replace(/\.0$/, '') + ' Ribu';
-        }
-        return num;
-    }
 
     function nl2br(str, is_xhtml) {
         var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
@@ -250,30 +200,26 @@
 
 
 
-    // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
+    // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-        /// disable previous btn func
-        if ($('.firstTab').hasClass('active')) {
-            $('.btn-previous').hide();
-        };
-
-        $('.firstTab,.btn-previous').click(function() {
-            $('.btn-previous').hide();
-        });
-        $('.secondTab,.btn-next').click(function() {
-            $('.btn-previous').show();
-        });
-        if($('.secondTab').hasClass('active')){
-            $('.btn-previous').show();
-        }
-
-        // run the load job list function
         loadJobList('/api/jobs');
 
+        // Infinite scroll trigger /////
+        $('#item-list').jscroll({
+            loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
+            padding: 20,
+            contentSelector: 'li'
+        });
+
+        // CKEditor configuration ////
+        CKEDITOR.inline('editor1');
+        CKEDITOR.inline('editor2');
+        CKEDITOR.inline('editor3');
+        CKEDITOR.inline('editor4');
 
 
-        // Create job form logic
+        // Create job form logic for each user ////
         var initLogin = $('#init-login').val();
         if (initLogin == 'false') {
             var logo = $('#hidden-logo').val();
@@ -288,9 +234,199 @@
             $('#PostNewJob div.panel #tab2').addClass('active');
         }
 
+        // FORM VALIDATION HANDLER ///
+        $('#form-create-job').validate();
+        $('#form-edit').validate();
+        $('#form-register').validate();
+        $('#applyForm').validate();
 
 
-        // SEARCH INPUT ACTIONS //////
+        // create user avatar based on name initial //////
+        $('#user-avatar').initial({
+            width: 80,
+            height: 80,
+            charCount: 2,
+            fontSize: 45
+        });
+
+        // Notification show up /////
+        var msg = $('.msg-container').text();
+        var type = $('.msg-container').attr('data-type');
+        if (msg) {
+            $('body').pgNotification({
+                'message': msg,
+                'type': type,
+                'style': 'flip',
+                'position': 'top-left',
+                'timeout': '5000'
+            }).show();
+        }
+
+
+        // Input masking /////
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+
+
+        /// disable previous btn func ///
+        if ($('.firstTab').hasClass('active')) {
+            $('.btn-previous').hide();
+        };
+
+        if ($('.secondTab').hasClass('active')) {
+            $('.btn-previous').show();
+        }
+
+        // form wizard configurations  ////
+        $('#myFormWizard').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#myFormWizard').find('.pager .next').hide();
+                    $('#myFormWizard').find('.pager .finish').show();
+                    $('#myFormWizard').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#myFormWizard').find('.pager .next').show();
+                    $('#myFormWizard').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#myFormWizard').find('.pager .next').find('button');
+                var btnPrev = $('#myFormWizard').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    removeIcons(btnPrev);
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    removeIcons(btnNext);
+                }
+            }
+        });
+
+        $('#myFormWizard2').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#myFormWizard2').find('.pager .next').hide();
+                    $('#myFormWizard2').find('.pager .finish').show();
+                    $('#myFormWizard2').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#myFormWizard2').find('.pager .next').show();
+                    $('#myFormWizard2').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#myFormWizard2').find('.pager .next').find('button');
+                var btnPrev = $('#myFormWizard2').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    removeIcons(btnPrev);
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    removeIcons(btnNext);
+                }
+            }
+        });
+
+
+
+        // ========================
+        // START EVENT HANDLERS ===
+        // ========================
+
+        // SEARCH INPUT HANDLER //////
+        $(".searchJob").on("keyup", function() {
+            var q = $(this).val();
+            /*if (q == '') {
+                $('.clear-search').css('display', 'none'); // remove clear icon
+                loadJobList('/api/jobs');
+            } else {
+                if ($('.clear-search').css('display') == 'none') {
+                    $('.clear-search').css('display', 'inline'); // add clear icon
+                }
+                // run the load job list function
+                //loadJobList('/api/jobs/s/' + q);
+            }*/
+            var g = q.toLowerCase();
+
+            $("li.item div.details-list-box div.inline").each(function() {
+                var s = $(this).text().toLowerCase();
+                $(this).closest('li.item')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+            });
+
+        });
 
         $('body').on("click", '.clear-search', function() {
             if ($(".searchJob").val() != '') {
@@ -314,34 +450,9 @@
             }
         });
 
-        // main search input fn
-        $(".searchJob").on("keyup", function() {
-            var q = $(this).val();
-            /*if (q == '') {
-                $('.clear-search').css('display', 'none'); // remove clear icon
-                loadJobList('/api/jobs');
-            } else {
-                if ($('.clear-search').css('display') == 'none') {
-                    $('.clear-search').css('display', 'inline'); // add clear icon
-                }
-                // run the load job list function
-                //loadJobList('/api/jobs/s/' + q);
-            }*/
-            var g = q.toLowerCase();
-
-            $("li.item div.details-list-box div.inline").each(function() {
-                var s = $(this).text().toLowerCase();
-                $(this).closest('li.item')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
-            });
-
-        });
-
-        // END OF SEARCH INPUT ACTIONS //////
 
 
-
-
-        // DROPDOWN FILTERS ACTION
+        // DROPDOWN FILTERS HANDLER ////
         $("select.job-filter-dropdown").on("change", function() {
             var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
@@ -351,7 +462,6 @@
             loadJobList('/api/jobs/' + filters);
         });
 
-        // RESET FILTERS
         $("a[href='#reset']").click(function() {
 
             $("select.job-filter-dropdown").select2('val', 'all');
@@ -365,8 +475,14 @@
         });
 
 
+        // add mousedown handler on select2 mask to close dropdown /////
+        $(document).on('mousedown', '#select2-drop-mask', function() {
+            $('.job-filter-dropdown.open').removeClass('open');
+            $('.job-dropdown.open').removeClass('open');
+        });
 
-        // CLICK ON JOB LIST ITEM ACTION
+
+        // JOB LIST HANDLER /////
         $('body').on('click', '.item .checkbox', function(e) {
             e.stopPropagation();
         });
@@ -389,8 +505,60 @@
             $(this).children('.datetime').css('opacity', '1');
         });
 
+        // BASIC BUTTONS HANDLER ////
+        $('.firstTab,.btn-previous').click(function() {
+            $('.btn-previous').hide();
+        });
 
-        // Opened job post details //////////////////////////////////////////////////
+        $('.secondTab,.btn-next').click(function() {
+            $('.btn-previous').show();
+        });
+
+        $('.login-btn').click(function() {
+            $('.signUp-panel').hide();
+            $('.forgetPass-panel').hide();
+            $('.signIn-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.signUp-btn').click(function() {
+            $('.signIn-panel').hide();
+            $('.forgetPass-panel').hide();
+            $('.signUp-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.forgotPassword-btn').click(function() {
+            $('.signUp-panel').hide();
+            $('.signIn-panel').hide();
+            $('.forgetPass-panel').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.updatePassword-btn').click(function() {
+            $('.password1').hide();
+            $('.password2').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+        $('.btn-cancel-reset').click(function() {
+            $('.password2').hide();
+            $('.password1').fadeIn('3000').css({
+                'display': 'table-cell',
+                'vertical-align': 'middle'
+            });
+        });
+
+
+        // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
 
             $('.list-view-group-container li').attr('data', '');
@@ -444,14 +612,32 @@
 
                 }
             });
-
         });
 
-        /* ============== EDIT JOB FUNCTION ==========================
-        ==============================================================*/
+
+        // =============  APPLY JOB HANDLER ===============
+        $('#btnToggleSlideUpSize').click(function() {
+            var jobTitle = $('.profile .job-title').text();
+            var companyName = $('.profile .name').text();
+            var location = $('.profile .datetime').text();
+
+            $('#app-to').text(jobTitle + ' at ' + companyName + ' ( ' + location + ' )');
+        });
+
+        // ============== EDIT JOB FUNCTION ==========================
         $('#btnToggleSlideUpSize').click(function() {
             var dataHtml = '';
             var id = $(this).attr('data-id');
+
+            $('.btn-previous').hide(); // hide 'Company Profile' button from the form
+
+            // Init CKEditor before set datas up
+            var editor1 = CKEDITOR.inline('editor1-edit');
+            var editor2 = CKEDITOR.inline('editor2-edit');
+            var editor3 = CKEDITOR.inline('editor3-edit');
+            editor1.updateElement();
+            editor2.updateElement();
+            editor3.updateElement();
 
             $.ajax({
                 dataType: "json",
@@ -463,285 +649,17 @@
                         $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        if (data.profile.location == 'Daerah-Istimewa-Yogyakarta') {
-                            data.profile.location = 'Daerah Istimewa Yogyakarta';
-                        }
-                        if (data.profile.location == 'DKI-Jakarta') {
-                            data.profile.location = 'DKI Jakarta';
-                        }
-                        if (data.profile.location == 'Jawa-Barat') {
-                            data.profile.location = 'Jawa Barat';
-                        }
-                        if (data.profile.location == 'Jawa-Tengah') {
-                            data.profile.location = 'Jawa Tengah';
-                        }
-                        if (data.profile.location == 'Jawa-Timur') {
-                            data.profile.location = 'Jawa Timur';
-                        }
-                        if (data.profile.location == 'Kalimantan-Barat') {
-                            data.profile.location = 'Kalimantan Barat';
-                        }
-                        if (data.profile.location == 'Kalimantan-Selatan') {
-                            data.profile.location = 'Kalimantan Selatan';
-                        }
-                        if (data.profile.location == 'Kalimantan-Tengah') {
-                            data.profile.location = 'Kalimantan Tengah';
-                        }
-                        if (data.profile.location == 'Kalimantan-Timur') {
-                            data.profile.location = 'Kalimantan Timur';
-                        }
-                        if (data.profile.location == 'Kepulauan-Bangka-Belitung') {
-                            data.profile.location = 'Kepulauan Bangka Belitung';
-                        }
-                        if (data.profile.location == 'Kepulauan-Riau') {
-                            data.profile.location = 'Kepulauan Riau';
-                        }
-                        if (data.profile.location == 'Maluku-Utara') {
-                            data.profile.location = 'Maluku Utara';
-                        }
-                        if (data.profile.location == 'Nanggroe-Aceh-Darussalam') {
-                            data.profile.location = 'Nanggroe Aceh Darussalam';
-                        }
-                        if (data.profile.location == 'Nusa-Tenggara-Barat') {
-                            data.profile.location = 'Nusa Tenggara Barat';
-                        }
-                        if (data.profile.location == 'Nusa-Tenggara-Timur') {
-                            data.profile.location = 'Nusa Tenggara Timur';
-                        }
-                        if (data.profile.location == 'Papua-Barat') {
-                            data.profile.location = 'Papua Barat';
-                        }
-                        if (data.profile.location == 'Sulawesi-Barat') {
-                            data.profile.location = 'Sulawesi Barat';
-                        }
-                        if (data.profile.location == 'Sulawesi-Selatan') {
-                            data.profile.location = 'Sulawesi Selatan';
-                        }
-                        if (data.profile.location == 'Sulawesi-Tengah') {
-                            data.profile.location = 'Sulawesi Tengah';
-                        }
-                        if (data.profile.location == 'Sulawesi-Tenggara') {
-                            data.profile.location = 'Sulawesi Tenggara';
-                        }
-                        if (data.profile.location == 'Sulawesi-Utara') {
-                            data.profile.location = 'Sulawesi Utara';
-                        }
-                        if (data.profile.location == 'Sumatera-Selatan') {
-                            data.profile.location = 'Sumatera Selatan';
-                        }
-                        if (data.profile.location == 'Sumatera-Utara') {
-                            data.profile.location = 'Sumatera Utara';
-                        }
-                        if (data.profile.location == 'Sumatera-Barat') {
-                            data.profile.location = 'Sumatera Barat';
-                        }
+                        editor1.setData(data.profile.description);
+                        editor2.setData(data.details.jobScope);
+                        editor3.setData(data.details.requirements);
 
-                        $("#EditJob div.panel form#form-edit div#s2id_location span.select2-chosen").text(data.profile.location);
-                        $('#EditJob div.panel form#form-edit select#location option:selected').val(data.profile.location);
-
-
-                        $('#EditJob div.panel form#form-edit textarea.description-text').parent().children('div.note-editor').children('.note-editable').html(data.profile.description);
                         $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
 
-                        if (data.details.category == 130) {
-                            data.details.category = 'Audit & Pajak';
-                        }
-                        if (data.details.category == 135) {
-                            data.details.category = 'Perbankan/Keuangan';
-                        }
-                        if (data.details.category == 132) {
-                            data.details.category = 'Keuangan/Investasi';
-                        }
-                        if (data.details.category == 131) {
-                            data.details.category = 'Akuntansi Umum/Pembiayaan';
-                        }
-                        if (data.details.category == 133) {
-                            data.details.category = 'Staf/Administrasi umum';
-                        }
-                        if (data.details.category == 137) {
-                            data.details.category = 'Personalia';
-                        }
-                        if (data.details.category == 146) {
-                            data.details.category = 'Sekretaris';
-                        }
-                        if (data.details.category == 148) {
-                            data.details.category = 'Manajemen Atas';
-                        }
-                        if (data.details.category == 100) {
-                            data.details.category = 'Periklanan';
-                        }
-                        if (data.details.category == 101) {
-                            data.details.category = 'Seni/Desain Kreatif';
-                        }
-                        if (data.details.category == 106) {
-                            data.details.category = 'Hiburan/Seni Panggung';
-                        }
-                        if (data.details.category == 141) {
-                            data.details.category = 'Hubungan Masyarakat';
-                        }
-                        if (data.details.category == 180) {
-                            data.details.category = 'Arsitek/Desain Interior';
-                        }
-                        if (data.details.category == 184) {
-                            data.details.category = 'Sipil/Konstruksi Bangunan';
-                        }
-                        if (data.details.category == 150) {
-                            data.details.category = 'Properti/Real Estate';
-                        }
-                        if (data.details.category == 198) {
-                            data.details.category = 'Survei Kuantitas';
-                        }
-                        if (data.details.category == 192) {
-                            data.details.category = 'IT-Perangkat Keras';
-                        }
-                        if (data.details.category == 193) {
-                            data.details.category = 'IT-Jaringan/Sistem/Sistem Database';
-                        }
-                        if (data.details.category == 191) {
-                            data.details.category = 'IT-Perangkat Lunak';
-                        }
-                        if (data.details.category == 105) {
-                            data.details.category = 'Pendidikan';
-                        }
-                        if (data.details.category == 121) {
-                            data.details.category = 'Penelitian & Pengembangan';
-                        }
-                        if (data.details.category == 185) {
-                            data.details.category = 'Teknik Kimia';
-                        }
-                        if (data.details.category == 187) {
-                            data.details.category = 'Teknik Elektrikal';
-                        }
-                        if (data.details.category == 186) {
-                            data.details.category = 'Teknik Elektro';
-                        }
-                        if (data.details.category == 189) {
-                            data.details.category = 'Teknik Lingkungan';
-                        }
-                        if (data.details.category == 200) {
-                            data.details.category = 'Teknik';
-                        }
-                        if (data.details.category == 195) {
-                            data.details.category = 'Mekanik/Otomotif';
-                        }
-                        if (data.details.category == 190) {
-                            data.details.category = 'Teknik Perminyakan';
-                        }
-                        if (data.details.category == 188) {
-                            data.details.category = 'Teknik Lainnya';
-                        }
-                        if (data.details.category == 113) {
-                            data.details.category = 'Dokter/Diagnosa';
-                        }
-                        if (data.details.category == 112) {
-                            data.details.category = 'Farmasi';
-                        }
-                        if (data.details.category == 111) {
-                            data.details.category = 'Praktisi/Asisten Medis';
-                        }
-                        if (data.details.category == 107) {
-                            data.details.category = 'Makanan/Minuman/Pelayanan Restoran';
-                        }
-                        if (data.details.category == 114) {
-                            data.details.category = 'Hotel/Pariwisata';
-                        }
-                        if (data.details.category == 115) {
-                            data.details.category = 'Pemeliharaan';
-                        }
-                        if (data.details.category == 194) {
-                            data.details.category = 'Manufaktur';
-                        }
-                        if (data.details.category == 196) {
-                            data.details.category = 'Kontrol Proses';
-                        }
+                        var loc = data.profile.location;
+                        $("select#location-edit").select2('val', loc);
 
-                        if (data.details.category == 140) {
-                            data.details.category = 'Pembelian/Manajemen Material';
-                        }
-                        if (data.details.category == 197) {
-                            data.details.category = 'Penjaminan Kualitas / QA';
-                        }
-                        if (data.details.category == 142) {
-                            data.details.category = 'Penjualan - Korporasi';
-                        }
-                        if (data.details.category == 139) {
-                            data.details.category = 'Pemasaran/Pengembangan Bisnis';
-                        }
-                        if (data.details.category == 149) {
-                            data.details.category = 'Merchandising';
-                        }
-                        if (data.details.category == 145) {
-                            data.details.category = 'Penjualan Ritel';
-                        }
-                        if (data.details.category == 143) {
-                            data.details.category = 'Penjualan - Teknik/Teknikal/IT';
-                        }
-                        if (data.details.category == 144) {
-                            data.details.category = 'Proses desain dan kontrol';
-                        }
-                        if (data.details.category == 151) {
-                            data.details.category = 'Tele-sales/Telemarketing';
-                        }
-                        if (data.details.category == 103) {
-                            data.details.category = 'Aktuaria/Statistik';
-                        }
-                        if (data.details.category == 102) {
-                            data.details.category = 'Pertanian';
-                        }
-                        if (data.details.category == 181) {
-                            data.details.category = 'Penerbangan';
-                        }
-                        if (data.details.category == 182) {
-                            data.details.category = 'Bioteknologi';
-                        }
-                        if (data.details.category == 183) {
-                            data.details.category = 'Kimia';
-                        }
-                        if (data.details.category == 108) {
-                            data.details.category = 'Teknologi Makanan/Ahli Gizi';
-                        }
-                        if (data.details.category == 109) {
-                            data.details.category = 'Geologi/Geofisika';
-                        }
-                        if (data.details.category == 199) {
-                            data.details.category = 'Ilmu Pengetahuan & Teknologi/Lab';
-                        }
-                        if (data.details.category == 119) {
-                            data.details.category = 'Keamanan / Angkatan Bersenjata';
-                        }
-                        if (data.details.category == 134) {
-                            data.details.category = 'Pelayanan Pelanggan';
-                        }
-                        if (data.details.category == 147) {
-                            data.details.category = 'Logistik/Jaringan distribusi';
-                        }
-                        if (data.details.category == 138) {
-                            data.details.category = 'Hukum / Legal';
-                        }
-                        if (data.details.category == 118) {
-                            data.details.category = 'Perawatan Kesehatan / Kecantikan';
-                        }
-                        if (data.details.category == 120) {
-                            data.details.category = 'Pelayanan kemasyarakatan';
-                        }
-                        if (data.details.category == 152) {
-                            data.details.category = 'Teknikal &amp; Bantuan Pelanggan';
-                        }
-                        if (data.details.category == 110) {
-                            data.details.category = 'Pekerjaan Umum';
-                        }
-                        if (data.details.category == 104) {
-                            data.details.category = 'Jurnalis/Editor';
-                        }
-                        if (data.details.category == 117) {
-                            data.details.category = 'Penerbitan';
-                        }
-                        if (data.details.category == 116) {
-                            data.details.category = 'Lainnya/Kategori tidak tersedia';
-                        }
-
-                        $('#EditJob div.panel form#form-edit div#s2id_category span.select2-chosen').text(data.details.category);
-                        $('#EditJob div.panel form#form-edit select#category').val(data.details.category);
+                        var cat = data.details.category;
+                        $('select#category-edit').select2('val', cat);
 
                         if (data.details.jobType == 'full-time') {
                             data.details.jobType = 'Full Time';
@@ -757,9 +675,6 @@
 
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         $('#EditJob div.panel form#form-edit select#jobType option:selected').val(data.details.jobType);
-
-                        $('#EditJob div.panel form#form-edit textarea.jobScope-text').parent().children('div.note-editor').children('.note-editable').html(data.details.jobScope);
-                        $('#EditJob div.panel form#form-edit textarea.requirements-text').parent().children('div.note-editor').children('.note-editable').html(data.details.requirements);
 
 
                         if ((data.details.currency == 'IDR') || (data.details.currency == 'idr')) {
@@ -824,91 +739,6 @@
             }
             $("#editJobImg").change(function() {
                 readURL(this);
-            });
-
-        });
-
-        // Toggle email sidebar on mobile view
-        $('.toggle-email-sidebar').click(function(e) {
-            e.stopPropagation();
-            $('.email-sidebar').toggle();
-        });
-
-        $('.email-list-toggle').click(function() {
-            $('.email-list').toggleClass('slideLeft');
-        });
-
-
-        $('.email-sidebar').click(function(e) {
-            e.stopPropagation();
-        })
-
-        $(window).resize(function() {
-
-            if ($(window).width() <= 1024) {
-                $('.email-sidebar').hide();
-
-            } else {
-                $('.email-list').removeClass('slideLeft');
-                $('.email-sidebar').show();
-            }
-        });
-
-        // CKEditor configuration
-        $('textarea').ckeditor({
-            language: 'en'
-        });
-
-        $('#item-list').jscroll({ // Infinite scroll trigger
-            loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
-            padding: 20,
-            contentSelector: 'li'
-        });
-
-        $('#form-create-job').validate();
-        $('#form-edit').validate();
-        $('#form-register').validate();
-        $('#applyForm').validate();
-
-
-        // create user avatar based on name
-        $('#user-avatar').initial({
-            width: 80,
-            height: 80,
-            charCount: 2,
-            fontSize: 45
-        });
-
-        // Notification show up /////
-        var msg = $('.msg-container').text();
-        var type = $('.msg-container').attr('data-type');
-        if (msg) {
-            $('body').pgNotification({
-                'message': msg,
-                'type': type,
-                'style': 'flip',
-                'position': 'top-left',
-                'timeout': '5000'
-            }).show();
-        }
-
-
-        // Overlay trigger button /////
-        $('.login-btn').click(function() {
-            $('.signUp-panel').hide();
-            $('.forgetPass-panel').hide();
-            $('.signIn-panel').fadeIn('3000').css({
-                'display': 'table-cell',
-                'vertical-align': 'middle'
-            });
-        });
-
-        $('.signUp-btn').click(function() {
-            $('.signIn-panel').hide();
-            $('.forgetPass-panel').hide();
-            $('.signUp-panel').fadeIn('3000').css({
-                'display': 'table-cell',
-                'vertical-align': 'middle'
             });
         });
 
@@ -1074,6 +904,8 @@
             }
         });
 
+
     });
+
 
 })(window.jQuery);
