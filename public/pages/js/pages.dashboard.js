@@ -96,7 +96,7 @@
                                             '<div class="col-md-1 col-xs-2">Location</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].location + '</div>' +
                                             '</div>' +
                                             '</div>' +
-                                            '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold">' + app[i].coverLetter + '</div>' +
+                                            '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold" style="word-break: break-word;">' + app[i].coverLetter + '</div>' +
                                             '<div class="panel-heading separator">Resume File</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +
                                             '</div>' +
                                             '</li>';
