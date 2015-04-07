@@ -21,7 +21,6 @@
     <script type="text/javascript" src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
     <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
     <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/summernote/js/summernote.min.js" type="text/javascript"></script>
     <script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js"></script>
     <script src="assets/plugins/initial.min.js" type="text/javascript"></script>
@@ -36,21 +35,15 @@
     <script src="assets/js/form_elements.js" type="text/javascript"></script>
     <script src="assets/js/scripts.js" type="text/javascript"></script>
     <script src="assets/js/words-counter.js" type="text/javascript"></script>
+    <script src="assets/plugins/ckeditor/ckeditor.js"></script>
+    <script src="assets/plugins/ckeditor/adapters/jquery.js"></script>
 
     <script>
         $(document).ready(function(){
+
             $('.page-activation').fadeOut('fast').fadeIn('slow');
             /// disable previous btn func
-            if ($('.firstTab').hasClass('active')) {
-                $('.btn-previous').hide();
-            };
-
-            $('.firstTab,.btn-previous').click(function () {
-               $('.btn-previous').hide();
-            });
-            $('.secondTab,.btn-next').click(function () {
-               $('.btn-previous').show();
-            });
+            
 
             // Show create job modal
             $('#PostNewJob').modal({
@@ -85,9 +78,6 @@
 
             // Validate the form
             $('#form-create-job').validate();
-
-
-            $('#summernote1,#summernote2,#summernote3').summernote();
             
             $('#myFormWizard3').bootstrapWizard({
                 onTabShow: function(tab, navigation, index) {
@@ -140,6 +130,22 @@
                     }
                 }
             });
+
+            if ($('.firstTab').hasClass('active')) {
+                $('.btn-previous').hide();
+            };
+
+            $('.firstTab,.btn-previous').click(function () {
+               $('.btn-previous').hide();
+            });
+            $('.secondTab,.btn-next').click(function () {
+               $('.btn-previous').show();
+            });
+
+            CKEDITOR.inline('editorAct1');
+            CKEDITOR.inline('editorAct2');
+            CKEDITOR.inline('editorAct3');
+
         });
 
      (function() {
