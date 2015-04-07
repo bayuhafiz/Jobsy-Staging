@@ -90,9 +90,11 @@
                                             '<div class="cbp-ntcontent">' +
                                             '<div class="panel panel-default">' +
                                             '<div class="panel-heading separator">Profile</div><div class="panel-body">' +
-                                            '<div>Email <span class="bold">' + app[i].email + '</span></div>' +
-                                            '<div>Phone <span class="bold">' + app[i].phone + '</span></div>' +
-                                            '<div>Location <span class="bold">' + app[i].location + '</span></div>' +
+                                            '<div class="row">' +
+                                            '<div class="col-md-1 col-xs-2">Email</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].email + '</div><br />' +
+                                            '<div class="col-md-1 col-xs-2">Phone</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].phone + '</div><br />' +
+                                            '<div class="col-md-1 col-xs-2">Location</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].location + '</div>' +
+                                            '</div>' +
                                             '</div>' +
                                             '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold">' + app[i].coverLetter + '</div>' +
                                             '<div class="panel-heading separator">Resume File</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +

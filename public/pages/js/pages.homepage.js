@@ -614,6 +614,30 @@
             });
         });
 
+        $('.toggle-email-sidebar').click(function(e) {
+            e.stopPropagation();
+            $('.email-sidebar').toggle();
+        });
+
+        $('.email-list-toggle').click(function() {
+            $('.email-list').toggleClass('slideLeft');
+        });
+
+        $('.email-sidebar').click(function(e) {
+            e.stopPropagation();
+        })
+
+        $(window).resize(function() {
+
+            if ($(window).width() <= 1024) {
+                $('.email-sidebar').hide();
+
+            } else {
+                $('.email-list').removeClass('slideLeft');
+                $('.email-sidebar').show();
+            }
+        });
+
 
         // =============  APPLY JOB HANDLER ===============
         $('#btnToggleSlideUpSize').click(function() {

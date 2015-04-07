@@ -165,7 +165,6 @@ textarea{resize:none;}
 .cke_editable{min-height: 150px;}
 .cke_editable:focus{outline: none;}
 
-
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
     .modal.fade.slide-right .modal-dialog{width: auto;}
