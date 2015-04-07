@@ -76,7 +76,7 @@
                                 if (app.length > 0) {
                                     dataHtml += '<div class="cbp-ntcontent">' +
                                         '<p class="small">Applications:</p>' +
-                                        '<ul class="cbp-ntsubaccordion">';
+                                        '<ul class="cbp-ntsubaccordion" style="padding: 0;width: 95%;margin-left: auto;margin-right: auto;">';
 
                                     $.each(app, function(i) {
                                         if (app[i].read == false) {
@@ -203,29 +203,6 @@
             }
         }
 
-
-        // INPUT MASKING //////
-        $("#salary-from").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-
-        $("#salary-from-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
 
 
         // WIZARD-FORM CONFIGURATIONS /////
