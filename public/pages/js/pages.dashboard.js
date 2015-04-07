@@ -74,22 +74,22 @@
                             url: "/api/job/apps/" + data[i]._id,
                             success: function(app) {
                                 if (app.length > 0) {
-                                    if (app[i].read == false) {
-                                        var appBadge = ' <span class="badge badge-danger">un-reviewed</span>';
-                                    } else {
-                                        var appBadge = ' <span class="badge badge-default">reviewed</span>';
-                                    }
-
                                     dataHtml += '<div class="cbp-ntcontent">' +
                                         '<p class="small">Applications:</p>' +
                                         '<ul class="cbp-ntsubaccordion">';
 
                                     $.each(app, function(i) {
+                                        if (app[i].read == false) {
+                                            var appBadge = ' <span class="badge badge-warning">un-reviewed</span>';
+                                        } else {
+                                            var appBadge = ' <span class="badge badge-default">reviewed</span>';
+                                        }
+
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
                                             '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + ' ' + appBadge + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></h5>' +
                                             '<div class="cbp-ntcontent">' +
                                             '<div class="panel panel-default">' +
-                                            '<div class="panel-heading separator">Profile</div><div class="panel-body">' +
+                                            '<div class="panel-heading separator">Profile <a href="#"><span class="link pull-right"><i class="fa fa-check"></i> Set as reviewed</span></a></div><div class="panel-body">' +
                                             '<div class="row">' +
                                             '<div class="col-md-1 col-xs-2">Email</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].email + '</div><br />' +
                                             '<div class="col-md-1 col-xs-2">Phone</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].phone + '</div><br />' +

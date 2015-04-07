@@ -36,7 +36,7 @@ module.exports = function(app, passport) {
             } else {
                 res.render('home.ejs', {
                     title: 'Homepage',
-                    user: user,                   
+                    user: user,
                     initLogin: user.initLogin,
                     success: req.flash('success'),
                     error: req.flash('error'),
@@ -415,7 +415,7 @@ module.exports = function(app, passport) {
                     if (init_status == true) {
                         init_status = false;
                     }
-                    
+
                     user.initLogin = init_status;
                     user.initPost = false;
                     user.initCompany = {
