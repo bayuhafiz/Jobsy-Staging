@@ -621,7 +621,7 @@
             var companyName = $('.profile .name').text();
             var location = $('.profile .datetime').text();
 
-            $('#app-to').text(jobTitle + ' at ' + companyName + ' ( ' + location + ' )');
+            $('#app-to').text(jobTitle + ' at ' + companyName);
         });
 
         // ============== EDIT JOB FUNCTION ==========================

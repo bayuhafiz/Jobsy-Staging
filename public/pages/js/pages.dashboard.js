@@ -50,11 +50,11 @@
                         } else if (data[i].status == 'paused') {
                             pauCounter = pauCounter + 1; // Count paused job
                             badge = '<span class="btn btn-sm btn-warning" style="cursor:default">PAUSED</span>';
-                            toolbox = '<div class="btn-group"><a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a></div>';
+                            toolbox = '<div class="btn-group"><a href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a></div>';
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
                             badge = '<span class="btn btn-sm btn-success" style="cursor:default">PUBLISHED</span>';
-                            toolbox = '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a>';
+                            toolbox = '<a href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a>';
                         }
 
                         if (data[i].newApp > 0) {
@@ -65,7 +65,7 @@
 
                         // Generate datas
                         dataHtml += '<li data-id="' + data[i]._id + '">' +
-                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' <small>' + data[i].app + ' applications ' + newApp + '</small><span class="pull-right"><div class="btn-group">' + badge + toolbox + '</div></span>' +
+                            '<h3 class="cbp-nttrigger">' + data[i].details.jobTitle + ' <small> ' + data[i].app + ' applications ' + newApp + '</small><span class="pull-right"><div class="btn-group">' + badge + toolbox + '</div></span>' +
                             '</h3>';
 
                         // Load application list
@@ -168,6 +168,10 @@
         CKEDITOR.inline('editor1');
         CKEDITOR.inline('editor2');
         CKEDITOR.inline('editor3');
+
+        CKEDITOR.inline('editor1-edit');
+        CKEDITOR.inline('editor2-edit');
+        CKEDITOR.inline('editor3-edit');
 
 
         // Forms validation /////
@@ -493,24 +497,35 @@
         ==============================================================*/
         $('body').on('click', '#editButton', function() {
             var dataHtml = '';
-            var id = $(this).closest('li').attr('data-id');
+            var id = $(this).attr('data-id');
+
+            console.log(id);
 
             $('.btn-previous').hide(); // hide 'Company Profile' button from the form
 
             // Init CKEditor before set datas up
-            var editor1 = CKEDITOR.inline('editor1-edit');
-            editor1.updateElement();
+            if (CKEDITOR.instances['editor1-edit']) {
+                delete CKEDITOR.instances['editor1-edit'];
+                var editor1 = CKEDITOR.inline('editor1-edit');
+            };
 
-            var editor2 = CKEDITOR.inline('editor2-edit');
-            editor2.updateElement();
+            if (CKEDITOR.instances['editor2-edit']) {
+                delete CKEDITOR.instances['editor2-edit'];
+                var editor1 = CKEDITOR.inline('editor2-edit');
+            };
 
-            var editor3 = CKEDITOR.inline('editor3-edit');
-            editor3.updateElement();
+            if (CKEDITOR.instances['editor3-edit']) {
+                delete CKEDITOR.instances['editor3-edit'];
+                var editor1 = CKEDITOR.inline('editor3-edit');
+            };
 
             $.ajax({
                 dataType: "json",
-                url: "/api/job/edit/" + id,
+                url: "/api/job/" + id,
                 success: function(data) {
+
+                    console.log(data._id);
+
                     if (data) {
                         var img = 'uploads/logo/' + data.profile.logo;
                         $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
@@ -520,6 +535,7 @@
                         var loc = data.profile.location;
                         $("select#location-edit").select2('val', loc);
 
+                        // append datas
                         editor1.setData(data.profile.description);
                         editor2.setData(data.details.jobScope);
                         editor3.setData(data.details.requirements);
