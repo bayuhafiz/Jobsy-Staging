@@ -204,80 +204,117 @@
 
                                 <!-- Tab #1 -->
                                 <% if (user) { %>
-                                <% if (initLogin == true) { %>
-                                    <div class="tab-pane active slide-left" id="tab1">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                    <label style="padding-bottom:10px;">Profile Picture</label>
-                                                    <input type="file" class="form-control" id="createJobImg" name="file" required>
+                                    <% if (initLogin == true) { %>
+                                        <div class="tab-pane active slide-left" id="tab1">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default">
+                                                        <label style="padding-bottom:10px;">Profile Picture</label>
+                                                        <input type="file" class="form-control" id="createJobImg" name="file" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                    <label>Company Name</label>
-                                                    <input type="text" name="companyName" placeholder="" class="form-control" required>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default">
+                                                        <label>Company Name</label>
+                                                        <input type="text" name="companyName" placeholder="" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                                        <label>Location</label>
+                                                        <% include ../dropdown/location_create %>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group form-group-default form-group-default-select2 required">
-                                                    <label>Location</label>
-                                                    <% include ../dropdown/location_create %>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group form-group-default">
-                                                <label>Description</label>
-                                                    <textarea id="editor1" name="description" class="description-text"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% } else if (initLogin == false) { %>
-                                    <div class="tab-pane active slide-left" id="tab1">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                    <label style="padding-bottom:10px;">Profile Picture</label>
-                                                    <input type="file" class="form-control" id="createJobImg" name="file" value="<%= user.initCompany.logo %>">
-                                                    <input type="hidden" name="savedLogo" id="savedLogo">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" src="uploads/logo/<%= user.initCompany.logo %>">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                    <label>Company Name</label>
-                                                    <input type="text" name="companyName" value="<%= user.initCompany.name %>" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group form-group-default form-group-default-select2 required">
-                                                    <label>Location</label>
-                                                    <% include ../dropdown/location_create %>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group form-group-default required">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group form-group-default">
                                                     <label>Description</label>
-                                                    <textarea id="editor1" name="description" class="description-text"><%= user.initCompany.description %></textarea>
+                                                        <textarea id="editor1" name="description" class="description-text"></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <% } %>
+                                    <% } else if (initLogin == false) { %>
+                                        <div class="tab-pane active slide-left" id="tab1">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default">
+                                                        <label style="padding-bottom:10px;">Profile Picture</label>
+                                                        <input type="file" class="form-control" id="createJobImg" name="file" value="<%= user.initCompany.logo %>">
+                                                        <input type="hidden" name="savedLogo" id="savedLogo">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" src="uploads/logo/<%= user.initCompany.logo %>">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default">
+                                                        <label>Company Name</label>
+                                                        <input type="text" name="companyName" value="<%= user.initCompany.name %>" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                                        <label>Location</label>
+                                                        <% include ../dropdown/location_create %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group form-group-default required">
+                                                        <label>Description</label>
+                                                        <textarea id="editor1" name="description" class="description-text"><%= user.initCompany.description %></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                <% } else { %>
+                                    <!-- IF USER NOT LOGGED IN -->
+                                    <div class="tab-pane active slide-left" id="tab1">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default">
+                                                        <label style="padding-bottom:10px;">Profile Picture</label>
+                                                        <input type="file" class="form-control" id="createJobImg" name="file" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default">
+                                                        <label>Company Name</label>
+                                                        <input type="text" name="companyName" placeholder="" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                                        <label>Location</label>
+                                                        <% include ../dropdown/location_create %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group form-group-default">
+                                                    <label>Description</label>
+                                                        <textarea id="editor1" name="description" class="description-text"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                 <% } %>
 
                                 <!-- Tab #2 -->
