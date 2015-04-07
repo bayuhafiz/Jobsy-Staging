@@ -54,7 +54,7 @@
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
                             badge = '<span class="btn btn-sm btn-success" style="cursor:default">PUBLISHED</span>';
-                            toolbox = '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a>';
+                            toolbox = '<a href="#" id="editButton" data-target="#EditJob" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a>';
                         }
 
                         if (data[i].newApp > 0) {
