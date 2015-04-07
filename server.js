@@ -6,7 +6,7 @@ var pmx = require('pmx');
 // get all the tools we need
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 1234;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -77,7 +77,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // seeding (development stage ONLY!!!) =========================================
-//require('./app/seeding/job.js'); // loads sample job
+require('./app/seeding/job.js'); // loads sample job
 require('./app/seeding/user.js'); // loads sample user
 
 // PMX Monitoring setting ======================================================
