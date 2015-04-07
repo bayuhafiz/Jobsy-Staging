@@ -501,8 +501,6 @@
             var dataHtml = '';
             var id = $(this).attr('data-id');
 
-            console.log(id);
-
             $('.btn-previous').hide(); // hide 'Company Profile' button from the form
 
             // Init CKEditor before set datas up
@@ -513,21 +511,18 @@
 
             if (CKEDITOR.instances['editor2-edit']) {
                 delete CKEDITOR.instances['editor2-edit'];
-                var editor1 = CKEDITOR.inline('editor2-edit');
+                var editor2 = CKEDITOR.inline('editor2-edit');
             };
 
             if (CKEDITOR.instances['editor3-edit']) {
                 delete CKEDITOR.instances['editor3-edit'];
-                var editor1 = CKEDITOR.inline('editor3-edit');
+                var editor3 = CKEDITOR.inline('editor3-edit');
             };
 
             $.ajax({
                 dataType: "json",
                 url: "/api/job/" + id,
                 success: function(data) {
-
-                    console.log(data._id);
-
                     if (data) {
                         var img = 'uploads/logo/' + data.profile.logo;
                         $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
