@@ -171,10 +171,6 @@
         CKEDITOR.inline('editor2');
         CKEDITOR.inline('editor3');
 
-        CKEDITOR.inline('editor1-edit');
-        CKEDITOR.inline('editor2-edit');
-        CKEDITOR.inline('editor3-edit');
-
 
         // Forms validation /////
         $('#form-create-job').validate();
@@ -505,19 +501,22 @@
 
             // Init CKEditor before set datas up
             if (CKEDITOR.instances['editor1-edit']) {
-                delete CKEDITOR.instances['editor1-edit'];
-                var editor1 = CKEDITOR.inline('editor1-edit');
-            };
+                CKEDITOR.replace['editor1-edit'];
+            } else {
+                CKEDITOR.inline('editor1-edit');
+            }
 
             if (CKEDITOR.instances['editor2-edit']) {
-                delete CKEDITOR.instances['editor2-edit'];
-                var editor2 = CKEDITOR.inline('editor2-edit');
-            };
+                CKEDITOR.replace['editor2-edit'];
+            } else {
+                CKEDITOR.inline('editor2-edit');
+            }
 
             if (CKEDITOR.instances['editor3-edit']) {
-                delete CKEDITOR.instances['editor3-edit'];
-                var editor3 = CKEDITOR.inline('editor3-edit');
-            };
+                CKEDITOR.replace['editor3-edit'];
+            } else {
+                CKEDITOR.inline('editor3-edit');
+            }
 
             $.ajax({
                 dataType: "json",
@@ -533,9 +532,9 @@
                         $("select#location-edit").select2('val', loc);
 
                         // append datas
-                        editor1.setData(data.profile.description);
-                        editor2.setData(data.details.jobScope);
-                        editor3.setData(data.details.requirements);
+                        CKEDITOR.instances['editor1-edit'].setData(data.profile.description);
+                        CKEDITOR.instances['editor2-edit'].setData(data.details.jobScope);
+                        CKEDITOR.instances['editor3-edit'].setData(data.details.requirements);
 
                         $('input.jobTitle').attr('value', data.details.jobTitle);
 
