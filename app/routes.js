@@ -820,7 +820,8 @@ module.exports = function(app, passport) {
         Job.find({
             status: 'published'
         }, {
-            _id: 0
+            _id: 0,
+            __v: 0
         }, {
             sort: {
                 createdAt: -1
