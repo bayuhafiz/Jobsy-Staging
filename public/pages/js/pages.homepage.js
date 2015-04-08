@@ -440,7 +440,7 @@
             loadJobList('/api/jobs/' + filters);
         });
 
-        $("a[href='#reset']").click(function() {
+        $("a[href='#reset']").click(function(e) {
 
             $("select.job-filter-dropdown").select2('val', 'all');
 
@@ -450,6 +450,8 @@
 
             // run the load job list function
             loadJobList('/api/jobs/' + filters);
+
+            e.preventDefault();
         });
 
 

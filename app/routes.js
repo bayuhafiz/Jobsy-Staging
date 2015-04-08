@@ -598,7 +598,7 @@ module.exports = function(app, passport) {
     });
 
     // Set app status as reviewed -------------------------------------
-    app.get('/app/stat/:id', isLoggedIn, function(req, res, next) {
+    app.get('/app/set/:id', isLoggedIn, function(req, res, next) {
         App.findById(req.params.id, function(err, app) {
             if (err) {
                 req.flash('error', err);

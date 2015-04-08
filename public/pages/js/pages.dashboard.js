@@ -70,6 +70,7 @@
 
                         // Load application list
                         $.ajax({
+                            async: false,
                             dataType: "json",
                             url: "/api/job/apps/" + data[i]._id,
                             success: function(app) {
@@ -81,7 +82,7 @@
                                     $.each(app, function(i) {
                                         if (app[i].read == false) {
                                             var appBadge = ' <span class="badge badge-warning">un-reviewed</span>';
-                                            var status = ' <a href="/app/stat/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-check"></i> Set as reviewed</span></a>';
+                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-check"></i> Set as reviewed</span></a>';
                                         } else {
                                             var appBadge = ' <span class="badge badge-default">reviewed</span>';
                                             var status = '';
@@ -98,7 +99,7 @@
                                             '<div class="col-md-1 col-xs-2">Location</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].location + '</div>' +
                                             '</div>' +
                                             '</div>' +
-                                            '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold" style="word-break: break-word;">' + app[i].coverLetter + '</div>' +
+                                            '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold" style="word-break: break-word;  font-size: 0.8em;">' + app[i].coverLetter + '</div>' +
                                             '<div class="panel-heading separator">Resume File</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +
                                             '</div>' +
                                             '</li>';
@@ -108,8 +109,7 @@
                                         '<p class="small hint-text">No applications yet..</p>' +
                                         '<ul class="cbp-ntsubaccordion">';
                                 }
-                            },
-                            async: false
+                            }
                         });
 
                         dataHtml += '</ul>' +
