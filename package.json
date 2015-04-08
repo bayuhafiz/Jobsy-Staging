@@ -11,6 +11,7 @@
     "crypto": "0.0.3",
     "ejs": "~0.8.5",
     "elasticsearch": "^4.0.2",
+    "email-templates": "^1.2.1",
     "express": "~4.0.0",
     "express-session": "~1.0.0",
     "fs": "0.0.2",

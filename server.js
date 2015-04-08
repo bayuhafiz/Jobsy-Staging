@@ -23,7 +23,6 @@ var multer = require('multer');
 app.use(multer())
 
 // Elasticsearch configuration =================================================
-
 /* var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
   host: 'localhost:1234',
@@ -74,6 +73,9 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Load our main route =========================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+
+// Load mailer handler =========================================================
+require('./app/mailer.js'); 
 
 // seeding (development stage ONLY!!!) =========================================
 require('./app/seeding/job.js'); // loads sample job
