@@ -124,7 +124,7 @@ module.exports = function(passport) {
                                 to: newUser.email,
                                 from: 'mailer@jobsy.io',
                                 subject: 'Jobsy - User Account Activation',
-                                text: 'You are receiving this email because you have signed up on Jobsy. \n\n' +
+                                html: 'You are receiving this email because you have signed up on Jobsy. \n\n' +
                                     'Please click on the following link, or paste this into your browser to complete the process: \n\n' +
                                     'http://' + req.headers.host + '/activate/' + token + '\n\n' +
                                     'If you did not sign up on our website, please ignore this email.\n'

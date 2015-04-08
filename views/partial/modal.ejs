@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
                                 <div class="panel-body" style="height:auto">
-                                    <h5>Sign into your pages account</h5>
+                                    <h5>Sign into your job seeker company account</h5>
                                     <form id="form-login" class="" role="form" method="POST" action="/login">
                                         <div class="form-group form-group-default">
                                             <label>Login</label>
@@ -370,23 +370,23 @@
                                         <div class="col-sm-7">
                                             <div class="row">
                                                 <div class="col-sm-2 col-xs-2"> 
-                                                    <select name="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
+                                                    <select name="currency" class="currency cs-select cs-skin-slide" data-init-plugin="cs-select">
                                                         <option value="USD">USD</option>
                                                         <option value="IDR" selected="selected">IDR</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-sm-10 col-xs-10">
+                                                <div class="col-sm-10 col-xs-10" style="padding-left: 0;">
                                                     <div class="input-daterange input-group">
-                                                        <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control"/>
+                                                        <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" style="min-height: 35px;" />
                                                         <span class="input-group-addon">to</span>
-                                                        <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" />
+                                                        <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" style="min-height: 35px;"/>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="form-group salary-type">
-                                                <select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
+                                                <select name="salaryType" class="full-width cs-select cs-skin-slide" data-init-plugin="cs-select">
                                                     <option value="Monthly" selected="selected">Monthly</option>
                                                     <option value="Annually">Annually</option>
                                                     <option value="Daily">Daily</option>
@@ -802,11 +802,12 @@
                                                 <div class="col-sm-7">
                                                     <div class="row">
                                                         <div class="col-sm-2 col-xs-2"> 
-                                                          <select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
-
+                                                          <select name="currency" class="currency cs-select cs-skin-slide" data-init-plugin="cs-select">
+                                                            <option value="USD">USD</option>
+                                                            <option value="IDR">IDR</option>
                                                           </select>
                                                         </div>
-                                                        <div class="col-sm-10 col-xs-10">
+                                                        <div class="col-sm-10 col-xs-10" style="padding-left: 0;">
                                                             <div class="input-daterange input-group">
                                                                 <input name="salaryFrom" id="salary-from-edit" type="text" class="input-sm form-control salaryFrom"/>
                                                                 <span class="input-group-addon">to</span>
@@ -817,7 +818,12 @@
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <div class="form-group salary-type">
-                                                        <select name="salaryType" class="full-width salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;"></select>
+                                                        <select name="salaryType" class="full-width salaryType cs-select cs-skin-slide" data-init-plugin="cs-select">
+                                                            <option value="Monthly">Monthly</option>
+                                                            <option value="Annually">Annually</option>
+                                                            <option value="Daily">Daily</option>
+                                                            <option value="Hourly">Hourly</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>

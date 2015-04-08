@@ -535,42 +535,17 @@
                         $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
                         $('#EditJob div.panel form#form-edit select#jobType option:selected').val();
 
-                        if ((data.details.currency == 'IDR') || (data.details.currency == 'idr')) {
-                            $('#EditJob select.currency').append($("<option selected='selected'></option>").val('idr').html("IDR"));
-                            $('#EditJob select.currency').append($("<option></option>").val('usd').html("USD"));
-                        } else if ((data.details.currency == 'USD') || (data.details.currency == 'usd')) {
-                            $('#EditJob select.currency').append($("<option></option>").val('idr').html("IDR"));
-                            $('#EditJob select.currency').append($("<option selected='selected'></option>").val('usd').html("USD"));
-                        };
+                        var cur = data.details.currency ;
+                        $("#EditJob select.currency").select2('val', cur);
+
 
                         $('#EditJob input.salaryFrom').val(data.details.salaryFrom);
                         $('#EditJob input.salaryTo').val(data.details.salaryTo);
 
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-
-                        if (data.details.salaryType == 'Monthly') {
-                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
-                        } else if (data.details.salaryType == 'Annually') {
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Annually').html("Annually"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
-                        } else if (data.details.salaryType == 'Daily') {
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
-                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Daily').html("Daily"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Hourly').html("Hourly"));
-                        } else if (data.details.salaryType == 'Hourly') {
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Monthly').html("Monthly"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Annually').html("Annually"));
-                            $('#EditJob select.salaryType').append($("<option></option>").val('Daily').html("Daily"));
-                            $('#EditJob select.salaryType').append($("<option selected='selected'></option>").val('Hourly').html("Hourly"));
-                        };
-
+                        var salary = data.details.salaryType ;
+                        $("#EditJob select.salaryType").select2('val', salary);
 
                         $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
 
@@ -711,7 +686,7 @@
                 }
             }
         });
-
+    
 
         /*var data = {
           // A labels array that can contain any sort of values
