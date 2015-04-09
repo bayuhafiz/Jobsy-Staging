@@ -181,7 +181,7 @@
         })
     };
 
-     // LOAD JOB LIST FUNCTION (MOBILE!!!) ==================================
+    // LOAD JOB LIST FUNCTION (MOBILE!!!) ==================================
     var loadJobListMobile = function(apiUrl) {
         $.ajax({
             dataType: "json",
@@ -310,6 +310,129 @@
 
 
 
+    // ===================== INITIATE WIZARD FORM ============================
+    var formWizard1 = function() {
+        console.log('setting up CREATE JOB wizard...');
+
+        $('#createWizard').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#createWizard').find('.pager .next').hide();
+                    $('#createWizard').find('.pager .previous').show();
+                    $('#createWizard').find('.pager .finish').show();
+                    $('#createWizard').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#createWizard').find('.pager .next').show();
+                    $('#editWizard').find('.pager .finish').hide();
+                    $('#createWizard').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#createWizard').find('.pager .next').find('button');
+                var btnPrev = $('#createWizard').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').hide();
+                    removeIcons(btnPrev);
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').show();
+                    removeIcons(btnNext);
+                }
+            }
+        });
+    };
+
+    var formWizard2 = function() {
+        console.log('setting up EDIT JOB wizard...');
+
+        $('#editWizard').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#editWizard').find('.pager .next').hide();
+                    $('#editWizard').find('.pager .previous').show();
+                    $('#editWizard').find('.pager .finish').show();
+                    $('#editWizard').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#editWizard').find('.pager .next').show();
+                    $('#editWizard').find('.pager .previous').hide();
+                    $('#editWizard').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#editWizard').find('.pager .next').find('button');
+                var btnPrev = $('#editWizard').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').hide();
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    removeIcons(btnPrev);
+                    $('#createWizard').find('.pager .previous').hide();
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    removeIcons(btnNext);
+                    $('#createWizard').find('.pager .previous').show();
+                }
+            }
+        });
+    };
+
+
+
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
@@ -331,18 +454,24 @@
 
         // Create job form logic for each user ////
         var initLogin = $('#init-login').val();
-        if (initLogin == 'false') {
-            var logo = $('#hidden-logo').val();
-            $('#savedLogo').val(logo);
+        if (initLogin) {
+            // Init create form wizard
+            formWizard1();
 
-            var location = $('#hidden-location').val();
-            $('#create-job-location-dropdown').select2('val', location);
+            if (initLogin == 'false') {
+                var logo = $('#hidden-logo').val();
+                $('#savedLogo').val(logo);
 
-            $('#PostNewJob div.panel .firstTab').removeClass('active');
-            $('#PostNewJob div.panel .secondTab').addClass('active');
-            $('#PostNewJob div.panel #tab1').removeClass('active');
-            $('#PostNewJob div.panel #tab2').addClass('active');
+                var location = $('#hidden-location').val();
+                $('#create-job-location-dropdown').select2('val', location);
+
+                $('#PostNewJob div.panel .firstTab').removeClass('active');
+                $('#PostNewJob div.panel .secondTab').addClass('active');
+                $('#PostNewJob div.panel #tab1').removeClass('active');
+                $('#PostNewJob div.panel #tab2').addClass('active');
+            }
         }
+
 
         // FORM VALIDATION HANDLER ///
         $('#form-create-job').validate();
@@ -371,122 +500,6 @@
                 'timeout': '5000'
             }).show();
         }
-
-
-
-        /// disable previous btn func ///
-        if ($('.firstTab').hasClass('active')) {
-            $('.btn-previous').hide();
-        };
-
-        if ($('.secondTab').hasClass('active')) {
-            $('.btn-previous').show();
-        }
-
-        // form wizard configurations  ////
-        $('#myFormWizard').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard').find('.pager .next').hide();
-                    $('#myFormWizard').find('.pager .finish').show();
-                    $('#myFormWizard').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard').find('.pager .next').show();
-                    $('#myFormWizard').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
-
-        $('#myFormWizard2').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard2').find('.pager .next').hide();
-                    $('#myFormWizard2').find('.pager .finish').show();
-                    $('#myFormWizard2').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard2').find('.pager .next').show();
-                    $('#myFormWizard2').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard2').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard2').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
 
 
 
@@ -604,6 +617,7 @@
             $(this).children('.datetime').css('opacity', '1');
         });
 
+
         // BASIC BUTTONS HANDLER ////
         $('.firstTab,.btn-previous').click(function() {
             $('.btn-previous').hide();
@@ -669,17 +683,6 @@
             e.stopPropagation();
         })
 
-        $(window).resize(function() {
-
-            if ($(window).width() <= 1024) {
-                $('.email-sidebar').hide();
-
-            } else {
-                $('.email-list').removeClass('slideLeft');
-                $('.email-sidebar').show();
-            }
-        });
-
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
@@ -740,6 +743,18 @@
             });
         });
 
+
+        // FILTERS CONTROL ON MOBILE
+        $(window).resize(function() {
+            if ($(window).width() <= 1024) {
+                $('.email-sidebar').hide();
+
+            } else {
+                $('.email-list').removeClass('slideLeft');
+                $('.email-sidebar').show();
+            }
+        });
+
         $("a[href='#list']").click(function() {
             // show dropdown filter (mobile only)
             $('.mobile-dropdown').show();
@@ -753,94 +768,7 @@
 
             $('#app-to').text(jobTitle + ' at ' + companyName);
         });
-
-        // ============== EDIT JOB FUNCTION ==========================
-        $('#btnToggleSlideUpSize').click(function() {
-            var dataHtml = '';
-            var id = $(this).attr('data-id');
-
-            $('.btn-previous').hide(); // hide 'Company Profile' button from the form
-
-            // Init CKEditor before set datas up
-            if (CKEDITOR.instances['editor1-edit']) {
-                CKEDITOR.replace['editor1-edit'];
-            } else {
-                CKEDITOR.inline('editor1-edit');
-            }
-
-            if (CKEDITOR.instances['editor2-edit']) {
-                CKEDITOR.replace['editor2-edit'];
-            } else {
-                CKEDITOR.inline('editor2-edit');
-            }
-
-            if (CKEDITOR.instances['editor3-edit']) {
-                CKEDITOR.replace['editor3-edit'];
-            } else {
-                CKEDITOR.inline('editor3-edit');
-            }
-
-
-            $.ajax({
-                dataType: "json",
-                url: "/api/job/edit/" + id,
-                success: function(data) {
-                    if (data) {
-                        var img = 'uploads/logo/' + data.profile.logo;
-                        $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
-                        $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
-                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
-
-                        CKEDITOR.instances['editor1-edit'].setData(data.profile.description);
-                        CKEDITOR.instances['editor2-edit'].setData(data.details.jobScope);
-                        CKEDITOR.instances['editor3-edit'].setData(data.details.requirements);
-
-                        $('#EditJob div.panel form#form-edit input.jobTitle').attr('value', data.details.jobTitle);
-
-                        var loc = data.profile.location;
-                        $("select#location-edit").select2('val', loc);
-
-                        var cat = data.details.category;
-                        $('select#category-edit').select2('val', cat);
-
-                        var cur = data.details.currency;
-                        $("#EditJob select.currency").select2('val', cur);
-
-                        var typ = data.details.jobType;
-                        $('#EditJob select.jobType').select2('val', typ);
-
-                        $('#EditJob div.panel form#form-edit input.salaryFrom').val(data.details.salaryFrom);
-                        $('#EditJob div.panel form#form-edit input.salaryTo').val(data.details.salaryTo);
-
-                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
-
-                        $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
-
-                    }
-
-                    //$('#appDetailsCloseBtn').attr('onClick', 'location.href=\'/job/app/' + dataId + '\'');
-
-                }
-
-            });
-
-
-            function readURL(input) {
-                // read logo file being uploaded
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        $('#editJobImg-preview').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-            $("#editJobImg").change(function() {
-                readURL(this);
-            });
-        });
+        
 
         $('.forgotPassword-btn').click(function() {
             $('.signUp-panel').hide();
@@ -897,113 +825,6 @@
             aDec: ',',
             mDec: '0'
         });
-
-
-
-        $('#myFormWizard').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard').find('.pager .next').hide();
-                    $('#myFormWizard').find('.pager .finish').show();
-                    $('#myFormWizard').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard').find('.pager .next').show();
-                    $('#myFormWizard').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
-
-        $('#myFormWizard2').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard2').find('.pager .next').hide();
-                    $('#myFormWizard2').find('.pager .finish').show();
-                    $('#myFormWizard2').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard2').find('.pager .next').show();
-                    $('#myFormWizard2').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard2').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard2').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
-
 
     });
 

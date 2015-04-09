@@ -145,6 +145,127 @@
     };
 
 
+    // ===================== INITIATE WIZARD FORM ============================
+    var formWizard1 = function() {
+        console.log('setting up CREATE JOB wizard...');
+
+        $('#createWizard').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#createWizard').find('.pager .next').hide();
+                    $('#createWizard').find('.pager .previous').show();
+                    $('#createWizard').find('.pager .finish').show();
+                    $('#createWizard').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#createWizard').find('.pager .next').show();
+                    $('#editWizard').find('.pager .finish').hide();
+                    $('#createWizard').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#createWizard').find('.pager .next').find('button');
+                var btnPrev = $('#createWizard').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').hide();
+                    removeIcons(btnPrev);
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').show();
+                    removeIcons(btnNext);
+                }
+            }
+        });
+    };
+
+    var formWizard2 = function() {
+        console.log('setting up EDIT JOB wizard...');
+
+        $('#editWizard').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#editWizard').find('.pager .next').hide();
+                    $('#editWizard').find('.pager .previous').show();
+                    $('#editWizard').find('.pager .finish').show();
+                    $('#editWizard').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#editWizard').find('.pager .next').show();
+                    $('#editWizard').find('.pager .previous').hide();
+                    $('#editWizard').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#editWizard').find('.pager .next').find('button');
+                var btnPrev = $('#editWizard').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').hide();
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    removeIcons(btnPrev);
+                    $('#createWizard').find('.pager .previous').hide();
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    removeIcons(btnNext);
+                    $('#createWizard').find('.pager .previous').show();
+                }
+            }
+        });
+    };
+
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
@@ -155,16 +276,13 @@
         // Create job form logic ////
         var initLogin = $('#init-login').val();
         if (initLogin == 'false') {
+            formWizard1();
+
             var logo = $('#hidden-logo').val();
             $('#savedLogo').val(logo);
 
             var location = $('#hidden-location').val();
             $('#create-job-location-dropdown').select2('val', location);
-
-            $('#PostNewJob div.panel #firstTab').removeClass('active');
-            $('#PostNewJob div.panel #secondTab').addClass('active');
-            $('#PostNewJob div.panel #tab1').removeClass('active');
-            $('#PostNewJob div.panel #tab2').addClass('active');
         }
 
 
@@ -204,113 +322,6 @@
                 }).show();
             }
         }
-
-
-        
-        $('#myFormWizard').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard').find('.pager .next').hide();
-                    $('#myFormWizard').find('.pager .finish').show();
-                    $('#myFormWizard').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard').find('.pager .next').show();
-                    $('#myFormWizard').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
-
-        $('#myFormWizard2').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard2').find('.pager .next').hide();
-                    $('#myFormWizard2').find('.pager .finish').show();
-                    $('#myFormWizard2').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard2').find('.pager .next').show();
-                    $('#myFormWizard2').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard2').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard2').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
-
 
 
         // ================================================================================================
@@ -454,28 +465,17 @@
             });
         });
 
-        
-        $('#firstTab,.btn-previous').click(function() {
-            $('.btn-previous').hide();
-        });
 
-        $('#secondTab,.btn-next').click(function() {
-            $('.btn-previous').show();
-        });
-
-        // WIZARD-FORM CONFIGURATIONS /////
-        if ($('#firstTab').hasClass('active')) {
-            $('.btn-previous').hide();
-        };
-
-        if ($('#secondTab').hasClass('active')) {
-            $('.btn-previous').show();
-        }
         /* ============== EDIT JOB FUNCTION ==========================
         ==============================================================*/
-        $('body').on('click', '#editButton', function() {
 
-           
+        $('body').on('click', '#editButton', function(e) {
+            e.preventDefault();
+
+            // Init edit form
+            formWizard2();
+            $('#editWizard').bootstrapWizard('show', 0);
+
 
             var dataHtml = '';
             var id = $(this).attr('data-id');
@@ -522,7 +522,7 @@
                         var cat = data.details.category;
                         $('select#category-edit').select2('val', cat);
 
-                        var cur = data.details.currency ;
+                        var cur = data.details.currency;
                         $("#EditJob select.currency").select2('val', cur);
 
                         var typ = data.details.jobType;
@@ -567,113 +567,6 @@
         });
 
 
-
-        $('#myFormWizard').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard').find('.pager .next').hide();
-                    $('#myFormWizard').find('.pager .finish').show();
-                    $('#myFormWizard').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard').find('.pager .next').show();
-                    $('#myFormWizard').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
-
-
-        $('#myFormWizard2').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#myFormWizard2').find('.pager .next').hide();
-                    $('#myFormWizard2').find('.pager .finish').show();
-                    $('#myFormWizard2').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#myFormWizard2').find('.pager .next').show();
-                    $('#myFormWizard2').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#myFormWizard2').find('.pager .next').find('button');
-                var btnPrev = $('#myFormWizard2').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                }
-            }
-        });
-    
-
         /*var data = {
           // A labels array that can contain any sort of values
           labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
@@ -713,8 +606,6 @@
         // that is resolving to our chart container element. The Second parameter
         // is the actual data object. As a third parameter we pass in our custom options.
         new Chartist.Bar('.ct-chart', data, options,responsiveOptions);*/
-
-
 
     });
 
