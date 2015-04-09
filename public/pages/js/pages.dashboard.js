@@ -520,24 +520,11 @@
                         var cat = data.details.category;
                         $('select#category-edit').select2('val', cat);
 
-                        if (data.details.jobType == 'full-time') {
-                            data.details.jobType = 'Full Time';
-                        }
-
-                        if (data.details.jobType == 'contract') {
-                            data.details.jobType = 'Contract';
-                        }
-
-                        if (data.details.jobType == 'part-time') {
-                            data.details.jobType = 'Part Time';
-                        }
-
-                        $('#EditJob div.panel form#form-edit div#s2id_jobType span.select2-chosen').text(data.details.jobType);
-                        $('#EditJob div.panel form#form-edit select#jobType option:selected').val();
-
                         var cur = data.details.currency ;
                         $("#EditJob select.currency").select2('val', cur);
 
+                        var typ = data.details.jobType;
+                        $('#EditJob select.jobType').select2('val', typ);
 
                         $('#EditJob input.salaryFrom').val(data.details.salaryFrom);
                         $('#EditJob input.salaryTo').val(data.details.salaryTo);

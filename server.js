@@ -74,9 +74,6 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // Load our main route =========================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
-// Load mailer handler =========================================================
-//require('./app/mailer.js'); 
-
 // seeding (development stage ONLY!!!) =========================================
 require('./app/seeding/job.js'); // loads sample job
 require('./app/seeding/user.js'); // loads sample user
