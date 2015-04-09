@@ -21,7 +21,7 @@ emailTemplates(templatesDir, function(err, template) {
             }
         });
 
-        // An example users object with formatted email function
+        // An users object with formatted email function
         var locals = {
             email: 'bayu@colorblindlabs.com',
             name: {
