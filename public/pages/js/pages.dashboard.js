@@ -161,8 +161,8 @@
             var location = $('#hidden-location').val();
             $('#create-job-location-dropdown').select2('val', location);
 
-            $('#PostNewJob div.panel .firstTab').removeClass('active');
-            $('#PostNewJob div.panel .secondTab').addClass('active');
+            $('#PostNewJob div.panel #firstTab').removeClass('active');
+            $('#PostNewJob div.panel #secondTab').addClass('active');
             $('#PostNewJob div.panel #tab1').removeClass('active');
             $('#PostNewJob div.panel #tab2').addClass('active');
         }
@@ -206,15 +206,7 @@
         }
 
 
-        // WIZARD-FORM CONFIGURATIONS /////
-        if ($('.firstTab').hasClass('active')) {
-            $('.btn-previous').hide();
-        };
-
-        if ($('.secondTab').hasClass('active')) {
-            $('.btn-previous').show();
-        }
-
+        
         $('#myFormWizard').bootstrapWizard({
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
@@ -407,13 +399,6 @@
             });
         });
 
-        $('.firstTab,.btn-previous').click(function() {
-            $('.btn-previous').hide();
-        });
-        $('.secondTab,.btn-next').click(function() {
-            $('.btn-previous').show();
-        });
-
 
         /* ============== DETAILS APP FUNCTION ==========================
         ==============================================================*/
@@ -469,18 +454,48 @@
             });
         });
 
+        
+        $('#firstTab,.btn-previous').click(function() {
+            $('.btn-previous').hide();
+        });
+
+        $('#secondTab,.btn-next').click(function() {
+            $('.btn-previous').show();
+        });
+
+        // WIZARD-FORM CONFIGURATIONS /////
+        if ($('#firstTab').hasClass('active')) {
+            $('.btn-previous').hide();
+        };
+
+        if ($('#secondTab').hasClass('active')) {
+            $('.btn-previous').show();
+        }
         /* ============== EDIT JOB FUNCTION ==========================
         ==============================================================*/
-        $('body').on('click', '#editButton', function(e) {
-            $('.firstTab').addClass('active');
-            $('.secondTab').removeClass('active');
+        $('body').on('click', '#editButton', function() {
+            
+            /*var tab = $('#secondTab').attr('class');
+            var cont = $('#tab6').attr('class');
+
+            console.log('BEFORE:\nsecondTab >> ' + tab + '\ntab6 >> ' + cont);
+
+            if ($('#secondTab').hasClass('active')) {
+                //remove active tab first
+                $('#secondTab,#tab6').removeClass('active');
+                //set active tab & content
+                $('#firstTab,#tab5').addClass('active');
+                //set active buttons
+                $('.btn-next').show().removeClass('disabled');
+                $('.btn-previous').hide();
+                $('.finish').hide();
+            }
+
+            console.log('AFTER:\nsecondTab >> ' + tab + '\ntab6 >> ' + cont);*/
+           
 
             var dataHtml = '';
             var id = $(this).attr('data-id');
-
-            $('.btn-previous').hide(); // hide 'Company Profile' button from the form
-
-            e.preventDefault();
 
             // Init CKEditor before set datas up
             if (CKEDITOR.instances['editor1-edit']) {
