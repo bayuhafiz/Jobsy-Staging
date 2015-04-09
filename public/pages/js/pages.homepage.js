@@ -10,7 +10,7 @@
     var checkJob = function(jobEmail, jobId) {
         var userEmail = $('#user_email').val(); // get user email
         var button = $('#btnToggleSlideUpSize');
-        var initialState = button.attr('data-target', '#applyModal').attr('disabled', false).attr('class', 'btn btn-complete btn-animated from-top fa fa-arrow-down apply-job-btn').find('#button-text').text('Apply for this job');
+        var initialState = button.attr('data-target', '#applyModal').attr('disabled', false).attr('class', 'btn btn-complete btn-animated from-top fa fa-arrow-down apply-job-btn apply').find('#button-text').text('Apply for this job');
 
         if (userEmail == 'none') {
             initialState;
@@ -18,8 +18,9 @@
             if (userEmail == jobEmail) {
                 initialState;
                 $('#button-text').text('Edit this job');
-                button.attr('data-id', jobId).attr('data-target', '#EditJob').attr('class', 'btn btn-success btn-animated from-top fa fa-pencil apply-job-btn').css('right', '0').css('margin-top', '7px').css('margin-right', '21px').css('position', 'absolute');
+                button.attr('data-id', jobId).attr('data-target', '#EditJob').attr('class', 'btn btn-success btn-animated from-top fa fa-pencil apply-job-btn edit').css('right', '0').css('margin-top', '7px').css('margin-right', '21px').css('position', 'absolute');
             } else if (userEmail != jobEmail) {
+                initialState;
                 $('#button-text').text('You cannot edit this job...');
                 button.attr('class', 'btn btn-danger apply-job-btn').css('right', '0').css('margin-top', '7px').css('margin-right', '21px').css('position', 'absolute').attr('disabled', true);
             }
@@ -760,8 +761,110 @@
             $('.mobile-dropdown').show();
         });
 
+
+        // =============  EDIT JOB HANDLER ===============
+        $('body').on('click','.edit', function () {
+
+            formWizard2();
+            $('#editWizard').bootstrapWizard('show', 0);
+
+            var id = $(this).attr('data-id');
+            var email = null;
+            var thumbnailWrapper = $(this).find('.thumbnail-wrapper');
+
+            // Init CKEditor before set datas up
+            if (CKEDITOR.instances['editor1-edit']) {
+                CKEDITOR.replace['editor1-edit'];
+            } else {
+                CKEDITOR.inline('editor1-edit');
+            }
+
+            if (CKEDITOR.instances['editor2-edit']) {
+                CKEDITOR.replace['editor2-edit'];
+            } else {
+                CKEDITOR.inline('editor2-edit');
+            }
+
+            if (CKEDITOR.instances['editor3-edit']) {
+                CKEDITOR.replace['editor3-edit'];
+            } else {
+                CKEDITOR.inline('editor3-edit');
+            }
+
+            $.ajax({
+                dataType: "json",
+                url: "/api/job/" + id,
+                success: function(data) {
+
+                    //if (data != null) return;
+                    var loc = capitalize(data.profile.location);
+                    var jobType = capitalize(data.details.jobType);
+                    var jobScopeText = nl2br(data.details.jobScope);
+                    var requirementsText = nl2br(data.details.requirements);
+
+                    var img = 'uploads/logo/' + data.profile.logo;
+                        $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
+                        $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
+                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
+
+                        var loc = data.profile.location;
+                        $("select#location-edit").select2('val', loc);
+
+                        // append datas
+                        CKEDITOR.instances['editor1-edit'].setData(data.profile.description);
+                        CKEDITOR.instances['editor2-edit'].setData(data.details.jobScope);
+                        CKEDITOR.instances['editor3-edit'].setData(data.details.requirements);
+
+                        $('input.jobTitle').attr('value', data.details.jobTitle);
+
+                        var cat = data.details.category;
+                        $('select#category-edit').select2('val', cat);
+
+                        var cur = data.details.currency;
+                        $("#EditJob select.currency").select2('val', cur);
+
+                        var typ = data.details.jobType;
+                        $('#EditJob select.jobType').select2('val', typ);
+
+                        $('#EditJob input.salaryFrom').val(data.details.salaryFrom);
+                        $('#EditJob input.salaryTo').val(data.details.salaryTo);
+
+                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
+
+                        $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
+                    /*emailOpened.find('.profile .job-title').text(data.details.jobTitle);
+                    emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
+                    emailOpened.find('.company_overview p').text(data.profile.description);
+                    emailOpened.find('.details .salary .salary-from').text(data.details.currency.toUpperCase() + ' ' + data.details.salaryFrom);
+                    emailOpened.find('.details .salary .salary-to').text(data.details.salaryTo);
+                    emailOpened.find('.details .salary-type').text('/ ' + data.details.salaryType);
+                    emailOpened.find('.company_overview').html(data.profile.description);
+                    emailOpened.find('.job_scope').html(jobScopeText);
+                    emailOpened.find('.requirements').html(requirementsText);
+
+                    var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
+                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses);
+
+                    $('.no-email').hide();
+                    $('.actions-dropdown').toggle();
+                    $('.email-content').hide().fadeIn();
+                    $('.actions, .email-content-wrapper').show();
+                    $('.email-content-wrapper .email-content').fadeIn();
+                    if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
+                        $('.email-list').toggleClass('slideLeft');
+                    }
+
+                    $(".email-content-wrapper").scrollTop(0);
+                    $('#applyForm').attr('action', '/apply/' + id);
+
+                    checkJob(data.email, id);*/
+
+                }
+            });
+        });
+
         // =============  APPLY JOB HANDLER ===============
-        $('#btnToggleSlideUpSize').click(function() {
+        $('.apply').click(function() {
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
             var location = $('.profile .datetime').text();
@@ -795,14 +898,6 @@
             });
         });
         // end of Overlay trigger button /////
-
-        $('#btnToggleSlideUpSize').click(function() {
-            var jobTitle = $('.profile .job-title').text();
-            var companyName = $('.profile .name').text();
-            var location = $('.profile .datetime').text();
-
-            $('#app-to').text(jobTitle + ' at ' + companyName + ' ( ' + location + ' )');
-        });
 
         // Input masking
         $("#salary-from").autoNumeric('init', {
