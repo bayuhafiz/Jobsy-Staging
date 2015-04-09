@@ -474,24 +474,7 @@
         /* ============== EDIT JOB FUNCTION ==========================
         ==============================================================*/
         $('body').on('click', '#editButton', function() {
-            
-            /*var tab = $('#secondTab').attr('class');
-            var cont = $('#tab6').attr('class');
 
-            console.log('BEFORE:\nsecondTab >> ' + tab + '\ntab6 >> ' + cont);
-
-            if ($('#secondTab').hasClass('active')) {
-                //remove active tab first
-                $('#secondTab,#tab6').removeClass('active');
-                //set active tab & content
-                $('#firstTab,#tab5').addClass('active');
-                //set active buttons
-                $('.btn-next').show().removeClass('disabled');
-                $('.btn-previous').hide();
-                $('.finish').hide();
-            }
-
-            console.log('AFTER:\nsecondTab >> ' + tab + '\ntab6 >> ' + cont);*/
            
 
             var dataHtml = '';
