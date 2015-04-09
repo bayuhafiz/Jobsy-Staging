@@ -26,7 +26,7 @@
         }
     }
 
-    // LOAD JOB LIST FUNCTION ==================================
+    // LOAD JOB LIST FUNCTION ===============================================
     var loadJobList = function(apiUrl) {
         $.ajax({
             dataType: "json",
@@ -128,7 +128,7 @@
                                 success: function(data) {
 
                                     // hide dropdown filter (mobile only)
-                                    $('.dropdown').hide();
+                                    $('.mobile-dropdown').hide();
 
                                     //if (data != null) return;
                                     var emailOpened = $('.email-opened');
@@ -168,6 +168,113 @@
                                 }
                             });
                         }
+
+                    });
+
+                    listViewGroupCont.append(ul);
+                    $('#emailList').append(listViewGroupCont).hide().show('slow'); // give it a little effect :P
+                    $("#emailList").ioslist();
+
+                }
+
+            }
+        })
+    };
+
+     // LOAD JOB LIST FUNCTION (MOBILE!!!) ==================================
+    var loadJobListMobile = function(apiUrl) {
+        $.ajax({
+            dataType: "json",
+            url: apiUrl,
+            success: function(data) {
+
+                var listViewGroupCont = $('<div/>', {
+                    "class": "list-view-group-container"
+                });
+
+                $('div.list-view-wrapper').html(''); // clear the list before we do the magic
+
+                if (data.length < 1) { // If there is no job to display
+
+                    var noJob = '<div class="text-center" style="margin-top: auto; margin-bottom: auto;"><h1 class="hint-text"><br/><i class="fa fa-ban fa-2x"></i><br/>oops, no job post found!</h1><span class="hint-text">Hint: Try changing your filter preference or your search keyword</span></div>';
+                    $('.list-view-wrapper').html(noJob);
+
+                    $('div.email-opened .email-content-wrapper').css('display', 'none');
+                    $('div.email-opened .no-email').show();
+
+                } else {
+
+                    // Let's do the magic!
+                    listViewGroupCont.append('<div class="list-view-group-header"><span>Job Lists</span></div>');
+
+                    var ul = $('<ul/>', {
+                        "id": "item-list",
+                        "class": "no-padding"
+                    });
+
+                    $.each(data, function(i) {
+                        var id = data[i]._id;
+                        var logo = 'uploads/logo/' + data[i].profile.logo;
+                        var name = data[i].profile.name.toUpperCase();
+                        var smLocation = data[i].profile.location;
+                        var location = capitalize(data[i].profile.location);
+                        var description = data[i].profile.description;
+                        var jobTitle = data[i].details.jobTitle;
+                        var category = data[i].details.category;
+                        var smJobType = data[i].details.jobType;
+                        var jobType = capitalize(data[i].details.jobType);
+                        var jobScope = data[i].details.jobScope;
+                        var requirements = data[i].details.requirements;
+                        var currency = data[i].details.currency.toUpperCase();
+                        var salaryFrom = data[i].details.salaryFrom;
+                        var salaryTo = data[i].details.salaryTo;
+                        var salaryType = data[i].details.salaryType;
+
+                        // Time manipulation
+                        var now = moment(Date.now());
+                        var dueDate = moment(data[i].createdAt).add(30, 'd');
+                        var diff = dueDate.diff(now, 'days');
+
+                        var li = '';
+                        if (i == 0) {
+                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '" style="height:110px;" data="active">';
+                        } else {
+                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '" style="height:110px;">';
+                        }
+
+                        li += '<div class="middle img-list-box" style="width: 110px;"> \
+                                        <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
+                                            <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
+                                        </div> \
+                                    </div> \
+                                    <div class="checkbox  no-margin p-l-10"> \
+                                        <input type="checkbox" value="1" id="emailcheckbox"> \
+                                        <label for="emailcheckbox"></label> \
+                                    </div> \
+                                    <div class="middle details-list-box"> \
+                                        <div class="inline"> \
+                                            <p class="recipients no-margin hint-text small">' + name + '</p> \
+                                            <p class="recipients no-margin" style="font-size:16px;white-space: normal;color: #3b4752;">' + jobTitle + '</p> \
+                                            <p class="recipients no-margin hint-text small"> \
+                                             ' + replaceDash(location) + ', ' + replaceDash(jobType) + ' \
+                                            </p> \
+                                        </div> \
+                                    </div>';
+                        if (diff <= 3) {
+                            if (diff == 1) {
+                                li += '<div class="datetime"><span class="text-danger bold">' + diff + ' day left</span></div>';
+                            } else {
+                                li += '<div class="datetime"><span class="text-danger bold">' + diff + ' days left</span></div>';
+                            }
+                        } else {
+                            li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
+                        }
+
+                        li += '<p class="job-title job-title-hover bold" style="right:20px;line-height: 28px;position: absolute;opacity:0">' + currency + ' ' + salaryFrom + ' - ' + salaryTo + '</p> \
+                                    <div class="clearfix"></div> \
+                                </li>';
+
+                        ul.append(li);
 
                     });
 
@@ -443,6 +550,15 @@
             loadJobList('/api/jobs/' + filters);
         });
 
+        $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
+            var filters = $.map($("select.mobile-filter-dropdown").toArray(), function(e) {
+                return $(e).val();
+            }).join("/");
+
+            // run the load job list function
+            loadJobListMobile('/api/jobs/' + filters);
+        });
+
         $("a[href='#reset']").click(function(e) {
 
             $("select.job-filter-dropdown").select2('val', 'all');
@@ -572,7 +688,7 @@
             $(this).attr('data', 'active');
 
             // hide dropdown filter (mobile only)
-            $('.dropdown').hide();
+            $('.mobile-dropdown').hide();
 
             e.stopPropagation();
 
@@ -623,10 +739,10 @@
                 }
             });
         });
-        
+
         $("a[href='#list']").click(function() {
             // show dropdown filter (mobile only)
-            $('.dropdown').show();
+            $('.mobile-dropdown').show();
         });
 
         // =============  APPLY JOB HANDLER ===============
