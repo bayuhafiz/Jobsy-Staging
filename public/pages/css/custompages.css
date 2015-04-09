@@ -170,6 +170,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 
 .apply-job-btn{width: 100%;height:100%;border-radius:0;font-weight: bold;margin: 0;margin-top: 0!important;margin-right:0!important;padding-top: 13px;}
 .all-job-list{ width: 15%;height: 100%;background: #f55753;}
+.notification-list2{display: none!important;}
 
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
@@ -199,7 +200,8 @@ div.currency span.cs-placeholder{background: #f0f0f0}
     .email-wrapper{z-index: 1}
     .email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-success{top: 0px;}
     .email-wrapper .email-list{width: 100%;}
-    .header .notification-list {display: inline-block!important;border:0;position: absolute;top: 11px;right: -30px;}
+    .notification-list1{display: none!important;}
+    .header .notification-list2 {display: inline-block!important;border:0;position: absolute;top: 11px;right: -30px;}
     .icon-set.globe-fill{z-index: 1}
 
     .post-job-bar{top: 30%;}
