@@ -248,16 +248,18 @@ module.exports = function(app, passport) {
 
                     if (!user) {
                         req.flash('error', 'No account with that email address exists.');
-                        res.redirect('/');
+                        res.redirect('/home');
+                    } else {
+                        console.log('token >>> ' + token);
+
+                        user.resToken = token;
+                        user.resTokenCreated = Date.now();
+                        user.resTokenExpired = Date.now() + 3600000; // 1 hour
+
+                        user.save(function(err) {
+                            done(err, token, user);
+                        });
                     }
-
-                    user.resToken = token;
-                    user.resTokenCreated = Date.now();
-                    user.resTokenExpired = Date.now() + 3600000; // 1 hour
-
-                    user.save(function(err) {
-                        done(err, token, user);
-                    });
                 });
             },
             function(token, user, done) {
