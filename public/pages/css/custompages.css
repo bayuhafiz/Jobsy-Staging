@@ -171,6 +171,11 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .apply-job-btn{width: 100%;height:100%;border-radius:0;font-weight: bold;margin: 0;margin-top: 0!important;margin-right:0!important;padding-top: 13px;}
 .all-job-list{ width: 15%;height: 100%;background: #f55753;}
 .notification-list2{display: none!important;}
+.btn-success{background-color: #12806D;border-color: #12806D}
+.btn-success:hover{background-color: #0E6052;border-color: #0E6052}
+.btn-animated.apply-job-btn:before{line-height: 3.5;}
+
+
 
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
