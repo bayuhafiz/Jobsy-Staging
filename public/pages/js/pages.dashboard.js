@@ -473,6 +473,9 @@
         /* ============== EDIT JOB FUNCTION ==========================
         ==============================================================*/
         $('body').on('click', '#editButton', function(e) {
+            $('.firstTab').addClass('active');
+            $('.secondTab').removeClass('active');
+
             var dataHtml = '';
             var id = $(this).attr('data-id');
 
