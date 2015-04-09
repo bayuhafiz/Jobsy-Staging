@@ -142,7 +142,7 @@
                 $('#user-job-list').cbpNTAccordion();
             }
         });
-    }
+    };
 
 
 
@@ -204,7 +204,6 @@
                 }).show();
             }
         }
-
 
 
         // WIZARD-FORM CONFIGURATIONS /////
@@ -478,6 +477,8 @@
 
             $('.btn-previous').hide(); // hide 'Company Profile' button from the form
 
+            e.preventDefault();
+
             // Init CKEditor before set datas up
             if (CKEDITOR.instances['editor1-edit']) {
                 CKEDITOR.replace['editor1-edit'];
@@ -538,8 +539,6 @@
                     //$('#appDetailsCloseBtn').attr('onClick', 'location.href=\'/job/app/' + dataId + '\'');
                 }
             });
-
-            e.preventDefault();
         });
 
 

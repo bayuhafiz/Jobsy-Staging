@@ -127,6 +127,9 @@
                                 url: "/api/job/" + id,
                                 success: function(data) {
 
+                                    // hide dropdown filter (mobile only)
+                                    $('.dropdown').hide();
+
                                     //if (data != null) return;
                                     var emailOpened = $('.email-opened');
                                     var loc = capitalize(data.profile.location);
@@ -537,12 +540,39 @@
             });
         });
 
+        $('.toggle-email-sidebar').click(function(e) {
+            e.stopPropagation();
+            $('.email-sidebar').toggle();
+        });
+
+        $('.email-list-toggle').click(function() {
+            $('.email-list').toggleClass('slideLeft');
+        });
+
+        $('.email-sidebar').click(function(e) {
+            e.stopPropagation();
+        })
+
+        $(window).resize(function() {
+
+            if ($(window).width() <= 1024) {
+                $('.email-sidebar').hide();
+
+            } else {
+                $('.email-list').removeClass('slideLeft');
+                $('.email-sidebar').show();
+            }
+        });
+
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
 
             $('.list-view-group-container li').attr('data', '');
             $(this).attr('data', 'active');
+
+            // hide dropdown filter (mobile only)
+            $('.dropdown').hide();
 
             e.stopPropagation();
 
@@ -593,31 +623,11 @@
                 }
             });
         });
-
-        $('.toggle-email-sidebar').click(function(e) {
-            e.stopPropagation();
-            $('.email-sidebar').toggle();
+        
+        $("a[href='#list']").click(function() {
+            // show dropdown filter (mobile only)
+            $('.dropdown').show();
         });
-
-        $('.email-list-toggle').click(function() {
-            $('.email-list').toggleClass('slideLeft');
-        });
-
-        $('.email-sidebar').click(function(e) {
-            e.stopPropagation();
-        })
-
-        $(window).resize(function() {
-
-            if ($(window).width() <= 1024) {
-                $('.email-sidebar').hide();
-
-            } else {
-                $('.email-list').removeClass('slideLeft');
-                $('.email-sidebar').show();
-            }
-        });
-
 
         // =============  APPLY JOB HANDLER ===============
         $('#btnToggleSlideUpSize').click(function() {
@@ -677,7 +687,7 @@
                         var cat = data.details.category;
                         $('select#category-edit').select2('val', cat);
 
-                        var cur = data.details.currency ;
+                        var cur = data.details.currency;
                         $("#EditJob select.currency").select2('val', cur);
 
                         var typ = data.details.jobType;
