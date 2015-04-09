@@ -472,7 +472,7 @@
 
         /* ============== EDIT JOB FUNCTION ==========================
         ==============================================================*/
-        $('body').on('click', '#editButton', function() {
+        $('body').on('click', '#editButton', function(e) {
             var dataHtml = '';
             var id = $(this).attr('data-id');
 
@@ -538,6 +538,8 @@
                     //$('#appDetailsCloseBtn').attr('onClick', 'location.href=\'/job/app/' + dataId + '\'');
                 }
             });
+
+            e.preventDefault();
         });
 
 
