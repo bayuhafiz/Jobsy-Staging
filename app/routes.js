@@ -1,8 +1,11 @@
-var async = require('async');
-var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var path = require('path');
-var fs = require('fs');
+var async = require('async'),
+    crypto = require('crypto'),
+    nodemailer = require('nodemailer'),
+    path = require('path'),
+    templatesDir = path.resolve(__dirname, '../views', 'email'),
+    emailTemplates = require('email-templates'),
+    nodemailer = require('nodemailer'),
+    fs = require('fs');
 
 // Load up the secret file
 var secrets = require('../config/secret');
