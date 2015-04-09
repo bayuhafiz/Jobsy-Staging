@@ -531,9 +531,6 @@
 
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        var salary = data.details.salaryType ;
-                        $("#EditJob select.salaryType").select2('val', salary);
-
                         $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
 
                     }
