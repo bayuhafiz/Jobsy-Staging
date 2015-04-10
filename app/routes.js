@@ -159,71 +159,59 @@ app.get('/activate/:token', function(req, res) {
 
 // Resend activate account
 app.get('/resend/:id', isLoggedIn, function(req, res) {
-        User
-            .findOne({
-                _id: req.params.id
-            })
-            .exec(function(err, user) {
-                    if (user.actStatus == 'activated') {
-                        return next(err);
-                    } else {
-                        emailTemplates(templatesDir, function(err, template) {
-                            // Send activation mail to user
-                            var transport = nodemailer.createTransport({
-                                service: 'Mailgun',
-                                auth: {
-                                    user: secrets.mailgun.user,
-                                    pass: secrets.mailgun.password
-                                }
-                            });
+    User
+        .findOne({
+            _id: req.params.id
+        })
+        .exec(function(err, user) {
+            if (user.actStatus == 'activated') {
+                return next(err);
+            } else {
+                emailTemplates(templatesDir, function(err, template) {
+                    // Send activation mail to user
+                    var transport = nodemailer.createTransport({
+                        service: 'Mailgun',
+                        auth: {
+                            user: secrets.mailgun.user,
+                            pass: secrets.mailgun.password
+                        }
+                    });
 
-                            // An users object with formatted email function
-                            var locals = {
-                                email: newUser.email,
-                                button: {
-                                    link: 'http://' + req.headers.host + '/activate/' + user.actToken,
-                                    text: 'activate your account'
-                                },
-                                header: 'Hi ' + newUser.firstName,
-                                body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
-                            };
+                    // An users object with formatted email function
+                    var locals = {
+                        email: newUser.email,
+                        button: {
+                            link: 'http://' + req.headers.host + '/activate/' + user.actToken,
+                            text: 'activate your account'
+                        },
+                        header: 'Hi ' + newUser.firstName,
+                        body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
+                    };
 
-                            // Send a single email
-                            template('email', locals, function(err, html, text) {
+                    // Send a single email
+                    template('email', locals, function(err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            transport.sendMail({
+                                from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                to: locals.email,
+                                subject: 'Jobsy Account Activation!',
+                                html: html,
+                                text: text
+                            }, function(err, responseStatus) {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    transport.sendMail({
-                                        from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                        to: locals.email,
-                                        subject: 'Jobsy Account Activation!',
-                                        html: html,
-                                        text: text
-                                    }, function(err, responseStatus) {
-                                        if (err) {
-                                            console.log(err);
-                                        } else {
-                                            req.flash('info', 'We have resent your activation email, please kindly check your junk/trash if you cannot find it in your inbox.');
-                                            res.redirect('/dash');
-                                        }
-                                    });
+                                    req.flash('info', 'We have resent your activation email, please kindly check your junk/trash if you cannot find it in your inbox.');
+                                    res.redirect('/dash');
                                 }
                             });
-                        });
-                    }
-
-
-                    req.flash('error', 'User activate token is invalid or has expired.');
-                    res.redirect('/');
-                } else {
-                    //req.flash('success', { msg: 'Your account has been activated. You can now login using your email and password' });
-                    req.logIn(user, function(err) {
-                        if (err) return next(err);
-                        res.redirect('/dash');
+                        }
                     });
-                }
-            });
-});
+                });
+            }
+        });
 });
 
 
