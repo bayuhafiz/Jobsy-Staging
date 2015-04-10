@@ -460,10 +460,7 @@
                 var location = $('#hidden-location').val();
                 $('#create-job-location-dropdown').select2('val', location);
 
-                $('#PostNewJob div.panel .firstTab').removeClass('active');
-                $('#PostNewJob div.panel .secondTab').addClass('active');
-                $('#PostNewJob div.panel #tab1').removeClass('active');
-                $('#PostNewJob div.panel #tab2').addClass('active');
+                $('#createWizard').bootstrapWizard('show', 1);
             }
         }
 
