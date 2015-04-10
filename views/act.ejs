@@ -25,6 +25,11 @@
 <div class="row page-activation" style="height:100%;overflow: hidden;margin-right:0">
     <div class="col-md-5" style="height:100%;padding:0 0">
         <div style="display: table;height: 100%;width: 75%;position: relative;margin-left: auto;margin-right: auto;">
+                    
+                    <% if (info.length > 0) { %>
+                      <div class="msg-container" data-type="info" style="display:none;"><%= info %></div>
+                    <% } %>
+
             <div style=" display: table-cell;vertical-align: middle;">
                 <img src="assets/img/jobsy_logo_black.png" style="width: 120px;">
                 <br>
@@ -38,7 +43,7 @@
                       </div>
                       <div class="col-md-8 col-sm-8 col-xs-8">
                           <h4 style="font-weight:bold"><span class="hint-text bold">Step 1:</span> <span class="text-danger">Verify your account</span></h4>
-                          <span class="hint-text">We have sent you verification email. If you have not received it, click here.</span>
+                          <span class="hint-text">We have sent you verification email. If you have not received it, <a href="/resend/<%= userid %>" class="link">click here</a> to resend it.</span>
                       </div>
                   </div>
                 <% } else { %>
