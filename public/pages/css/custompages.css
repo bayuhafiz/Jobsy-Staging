@@ -164,7 +164,7 @@ textarea{resize:none;}
 .nav-tabs-linetriangle ~ .tab-content{background: #fafafa!important}
 .cke_editable{min-height: 150px;}
 .cke_editable:focus{outline: none;}
-.jumbotron{background: #147F6C}
+.jumbotron{background: url(../../assets/img/bg_dashboard.jpg);background-position: 50% 46%;background-repeat: no-repeat;background-size: cover}
 
 div.currency span.cs-placeholder{background: #f0f0f0}
 
@@ -173,6 +173,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .all-job-list{ width: 15%;height: 100%;background: #f55753;}
 .notification-list2{display: none!important;}
 .btn-success{background-color: #12806D;border-color: #12806D}
+.btn-danger{background-color: #b2050d!important}
 /*.btn-primary{background:#10CFBD;border-color: #10CFBD}*/
 .btn-success:hover{background-color: #0E6052;border-color: #0E6052}
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
@@ -180,6 +181,8 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 a{color:#12806D;}
 a:hover{color:#0E6052;}
 .header .notification-list{z-index: 1}
+#notification-center{color:#626262;font-weight:bold;}
+#notification-center:hover{color:#2C2C2C;}
 
 
 
