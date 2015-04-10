@@ -32,6 +32,7 @@
 
         // Dummy clear the job table
         $('#user-job-list').html('');
+        $('#no-job-post').hide();
 
         $.ajax({
             dataType: "json",
@@ -133,13 +134,13 @@
                     "" != pub ? "" != pau ? "" != del ? (pub += ", ", pau += " & ") : pub += " & " : pub += "" != del ? " & " : "" : "" != pau ? pau += "" != del ? " & " : "" : "" != del ? pau += "" : pub += "no", $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
 
 
+                    $('#user-job-list').cbpNTAccordion();
 
                 } else { // if no job post at all
-                    $('#user-job-counter').hide();
+                    //$('#user-job-counter').hide();
                     $('#no-job-post').show('slow');
                 }
 
-                $('#user-job-list').cbpNTAccordion();
             }
         });
     };
