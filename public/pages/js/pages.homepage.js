@@ -10,7 +10,7 @@
     var checkJob = function(jobEmail, jobId) {
         var userEmail = $('#user_email').val(); // get user email
         var button = $('#btnToggleSlideUpSize');
-        var initialState = button.attr('data-target', '#applyModal').attr('disabled', false).attr('class', 'btn btn-success btn-animated from-top fa fa-arrow-down apply-job-btn apply').find('#button-text').text('Apply for this job');
+        var initialState = button.attr('data-target', '#applyModal').attr('disabled', false).attr('class', 'btn btn-primary btn-animated from-top fa fa-arrow-down apply-job-btn apply').find('#button-text').text('Apply for this job');
 
         if (userEmail == 'none') {
             initialState;
