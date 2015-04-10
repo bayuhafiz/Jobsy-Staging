@@ -32,7 +32,8 @@ public/uploads/logo/*
 public/uploads/profile/*
 
 # Config settings
-config/*
+config/database.js
+config/secret.js
 
 # Default finder file
 .DS_Store

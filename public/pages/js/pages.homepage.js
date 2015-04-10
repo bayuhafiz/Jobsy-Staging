@@ -51,7 +51,6 @@
                 } else {
 
                     // Let's do the magic!
-                    listViewGroupCont.append('<div class="list-view-group-header"><span>Job Lists</span></div>');
 
                     var ul = $('<ul/>', {
                         "id": "item-list",
@@ -189,10 +188,6 @@
             url: apiUrl,
             success: function(data) {
 
-                var listViewGroupCont = $('<div/>', {
-                    "class": "list-view-group-container"
-                });
-
                 $('div.list-view-wrapper').html(''); // clear the list before we do the magic
 
                 if (data.length < 1) { // If there is no job to display
@@ -206,7 +201,6 @@
                 } else {
 
                     // Let's do the magic!
-                    listViewGroupCont.append('<div class="list-view-group-header"><span>Job Lists</span></div>');
 
                     var ul = $('<ul/>', {
                         "id": "item-list",
@@ -553,15 +547,23 @@
         });
 
 
-
         // DROPDOWN FILTERS HANDLER ////
         $("select.job-filter-dropdown").on("change", function() {
+            var filterHtml = '';
             var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
             }).join("/");
 
             // run the load job list function
             loadJobList('/api/jobs/' + filters);
+            console.log(filterText);
+
+            var listViewGroupCont = $('<div/>', {
+                "class": "list-view-group-container"
+            });
+
+            listViewGroupCont.html('<div class="list-view-group-header"><span>No Filters Applied</span></div>');
+
         });
 
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
@@ -763,7 +765,7 @@
 
 
         // =============  EDIT JOB HANDLER ===============
-        $('body').on('click','.edit', function () {
+        $('body').on('click', '.edit', function() {
 
             formWizard2();
             $('#editWizard').bootstrapWizard('show', 0);
@@ -803,35 +805,35 @@
                     var requirementsText = nl2br(data.details.requirements);
 
                     var img = 'uploads/logo/' + data.profile.logo;
-                        $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
-                        $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
-                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
+                    $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
+                    $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
+                    $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        var loc = data.profile.location;
-                        $("select#location-edit").select2('val', loc);
+                    var loc = data.profile.location;
+                    $("select#location-edit").select2('val', loc);
 
-                        // append datas
-                        CKEDITOR.instances['editor1-edit'].setData(data.profile.description);
-                        CKEDITOR.instances['editor2-edit'].setData(data.details.jobScope);
-                        CKEDITOR.instances['editor3-edit'].setData(data.details.requirements);
+                    // append datas
+                    CKEDITOR.instances['editor1-edit'].setData(data.profile.description);
+                    CKEDITOR.instances['editor2-edit'].setData(data.details.jobScope);
+                    CKEDITOR.instances['editor3-edit'].setData(data.details.requirements);
 
-                        $('input.jobTitle').attr('value', data.details.jobTitle);
+                    $('input.jobTitle').attr('value', data.details.jobTitle);
 
-                        var cat = data.details.category;
-                        $('select#category-edit').select2('val', cat);
+                    var cat = data.details.category;
+                    $('select#category-edit').select2('val', cat);
 
-                        var cur = data.details.currency;
-                        $("#EditJob select.currency").select2('val', cur);
+                    var cur = data.details.currency;
+                    $("#EditJob select.currency").select2('val', cur);
 
-                        var typ = data.details.jobType;
-                        $('#EditJob select.jobType').select2('val', typ);
+                    var typ = data.details.jobType;
+                    $('#EditJob select.jobType').select2('val', typ);
 
-                        $('#EditJob input.salaryFrom').val(data.details.salaryFrom);
-                        $('#EditJob input.salaryTo').val(data.details.salaryTo);
+                    $('#EditJob input.salaryFrom').val(data.details.salaryFrom);
+                    $('#EditJob input.salaryTo').val(data.details.salaryTo);
 
-                        $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
+                    $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
+                    $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
                     /*emailOpened.find('.profile .job-title').text(data.details.jobTitle);
                     emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
                     emailOpened.find('.company_overview p').text(data.profile.description);
@@ -871,7 +873,7 @@
 
             $('#app-to').text(jobTitle + ' at ' + companyName);
         });
-        
+
 
         $('.forgotPassword-btn').click(function() {
             $('.signUp-panel').hide();

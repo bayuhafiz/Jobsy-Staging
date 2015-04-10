@@ -1,8 +1,11 @@
-var async = require('async');
-var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var path = require('path');
-var fs = require('fs');
+var async = require('async'),
+    crypto = require('crypto'),
+    nodemailer = require('nodemailer'),
+    path = require('path'),
+    templatesDir = path.resolve(__dirname, '../views', 'email'),
+    emailTemplates = require('email-templates'),
+    nodemailer = require('nodemailer'),
+    fs = require('fs');
 
 // Load up the secret file
 var secrets = require('../config/secret');
@@ -245,16 +248,18 @@ module.exports = function(app, passport) {
 
                     if (!user) {
                         req.flash('error', 'No account with that email address exists.');
-                        res.redirect('/');
+                        res.redirect('/home');
+                    } else {
+                        console.log('token >>> ' + token);
+
+                        user.resToken = token;
+                        user.resTokenCreated = Date.now();
+                        user.resTokenExpired = Date.now() + 3600000; // 1 hour
+
+                        user.save(function(err) {
+                            done(err, token, user);
+                        });
                     }
-
-                    user.resToken = token;
-                    user.resTokenCreated = Date.now();
-                    user.resTokenExpired = Date.now() + 3600000; // 1 hour
-
-                    user.save(function(err) {
-                        done(err, token, user);
-                    });
                 });
             },
             function(token, user, done) {
