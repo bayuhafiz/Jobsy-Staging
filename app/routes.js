@@ -848,7 +848,7 @@ module.exports = function(app, passport) {
                                                 if (err) {
                                                     console.log(err);
                                                 } else {
-
+                                                    console.log('Email to employer: ' + job.email + ' sent!!!');
                                                     // If email to employer has been sent
                                                     emailTemplates(templatesDir, function(err, template) {
                                                         // Send activation mail to user
@@ -882,6 +882,7 @@ module.exports = function(app, passport) {
                                                                     if (err) {
                                                                         console.log(err);
                                                                     } else {
+                                                                        console.log('Email to applicant: ' + user.email + ' sent!!!');
                                                                         req.flash('success', 'Success! Your application have been successfully sent.');
                                                                         res.redirect('/home');
                                                                     }
