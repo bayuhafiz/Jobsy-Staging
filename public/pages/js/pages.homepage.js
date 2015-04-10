@@ -82,9 +82,9 @@
 
                         var li = '';
                         if (i == 0) {
-                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '" style="height:110px;" data="active">';
+                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '"data="active">';
                         } else {
-                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '" style="height:110px;">';
+                            li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '">';
                         }
 
                         li += '<div class="middle img-list-box" style="width: 110px;"> \

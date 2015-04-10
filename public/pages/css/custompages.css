@@ -174,7 +174,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .btn-success{background-color: #12806D;border-color: #12806D}
 .btn-success:hover{background-color: #0E6052;border-color: #0E6052}
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
-
+.email-wrapper .email-list .item{height: 110px;}
 
 
 @media(max-width: 768px){
@@ -237,7 +237,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 }
 
 
-.list-view-group-container li[data=active]{border-right: 4px solid #48b0f7}
+.list-view-group-container li[data=active]{background:#fef6dd}
 
 
 
