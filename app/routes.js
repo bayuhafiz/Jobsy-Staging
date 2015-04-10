@@ -34,7 +34,9 @@ app.get('/home', function(req, res) {
             res.render('act.ejs', {
                 title: 'Activation',
                 actStatus: user.actStatus,
-                initLogin: user.initLogin
+                initLogin: user.initLogin,
+                userid: user.id,
+                info: req.flash('info')
             });
         } else {
             res.render('home.ejs', {
@@ -66,7 +68,8 @@ app.get('/dash', isLoggedIn, function(req, res) {
             title: 'Activation',
             actStatus: user.actStatus,
             initLogin: user.initLogin,
-            userid: user.id
+            userid: user.id,
+            info: req.flash('info')
         });
     } else {
         Job.find({
@@ -179,12 +182,12 @@ app.get('/resend/:id', isLoggedIn, function(req, res) {
 
                     // An users object with formatted email function
                     var locals = {
-                        email: newUser.email,
+                        email: user.email,
                         button: {
                             link: 'http://' + req.headers.host + '/activate/' + user.actToken,
                             text: 'activate your account'
                         },
-                        header: 'Hi ' + newUser.firstName,
+                        header: 'Hi ' + user.firstName,
                         body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
                     };
 

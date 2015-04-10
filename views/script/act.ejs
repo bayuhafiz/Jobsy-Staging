@@ -38,6 +38,20 @@
     <script src="assets/js/words-counter.js" type="text/javascript"></script>
 
     <script>
+    $(document).ready(function() {
+        // Notification show up /////
+        var msg = $('.msg-container').text();
+        var type = $('.msg-container').attr('data-type');
+        if (msg) {
+            $('body').pgNotification({
+                'message': msg,
+                'type': type,
+                'style': 'flip',
+                'position': 'top-left',
+                'timeout': '8000'
+            }).show();
+        }
+    })
    
      (function() {
          // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
