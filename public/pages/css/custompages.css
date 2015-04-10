@@ -168,13 +168,19 @@ textarea{resize:none;}
 
 div.currency span.cs-placeholder{background: #f0f0f0}
 
-.apply-job-btn{width: 100%;height:100%;border-radius:0;font-weight: bold;margin: 0;margin-top: 0!important;margin-right:0!important;padding-top: 13px;}
+.apply-job-btn{width: 100%;height:100%;border-radius:0;font-weight: bold;margin: 0;margin-top: 0!important;margin-right:0!important;padding-top: 13px;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);}
+.apply-job-btn:hover{box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);}
 .all-job-list{ width: 15%;height: 100%;background: #f55753;}
 .notification-list2{display: none!important;}
 .btn-success{background-color: #12806D;border-color: #12806D}
+/*.btn-primary{background:#10CFBD;border-color: #10CFBD}*/
 .btn-success:hover{background-color: #0E6052;border-color: #0E6052}
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
 .email-wrapper .email-list .item{height: 110px;}
+a{color:#12806D;}
+a:hover{color:#0E6052;}
+.header .notification-list{z-index: 1}
+
 
 
 @media(max-width: 768px){
@@ -237,7 +243,8 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 }
 
 
-.list-view-group-container li[data=active]{background:#fef6dd}
+.list-view-group-container li[data=active]{background:#CFF5F2}
+.email-wrapper .email-list .item:hover{background:#f7f7f7;}
 
 
 
