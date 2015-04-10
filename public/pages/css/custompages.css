@@ -153,7 +153,7 @@ textarea{resize:none;}
  }
 }
 
-.close{  padding: 10px!important;}
+.close{  padding: 10px!important;color: #fff;}
 
 .fs-14 {
   font-size: 27px !important;
@@ -172,10 +172,12 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .apply-job-btn:hover{box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);}
 .all-job-list{ width: 15%;height: 100%;background: #f55753;}
 .notification-list2{display: none!important;}
-.btn-success{background-color: #12806D;border-color: #12806D}
+.btn-primary{background-color: #12806D!important;border-color: #12806D!important}
+.btn-primary:hover{background-color: #0E6052!important;border-color: #0E6052!important}
+.btn-success{background-color: #10cfbd;border-color: #10cfbd}
 .btn-danger{background-color: #b2050d!important}
 /*.btn-primary{background:#10CFBD;border-color: #10CFBD}*/
-.btn-success:hover{background-color: #0E6052;border-color: #0E6052}
+.btn-success:hover{background-color: #C9B8E;border-color: #C9B8E}
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
 .email-wrapper .email-list .item{height: 110px;}
 a{color:#12806D;}
@@ -184,7 +186,15 @@ a:hover{color:#0E6052;}
 #notification-center{color:#626262;font-weight:bold;}
 #notification-center:hover{color:#2C2C2C;}
 
-
+.arrow-right {
+    width: 0; 
+    height: 0; 
+    border-bottom: 105px solid transparent;
+    border-right: 115px solid #12806D;
+    position: absolute;
+    right: -1px;
+    top: -1px;
+}
 
 @media(max-width: 768px){
     .salary-type{margin-top: 10px;}
