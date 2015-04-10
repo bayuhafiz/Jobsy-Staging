@@ -2,7 +2,7 @@
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var path = require('path'),
-    templatesDir = path.resolve(__dirname, '../views', 'email'),
+    templatesDir = path.resolve(__dirname, '..', 'views'),
     emailTemplates = require('email-templates'),
     nodemailer = require('nodemailer');
 
@@ -134,15 +134,16 @@ module.exports = function(passport) {
                                     // An users object with formatted email function
                                     var locals = {
                                         email: newUser.email,
-                                        name: {
-                                            first: newUser.firstName,
-                                            last: newUser.lastName
+                                        button: {
+                                            link: 'http://' + req.headers.host + '/activate/' + newUser.actToken,
+                                            text: 'activate your account'
                                         },
-                                        link: 'http://' + req.headers.host + '/activate/' + newUser.actToken
+                                        header: 'Hi ' + newUser.firstName,
+                                        body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
                                     };
 
                                     // Send a single email
-                                    template('activation', locals, function(err, html, text) {
+                                    template('email', locals, function(err, html, text) {
                                         if (err) {
                                             console.log(err);
                                         } else {

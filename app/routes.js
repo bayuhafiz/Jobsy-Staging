@@ -2,7 +2,7 @@ var async = require('async'),
     crypto = require('crypto'),
     nodemailer = require('nodemailer'),
     path = require('path'),
-    templatesDir = path.resolve(__dirname, '../views', 'email'),
+    templatesDir = path.resolve(__dirname, '..', 'views'),
     emailTemplates = require('email-templates'),
     nodemailer = require('nodemailer'),
     fs = require('fs');
@@ -250,8 +250,6 @@ module.exports = function(app, passport) {
                         req.flash('error', 'No account with that email address exists.');
                         res.redirect('/home');
                     } else {
-                        console.log('token >>> ' + token);
-
                         user.resToken = token;
                         user.resTokenCreated = Date.now();
                         user.resTokenExpired = Date.now() + 3600000; // 1 hour
@@ -263,27 +261,51 @@ module.exports = function(app, passport) {
                 });
             },
             function(token, user, done) {
-                var transporter = nodemailer.createTransport({
-                    service: 'Mailgun',
-                    auth: {
-                        user: secrets.mailgun.user,
-                        pass: secrets.mailgun.password
-                    }
+
+                emailTemplates(templatesDir, function(err, template) {
+                    // Send activation mail to user
+                    var transport = nodemailer.createTransport({
+                        service: 'Mailgun',
+                        auth: {
+                            user: secrets.mailgun.user,
+                            pass: secrets.mailgun.password
+                        }
+                    });
+
+                    // An users object with formatted email function
+                    var locals = {
+                        header: 'Hi ' + user.firstName,
+                        body: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account. Please click on the following button to complete the process:',
+                        button: {
+                            link: 'http://' + req.headers.host + '/reset/' + token,
+                            text: 'Click to reset your password'
+                        },
+                        footer: 'If you did not request this, please ignore this email and your password will remain unchanged.'
+                    };
+
+                    // Send a single email
+                    template('email', locals, function(err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            transport.sendMail({
+                                from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                to: user.email,
+                                subject: 'Reset your password on Jobsy',
+                                html: html,
+                                text: text
+                            }, function(err, responseStatus) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                                    done(err, 'done');
+                                }
+                            });
+                        }
+                    });
                 });
-                var mailOptions = {
-                    to: user.email,
-                    from: 'mailer@jobsy.io',
-                    subject: 'Reset your password on Jobsy',
-                    text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                        'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                        'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-                };
-                transporter.sendMail(mailOptions, function(err) {
-                    req.flash('info',
-                        'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                    done(err, 'done');
-                });
+
             }
         ], function(err) {
             if (err) return next(err);
@@ -331,24 +353,45 @@ module.exports = function(app, passport) {
                     });
             },
             function(user, done) {
-                var transporter = nodemailer.createTransport({
-                    service: 'Mailgun',
-                    auth: {
-                        user: secrets.mailgun.user,
-                        pass: secrets.mailgun.password
-                    }
+
+                emailTemplates(templatesDir, function(err, template) {
+                    // Send activation mail to user
+                    var transport = nodemailer.createTransport({
+                        service: 'Mailgun',
+                        auth: {
+                            user: secrets.mailgun.user,
+                            pass: secrets.mailgun.password
+                        }
+                    });
+
+                    // An users object with formatted email function
+                    var locals = {
+                        header: 'Hi ' + user.firstName,
+                        body: 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.'
+                    };
+
+                    // Send a single email
+                    template('email', locals, function(err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            transport.sendMail({
+                                from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                to: user.email,
+                                subject: 'Your Jobsy account password has been changed',
+                                html: html,
+                                text: text
+                            }, function(err, responseStatus) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    done(err, 'done');
+                                }
+                            });
+                        }
+                    });
                 });
-                var mailOptions = {
-                    to: user.email,
-                    from: 'mailer@jobsy.io',
-                    subject: 'Your Jobsy password has been changed',
-                    text: 'Hello,\n\n' +
-                        'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-                };
-                transporter.sendMail(mailOptions, function(err) {
-                    req.flash('success', 'Your password has been changed.');
-                    done(err);
-                });
+
             }
         ], function(err) {
             if (err) return next(err);
