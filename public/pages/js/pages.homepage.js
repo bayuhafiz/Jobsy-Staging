@@ -38,6 +38,7 @@
                     "class": "list-view-group-container"
                 });
 
+                listViewGroupCont.append('<h2 class="list-view-fake-header">Job Board</h2>');
                 $('div.list-view-wrapper').html(''); // clear the list before we do the magic
 
                 if (data.length < 1) { // If there is no job to display
