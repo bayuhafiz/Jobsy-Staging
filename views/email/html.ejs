@@ -26,10 +26,14 @@
 							<%= locals.body %>
 
 					</p>
-					<% if (locals.list) { %>	
-					<p style="font-family: Arial, Helvetica, sans-serif;font-size: 14px;line-height: 15px;color: #54565c;">
+					<% if (locals.app) { %>	
+					<p style="font-weight: bold;font-family: Arial, Helvetica, sans-serif;font-size: 14px;line-height: 15px;color: #54565c;">
 							
-							<%= locals.list %>
+							<%= locals.app.fullName %><br/>
+							<%= locals.app.phone %><br/>
+							<%= locals.app.email %><br/>
+							<%= locals.app.location %><br/>
+							<%= locals.app.applyDate %>
 
 					</p>
 					<% } %>
