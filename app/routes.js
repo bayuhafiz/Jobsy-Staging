@@ -816,7 +816,88 @@ module.exports = function(app, passport) {
                                 /* Begin to send the email */
                                 var now = new Date();
 
-                                var smtpTransport = nodemailer.createTransport({
+                                emailTemplates(templatesDir, function(err, template) {
+                                    // Send activation mail to user
+                                    var transport = nodemailer.createTransport({
+                                        service: 'Mailgun',
+                                        auth: {
+                                            user: secrets.mailgun.user,
+                                            pass: secrets.mailgun.password
+                                        }
+                                    });
+
+                                    // An users object with formatted email function
+                                    var locals = {
+                                        header: 'New Application Received!',
+                                        body: 'You got new application for job posting ' + job.position + ' at ' + job.company + ':',
+                                        footer: 'You can review the application on your dashboard by clicking on related job posting title.'
+                                    };
+
+                                    // Send a single email
+                                    template('email', locals, function(err, html, text) {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            transport.sendMail({
+                                                from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                                to: job.email,
+                                                subject: 'New application for: ' + job.position + ' at ' + job.company,
+                                                html: html,
+                                                text: text
+                                            }, function(err, responseStatus) {
+                                                if (err) {
+                                                    console.log(err);
+                                                } else {
+
+                                                    // If email to employer has been sent
+                                                    emailTemplates(templatesDir, function(err, template) {
+                                                        // Send activation mail to user
+                                                        var transport = nodemailer.createTransport({
+                                                            service: 'Mailgun',
+                                                            auth: {
+                                                                user: secrets.mailgun.user,
+                                                                pass: secrets.mailgun.password
+                                                            }
+                                                        });
+
+                                                        // An users object with formatted email function
+                                                        var locals = {
+                                                            header: 'Application sent successfully!',
+                                                            body: 'Your job application for the position ' + job.position + ' at ' + job.company + ' has been successfully sent on ' + now + '.',
+                                                            footer: 'The company will contact you directly if your application were successfull. Good luck.'
+                                                        };
+
+                                                        // Send a single email
+                                                        template('email', locals, function(err, html, text) {
+                                                            if (err) {
+                                                                console.log(err);
+                                                            } else {
+                                                                transport.sendMail({
+                                                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                                                    to: user.email,
+                                                                    subject: 'Your application for: ' + job.position + ' at ' + job.company,
+                                                                    html: html,
+                                                                    text: text
+                                                                }, function(err, responseStatus) {
+                                                                    if (err) {
+                                                                        console.log(err);
+                                                                    } else {
+                                                                        req.flash('success', 'Success! Your application have been successfully sent.');
+                                                                        res.redirect('/home');
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    });
+
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+
+
+                                /*var smtpTransport = nodemailer.createTransport({
                                     service: 'Mailgun',
                                     auth: {
                                         user: secrets.mailgun.user,
@@ -828,7 +909,7 @@ module.exports = function(app, passport) {
                                     to: job.email,
                                     from: req.body.email,
                                     subject: 'Jobsy - Application for: ' + job.position + ' at ' + job.company,
-                                    html: '<div style="width:75%; border:1px solid #f0f0f0;padding: 55px 130px 80px 80px;margin-top:20px;border-top: 6px solid #2ac5ee;border-bottom: 6px solid #2ac5ee;"><h1 style="color:#2ac5ee; padding-top:30px;padding-bottom:30px;">JOBSY - Find your jobs, easily.</h1>You are receiving this email because there is a user apllying for the job you had been posted, with following details:<br/><br/><h3><table style="border-spacing: 0px;"><tbody><tr><td>Full name</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumeFName + ' ' + req.body.resumeLName + '</td><tr><tr><td>Location</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumeLocation + '</td></tr><tr><td>Email</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumeEmail + '</td></tr><tr><td>Phone</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumePhone + '</td></tr><tr><td>LinkedIn</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumeLinkedin + '</td></tr><tr><td>Facebook</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumeFacebook + '</td></tr><tr><td>Twitter @</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumeTwitter + '</td></tr><tr><td>Website</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;"><br/>' + req.body.resumeWebsite + '</td></tr><tr><td>Cover Letters</td><td style="padding-left:15px;">:</td><td style="padding: 0 0 0 25px;">' + req.body.resumeMessage + '</td></tr></tbody></table></h3><br/><br/>Please check the attachment section for applicant\'s resume<div style="border-top:1px solid #f0f0f0; margin-top:90px;"><p>(C) JOBSY - Find your jobs, easily. <br>help@jobsy.com</p></div></div>',
+                                    html: '',
                                     filename: req.body.resumeFName + '_' + req.body.resumeLName + '#' + now
                                 };
 
@@ -856,7 +937,7 @@ module.exports = function(app, passport) {
                                             res.redirect('/home');
                                         })
 
-                                    })
+                                    }) 
                                     /* End of sending email part */
                             }
                         });
