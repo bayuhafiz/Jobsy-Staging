@@ -138,25 +138,25 @@ module.exports = function(app, passport) {
                 if (user.actStatus == 'activated') { // If user already activated
                     req.flash('error', 'Your account already activated. You can now login.');
                     res.redirect('/');
+                } else {
+                    // Change the status
+                    user.actStatus = 'activated';
+                    user.actToken = undefined;
+                    user.actTokenCreated = undefined;
+                    user.actTokenExpired = undefined;
+                    user.save(function(err) {
+                        if (err) {
+                            req.flash('error', 'User activate token is invalid or has expired.');
+                            res.redirect('/');
+                        } else {
+                            //req.flash('success', { msg: 'Your account has been activated. You can now login using your email and password' });
+                            req.logIn(user, function(err) {
+                                if (err) return next(err);
+                                res.redirect('/dash');
+                            });
+                        }
+                    });
                 }
-
-                // Change the status
-                user.actStatus = 'activated';
-                user.actToken = undefined;
-                user.actTokenCreated = undefined;
-                user.actTokenExpired = undefined;
-                user.save(function(err) {
-                    if (err) {
-                        req.flash('error', 'User activate token is invalid or has expired.');
-                        res.redirect('/');
-                    } else {
-                        //req.flash('success', { msg: 'Your account has been activated. You can now login using your email and password' });
-                        req.logIn(user, function(err) {
-                            if (err) return next(err);
-                            res.redirect('/dash');
-                        });
-                    }
-                });
             });
     });
 
