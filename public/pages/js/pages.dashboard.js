@@ -284,6 +284,8 @@
 
             var location = $('#hidden-location').val();
             $('#create-job-location-dropdown').select2('val', location);
+
+            $('#createWizard').bootstrapWizard('show', 1);
         }
 
 
