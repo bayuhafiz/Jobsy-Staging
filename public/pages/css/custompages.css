@@ -197,6 +197,8 @@ a:hover{color:#0E6052;}
 }
 
 @media(max-width: 768px){
+    .applicant-icon{display: none!important;}
+    .applicant-header{display: block!important;padding-left: 0!important}
     .salary-type{margin-top: 10px;}
     .modal.fade.slide-right .modal-dialog{width: auto;}
 
