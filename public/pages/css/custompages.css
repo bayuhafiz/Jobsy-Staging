@@ -175,9 +175,11 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .btn-primary{background-color: #12806D!important;border-color: #12806D!important}
 .btn-primary:hover{background-color: #0E6052!important;border-color: #0E6052!important}
 .btn-success{background-color: #10cfbd;border-color: #10cfbd}
+.btn-success:hover{background-color: #0C9B8E;border-color: #0C9B8E}
 .btn-danger{background-color: #b2050d!important}
 /*.btn-primary{background:#10CFBD;border-color: #10CFBD}*/
-.btn-success:hover{background-color: #C9B8E;border-color: #C9B8E}
+.radio.radio-danger input[type=radio]:checked + label:before{border-color: #12806D}
+
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
 .email-wrapper .email-list .item{height: 110px;}
 a{color:#12806D;}
