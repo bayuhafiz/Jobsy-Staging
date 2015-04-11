@@ -310,6 +310,14 @@
             fontSize: 45
         });
 
+        // init switchery ////
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+        elems.forEach(function(html) {
+            var switchery = new Switchery(html, {
+                color: '#b2050d'
+            });
+        });
+
 
         // NOTIFICATIONS HANDLER /////
         var msg = $('.msg-container').text();
@@ -331,10 +339,13 @@
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
 
-        // 'show deleted job' radio button action
-        $("input:radio[name=hide-radio]").click(function() {
-            var value = $(this).val();
-            showJobs('/api/jobs/' + uEmail + '/' + value);
+        // Switchery Handler >>> 'show deleted job'
+        $('.switchery').change(function() {
+            if ($(this).attr('checked')) {
+                showJobs('/api/jobs/' + uEmail + '/show');
+            } else {
+                showJobs('/api/jobs/' + uEmail + '/hide');
+            }
         });
 
         //add mousedown handler on select2 mask to close dropdown
