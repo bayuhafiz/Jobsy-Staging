@@ -1,5 +1,4 @@
-<!-- ===============================================================================================================
-=========================================== USER AUTHENTICATION FORM =============================================== -->
+<!-- USER AUTHENTICATION FORM  -->
 <div class="modal fade slide-right" id="modalSlideLeft1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content-wrapper">
@@ -136,7 +135,7 @@
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
                                             <div class="controls">
-                                                <input type="text" name="email" placeholder="Your Email" class="form-control" required>
+                                                <input type="email" name="email" placeholder="Your Email" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -160,13 +159,8 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<!-- ======================================= END OF USER AUTHENTICATION FORM ============================================
-==================================================================================================================== -->
 
-
-
-<!-- ===============================================================================================================
-============================================ CREATE JOB POSTING FORM =============================================== -->
+<!-- CREATE JOB POSTING FORM -->
 <div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-userdashboard">
         <div class="modal-content-wrapper">
@@ -428,13 +422,8 @@
         </div>
     </div>
 </div>
-<!-- ======================================= END OF CREATE JOB POSTING FORM =============================================
-==================================================================================================================== -->
 
-
-
-<!-- ===============================================================================================================
-=============================================== APPLY JOB FORM ===================================================== -->
+<!-- APPLY JOB FORM -->
 <div class="modal fade slide-up disable-scroll" id="applyModal" tabindex="-1" role="dialog" aria-hidden="false" style="overflow:auto">
     <div class="modal-dialog modal-lg">
         <div class="modal-content-wrapper">
@@ -494,13 +483,8 @@
         <!-- /.modal-content -->
     </div>
 </div>
-<!-- =========================================== END OF APPLY JOB FORM ==================================================
-==================================================================================================================== -->
 
-
-<!-- ===============================================================================================================
-========================================= USER LOGGED VARIOUS FORMS ================================================ -->
-
+<!-- USER LOGGED VARIOUS FORMS -->
 <% if (user) { %>
     <div class="modal fade slide-right" id="accountSettings" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-userdashboard">
@@ -555,7 +539,7 @@
                                 </div>
                                 <br>
                                 <div class="clearfix"></div>
-                                <button class="btn btn-primary btn-cons">Save Edited</button>
+                                <button class="btn btn-primary btn-cons">Save</button>
                                 <div class="clearfix"></div>
                                 <div class="clearfix"></div><!--
                                 <br>
@@ -863,7 +847,4 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-
 <% } %>
-<!-- ================================ END OF USER LOGGED VARIOUS FORMS =============================================
-==================================================================================================================== -->

@@ -59,7 +59,7 @@
                         }
 
                         if (data[i].newApp > 0) {
-                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + '</font></span>';
+                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + ' unreviewed</font></span>';
                         } else {
                             var newApp = '';
                         }
@@ -82,26 +82,26 @@
 
                                     $.each(app, function(i) {
                                         if (app[i].read == false) {
-                                            var appBadge = ' <span class="badge badge-warning">un-reviewed</span>';
-                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-check"></i> Set as reviewed</span></a>';
+                                            var appBadge = '<span class="badge badge-danger"><i class="fa fa-eye"></i> </span>';
+                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-eye"></i> Set as reviewed</span></a>';
                                         } else {
-                                            var appBadge = ' <span class="badge badge-default">reviewed</span>';
+                                            var appBadge = '<span class="badge badge-success"><i class="fa fa-eye"></i> </span>';
                                             var status = '';
                                         }
 
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + ' ' + appBadge + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></h5>' +
+                                            '<h5 class="cbp-nttrigger">' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></h5>' +
                                             '<div class="cbp-ntcontent">' +
                                             '<div class="panel panel-default">' +
-                                            '<div class="panel-heading separator">Profile' + status + '</div><div class="panel-body">' +
+                                            '<div class="panel-heading separator">PROFILE' + status + '</div><div class="panel-body">' +
                                             '<div class="row">' +
                                             '<div class="col-md-1 col-xs-2">Email</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].email + '</div><br />' +
                                             '<div class="col-md-1 col-xs-2">Phone</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].phone + '</div><br />' +
                                             '<div class="col-md-1 col-xs-2">Location</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].location + '</div>' +
                                             '</div>' +
                                             '</div>' +
-                                            '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold" style="word-break: break-word;  font-size: 0.8em;">' + app[i].coverLetter + '</div>' +
-                                            '<div class="panel-heading separator">Resume File</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +
+                                            '<div class="panel-heading separator">COVER LETTER</div><div class="panel-body bold" style="word-break: break-word;  font-size: 0.8em;">' + app[i].coverLetter + '</div>' +
+                                            '<div class="panel-heading separator">RESUME FILE</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +
                                             '</div>' +
                                             '</li>';
                                     });
