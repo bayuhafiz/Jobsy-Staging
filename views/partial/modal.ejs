@@ -24,13 +24,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group form-group-default required">
                                                     <label>First Name</label>
-                                                    <input type="text" name="firstName" placeholder="John" class="form-control" required>
+                                                    <input type="text" name="firstName" placeholder="John" minlength="2" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group form-group-default required">
                                                     <label>Last Names</label>
-                                                    <input type="text" name="lastName" placeholder="Appleseed" class="form-control" required>
+                                                    <input type="text" name="lastName" placeholder="Appleseed" minlength="2" class="form-control" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -54,19 +54,19 @@
                                             <div class="col-sm-12">
                                                 <div class="fform-group form-group-default required">
                                                     <label>Password</label>
-                                                    <input type="text" name="password" placeholder="Minimum of 4 Characters" class="form-control" required>
+                                                    <input type="text" name="password" placeholder="Minimum of 4 Characters" minlength="4" class="form-control" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row m-t-10">
-                                            <div class="col-md-8">
+                                            <div class="col-md-12">
                                                 <p>By clicking the button below, you are agree to our <a href="http://jobsy.io/termsofservice.html" target="_blank" class="text-info small">Service Terms</a> and <a href="http://jobsy.io/privacypolicy.html" target="_blank" class="text-info small">Privacy</a>.</p>
                                             </div>
-                                            <div class="col-md-4">
+                                            <!--<div class="col-md-4">
                                                 <a href="#" class="pull-right text-info small">Need Help?</a>
-                                            </div>
+                                            </div>-->
                                         </div>
-                                        <br>
+                                        <br/><br/>
                                         <div class="clearfix"></div>
                                         <button class="btn btn-primary btn-cons">Create a new account</button>
                                     </form>
@@ -92,9 +92,9 @@
                                     <h5>Sign into your job seeker company account</h5>
                                     <form id="form-login" class="" role="form" method="POST" action="/login">
                                         <div class="form-group form-group-default">
-                                            <label>Login</label>
+                                            <label>Email</label>
                                             <div class="controls">
-                                                <input type="text" name="email" placeholder="Your Email" class="form-control" required>
+                                                <input type="email" name="email" placeholder="Your Email" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="form-group form-group-default">
@@ -458,11 +458,11 @@
                         </div>
                         <div class="form-group form-group-default">
                             <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" required>
+                            <input type="text" class="form-control" name="phone" id="app-phone" required>
                         </div>
                         <div class="form-group form-group-default">
                             <label>Location</label>
-                            <input type="text" class="form-control" name="location" required>
+                            <input type="text" class="form-control" name="location" placeholder="ex: Surabaya" required>
                         </div>
                         <div class="form-group form-group-default">
                             <label style="padding-bottom:10px;">Resume</label>

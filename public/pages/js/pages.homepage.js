@@ -470,8 +470,14 @@
             }
         }
 
+         // Input Mask ////
+        $("#app-phone").mask("+62999 99999999");
+
 
         // FORM VALIDATION HANDLER ///
+        $('#form-login').validate();
+        $('#form-register').validate();
+        $('#form-forgot').validate();
         $('#form-create-job').validate();
         $('#form-edit').validate();
         $('#form-register').validate();
