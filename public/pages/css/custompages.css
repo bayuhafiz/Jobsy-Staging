@@ -90,6 +90,7 @@ textarea{resize:none;}
 
 .job_scope ul,.requirements ul,.job_scope ol,.requirements ol{padding-left: 14px;}
 .company_overview,.job_scope, .requirements,.job_scope li, .requirements li{line-height: 29px}
+.job_scope, .requirements{  margin-top: -2px;}
 #typed-cursor {
     font-size: 19px;
     color: #2E3D48;
