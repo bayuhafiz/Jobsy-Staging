@@ -42,8 +42,6 @@
 
                     $.each(data, function(i) {
 
-                        var random = 1 + Math.floor(Math.random() * 999);
-
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
                             badge = '<span class="btn btn-sm btn-danger" style="cursor:default">DELETED</span>';
@@ -309,6 +307,7 @@
             charCount: 2,
             fontSize: 45
         });
+
 
         // init switchery ////
         var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));

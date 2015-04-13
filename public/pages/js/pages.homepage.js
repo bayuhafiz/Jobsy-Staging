@@ -558,15 +558,14 @@
 
         // DROPDOWN FILTERS HANDLER ////
         $("select.job-filter-dropdown").on("change", function() {
-            var filterHtml = '';
             var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
             }).join("/");
 
+            console.log(filters);
+
             // run the load job list function
             loadJobList('/api/jobs/' + filters);
-            console.log(filterText);
-
         });
 
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
