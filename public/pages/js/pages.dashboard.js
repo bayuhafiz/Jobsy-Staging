@@ -342,8 +342,10 @@
         $('.switchery').change(function() {
             if ($(this).attr('checked')) {
                 showJobs('/api/jobs/' + uEmail + '/show');
+                $('p.switch-label').html('Click to hide<br>deleted job posting');
             } else {
                 showJobs('/api/jobs/' + uEmail + '/hide');
+                $('p.switch-label').html('Click to show<br>deleted job posting');
             }
         });
 
