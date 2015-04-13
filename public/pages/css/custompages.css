@@ -199,6 +199,8 @@ a:hover{color:#0E6052;}
     top: -1px;
 }
 
+.list-view-group-header{color:#E1DCDC!important;}
+
 @media(max-width: 768px){
     .applicant-icon{display: none!important;}
     .applicant-header{display: block!important;padding-left: 0!important}
