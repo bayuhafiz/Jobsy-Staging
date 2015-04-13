@@ -42,8 +42,6 @@
 
                     $.each(data, function(i) {
 
-                        var random = 1 + Math.floor(Math.random() * 999);
-
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
                             badge = '<span class="btn btn-sm btn-danger" style="cursor:default">DELETED</span>';
@@ -59,7 +57,7 @@
                         }
 
                         if (data[i].newApp > 0) {
-                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + '</font></span>';
+                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + ' unreviewed</font></span>';
                         } else {
                             var newApp = '';
                         }
@@ -82,26 +80,26 @@
 
                                     $.each(app, function(i) {
                                         if (app[i].read == false) {
-                                            var appBadge = ' <span class="badge badge-warning">un-reviewed</span>';
-                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-check"></i> Set as reviewed</span></a>';
+                                            var appBadge = '<span class="badge badge-danger"><i class="fa fa-eye"></i> </span>';
+                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-eye"></i> Set as reviewed</span></a>';
                                         } else {
-                                            var appBadge = ' <span class="badge badge-default">reviewed</span>';
+                                            var appBadge = '<span class="badge badge-success"><i class="fa fa-eye"></i> </span>';
                                             var status = '';
                                         }
 
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5 class="cbp-nttrigger">' + app[i].firstName + ' ' + app[i].lastName + ' ' + appBadge + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></h5>' +
+                                            '<h5 class="cbp-nttrigger">' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></h5>' +
                                             '<div class="cbp-ntcontent">' +
                                             '<div class="panel panel-default">' +
-                                            '<div class="panel-heading separator">Profile' + status + '</div><div class="panel-body">' +
+                                            '<div class="panel-heading separator">PROFILE' + status + '</div><div class="panel-body">' +
                                             '<div class="row">' +
                                             '<div class="col-md-1 col-xs-2">Email</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].email + '</div><br />' +
                                             '<div class="col-md-1 col-xs-2">Phone</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].phone + '</div><br />' +
                                             '<div class="col-md-1 col-xs-2">Location</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].location + '</div>' +
                                             '</div>' +
                                             '</div>' +
-                                            '<div class="panel-heading separator">Cover letter</div><div class="panel-body bold" style="word-break: break-word;  font-size: 0.8em;">' + app[i].coverLetter + '</div>' +
-                                            '<div class="panel-heading separator">Resume File</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +
+                                            '<div class="panel-heading separator">COVER LETTER</div><div class="panel-body bold" style="word-break: break-word;  font-size: 0.8em;">' + app[i].coverLetter + '</div>' +
+                                            '<div class="panel-heading separator">RESUME FILE</div><div class="panel-body bold"><a href="/uploads/resume/' + app[i].resumeFile + '" target="_blank"><span class="link bold">Click to download</span></a></div></div>' +
                                             '</div>' +
                                             '</li>';
                                     });
@@ -311,6 +309,15 @@
         });
 
 
+        // init switchery ////
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+        elems.forEach(function(html) {
+            var switchery = new Switchery(html, {
+                color: '#b2050d'
+            });
+        });
+
+
         // NOTIFICATIONS HANDLER /////
         var msg = $('.msg-container').text();
         var type = $('.msg-container').attr('data-type');
@@ -331,15 +338,18 @@
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
 
-        // 'show deleted job' radio button action
-        $("input:radio[name=hide-radio]").click(function() {
-            var value = $(this).val();
-            showJobs('/api/jobs/' + uEmail + '/' + value);
+        // Switchery Handler >>> 'show deleted job'
+        $('.switchery').change(function() {
+            if ($(this).attr('checked')) {
+                showJobs('/api/jobs/' + uEmail + '/show');
+            } else {
+                showJobs('/api/jobs/' + uEmail + '/hide');
+            }
         });
 
         //add mousedown handler on select2 mask to close dropdown
         $(document).on('mousedown', '#select2-drop-mask', function() {
-            $('.job-filter-dropdown.open').removeClass('open');
+            $('.dropdown.open').removeClass('open');
             $('.job-dropdown.open').removeClass('open');
         });
 

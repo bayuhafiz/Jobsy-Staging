@@ -190,6 +190,12 @@
 
                 $('div.list-view-wrapper').html(''); // clear the list before we do the magic
 
+                var listViewGroupCont = $('<div/>', {
+                    "class": "list-view-group-container"
+                });
+
+                listViewGroupCont.html('<div class="list-view-group-header"><span>Job Board</span></div>');
+
                 if (data.length < 1) { // If there is no job to display
 
                     var noJob = '<div class="text-center" style="margin-top: auto; margin-bottom: auto;"><h1 class="hint-text"><br/><i class="fa fa-ban fa-2x"></i><br/>oops, no job post found!</h1><span class="hint-text">Hint: Try changing your filter preference or your search keyword</span></div>';
@@ -464,8 +470,14 @@
             }
         }
 
+         // Input Mask ////
+        $("#app-phone").mask("+62999 99999999");
+
 
         // FORM VALIDATION HANDLER ///
+        $('#form-login').validate();
+        $('#form-register').validate();
+        $('#form-forgot').validate();
         $('#form-create-job').validate();
         $('#form-edit').validate();
         $('#form-register').validate();
@@ -546,21 +558,14 @@
 
         // DROPDOWN FILTERS HANDLER ////
         $("select.job-filter-dropdown").on("change", function() {
-            var filterHtml = '';
             var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
             }).join("/");
 
+            console.log(filters);
+
             // run the load job list function
             loadJobList('/api/jobs/' + filters);
-            console.log(filterText);
-
-            var listViewGroupCont = $('<div/>', {
-                "class": "list-view-group-container"
-            });
-
-            listViewGroupCont.html('<div class="list-view-group-header"><span>No Filters Applied</span></div>');
-
         });
 
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
