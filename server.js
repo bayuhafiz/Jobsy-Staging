@@ -1,7 +1,7 @@
 // server.js
-/*require('pmx').init();
+require('pmx').init();
 var http = require('http');
-var pmx = require('pmx');*/
+var pmx = require('pmx');
 // set up ======================================================================
 // get all the tools we need
 var express = require('express');
@@ -79,7 +79,7 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 // require('./app/seeding/user.js'); // loads sample user
 
 // PMX Monitoring setting ======================================================
-//app.use(pmx.expressErrorHandler());
+app.use(pmx.expressErrorHandler());
 
 // launch ======================================================================
 app.listen(port);

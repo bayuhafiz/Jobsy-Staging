@@ -38,7 +38,7 @@
                     "class": "list-view-group-container"
                 });
 
-                listViewGroupCont.html('<h2 class="list-view-group-header">JOB BOARD</h2>');
+                listViewGroupCont.html('<h2 class="list-view-group-header" style="color:#E1DCDC">JOB BOARD</h2>');
 
                 $('div.list-view-wrapper').html(''); // clear the list before we do the magic
 
