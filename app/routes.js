@@ -1023,6 +1023,20 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Fetch all apps
+    app.get('/api/apps', function(req, res) {
+        App.find({}, {
+            _id: 0,
+            __v: 0
+        }, {
+            sort: {
+                createdAt: -1
+            }
+        }, function(err, apps) {
+            res.json(apps);
+        });
+    });
+
     // Fetch all published jobs based on keywords
     app.get('/api/jobs/s/:keyword', function(req, res) {
         var regex = RegExp("/.*" + req.params.keyword + ".*/");
@@ -1217,8 +1231,6 @@ module.exports = function(app, passport) {
     // =============================================================================
     // END OF API ROUTES ===========================================================
     // =============================================================================
-
-
 };
 
 // route middleware to ensure user is logged in
