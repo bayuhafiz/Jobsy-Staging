@@ -1030,7 +1030,7 @@ module.exports = function(app, passport) {
             __v: 0
         }, {
             sort: {
-                createdAt: -1
+                applyDate: -1
             }
         }, function(err, apps) {
             res.json(apps);
