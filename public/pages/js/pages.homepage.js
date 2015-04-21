@@ -472,9 +472,6 @@
             }
         }
 
-         // Input Mask ////
-        $("#app-phone").mask("+62999 99999999");
-
 
         // FORM VALIDATION HANDLER ///
         $('#form-login').validate();
