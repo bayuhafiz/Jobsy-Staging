@@ -91,7 +91,7 @@
 
                         li += '<div class="middle img-list-box"> \
                                         <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail"> \
-                                            <img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
+                                            <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                         </div> \
                                     </div> \
                                     <div class="checkbox  no-margin p-l-10"> \
