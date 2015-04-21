@@ -93,9 +93,10 @@
                                             '<div class="panel panel-default">' +
                                             '<div class="panel-heading separator">PROFILE' + status + '</div><div class="panel-body">' +
                                             '<div class="row">' +
-                                            '<div class="col-md-1 col-xs-2">Email</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].email + '</div><br />' +
-                                            '<div class="col-md-1 col-xs-2">Phone</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].phone + '</div><br />' +
-                                            '<div class="col-md-1 col-xs-2">Location</div><div class="col-md-1 col-xs-1">:</div><div class="col-md-6 col-xs-6 bold">' + app[i].location + '</div>' +
+                                            '<div class="col-md-2 col-xs-2">Email</div><div class="col-md-6 col-xs-6 bold">' + app[i].email + '</div><br />' +
+                                            '<div class="col-md-2 col-xs-2">Phone</div><div class="col-md-6 col-xs-6 bold">' + app[i].phone + '</div><br />' +
+                                            '<div class="col-md-2 col-xs-2">Location</div><div class="col-md-6 col-xs-6 bold">' + app[i].location + '</div><br />' +
+                                            '<div class="col-md-2 col-xs-2">Last Job/Education</div><div class="col-md-6 col-xs-6 bold">' + app[i].lastJob + '</div>' +
                                             '</div>' +
                                             '</div>' +
                                             '<div class="panel-heading separator">COVER LETTER</div><div class="panel-body bold" style="word-break: break-word;  font-size: 0.8em;">' + app[i].coverLetter + '</div>' +

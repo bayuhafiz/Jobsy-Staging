@@ -25,6 +25,10 @@ module.exports = mongoose.model('App', {
         type: String,
         default: ''
     },
+    lastJob: {
+        type: String,
+        default: ''
+    },
     resumeFile: {
         type: String,
         default: ''

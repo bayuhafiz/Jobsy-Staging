@@ -843,6 +843,7 @@ module.exports = function(app, passport) {
                                     phone: req.body.phone,
                                     email: req.body.email,
                                     location: req.body.location,
+                                    lastJob: req.body.lastJob,
                                     resumeFile: database_filepath,
                                     coverLetter: req.body.coverLetter,
                                     applyDate: Date.now()
