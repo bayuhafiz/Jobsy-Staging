@@ -38,7 +38,7 @@
                     "class": "list-view-group-container"
                 });
 
-                listViewGroupCont.html('<h2 class="list-view-group-header" style="color:#E1DCDC">JOB BOARD</h2>');
+                listViewGroupCont.html('<h2 class="list-view-group-header">JOB BOARD</h2>');
 
                 $('div.list-view-wrapper').html(''); // clear the list before we do the magic
 
@@ -89,9 +89,9 @@
                             li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '">';
                         }
 
-                        li += '<div class="middle img-list-box" style="width: 110px;"> \
-                                        <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
-                                            <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
+                        li += '<div class="middle img-list-box"> \
+                                        <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail"> \
+                                            <img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                         </div> \
                                     </div> \
                                     <div class="checkbox  no-margin p-l-10"> \
@@ -245,7 +245,7 @@
                             li += '<li class="item padding-15" data-id="' + id + '" job-index="' + i + '" style="height:110px;">';
                         }
 
-                        li += '<div class="middle img-list-box" style="width: 110px;"> \
+                        li += '<div class="middle img-list-box"> \
                                         <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
                                             <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                         </div> \
