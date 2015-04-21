@@ -5,7 +5,7 @@ body.fixed-header .header .btn-complete{width: 142px;}
 .modal.fade.slide-right .modal-dialog{width: 40%;}
 .modal.fade.slide-right .modal-dialog-userdashboard{width: 55%;}
 .post_job{font-weight: bold;cursor: pointer;padding-top: 7px;margin-right: 5px;}
-.email-wrapper .email-list{width: 35%}
+.email-wrapper .email-list{width: 35%;height: 100%;}
 
 .notification-panel .notification-body .notification-item .heading.open .thumbnail-wrapper i{-webkit-transform: rotate(-90deg);-ms-transform: rotate(-90deg);transform: rotate(-180deg);}
 
@@ -28,11 +28,12 @@ textarea{resize:none;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box{margin-bottom: 45px;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{text-align: right;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc{width: 20%;padding-right:0}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header{height: 120px}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc p{font-size:10px;color:#000}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header{height:100%;position:relative}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 15px}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .name{font-size: 11px;line-height: 0px;position: relative;top: 9px;}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .name{font-size: 11px;line-height: 0px;position: relative;top: 9px;text-transform: uppercase;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .datetime{color: #000; opacity: 1}
-
+.job-title {line-height: 30px;}
 .company_overview p,
 .job_scope p,
 .requirements p{line-height: 30px;}
@@ -201,6 +202,20 @@ a:hover{color:#0E6052;}
 
 .list-view-group-header{color:#E1DCDC!important;}
 
+.email-list-toggle{padding-top: 15px;font-size: 20px;color: #fff;}
+.salary{line-height: 18px;}
+.img-list-box{width: 110px;}
+.thumbnail-wrapper{max-width:90px; max-height:90px;}
+.img-list{margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto}
+
+
+@media(max-width: 568px){
+    .deletedJob-btn{
+        float: none!important;
+          margin-bottom: -33px;
+    }
+}
+
 @media(max-width: 768px){
     .applicant-icon{display: none!important;}
     .applicant-header{display: block!important;padding-left: 0!important}
@@ -241,7 +256,7 @@ a:hover{color:#0E6052;}
     .notification-panel{width: 400px;}
 
     .email-wrapper .email-opened .email-content-wrapper{height: 100%;}
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{text-align: left;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{text-align: center;}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{left: 0}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 20px;}
 
