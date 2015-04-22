@@ -22,10 +22,6 @@ module.exports = function(app, passport) {
     // =========================================================== MAIN PAGES ROUTES
     // =============================================================================
 
-    app.get('/testcf', function(req, res, next) {
-        res.send("Your IP is: " + req.cf_ip);
-    });
-
     // show the home page ===========================
     app.get('/', function(req, res) {
         res.redirect('/home');
@@ -109,8 +105,22 @@ module.exports = function(app, passport) {
     // =============================================================================
     // END OF MAIN PAGES ROUTES ====================================================
     // =============================================================================
+    
+    app.get('/vt/notifications', function(req, res, next) {
+        console.log(req);
+    });
+    
+    app.get('/vt/finish', function(req, res, next) {
+        console.log(req);
+    });
 
+    app.get('/vt/unfinish', function(req, res, next) {
+        console.log(req);
+    });
 
+    app.get('/vt/error', function(req, res, next) {
+        console.log(req);
+    });
 
 
     // =============================================================================
