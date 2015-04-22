@@ -22,7 +22,7 @@ textarea{resize:none;}
 .img-uploader-preview img{width: 100%; height: auto}
 #target-img{display: none;}
 
-
+.email-wrapper .email-opened .email-content-wrapper{background-color: #FCFCFC}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{width: 110px;}
 .email-wrapper .email-opened .email-content-wrapper .email-content{width: 700px;padding-top: 114px;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box{margin-bottom: 45px;}
