@@ -18,7 +18,7 @@
             if (userEmail == jobEmail) {
                 initialState;
                 $('#button-text').text('Edit this job');
-                button.attr('data-id', jobId).attr('data-target', '#EditJob').attr('class', 'btn btn-primary btn-animated from-top fa fa-pencil apply-job-btn edit').css('right', '0').css('margin-top', '7px').css('margin-right', '21px').css('position', 'absolute');
+                button.attr('data-id', jobId).attr('data-target', '#EditJob').attr('class', 'btn btn-primary btn-animated from-top fa fa-pencil apply-job-btn edit').css({'right':'0','margin-top':'7px','margin-right':'21px','position':'absolute'});
             } else if (userEmail != jobEmail) {
                 initialState;
                 $('#button-text').text('You cannot edit this job...');
