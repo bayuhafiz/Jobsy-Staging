@@ -106,7 +106,7 @@ module.exports = function(app, passport) {
     // END OF MAIN PAGES ROUTES ====================================================
     // =============================================================================
     
-    app.get('/vt/notifications', function(req, res, next) {
+    app.get('/vt/notification', function(req, res, next) {
         console.log(req);
     });
     
