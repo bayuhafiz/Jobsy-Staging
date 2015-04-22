@@ -22,7 +22,7 @@
             } else if (userEmail != jobEmail) {
                 initialState;
                 $('#button-text').text('You cannot edit this job...');
-                button.attr('class', 'btn btn-danger apply-job-btn').css('right', '0').css('margin-top', '7px').css('margin-right', '21px').css('position', 'absolute').attr('disabled', true);
+                button.attr('class', 'btn btn-danger apply-job-btn').css({'right':'0','margin-top':'7px','margin-right':'21px','position':'absolute'}).attr('disabled', true);
             }
         }
     }
@@ -91,7 +91,7 @@
 
                         li += '<div class="middle img-list-box"> \
                                         <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail"> \
-                                            <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
+                                            <img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                         </div> \
                                     </div> \
                                     <div class="checkbox  no-margin p-l-10"> \
@@ -151,7 +151,7 @@
 
 
 
-                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger');
+                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger');
 
                                     $('.no-email').hide();
                                     $('.actions-dropdown').toggle();
@@ -247,7 +247,7 @@
 
                         li += '<div class="middle img-list-box"> \
                                         <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail" style="max-width:90px; max-height:90px;"> \
-                                            <img class="img-list" style="margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
+                                            <img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                         </div> \
                                     </div> \
                                     <div class="checkbox  no-margin p-l-10"> \
