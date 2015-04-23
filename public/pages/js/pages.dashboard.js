@@ -267,6 +267,41 @@
     };
 
 
+    // ====================== BUY CREDITS FUNCTION ===========================
+    var buyCredit = function(amount) {
+        var BASE_URL = 'https://api.sandbox.veritrans.co.id/v2/charge';
+        var server_key = btoa('VT-server-XzWLJbFxyzU72hwjhpmM_K-y');
+        var datas = {
+            "payment_type": "vtweb",
+            "vtweb": {
+                "credit_card_3d_secure": true
+            },
+            "transaction_details": {
+                "order_id": "A17550",
+                "gross_amount": amount
+            }
+        };
+
+        $.ajax({
+            url: BASE_URL,
+            type: 'POST',
+            headers: {
+                contentType: 'application/json',
+                accept: 'application/json',
+                authorization: 'Basic ' + server_key + ':',
+            },
+            data: JSON.stringify(datas),
+            dataType: 'json',
+            async: false,
+            success: function(msg) {
+                alert('SUCCESS!!!');
+                console.log(msg.status_message);
+            }
+        });
+
+    };
+
+
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
@@ -338,6 +373,17 @@
         // ================================================================================================
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
+
+        // Buy Credits buttons action
+        $('#btnBuy1').click(function() {
+            buyCredit(50000);
+        });
+        $('#btnBuy5').click(function() {
+            buyCredit(250000);
+        });
+        $('#btnBuy10').click(function() {
+            buyCredit(500000);
+        });
 
         // Switchery Handler >>> 'show deleted job'
         $('.switchery').change(function() {

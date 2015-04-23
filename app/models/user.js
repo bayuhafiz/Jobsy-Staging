@@ -22,6 +22,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    credits: {
+        type: Number,
+        default: 0
+    },
     actStatus: {
         type: String,
         default: ''

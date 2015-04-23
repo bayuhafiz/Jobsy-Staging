@@ -5,7 +5,8 @@ var async = require('async'),
     templatesDir = path.resolve(__dirname, '..', 'views'),
     emailTemplates = require('email-templates'),
     nodemailer = require('nodemailer'),
-    fs = require('fs');
+    fs = require('fs'),
+    unirest = require('unirest');
 
 // Load up the secret file
 var secrets = require('../config/secret');
@@ -43,6 +44,7 @@ module.exports = function(app, passport) {
                     title: 'Homepage',
                     user: user,
                     initLogin: user.initLogin,
+                    credit: user.credits,
                     success: req.flash('success'),
                     error: req.flash('error'),
                     info: req.flash('info')
@@ -83,6 +85,7 @@ module.exports = function(app, passport) {
                     title: 'Dashboard',
                     user: user,
                     initLogin: user.initLogin,
+                    credit: user.credits,
                     success: req.flash('success'),
                     error: req.flash('error'),
                     info: req.flash('info')
@@ -91,7 +94,7 @@ module.exports = function(app, passport) {
         }
     });
 
-    /*app.post('/s/', function(req, res) {
+    /* app.post('/s/', function(req, res) {
         client.search({
             q: 'pants'
         }).then(function(body) {
@@ -101,26 +104,11 @@ module.exports = function(app, passport) {
         });
     }); */
 
+    
 
     // =============================================================================
     // END OF MAIN PAGES ROUTES ====================================================
     // =============================================================================
-    
-    app.get('/vt/notification', function(req, res, next) {
-        console.log(req);
-    });
-    
-    app.get('/vt/finish', function(req, res, next) {
-        console.log(req);
-    });
-
-    app.get('/vt/unfinish', function(req, res, next) {
-        console.log(req);
-    });
-
-    app.get('/vt/error', function(req, res, next) {
-        console.log(req);
-    });
 
 
     // =============================================================================
