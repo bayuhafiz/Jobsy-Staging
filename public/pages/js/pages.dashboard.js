@@ -270,9 +270,10 @@
     // ====================== BUY CREDITS FUNCTION ===========================
     var buyCredit = function(amount) {
         var BASE_URL = 'https://api.sandbox.veritrans.co.id/v2/charge';
-        var order_id = Date.now() + user._id;
-        var server_key = btoa('VT-server-XzWLJbFxyzU72hwjhpmM_K-y');
-        var datas = {
+        var userId = $('#user-id').val(); // Get logged user id
+        var order_id = Date.now() + userId;
+        var auth = 'Basic ' + btoa('VT-server-XzWLJbFxyzU72hwjhpmM_K-y') + ':';
+        var arr = {
             "payment_type": "vtweb",
             "vtweb": {
                 "credit_card_3d_secure": true
@@ -283,20 +284,23 @@
             }
         };
 
+        console.log(BASE_URL + '\n' + order_id + '\n' + auth);
+
         $.ajax({
             url: BASE_URL,
             type: 'POST',
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.setRequestHeader('Authorization', 'Basic ' + server_key + ':');
+                xhr.setRequestHeader('Authorization', auth);
             },
-            data: datas,
-            success: function() {
-                console.log('success');
+            data: JSON.stringify(arr),
+            success: function(msg) {
+                console.log('SUCCESS!!! >>> ' + JSON.stringify(msg));
+                //window.location.href = msg.redirect_url;
             },
-            error: function() {
-                console.log('failure');
+            error: function(err) {
+                console.log('FAILURE!!! >>> ' + JSON.stringify(err));
             },
         });
 

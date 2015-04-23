@@ -98,6 +98,7 @@
     <!-- END MODAL -->
 
     <% if (user) { %>
+      <input type="hidden" id="user-id" value="<%= user._id %>" />
       <input type="hidden" id="init-login" value="<%= initLogin %>" />
       <input type="hidden" id="hidden-logo" value="<%= user.initCompany.logo %>" />
       <input type="hidden" id="hidden-name" value="<%= user.initCompany.name %>" />

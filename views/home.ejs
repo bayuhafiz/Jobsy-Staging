@@ -113,6 +113,7 @@
     <!-- END MODAL OVERLAY -->
 
     <% if (user) { %>
+      <input type="hidden" id="user-id" value="<%= user._id %>" />
       <input type="hidden" id="user_email" value="<%= user.email %>">
       <input type="hidden" id="init-login" value="<%= initLogin %>" />
       <input type="hidden" id="hidden-logo" value="<%= user.initCompany.logo %>" />
