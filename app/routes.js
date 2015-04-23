@@ -5,8 +5,7 @@ var async = require('async'),
     templatesDir = path.resolve(__dirname, '..', 'views'),
     emailTemplates = require('email-templates'),
     nodemailer = require('nodemailer'),
-    fs = require('fs'),
-    unirest = require('unirest');
+    fs = require('fs')
 
 // Load up the secret file
 var secrets = require('../config/secret');
