@@ -270,6 +270,7 @@
     // ====================== BUY CREDITS FUNCTION ===========================
     var buyCredit = function(amount) {
         var BASE_URL = 'https://api.sandbox.veritrans.co.id/v2/charge';
+        var order_id = Date.now() + user._id;
         var server_key = btoa('VT-server-XzWLJbFxyzU72hwjhpmM_K-y');
         var datas = {
             "payment_type": "vtweb",
@@ -277,7 +278,7 @@
                 "credit_card_3d_secure": true
             },
             "transaction_details": {
-                "order_id": "A17550",
+                "order_id": order_id,
                 "gross_amount": amount
             }
         };
@@ -285,18 +286,18 @@
         $.ajax({
             url: BASE_URL,
             type: 'POST',
-            headers: {
-                contentType: 'application/json',
-                accept: 'application/json',
-                authorization: 'Basic ' + server_key + ':',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.setRequestHeader('Authorization', 'Basic ' + server_key + ':');
             },
-            data: JSON.stringify(datas),
-            dataType: 'json',
-            async: false,
-            success: function(msg) {
-                alert('SUCCESS!!!');
-                console.log(msg.status_message);
-            }
+            data: datas,
+            success: function() {
+                console.log('success');
+            },
+            error: function() {
+                console.log('failure');
+            },
         });
 
     };
