@@ -291,37 +291,24 @@
 
         console.log(order_id + '\n' + auth);
         // Get response and redirect
-        var createCORSRequest = function(method, url) {
-          var xhr = new XMLHttpRequest();
-          if ("withCredentials" in xhr) {
-            // Most browsers.
-            xhr.open(method, url, true);
-          } else if (typeof XDomainRequest != "undefined") {
-            // IE8 & IE9
-            xhr = new XDomainRequest();
-            xhr.open(method, url);
-          } else {
-            // CORS not supported.
-            xhr = null;
-          }
-          return xhr;
-        };
-
-        var url = 'https://api.sandbox.veritrans.co.id/v2/charge';
-        var method = 'POST';
-        var xhr = createCORSRequest(method, url);
-
-        xhr.onload = function() {
-          // Success code goes here.
-          alert('YES!!!');
-        };
-
-        xhr.onerror = function() {
-          // Error code goes here.
-          alert('NOOO!!!');
-        };
-
-        xhr.send();
+        $.ajax({
+            type: 'POST',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.setRequestHeader('Authorization', auth);
+            },
+            dataType: 'jsonp',
+            url: 'https://api.sandbox.veritrans.co.id/v2/charge',
+            data: JSON.stringify(arr),
+            success: function(msg) {
+                console.log('SUCCESS!!! >>> ' + JSON.stringify(msg));
+                //window.location.href = msg.redirect_url;
+            },
+            error: function(err) {
+                console.log('FAILURE!!! >>> ' + JSON.stringify(err));
+            },
+        });
 
     };
 
