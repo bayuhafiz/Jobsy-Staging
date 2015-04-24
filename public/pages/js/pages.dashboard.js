@@ -284,29 +284,28 @@
                 "credit_card_3d_secure": true
             },
             "transaction_details": {
-                "order_id": "64783264723",
+                "order_id": order_id,
                 "gross_amount": 15000
-            }
+            }   
         };
-
-        console.log(order_id + '\n' + auth);
         // Get response and redirect
         $.ajax({
             type: 'POST',
+            dataType: 'json',
+            url: 'https://api.sandbox.veritrans.co.id/v2/charge/',
+            data: arr,
             beforeSend: function(xhr) {
+                xhr.setRequestHeader("Access-Control-Allow-Origin", "https://beta.jobsy.io/dash");
                 xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.setRequestHeader('Authorization', auth);
             },
-            dataType: 'jsonp',
-            url: 'https://api.sandbox.veritrans.co.id/v2/charge',
-            data: JSON.stringify(arr),
             success: function(msg) {
-                console.log('SUCCESS!!! >>> ' + JSON.stringify(msg));
+                alert('SUCCESS!!!\n' + JSON.stringify(msg));
                 //window.location.href = msg.redirect_url;
             },
             error: function(err) {
-                console.log('FAILURE!!! >>> ' + JSON.stringify(err));
+                alert('FAILURE!!!\n' + JSON.stringify(err));
             },
         });
 
