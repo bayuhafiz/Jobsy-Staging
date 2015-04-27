@@ -1030,12 +1030,15 @@ module.exports = function(app, passport) {
 
     // Payment status handler
     app.post('/payment/handler', function(req, res) {
-       var status = req.body.status_code;
-       if (status == '200') {
-            res.send('Your transaction with ID ' + req.body.transaction_id + ' is successfull');
-       } else {
-            res.send('Your transaction with ID ' + req.body.transaction_id + ' is failed');
-       }
+        var status = req.body.status_code;
+        if (status == '200') {
+            var msg = 'Your transaction with ID ' + req.body.transaction_id + ' is successfull. Your credit has been added.';
+            req.flash('success', msg);
+        } else {
+            var msg = 'Your transaction with ID ' + req.body.transaction_id + ' failed';
+            req.flash('error', msg);
+        }
+        res.redirect('/dash');
     });
 
 
