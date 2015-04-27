@@ -1103,11 +1103,13 @@ module.exports = function(app, passport) {
                             req.flash('error', err);
                             res.redirect('/dash');
                         } else {
+                            console.log('Deleting init transaction...');
                             doc.remove(function(err) {
                                 if (err) { // if failed remove
                                     req.flash('error', err);
                                     res.redirect('/dash');
                                 } else { // if succeeded
+                                    console.log('Success!! init transaction deleted...');
                                     req.flash('error', 'You cancelled the transaction.');
                                 }
                             });
