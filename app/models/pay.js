@@ -1,34 +1,28 @@
 var mongoose = require('mongoose');
 
 module.exports = mongoose.model('Pay', {
-    status: {
+    order_id: {
         type: String,
         default: ''
     },
-    token: {
+    user_email: {
         type: String,
         default: ''
     },
-    updatedAt: {
-        type: Date
-    },
-    createdAt: {
-        type: Date
-    },
-    deleteReason: {
+    payment_type: {
         type: String,
         default: ''
     },
-    app: {
+    transaction_time: {
+        type: String,
+        default: ''
+    },
+    status_code: {
+        type: String,
+        default: ''
+    },
+    gross_amount: {
         type: Number,
         default: 0
-    },
-    newApp: {
-        type: Number,
-        default: 0
-    },
-    email: {
-        type: String,
-        default: ''
     }
 });
