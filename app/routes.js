@@ -1098,13 +1098,13 @@ module.exports = function(app, passport) {
 
             case "unfinish":
                 Pay.find({order_id: req.body.order_id})
-                    .exec(function(err, doc) {
-                        if (err || !doc) {
+                    .exec(function(err, pay) {
+                        if (err || !pay) {
                             req.flash('error', err);
                             res.redirect('/dash');
                         } else {
-                            console.log('Deleting init transaction...');
-                            doc.remove(function(err) {
+                            console.log('Deleting init transaction:' + req.body.order_id);
+                            pay.remove(function(err) {
                                 if (err) { // if failed remove
                                     req.flash('error', err);
                                     res.redirect('/dash');
