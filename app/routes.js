@@ -1029,7 +1029,7 @@ module.exports = function(app, passport) {
     });
 
     // Payment status handler
-    app.get('/payment/handler', isLoggedIn, function(req, res) {
+    app.get('/payment/handler', function(req, res) {
         res.json(req);
     });
 
