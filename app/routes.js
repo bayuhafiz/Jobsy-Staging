@@ -1065,7 +1065,7 @@ module.exports = function(app, passport) {
                     }
                     // Add credit to user
                     User.findById(req.user.id, function(err, user) {
-                        user.credits = credit;
+                        user.credits = user.credits + credit;
                         user.save(function(err) {
                             if (err) {
                                 req.flash('error', err);
