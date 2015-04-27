@@ -1097,13 +1097,24 @@ module.exports = function(app, passport) {
                 break;
 
             case "unfinish":
-                Pay.find({
-                    order_id: req.body.order_id
-                }).remove(function(err) {
-                    console.log('Success canceling transaction...');
-                });
+                Pay.find({order_id: req.body.order_id})
+                    .exec(function(err, doc) {
+                        if (err || !doc) {
+                            req.flash('error', err);
+                            res.redirect('/dash');
+                        } else {
+                            doc.remove(function(err) {
+                                if (err) { // if failed remove
+                                    req.flash('error', err);
+                                    res.redirect('/dash');
+                                } else { // if succeeded
+                                    req.flash('error', 'You cancelled the transaction.');
+                                }
+                            });
+                        }
+                    });
+
                 
-                req.flash('error', 'You cancelled the transaction.');
                 break;
 
             case "error":
