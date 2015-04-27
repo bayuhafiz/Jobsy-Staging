@@ -1033,7 +1033,6 @@ module.exports = function(app, passport) {
                         req.flash('error', err);
                         res.redirect('/dash');
                     }
-
                     res.redirect(response.body.redirect_url);
                 });
             });
@@ -1058,7 +1057,10 @@ module.exports = function(app, passport) {
             Pay.find({
                 order_id: req.body.order_id
             }, function(err, pay) {
-                if (err) return next(err);
+                if (err) {
+                    req.flash('error', err);
+                    res.redirect('/dash');
+                }
                 pay.payment_type = req.body.payment_type;
                 pay.transaction_time = req.body.transaction_time;
                 pay.status_code = status;
