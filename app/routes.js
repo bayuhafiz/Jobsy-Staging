@@ -1009,7 +1009,7 @@ module.exports = function(app, passport) {
             },
             "transaction_details": {
                 "order_id": order_id,
-                "gross_amount": parseInt(amount)
+                "gross_amount": amount
             }
         }
 
