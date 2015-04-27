@@ -1100,8 +1100,10 @@ module.exports = function(app, passport) {
                 Pay.find({
                     order_id: req.body.order_id
                 }).remove(function(err) {
-                    req.flash('error', 'You cancelled the transaction.');
-                })
+                    console.log('Success canceling transaction...');
+                });
+                
+                req.flash('error', 'You cancelled the transaction.');
                 break;
 
             case "error":
