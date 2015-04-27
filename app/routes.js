@@ -1041,7 +1041,7 @@ module.exports = function(app, passport) {
 
 
     // Payment status handler
-    app.post('/payment', function(req, res) {
+    app.post('/payment', isLoggedIn, function(req, res) {
         var status = req.body.status_code;
 
         if (req.body.gross_amount == '50000') {
