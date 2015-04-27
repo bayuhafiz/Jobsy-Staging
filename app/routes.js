@@ -1034,11 +1034,12 @@ module.exports = function(app, passport) {
         if (status == '200') {
             var msg = 'Your transaction with ID ' + req.body.transaction_id + ' is successfull. Your credit has been added.';
             req.flash('success', msg);
+            res.redirect('/dash');
         } else if (status == '202') {
             var msg = 'Your transaction with ID ' + req.body.transaction_id + ' failed';
             req.flash('error', msg);
+            res.redirect('/dash');
         }
-        res.redirect('/dash');
     });
 
 
