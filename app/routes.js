@@ -1030,7 +1030,12 @@ module.exports = function(app, passport) {
 
     // Payment status handler
     app.post('/payment/handler', function(req, res) {
-        res.json(req.body);
+       var status = req.body.status_code;
+       if (status == '200') {
+            res.send('Your transaction with ID ' + req.body.transaction_id + ' is successfull');
+       } else {
+            res.send('Your transaction with ID ' + req.body.transaction_id + ' is failed');
+       }
     });
 
 
