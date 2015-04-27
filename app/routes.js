@@ -1029,7 +1029,10 @@ module.exports = function(app, passport) {
                 });
                 // Save transaction data
                 pay.save(function(err) {
-                    if (err) return next(err);
+                    if (err) {
+                        req.flash('error', err);
+                        res.redirect('/dash');
+                    }
 
                     res.redirect(response.body.redirect_url);
                 });
@@ -1081,7 +1084,7 @@ module.exports = function(app, passport) {
         } else {
             res.redirect('/dash');
         }
-        
+
     });
 
 
