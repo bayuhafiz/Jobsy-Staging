@@ -1030,7 +1030,7 @@ module.exports = function(app, passport) {
 
     // Payment status handler
     app.post('/payment/handler', function(req, res) {
-        res.json(req);
+        res.json(req.body);
     });
 
 
