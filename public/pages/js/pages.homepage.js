@@ -512,17 +512,17 @@
 
         // Buy Credits buttons action
         $('#btnBuy1').click(function() {
-           var url = '/buy/50000';
+           var url = '/buy/1';
            window.location.href = url;
            return false;
         });
         $('#btnBuy5').click(function() {
-           var url = '/buy/250000';
+           var url = '/buy/5';
            window.location.href = url;
            return false;
         });
         $('#btnBuy10').click(function() {
-           var url = '/buy/500000';
+           var url = '/buy/10';
            window.location.href = url;
            return false;
         });

@@ -1033,6 +1033,7 @@ module.exports = function(app, passport) {
                         req.flash('error', err);
                         res.redirect('/dash');
                     }
+                    console.log("Saving init transaction success...");
                     res.redirect(response.body.redirect_url);
                 });
             });
@@ -1079,6 +1080,7 @@ module.exports = function(app, passport) {
                                 res.redirect('/dash');
                             }
                             // Transaction success...
+                            console.log('Success your credit has been added...');
                             req.flash('success', 'Your credit has been added.');
                             res.redirect('/dash');
                         })
