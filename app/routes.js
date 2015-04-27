@@ -1044,13 +1044,15 @@ module.exports = function(app, passport) {
     app.post('/payment', function(req, res) {
         var status = req.body.status_code;
 
-        if (req.body.gross_amount == 50000) {
+        if (req.body.gross_amount == '50000') {
             var credit = 1;
-        } else if (req.body.gross_amount == 250000) {
+        } else if (req.body.gross_amount == '250000') {
             var credit = 5;
-        } else if (req.body.gross_amount == 500000) {
+        } else if (req.body.gross_amount == '500000') {
             var credit = 10;
         }
+
+        console.log(req.body.order_id + '\n' + req.user.id);
 
         if (status == '200') {
             Pay.find({
@@ -1082,6 +1084,7 @@ module.exports = function(app, passport) {
                 });
             });
         } else {
+            req.flash('error', 'Your transaction is failed to process...');
             res.redirect('/dash');
         }
 
