@@ -1029,12 +1029,12 @@ module.exports = function(app, passport) {
     });
 
     // Payment status handler
-    app.post('/payment/handler', function(req, res) {
+    app.post('/payment', function(req, res) {
         var status = req.body.status_code;
         if (status == '200') {
             var msg = 'Your transaction with ID ' + req.body.transaction_id + ' is successfull. Your credit has been added.';
             req.flash('success', msg);
-        } else {
+        } else if (status == '202') {
             var msg = 'Your transaction with ID ' + req.body.transaction_id + ' failed';
             req.flash('error', msg);
         }
