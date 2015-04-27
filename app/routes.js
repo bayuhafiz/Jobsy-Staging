@@ -1052,7 +1052,7 @@ module.exports = function(app, passport) {
             case "finish":
                 if (status == '200') {
                     Pay.find({
-                        order_id: req.body.order_id
+                        order_id: req.query.order_id
                     }, function(err, pay) {
                         if (err) {
                             req.flash('error', err);
@@ -1097,13 +1097,13 @@ module.exports = function(app, passport) {
                 break;
 
             case "unfinish":
-                Pay.find({order_id: req.body.order_id})
+                Pay.find({order_id: req.query.order_id})
                     .exec(function(err, pay) {
                         if (err || !pay) {
                             req.flash('error', err);
                             res.redirect('/dash');
                         } else {
-                            console.log('Deleting init transaction:' + req.body.order_id);
+                            console.log('Deleting init transaction:' + req.query.order_id);
                             pay.remove(function(err) {
                                 if (err) { // if failed remove
                                     req.flash('error', err);
