@@ -1041,57 +1041,78 @@ module.exports = function(app, passport) {
 
 
     // Payment status handler
-    app.post('/payment', isLoggedIn, function(req, res) {
-        var status = req.body.status_code;
+    app.post('/payment/:state', isLoggedIn, function(req, res) {
+        switch (req.params.state) {
+            case "notif":
+                if (req.body.status_code == "200") {
+                    res.send("SUCCESS");
+                } else {
+                    res.send("ERROR");
+                };
+                break;
 
-        if (req.body.gross_amount == '50000') {
-            var credit = 1;
-        } else if (req.body.gross_amount == '250000') {
-            var credit = 5;
-        } else if (req.body.gross_amount == '500000') {
-            var credit = 10;
-        }
+            case "finish":
+                if (req.body.gross_amount == '50000') {
+                    var credit = 1;
+                } else if (req.body.gross_amount == '250000') {
+                    var credit = 5;
+                } else if (req.body.gross_amount == '500000') {
+                    var credit = 10;
+                };
+                if (status == '200') {
+                    Pay.find({
+                        order_id: req.body.order_id
+                    }, function(err, pay) {
+                        if (err) {
+                            req.flash('error', err);
+                            res.redirect('/dash');
+                        }
+                        pay.payment_type = req.body.payment_type;
+                        pay.transaction_time = req.body.transaction_time;
+                        pay.status_code = status;
 
-        console.log(req.body.order_id + '\n' + req.user.id);
-
-        if (status == '200') {
-            Pay.find({
-                order_id: req.body.order_id
-            }, function(err, pay) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('/dash');
-                }
-                pay.payment_type = req.body.payment_type;
-                pay.transaction_time = req.body.transaction_time;
-                pay.status_code = status;
-
-                pay.save(function(err) {
-                    if (err) {
-                        req.flash('error', err);
-                        res.redirect('/dash');
-                    }
-                    // Add credit to user
-                    User.findById(req.user.id, function(err, user) {
-                        user.credits = user.credits + credit;
-                        user.save(function(err) {
+                        pay.save(function(err) {
                             if (err) {
                                 req.flash('error', err);
                                 res.redirect('/dash');
                             }
-                            // Transaction success...
-                            console.log('Success your credit has been added...');
-                            req.flash('success', 'Your credit has been added.');
-                            res.redirect('/dash');
-                        })
-                    })
-                });
-            });
-        } else {
-            req.flash('error', 'Your transaction is failed to process...');
-            res.redirect('/dash');
-        }
+                            // Add credit to user
+                            User.findById(req.user.id, function(err, user) {
+                                user.credits = user.credits + credit;
+                                user.save(function(err) {
+                                    if (err) {
+                                        req.flash('error', err);
+                                        res.redirect('/dash');
+                                    }
+                                    // Transaction success...
+                                    console.log('Success your credit has been added...');
+                                    req.flash('success', 'Your credit has been added.');
+                                    res.redirect('/');
+                                })
+                            })
+                        });
+                    });
+                } else {
+                    req.flash('error', 'Your transaction is failed to process...');
+                    res.redirect('/');
+                };
+                break;
 
+            case "unfinish":
+                req.flash('error', 'You cancelled the transaction.');
+                res.redirect('/');
+                break;
+
+            case "error":
+                req.flash('error', 'Your transaction failed to process...');
+                res.redirect('/');
+                break;
+
+            default:
+                req.flash('error', 'Oops, something bad happened...');
+                res.redirect('/');
+
+        };
     });
 
 
