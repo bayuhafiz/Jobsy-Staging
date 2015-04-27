@@ -1010,7 +1010,15 @@ module.exports = function(app, passport) {
                 "transaction_details": {
                     "order_id": order_id,
                     "gross_amount": amount
-                }
+                },
+                "item_details": [
+                    {
+                        "id": "jc" + req.params.amount,
+                        "price": amount,
+                        "quantity": req.params.amount,
+                        "name": "Jobsy Credits"
+                    }
+                ]
             })
             .end(function(response) {
                 console.log(response.body);
