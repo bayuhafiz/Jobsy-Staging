@@ -510,6 +510,23 @@
         // START EVENT HANDLERS ===
         // ========================
 
+        // Buy Credits buttons action
+        $('#btnBuy1').click(function() {
+           var url = '/buy/50000';
+           window.location.href = url;
+           return false;
+        });
+        $('#btnBuy5').click(function() {
+           var url = '/buy/250000';
+           window.location.href = url;
+           return false;
+        });
+        $('#btnBuy10').click(function() {
+           var url = '/buy/500000';
+           window.location.href = url;
+           return false;
+        });
+
         // SEARCH INPUT HANDLER //////
         $(".searchJob").on("keyup", function() {
             var q = $(this).val();
