@@ -1051,7 +1051,7 @@ module.exports = function(app, passport) {
 
         if (status == '200') {
             Pay.find({
-                "order_id": req.body.order_id
+                order_id: req.body.order_id
             }, function(err, pay) {
                 if (err) return next(err);
                 pay.payment_type = req.body.payment_type;
@@ -1071,7 +1071,7 @@ module.exports = function(app, passport) {
                                 req.flash('error', err);
                                 res.redirect('/dash');
                             }
-
+                            // Transaction success...
                             req.flash('success', 'Your credit has been added.');
                             res.redirect('/dash');
                         })
