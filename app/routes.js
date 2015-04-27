@@ -1013,8 +1013,6 @@ module.exports = function(app, passport) {
             }
         }
 
-        console.log(arr);
-
         unirest.post('https://api.sandbox.veritrans.co.id/v2/charge')
             .header({
                 'Accept': 'application/json',
@@ -1023,18 +1021,19 @@ module.exports = function(app, passport) {
             })
             .send(arr)
             .end(function(response) {
-                console.log(response.body);
                 res.redirect(response.body.redirect_url);
             });
     });
+
 
     // Payment status handler
     app.post('/payment', function(req, res) {
         var status = req.body.status_code;
         if (status == '200') {
-            var msg = 'Your transaction with ID ' + req.body.transaction_id + ' is successfull. Your credit has been added.';
+            console.log(req.body);
+            /*var msg = 'Your transaction with ID ' + req.body.transaction_id + ' is successfull. Your credit has been added.';
             req.flash('success', msg);
-            res.redirect('/dash');
+            res.redirect('/dash');*/
         } else if (status == '202') {
             var msg = 'Your transaction with ID ' + req.body.transaction_id + ' failed';
             req.flash('error', msg);
