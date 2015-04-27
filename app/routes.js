@@ -1040,90 +1040,15 @@ module.exports = function(app, passport) {
     });
 
 
-    // Payment status handler
-    app.post('/payment/:state', isLoggedIn, function(req, res) {
-        switch (req.params.state) {
-            case "notif":
-                if (req.body.status_code == "200") {
-                    res.send("SUCCESS");
-                } else {
-                    res.send("ERROR");
-                }
-                break;
-
-            case "finish":
-                if (status == '200') {
-                    Pay.find({
-                        order_id: req.body.order_id
-                    }, function(err, pay) {
-                        if (err) {
-                            req.flash('error', err);
-                            res.redirect('/dash');
-                        }
-
-                        if (pay.gross_amount == '50000') {
-                            var credit = 1;
-                        } else if (pay.gross_amount == '250000') {
-                            var credit = 5;
-                        } else if (pay.gross_amount == '500000') {
-                            var credit = 10;
-                        }
-
-                        pay.payment_type = req.body.payment_type;
-                        pay.transaction_time = req.body.transaction_time;
-                        pay.status_code = status;
-
-                        pay.save(function(err) {
-                            if (err) {
-                                req.flash('error', err);
-                                res.redirect('/dash');
-                            }
-                            // Add credit to user
-                            User.findById(req.user.id, function(err, user) {
-                                user.credits = user.credits + credit;
-                                user.save(function(err) {
-                                    if (err) {
-                                        req.flash('error', err);
-                                        res.redirect('/dash');
-                                    }
-                                    // Transaction success...
-                                    console.log('Success your credit has been added...');
-                                    req.flash('success', 'Your credit has been added.');
-                                })
-                            })
-                        });
-                    });
-                } else {
-                    req.flash('error', 'Your transaction is failed to process...');
-                };
-                break;
-
-            case "unfinish":
-                req.flash('error', 'You cancelled the transaction.');
-                break;
-
-            case "error":
-                req.flash('error', 'Your transaction failed to process...');
-                break;
-
-            default:
-                req.flash('error', 'Oops, something bad happened...');
-
-        };
-                
-        res.redirect('/');
+    // Payment notifiication handler
+    app.post('/payment/notif', isLoggedIn, function(req, res) {
+        res.send(req.body);
+        //res.redirect('/');
     });
-
+    
+    // Payment status handler
     app.get('/payment/:state', isLoggedIn, function(req, res) {
         switch (req.params.state) {
-            case "notif":
-                if (req.body.status_code == "200") {
-                    res.send("SUCCESS");
-                } else {
-                    res.send("ERROR");
-                }
-                break;
-
             case "finish":
                 if (status == '200') {
                     Pay.find({
@@ -1172,7 +1097,11 @@ module.exports = function(app, passport) {
                 break;
 
             case "unfinish":
-                req.flash('error', 'You cancelled the transaction.');
+                Pay.find({
+                    order_id: req.body.order_id
+                }).remove(function(err) {
+                    req.flash('error', 'You cancelled the transaction.');
+                })
                 break;
 
             case "error":
