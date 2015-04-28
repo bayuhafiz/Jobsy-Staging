@@ -117,8 +117,8 @@
                             li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
                         }
 
-                        li += '<p class="job-title job-title-hover bold" style="right:20px;line-height: 28px;position: absolute;opacity:0">' + currency + ' ' + salaryFrom + ' - ' + salaryTo + '</p> \
-                                    <div class="clearfix"></div> \
+                        li += '<div class="apply-btn"><center><i class="fa fa-rocket" style="font-size: 23px;"></i></center><p>Apply now</p></div>\
+                                <div class="clearfix"></div> \
                                 </li>';
 
                         ul.append(li);
@@ -151,7 +151,7 @@
 
 
 
-                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger');
+                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" style="max-width: none;max-height: 129px;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular');
 
                                     $('.no-email').hide();
                                     $('.actions-dropdown').toggle();
@@ -603,7 +603,7 @@
             e.stopPropagation();
         });
 
-        $('body').on('mouseenter', '.item', function(e) {
+        /*$('body').on('mouseenter', '.item', function(e) {
             $(this).children('.job-title').animate({
                 'right': '20px',
                 'opacity': '1'
@@ -619,7 +619,7 @@
             });
 
             $(this).children('.datetime').css('opacity', '1');
-        });
+        });*/
 
 
         // BASIC BUTTONS HANDLER ////
@@ -690,6 +690,17 @@
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
+            // close apply-btn///
+            $('.apply-btn').animate({
+                'right':'-240px',
+            });
+            // open apply-btn///
+            $(this).children('.apply-btn').animate({
+                'right':'0px',
+            });
+
+            
+
 
             $('.list-view-group-container li').attr('data', '');
             $(this).attr('data', 'active');
@@ -727,7 +738,8 @@
                     emailOpened.find('.requirements').html(requirementsText);
 
                     var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
-                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses);
+                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses).addClass('circular');
+                    emailOpened.find('.img-list').css({"max-width": "none","max-height": "129px"});
 
                     $('.no-email').hide();
                     $('.actions-dropdown').toggle();

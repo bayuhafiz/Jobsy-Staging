@@ -1,4 +1,14 @@
-body{color: #777}
+@font-face {
+    font-family: avenir_book;
+    src: url(../fonts/avenir/Avenir-Book.otf);
+}
+@font-face {
+    font-family: avenir_medium;
+    src: url(../fonts/avenir/Avenir-Medium.otf);
+}
+
+body{color: #777;}
+p{  font-size: 16px;font-family:avenir_book;  line-height: 2;  color: #4a4a4a;}
 .email-wrapper .email-opened {margin-left: 0px;}
 .email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-complete{position: absolute;top:0;right: 0;margin-top: 7px;margin-right: 21px;}
 body.fixed-header .header .btn-complete{width: 142px;}
@@ -21,22 +31,26 @@ textarea{resize:none;}
 .img-uploader-preview{width: 130px; height: auto;border:3px solid #fff;display: none;}
 .img-uploader-preview img{width: 100%; height: auto}
 #target-img{display: none;}
+.apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D;border-top-left-radius: 15px;border-bottom-left-radius: 15px; padding-top: 34px;}
+.apply-btn p, .apply-btn i{color: #fff;text-align: center;}
 
 .email-wrapper .email-opened .email-content-wrapper{background-color: #FCFCFC}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{width: 110px;}
 .email-wrapper .email-opened .email-content-wrapper .email-content{width: 700px;padding-top: 114px;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box{margin-bottom: 45px;}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{text-align: right;}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc{width: 20%;padding-right:0}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc p{font-size:10px;color:#000}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary span{ font-size: 16px;font-family: avenir_book}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc{padding-right:0}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc p{font-size:20px;color:#4a4a4a;text-transform: none;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header{height:100%;position:relative}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 15px}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .name{font-size: 11px;line-height: 0px;position: relative;top: 9px;text-transform: uppercase;}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .datetime{color: #000; opacity: 1}
-.job-title {line-height: 30px;}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{
+    margin: 0;
+}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .name{font-size: 11px;line-height: 15px;position: relative;top: 9px;text-transform: uppercase;font-family: avenir_book}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .datetime{color: #000; opacity: 0.6;font-family:avenir_book }
+.job-title {line-height: 25px;font-family: avenir_medium;  font-size: 30px}
 .company_overview p,
 .job_scope p,
-.requirements p{line-height: 30px;}
+.requirements p{line-height:2;}
 .note-editable{height: 200px;}
 
 .summernote-wrapper .note-toolbar .note-style,
@@ -71,6 +85,13 @@ textarea{resize:none;}
 }
 
 
+ul > li, ol > li {
+  padding-left: 3px;
+  font-size: 16px;
+  font-family: avenir_book;
+  line-height: 2;
+  color: #4a4a4a;
+}
 
 .table.table-hover tbody tr#applyDetail:hover td {
   background: #daeffd !important;
@@ -89,8 +110,8 @@ textarea{resize:none;}
 #message .pgn-wrapper{margin-top: 60px;}
 .password2{display: none;}
 
-.job_scope ul,.requirements ul,.job_scope ol,.requirements ol{padding-left: 14px;}
-.company_overview,.job_scope, .requirements,.job_scope li, .requirements li{line-height: 29px}
+.job_scope ul,.requirements ul,.job_scope ol,.requirements ol{padding-left: 21px;}
+.company_overview,.job_scope, .requirements,.job_scope li, .requirements li{line-height: 2}
 .job_scope, .requirements{  margin-top: -5px;}
 #typed-cursor {
     font-size: 19px;
@@ -155,7 +176,7 @@ textarea{resize:none;}
  }
 }
 
-.close{  padding: 10px!important;color: #fff;}
+.close{  padding: 10px!important;}
 
 .fs-14 {
   font-size: 27px !important;
@@ -187,7 +208,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 a{color:#12806D;}
 a:hover{color:#0E6052;}
 .header .notification-list{z-index: 1}
-#notification-center{color:#626262;font-weight:bold;}
+#notification-center{color:rgba(0, 0, 0, 0.4);font-weight:bold;font-size: 18px;}
 #notification-center:hover{color:#2C2C2C;}
 
 .arrow-right {
@@ -205,10 +226,15 @@ a:hover{color:#0E6052;}
 .email-list-toggle{padding-top: 15px;font-size: 20px;color: #fff;}
 .salary{line-height: 18px;}
 .img-list-box{width: 110px;}
-.thumbnail-wrapper{max-width:90px; max-height:90px;}
 .img-list{margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto}
-
-
+.form-group-default.focused{background-color: transparent;}
+.form-group-default{background-color: transparent;border:0px;}
+.form-group label:not(.error){ font-size: 20px;padding-bottom: 40px;font-weight: 400;color: #4a4a4a;text-transform:none;}
+.form-group-default.focused label{opacity: 1}
+.form-group-default label.fade{opacity: 1}
+.form-group-default{padding-right: 0;padding-left: 0}
+.select2-container .select2-choice > .select2-chosen{  color: #4a4a4a;  font-weight: 100;font-family: avenir_book;font-size: .875rem;}
+.select2-container .select2-choice{border:0;}
 @media(max-width: 568px){
     .deletedJob-btn{
         float: none!important;
