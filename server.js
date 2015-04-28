@@ -1,6 +1,8 @@
 // server.js
 require('pmx').init();
-var http = require('http');
+var http = require('http'),
+    https = require('https');
+
 var pmx = require('pmx');
 // set up ======================================================================
 // get all the tools we need
@@ -53,7 +55,6 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // Session settings ============================================================
-
 var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;

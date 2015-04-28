@@ -5,7 +5,8 @@ var async = require('async'),
     templatesDir = path.resolve(__dirname, '..', 'views'),
     emailTemplates = require('email-templates'),
     nodemailer = require('nodemailer'),
-    fs = require('fs')
+    fs = require('fs'),
+    unirest = require('unirest');
 
 // Load up the secret file
 var secrets = require('../config/secret');
@@ -14,6 +15,7 @@ var secrets = require('../config/secret');
 var Job = require('./models/job');
 var User = require('./models/user');
 var App = require('./models/app');
+var Pay = require('./models/pay');
 
 // Here are our precious module
 module.exports = function(app, passport) {
@@ -60,6 +62,7 @@ module.exports = function(app, passport) {
         }
     });
 
+
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
         var user = req.user;
@@ -103,7 +106,7 @@ module.exports = function(app, passport) {
         });
     }); */
 
-    
+
 
     // =============================================================================
     // END OF MAIN PAGES ROUTES ====================================================
@@ -982,6 +985,153 @@ module.exports = function(app, passport) {
 
 
     // =============================================================================
+    // PAYMENT SYSTEMS =============================================================
+    // =============================================================================
+
+    // Buy Credits /////
+    app.get('/buy/:amount', isLoggedIn, function(req, res) {
+        var userId = req.user._id; // Get logged user id
+        var amount = parseInt(req.params.amount) * 50000;
+        // Generate random order ID
+        var order_id = Date.now() + Math.floor((Math.random() * 10000) + 1);
+
+        // Create Base64 Object
+        var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(r){var t,e,o,a,h,n,c,d="",C=0;for(r=Base64._utf8_encode(r);C<r.length;)t=r.charCodeAt(C++),e=r.charCodeAt(C++),o=r.charCodeAt(C++),a=t>>2,h=(3&t)<<4|e>>4,n=(15&e)<<2|o>>6,c=63&o,isNaN(e)?n=c=64:isNaN(o)&&(c=64),d=d+this._keyStr.charAt(a)+this._keyStr.charAt(h)+this._keyStr.charAt(n)+this._keyStr.charAt(c);return d},decode:function(r){var t,e,o,a,h,n,c,d="",C=0;for(r=r.replace(/[^A-Za-z0-9\+\/\=]/g,"");C<r.length;)a=this._keyStr.indexOf(r.charAt(C++)),h=this._keyStr.indexOf(r.charAt(C++)),n=this._keyStr.indexOf(r.charAt(C++)),c=this._keyStr.indexOf(r.charAt(C++)),t=a<<2|h>>4,e=(15&h)<<4|n>>2,o=(3&n)<<6|c,d+=String.fromCharCode(t),64!=n&&(d+=String.fromCharCode(e)),64!=c&&(d+=String.fromCharCode(o));return d=Base64._utf8_decode(d)},_utf8_encode:function(r){r=r.replace(/\r\n/g,"\n");for(var t="",e=0;e<r.length;e++){var o=r.charCodeAt(e);128>o?t+=String.fromCharCode(o):o>127&&2048>o?(t+=String.fromCharCode(o>>6|192),t+=String.fromCharCode(63&o|128)):(t+=String.fromCharCode(o>>12|224),t+=String.fromCharCode(o>>6&63|128),t+=String.fromCharCode(63&o|128))}return t},_utf8_decode:function(r){for(var t="",e=0,o=c1=c2=0;e<r.length;)o=r.charCodeAt(e),128>o?(t+=String.fromCharCode(o),e++):o>191&&224>o?(c2=r.charCodeAt(e+1),t+=String.fromCharCode((31&o)<<6|63&c2),e+=2):(c2=r.charCodeAt(e+1),c3=r.charCodeAt(e+2),t+=String.fromCharCode((15&o)<<12|(63&c2)<<6|63&c3),e+=3);return t}};
+
+        // Define the string
+        var string = 'VT-server-XzWLJbFxyzU72hwjhpmM_K-y:';
+        var encodedString = Base64.encode(string);
+        var auth = 'Basic ' + encodedString + ':';
+
+        var arr = {
+            "payment_type": "vtweb",
+            "vtweb": {
+                "credit_card_3d_secure": true
+            },
+            "transaction_details": {
+                "order_id": order_id,
+                "gross_amount": amount
+            }
+        }
+
+        unirest.post('https://api.sandbox.veritrans.co.id/v2/charge')
+            .header({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': auth
+            })
+            .send(arr)
+            .end(function(response) {
+                var pay = new Pay({
+                    order_id: order_id,
+                    user_email: req.user.email,
+                    gross_amount: amount
+                });
+                // Save transaction data
+                pay.save(function(err) {
+                    if (err) {
+                        req.flash('error', err);
+                        res.redirect('/dash');
+                    }
+                    console.log("Saving init transaction success...");
+                    res.redirect(response.body.redirect_url);
+                });
+            });
+    });
+
+
+    // Payment notifiication handler
+    app.post('/payment/notif', isLoggedIn, function(req, res) {
+        res.send(req.body);
+        //res.redirect('/');
+    });
+    
+    // Payment status handler
+    app.get('/payment/:state', isLoggedIn, function(req, res) {
+        switch (req.params.state) {
+            case "finish":
+                if (status == '200') {
+                    Pay.find({
+                        order_id: req.query.order_id
+                    }, function(err, pay) {
+                        if (err) {
+                            req.flash('error', err);
+                            res.redirect('/dash');
+                        }
+
+                        if (pay.gross_amount == '50000') {
+                            var credit = 1;
+                        } else if (pay.gross_amount == '250000') {
+                            var credit = 5;
+                        } else if (pay.gross_amount == '500000') {
+                            var credit = 10;
+                        }
+
+                        pay.payment_type = req.body.payment_type;
+                        pay.transaction_time = req.body.transaction_time;
+                        pay.status_code = status;
+
+                        pay.save(function(err) {
+                            if (err) {
+                                req.flash('error', err);
+                                res.redirect('/dash');
+                            }
+                            // Add credit to user
+                            User.findById(req.user.id, function(err, user) {
+                                user.credits = user.credits + credit;
+                                user.save(function(err) {
+                                    if (err) {
+                                        req.flash('error', err);
+                                        res.redirect('/dash');
+                                    }
+                                    // Transaction success...
+                                    console.log('Success your credit has been added...');
+                                    req.flash('success', 'Your credit has been added.');
+                                })
+                            })
+                        });
+                    });
+                } else {
+                    req.flash('error', 'Your transaction is failed to process...');
+                };
+                break;
+
+            case "unfinish":
+                Pay.find({order_id: req.query.order_id})
+                    .exec(function(err, pay) {
+                        if (err || !pay) {
+                            req.flash('error', err);
+                            res.redirect('/dash');
+                        } else {
+                            console.log('Deleting init transaction:' + req.query.order_id);
+                            pay.remove(function(err) {
+                                if (err) { // if failed remove
+                                    req.flash('error', err);
+                                    res.redirect('/dash');
+                                } else { // if succeeded
+                                    console.log('Success!! init transaction deleted...');
+                                    req.flash('error', 'You cancelled the transaction.');
+                                }
+                            });
+                        }
+                    });
+
+                
+                break;
+
+            case "error":
+                req.flash('error', 'Your transaction failed to process...');
+                break;
+
+            default:
+                req.flash('error', 'Oops, something bad happened...');
+
+        };
+                
+        res.redirect('/');
+    });
+
+    // =============================================================================
     // ================================================================== API ROUTES 
     // =============================================================================
 
@@ -1229,6 +1379,7 @@ module.exports = function(app, passport) {
             res.json(app);
         });
     });
+
 
     // =============================================================================
     // END OF API ROUTES ===========================================================

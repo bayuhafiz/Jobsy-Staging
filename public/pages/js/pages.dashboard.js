@@ -267,49 +267,8 @@
     };
 
 
-    // ====================== BUY CREDITS FUNCTION ===========================
-    var buyCredit = function(amount) {
-        var BASE_URL = 'https://api.sandbox.veritrans.co.id/v2/charge';
-        var userId = $('#user-id').val(); // Get logged user id
-        var order_id = Date.now() + userId;
-        var auth = 'Basic ' + btoa('VT-server-XzWLJbFxyzU72hwjhpmM_K-y') + ':';
-        var arr = {
-            "payment_type": "vtweb",
-            "vtweb": {
-                "credit_card_3d_secure": true
-            },
-            "transaction_details": {
-                "order_id": order_id,
-                "gross_amount": amount
-            }
-        };
-
-        console.log(BASE_URL + '\n' + order_id + '\n' + auth);
-
-        $.ajax({
-            url: BASE_URL,
-            type: 'POST',
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("Accept", "application/json");
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.setRequestHeader('Authorization', auth);
-            },
-            data: JSON.stringify(arr),
-            success: function(msg) {
-                console.log('SUCCESS!!! >>> ' + JSON.stringify(msg));
-                //window.location.href = msg.redirect_url;
-            },
-            error: function(err) {
-                console.log('FAILURE!!! >>> ' + JSON.stringify(err));
-            },
-        });
-
-    };
-
-
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-
         var uEmail = $('#user-email').val(); // Get logged user email
         showJobs('/api/jobs/' + uEmail + '/hide');
 
@@ -381,14 +340,21 @@
 
         // Buy Credits buttons action
         $('#btnBuy1').click(function() {
-            buyCredit(50000);
+           var url = '/buy/1';
+           window.location.href = url;
+           return false;
         });
         $('#btnBuy5').click(function() {
-            buyCredit(250000);
+           var url = '/buy/5';
+           window.location.href = url;
+           return false;
         });
         $('#btnBuy10').click(function() {
-            buyCredit(500000);
+           var url = '/buy/10';
+           window.location.href = url;
+           return false;
         });
+
 
         // Switchery Handler >>> 'show deleted job'
         $('.switchery').change(function() {

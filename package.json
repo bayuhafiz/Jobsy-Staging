@@ -16,6 +16,7 @@
     "express": "~4.0.0",
     "express-session": "~1.0.0",
     "fs": "0.0.2",
+    "https": "^1.0.0",
     "method-override": "~1.0.0",
     "mongoose": "~3.8.1",
     "morgan": "~1.0.0",
@@ -24,6 +25,7 @@
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "path": "^0.11.14",
-    "pmx": "^0.3.5"
+    "pmx": "^0.3.5",
+    "unirest": "^0.4.0"
   }
 }
