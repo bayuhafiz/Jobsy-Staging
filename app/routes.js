@@ -31,6 +31,7 @@ module.exports = function(app, passport) {
 
     app.get('/home', function(req, res) {
         if (req.user) {
+            console.log(req.user.initCompany);
             var user = req.user;
             if ((user.actStatus == 'inactive') || (user.initLogin == true)) {
                 res.render('act.ejs', {
@@ -45,6 +46,7 @@ module.exports = function(app, passport) {
                     title: 'Homepage',
                     user: user,
                     initLogin: user.initLogin,
+                    initCompany: user.initCompany,
                     credit: user.credits,
                     success: req.flash('success'),
                     error: req.flash('error'),
@@ -66,7 +68,7 @@ module.exports = function(app, passport) {
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
         var user = req.user;
-        //console.log(req.user.initLogin);
+        console.log(req.user.initCompany);
         if ((user.actStatus == 'inactive') || (user.initLogin == true)) { // If user not activated or has no post yet
             res.render('act.ejs', {
                 title: 'Activation',
@@ -87,6 +89,7 @@ module.exports = function(app, passport) {
                     title: 'Dashboard',
                     user: user,
                     initLogin: user.initLogin,
+                    initCompany: user.initCompany,
                     credit: user.credits,
                     success: req.flash('success'),
                     error: req.flash('error'),
