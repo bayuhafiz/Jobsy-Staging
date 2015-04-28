@@ -160,6 +160,7 @@
     <!-- /.modal-dialog -->
 </div>
 
+<% if (user) { %>
 <!-- CREATE JOB POSTING FORM -->
 <div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-userdashboard">
@@ -325,6 +326,7 @@
         </div>
     </div>
 </div>
+<% } %>
 
 <!-- APPLY JOB FORM -->
 <div class="modal fade slide-up disable-scroll" id="applyModal" tabindex="-1" role="dialog" aria-hidden="false" style="overflow:auto">
