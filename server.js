@@ -12,7 +12,7 @@ var app = express();
 var cloudflare = require('cloudflare-express');
 app.use(cloudflare.restore());
 
-var port = process.env.PORT || 1234;
+var port = process.env.PORT || 1235;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -28,14 +28,16 @@ var MongoStore = require('connect-mongo')({ session: session });
 var multer = require('multer');
 app.use(multer())
 
-// Elasticsearch configuration =================================================
-/* var elasticsearch = require('elasticsearch');
-var client = new elasticsearch.Client({
-  host: 'localhost:1234',
-  log: 'trace',
-  sniffOnStart: true,
-  sniffInterval: 60000
-});*/
+
+// Algolia-search configuration ================================================
+var HttpsAgent = require('agentkeepalive').HttpsAgent;
+var Algolia = require('algolia-search');
+var keepaliveAgent = new HttpsAgent({
+    maxSockets: 1,
+    maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
+    maxKeepAliveTime: 30000 // keepalive for 30 seconds
+});
+var client = new Algolia('HE2Q1PU3UW', '4f2265ba4170d6768a91dc75452343e8', keepaliveAgent);
 
 
 // configuration ===============================================================
@@ -80,7 +82,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // seeding (development stage ONLY!!!) =========================================
-require('./app/seeding/job.js'); // loads sample job
+//require('./app/seeding/job.js'); // loads sample job
 require('./app/seeding/user.js'); // loads sample user
 
 // PMX Monitoring setting ======================================================
@@ -88,4 +90,4 @@ app.use(pmx.expressErrorHandler());
 
 // launch ======================================================================
 app.listen(port);
-console.log('JOBSY is running on port ' + port + ' on staging mode...');
+console.log('JOBSY is running on port ' + port + ' on development mode...');
