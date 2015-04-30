@@ -177,12 +177,12 @@
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">
-                                                                <input type="text" name="companyName" placeholder="" class="form-control" required value="Colorblind Labs" style="font-family:avenir_book;color: #4a4a4a;font-size: 1.125rem;font-weight: bold;">
+                                                                <input type="text" name="companyName" placeholder="Company Name" class="form-control" required style="font-family:avenir_book;color: #4a4a4a;font-size: 1.12rem;font-weight: bold;">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12" style="padding-left:0">
                                                             <div class="form-group form-group-default">
-                                                                <input type="text" class="form-control" name="jobTitle" value="Web Developer" style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
+                                                                <input type="text" class="form-control" name="jobTitle" placeholder="Position Title" style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -193,9 +193,15 @@
                                                                 <div class="thumbnail-wrapper circular">
                                                                 <img id="createJobImg-preview" style="width: 140px;" src="uploads/logo/<%= user.initCompany.logo %>">
                                                                 </div>
+                                                                <!--<input type="file" class="form-control" id="createJobImg" name="file" value="" aria-invalid="false">
+                                                                <input type="hidden" name="savedLogo" id="savedLogo" value="">-->
                                                             </div>
                                                         </div>
                                                 </div>
+                                                <!--<div class="col-sm-6">
+                                                    <div id="croppic"></div>
+                                                    <span class="btn" id="cropContainerHeaderButton">click here to try it</span>
+                                                </div>-->
                                             </div>
                                             <!--<div class="row">
                                                         
@@ -245,9 +251,9 @@
                                                 <div class="col-sm-12">
                                                     <div class="form-group form-group-default">
                                                     <label>Description</label>
-                                                        <textarea id="editor1" name="description" class="description-text">AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
+                                                        <textarea id="editor1" class="textarea-desc" name="description" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
-                                                        Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices.</textarea>
+                                                        Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices." class="description-text"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -258,9 +264,9 @@
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
                                                 <label>Job Scope <span class="hint-text small"></label>
-                                                <textarea id="editor2" name="jobScope" placeholder="Type or copy/paste here to fill job scopes">AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
+                                                <textarea id="editor2" name="jobScope" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
-                                                Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices.</textarea>
+                                                Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices."></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -271,9 +277,9 @@
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
                                                 <label>Requirements  <span class="hint-text small"></label>
-                                                <textarea id="editor3" name="requirements" placeholder="Type or copy/paste here to fill requirements">AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
+                                                <textarea id="editor3" name="requirements" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
-                                                Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices.</textarea>
+                                                Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices."></textarea>
                                             </div>
                                         </div>
                                     </div>

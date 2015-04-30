@@ -38,7 +38,7 @@
                     "class": "list-view-group-container"
                 });
 
-                listViewGroupCont.html('<h2 class="list-view-group-header">JOB BOARD</h2>');
+                /*listViewGroupCont.html('<h2 class="list-view-group-header">JOB BOARD</h2>');*/
 
                 $('div.list-view-wrapper').html(''); // clear the list before we do the magic
 
@@ -101,7 +101,7 @@
                                     <div class="middle details-list-box"> \
                                         <div class="inline"> \
                                             <p class="recipients no-margin hint-text small">' + name + '</p> \
-                                            <p class="recipients no-margin" style="font-size:16px;white-space: normal;color: #3b4752;">' + jobTitle + '</p> \
+                                            <p class="recipients no-margin" style="font-size:16px;white-space: normal;color: #3b4752;line-height:1.2">' + jobTitle + '</p> \
                                             <p class="recipients no-margin hint-text small"> \
                                              ' + replaceDash(location) + ', ' + replaceDash(jobType) + ' \
                                             </p> \
@@ -151,7 +151,7 @@
 
 
 
-                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" style="max-width: none;max-height: 129px;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular');
+                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" style="max-width: none;max-height: 129px;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right');
 
                                     $('.no-email').hide();
                                     $('.actions-dropdown').toggle();
@@ -175,7 +175,7 @@
 
                     listViewGroupCont.append(ul);
                     $('#emailList').append(listViewGroupCont).hide().show('slow'); // give it a little effect :P
-                    $("#emailList").ioslist();
+                    //$("#emailList").ioslist();
 
                 }
 
@@ -196,7 +196,7 @@
                     "class": "list-view-group-container"
                 });
 
-                listViewGroupCont.html('<div class="list-view-group-header"><span>Job Board</span></div>');
+                /*listViewGroupCont.html('<div class="list-view-group-header"><span>Job Board</span></div>');*/
 
                 if (data.length < 1) { // If there is no job to display
 
@@ -438,6 +438,19 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
+        $('.searchJob').focus(function () {
+            $('.filter-box').css('display','block');
+        });
+
+       /* $('.searchJob').blur(function () {
+            $('.filter-box').css('display','none');
+        });*/
+
+    
+
+        /*$('a.select2-choice').click(function() {
+            $('.filter-box').css('display','block');
+        });*/
 
         loadJobList('/api/jobs');
 
@@ -707,6 +720,7 @@
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
+
             // close apply-btn///
             $('.apply-btn').animate({
                 'right':'-240px',
@@ -716,6 +730,21 @@
                 'right':'0px',
             });
 
+            $('.img-list-box').css({'position': 'relative'}).animate({
+                'left': '0'
+            });
+
+            $(this).children('.img-list-box').css({'position': 'relative'}).animate({
+                'left': '-115px'
+            });
+
+             $('.details-list-box').css({'position': 'relative'}).animate({
+                'left': '0'
+            });
+
+            $(this).children('.details-list-box').css({'position': 'relative'}).animate({
+                'left': '-110px'
+            });
             
 
 
@@ -755,7 +784,7 @@
                     emailOpened.find('.requirements').html(requirementsText);
 
                     var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
-                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses).addClass('circular');
+                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses).addClass('circular pull-right');
                     emailOpened.find('.img-list').css({"max-width": "none","max-height": "129px"});
 
                     $('.no-email').hide();

@@ -8,10 +8,17 @@
 }
 
 body{color: #777;}
-p{  font-size: 16px;font-family:avenir_book;  line-height: 2;  color: #4a4a4a;}
+p{  font-size: 17px;font-family:avenir_book;  line-height: 2;  color: #4a4a4a;}
+
+
 .email-wrapper .email-opened {margin-left: 0px;}
+.email-wrapper .email-opened .email-content-wrapper .actions-wrapper{display: none;}
 .email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-complete{position: absolute;top:0;right: 0;margin-top: 7px;margin-right: 21px;}
+
+body.menu-behind .header .brand-home{width: 110px;}
 body.fixed-header .header .btn-complete{width: 142px;}
+.header .search-link-home{border: 1px solid rgba(0, 0, 0, 0.2);border-radius: 3px;padding: 3px 11px;}
+.header .search-link-dash{margin-top: 4px}
 .modal.fade.slide-right .modal-dialog{width: 40%;}
 .modal.fade.slide-right .modal-dialog-userdashboard{width: 55%;}
 .post_job{font-weight: bold;cursor: pointer;padding-top: 7px;margin-right: 5px;}
@@ -34,23 +41,23 @@ textarea{resize:none;}
 .apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D;border-top-left-radius: 15px;border-bottom-left-radius: 15px; padding-top: 34px;}
 .apply-btn p, .apply-btn i{color: #fff;text-align: center;}
 
-.email-wrapper .email-opened .email-content-wrapper{background-color: #FCFCFC}
+.email-wrapper .email-opened .email-content-wrapper{background-color: #f8fefe}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{width: 110px;}
-.email-wrapper .email-opened .email-content-wrapper .email-content{width: 700px;padding-top: 114px;}
+.email-wrapper .email-opened .email-content-wrapper .email-content{width: 90%;  margin-top: 50px;  background: #fff;padding-left: 100px;padding-right: 100px;padding-top:100px;border-radius: 10px;border:1px solid #ECECEC;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box{margin-bottom: 45px;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary span{ font-size: 16px;font-family: avenir_book}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc{padding-right:0}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc p{font-size:20px;color:#4a4a4a;text-transform: none;}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc p{font-size:20px;color:#4a4a4a;text-transform: none;  line-height: 30px;}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header{height:100%;position:relative}
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{
     margin: 0;
 }
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .name{font-size: 11px;line-height: 15px;position: relative;top: 9px;text-transform: uppercase;font-family: avenir_book}
-.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .datetime{color: #000; opacity: 0.6;font-family:avenir_book }
-.job-title {line-height: 25px;font-family: avenir_medium;  font-size: 30px}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .name{font-size: 17px;line-height: 21px;position: relative;top: 9px;font-family: avenir_book}
+.email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender .datetime{color: #000; opacity: 0.9;font-family:avenir_book }
+.job-title {line-height: 29px;font-family: avenir_medium;  font-size: 30px}
 .company_overview p,
 .job_scope p,
-.requirements p{line-height:2;}
+.requirements p{line-height:2.1;}
 .note-editable{height: 200px;}
 
 .summernote-wrapper .note-toolbar .note-style,
@@ -204,7 +211,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .radio.radio-danger input[type=radio]:checked + label:before{border-color: #12806D}
 
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
-.email-wrapper .email-list .item{height: 110px;}
+.email-wrapper .email-list .item{height: 110px;cursor: pointer;margin-left: auto;margin-right: auto;}
 a{color:#12806D;}
 a:hover{color:#0E6052;}
 .header .notification-list{z-index: 1}
@@ -229,12 +236,38 @@ a:hover{color:#0E6052;}
 .img-list{margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto}
 .form-group-default.focused{background-color: transparent;}
 .form-group-default{background-color: transparent;border:0px;}
-.form-group label:not(.error){ font-size: 20px;padding-bottom: 40px;font-weight: 400;color: #4a4a4a;text-transform:none;}
+.form-group label:not(.error){ font-size: 23px;padding-bottom: 40px;font-weight: 400;color: #4a4a4a;text-transform:none;}
 .form-group-default.focused label{opacity: 1}
 .form-group-default label.fade{opacity: 1}
 .form-group-default{padding-right: 0;padding-left: 0}
 .select2-container .select2-choice > .select2-chosen{  color: #4a4a4a;  font-weight: 100;font-family: avenir_book;font-size: .875rem;}
 .select2-container .select2-choice{border:0;}
+
+
+#cropContainerHeader {
+            width: 200px;
+            height: 150px;
+            position:relative; /* or fixed or absolute */
+        }
+
+.list-view-group-container{padding: 0}
+.searchJob{border: none;opacity:1;color: #626262;font-size: 16px;  width: 335px;}
+.searchApplicant{border: none;opacity:1;color: #626262;font-size: 16px;}
+#no-job-post{display: none; margin-top: 10px;}
+.filter-box{  width: 615px;height: 60px;background: #f9fafb;position: absolute;z-index: 1000;top: 60px;left: 124px; border:1px solid #ECECEC;display: none;}
+#s2id_category-filter  .select2-choice{  height: 57px;padding-top: 15px;padding-left: 23px;background:#f9fafb;}
+#s2id_category-filter  .select2-choice .select2-arrow{  padding-top: 12px;}
+
+#s2id_location-filter  .select2-choice{  height: 57px;padding-top: 15px;padding-left: 23px;background:#f9fafb;}
+#s2id_location-filter  .select2-choice .select2-arrow{  padding-top: 12px;}
+
+#s2id_jobType-filter  .select2-choice{  height: 57px;padding-top: 15px;padding-left: 23px;background:#f9fafb;}
+#s2id_jobType-filter  .select2-choice .select2-arrow{  padding-top: 12px;}
+
+.btn-clear-all{  height: 58px;width: 100%;}
+
+
+
 @media(max-width: 568px){
     .deletedJob-btn{
         float: none!important;
@@ -270,6 +303,7 @@ a:hover{color:#0E6052;}
     .apply-job-btn{width: 85%}
     .responsive-search{display: block;}
     .email-wrapper{z-index: 1}
+    .email-wrapper .email-opened .email-content-wrapper .actions-wrapper{display: block;}
     .email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-success{top: 0px;}
     .email-wrapper .email-list{width: 100%;}
     .notification-list1{display: none!important;}
@@ -300,7 +334,6 @@ a:hover{color:#0E6052;}
 
 @media(max-width: 1200px){
     .modal.fade.slide-right .modal-dialog-userdashboard{width: 100%}
-    .email-wrapper .email-opened .email-content-wrapper .email-content{width: 100%;}
 }
 
 
