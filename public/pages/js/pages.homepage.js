@@ -18,11 +18,21 @@
             if (userEmail == jobEmail) {
                 initialState;
                 $('#button-text').text('Edit this job');
-                button.attr('data-id', jobId).attr('data-target', '#EditJob').attr('class', 'btn btn-primary btn-animated from-top fa fa-pencil apply-job-btn edit').css({'right':'0','margin-top':'7px','margin-right':'21px','position':'absolute'});
+                button.attr('data-id', jobId).attr('data-target', '#EditJob').attr('class', 'btn btn-primary btn-animated from-top fa fa-pencil apply-job-btn edit').css({
+                    'right': '0',
+                    'margin-top': '7px',
+                    'margin-right': '21px',
+                    'position': 'absolute'
+                });
             } else if (userEmail != jobEmail) {
                 initialState;
                 $('#button-text').text('You cannot edit this job...');
-                button.attr('class', 'btn btn-danger apply-job-btn').css({'right':'0','margin-top':'7px','margin-right':'21px','position':'absolute'}).attr('disabled', true);
+                button.attr('class', 'btn btn-danger apply-job-btn').css({
+                    'right': '0',
+                    'margin-top': '7px',
+                    'margin-right': '21px',
+                    'position': 'absolute'
+                }).attr('disabled', true);
             }
         }
     }
@@ -312,6 +322,18 @@
     }
 
 
+    // ===================== SEARCH FUNCTION ======================
+    function search(string) {
+        // Algolia search API settings
+        var client = $.algolia.Client('6ZKMIQIGQJ', '21e28f38ad78f9d769845a8c53c7f441');
+        var index = client.initIndex('jobs');
+        index.search(string, function searchDone(err, contents) {
+            if (err) console.log(err)
+            else console.log(contents)
+        });
+    }
+
+
 
     // ===================== INITIATE WIZARD FORM ============================
     var formWizard1 = function() {
@@ -438,20 +460,7 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-        $('.searchJob').focus(function () {
-            $('.filter-box').css('display','block');
-        });
-
-       /* $('.searchJob').blur(function () {
-            $('.filter-box').css('display','none');
-        });*/
-
-    
-
-        /*$('a.select2-choice').click(function() {
-            $('.filter-box').css('display','block');
-        });*/
-
+        // Load job list
         loadJobList('/api/jobs');
 
         // Infinite scroll trigger /////
@@ -523,44 +532,24 @@
         // START EVENT HANDLERS ===
         // ========================
 
-        // Buy Credits buttons action
-        $('#btnBuy1').click(function() {
-           var url = '/buy/1';
-           window.location.href = url;
-           return false;
-        });
-        $('#btnBuy5').click(function() {
-           var url = '/buy/5';
-           window.location.href = url;
-           return false;
-        });
-        $('#btnBuy10').click(function() {
-           var url = '/buy/10';
-           window.location.href = url;
-           return false;
-        });
-
         // SEARCH INPUT HANDLER //////
         $(".searchJob").on("keyup", function() {
-            var q = $(this).val();
-            /*if (q == '') {
-                $('.clear-search').css('display', 'none'); // remove clear icon
-                loadJobList('/api/jobs');
-            } else {
-                if ($('.clear-search').css('display') == 'none') {
-                    $('.clear-search').css('display', 'inline'); // add clear icon
-                }
-                // run the load job list function
-                //loadJobList('/api/jobs/s/' + q);
-            }*/
-            var g = q.toLowerCase();
-
-            $("li.item div.details-list-box div.inline").each(function() {
-                var s = $(this).text().toLowerCase();
-                $(this).closest('li.item')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
-            });
-
+            var keyword = $(this).val();
+            // call search function
+            search(keyword);
         });
+
+        $('.searchJob').focus(function() {
+            $('.filter-box').css('display', 'block');
+        });
+
+        /* $('.searchJob').blur(function () {
+             $('.filter-box').css('display','none');
+        });*/
+
+        /*$('a.select2-choice').click(function() {
+            $('.filter-box').css('display','block');
+        });*/
 
         $('body').on("click", '.clear-search', function() {
             if ($(".searchJob").val() != '') {
@@ -582,6 +571,25 @@
                 //$('.clear-search').css('display', 'none'); // remove clear icon
                 $(this).attr('placeholder', 'Search here..');
             }
+        });
+
+
+
+        // Buy Credits buttons action
+        $('#btnBuy1').click(function() {
+            var url = '/buy/1';
+            window.location.href = url;
+            return false;
+        });
+        $('#btnBuy5').click(function() {
+            var url = '/buy/5';
+            window.location.href = url;
+            return false;
+        });
+        $('#btnBuy10').click(function() {
+            var url = '/buy/10';
+            window.location.href = url;
+            return false;
         });
 
 
@@ -723,29 +731,37 @@
             
             // close apply-btn///
             $('.apply-btn').animate({
-                'right':'-240px',
+                'right': '-240px',
             });
             // open apply-btn///
             $(this).children('.apply-btn').animate({
-                'right':'0px',
+                'right': '0px',
             });
 
-            $('.img-list-box').css({'position': 'relative'}).animate({
+            $('.img-list-box').css({
+                'position': 'relative'
+            }).animate({
                 'left': '0'
             });
 
-            $(this).children('.img-list-box').css({'position': 'relative'}).animate({
+            $(this).children('.img-list-box').css({
+                'position': 'relative'
+            }).animate({
                 'left': '-115px'
             });
 
-             $('.details-list-box').css({'position': 'relative'}).animate({
+            $('.details-list-box').css({
+                'position': 'relative'
+            }).animate({
                 'left': '0'
             });
 
-            $(this).children('.details-list-box').css({'position': 'relative'}).animate({
+            $(this).children('.details-list-box').css({
+                'position': 'relative'
+            }).animate({
                 'left': '-110px'
             });
-            
+
 
 
             $('.list-view-group-container li').attr('data', '');
@@ -785,7 +801,10 @@
 
                     var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
                     emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses).addClass('circular pull-right');
-                    emailOpened.find('.img-list').css({"max-width": "none","max-height": "129px"});
+                    emailOpened.find('.img-list').css({
+                        "max-width": "none",
+                        "max-height": "129px"
+                    });
 
                     $('.no-email').hide();
                     $('.actions-dropdown').toggle();

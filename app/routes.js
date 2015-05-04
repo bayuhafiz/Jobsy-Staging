@@ -17,6 +17,18 @@ var User = require('./models/user');
 var App = require('./models/app');
 var Pay = require('./models/pay');
 
+
+// Algolia-search configuration ================================================
+var HttpsAgent = require('agentkeepalive').HttpsAgent;
+var Algolia = require('algolia-search');
+var keepaliveAgent = new HttpsAgent({
+    maxSockets: 1,
+    maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
+    maxKeepAliveTime: 30000 // keepalive for 30 seconds
+});
+var client = new Algolia('6ZKMIQIGQJ', '1e30dd72f506417d0ac436e1e5b6c35d', keepaliveAgent);
+
+
 // Here are our precious module
 module.exports = function(app, passport) {
 
@@ -98,17 +110,6 @@ module.exports = function(app, passport) {
             });
         }
     });
-
-    /* app.post('/s/', function(req, res) {
-        client.search({
-            q: 'pants'
-        }).then(function(body) {
-            var hits = body.hits.hits;
-        }, function(error) {
-            console.trace(error.message);
-        });
-    }); */
-
 
 
     // =============================================================================
@@ -266,7 +267,7 @@ module.exports = function(app, passport) {
                 user.save(function(err) {
                     req.logout();
                     req.flash('success', 'Your password has been updated. You can now login using your new password.');
-                    res.redirect('/');
+                    res.redirect('http://' + req.headers.host + '/');
                 });
             } else {
                 req.flash('error', 'Password confirmation did not match!');
@@ -291,7 +292,7 @@ module.exports = function(app, passport) {
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.session.destroy(function(err) {
-            res.redirect('/'); //Inside a callback… bulletproof!
+            res.redirect('http://' + req.headers.host + '/'); // Redirect back to Http 
         });
     });
 
@@ -999,7 +1000,33 @@ module.exports = function(app, passport) {
         var order_id = Date.now() + Math.floor((Math.random() * 10000) + 1);
 
         // Create Base64 Object
-        var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(r){var t,e,o,a,h,n,c,d="",C=0;for(r=Base64._utf8_encode(r);C<r.length;)t=r.charCodeAt(C++),e=r.charCodeAt(C++),o=r.charCodeAt(C++),a=t>>2,h=(3&t)<<4|e>>4,n=(15&e)<<2|o>>6,c=63&o,isNaN(e)?n=c=64:isNaN(o)&&(c=64),d=d+this._keyStr.charAt(a)+this._keyStr.charAt(h)+this._keyStr.charAt(n)+this._keyStr.charAt(c);return d},decode:function(r){var t,e,o,a,h,n,c,d="",C=0;for(r=r.replace(/[^A-Za-z0-9\+\/\=]/g,"");C<r.length;)a=this._keyStr.indexOf(r.charAt(C++)),h=this._keyStr.indexOf(r.charAt(C++)),n=this._keyStr.indexOf(r.charAt(C++)),c=this._keyStr.indexOf(r.charAt(C++)),t=a<<2|h>>4,e=(15&h)<<4|n>>2,o=(3&n)<<6|c,d+=String.fromCharCode(t),64!=n&&(d+=String.fromCharCode(e)),64!=c&&(d+=String.fromCharCode(o));return d=Base64._utf8_decode(d)},_utf8_encode:function(r){r=r.replace(/\r\n/g,"\n");for(var t="",e=0;e<r.length;e++){var o=r.charCodeAt(e);128>o?t+=String.fromCharCode(o):o>127&&2048>o?(t+=String.fromCharCode(o>>6|192),t+=String.fromCharCode(63&o|128)):(t+=String.fromCharCode(o>>12|224),t+=String.fromCharCode(o>>6&63|128),t+=String.fromCharCode(63&o|128))}return t},_utf8_decode:function(r){for(var t="",e=0,o=c1=c2=0;e<r.length;)o=r.charCodeAt(e),128>o?(t+=String.fromCharCode(o),e++):o>191&&224>o?(c2=r.charCodeAt(e+1),t+=String.fromCharCode((31&o)<<6|63&c2),e+=2):(c2=r.charCodeAt(e+1),c3=r.charCodeAt(e+2),t+=String.fromCharCode((15&o)<<12|(63&c2)<<6|63&c3),e+=3);return t}};
+        var Base64 = {
+            _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+            encode: function(r) {
+                var t, e, o, a, h, n, c, d = "",
+                    C = 0;
+                for (r = Base64._utf8_encode(r); C < r.length;) t = r.charCodeAt(C++), e = r.charCodeAt(C++), o = r.charCodeAt(C++), a = t >> 2, h = (3 & t) << 4 | e >> 4, n = (15 & e) << 2 | o >> 6, c = 63 & o, isNaN(e) ? n = c = 64 : isNaN(o) && (c = 64), d = d + this._keyStr.charAt(a) + this._keyStr.charAt(h) + this._keyStr.charAt(n) + this._keyStr.charAt(c);
+                return d
+            },
+            decode: function(r) {
+                var t, e, o, a, h, n, c, d = "",
+                    C = 0;
+                for (r = r.replace(/[^A-Za-z0-9\+\/\=]/g, ""); C < r.length;) a = this._keyStr.indexOf(r.charAt(C++)), h = this._keyStr.indexOf(r.charAt(C++)), n = this._keyStr.indexOf(r.charAt(C++)), c = this._keyStr.indexOf(r.charAt(C++)), t = a << 2 | h >> 4, e = (15 & h) << 4 | n >> 2, o = (3 & n) << 6 | c, d += String.fromCharCode(t), 64 != n && (d += String.fromCharCode(e)), 64 != c && (d += String.fromCharCode(o));
+                return d = Base64._utf8_decode(d)
+            },
+            _utf8_encode: function(r) {
+                r = r.replace(/\r\n/g, "\n");
+                for (var t = "", e = 0; e < r.length; e++) {
+                    var o = r.charCodeAt(e);
+                    128 > o ? t += String.fromCharCode(o) : o > 127 && 2048 > o ? (t += String.fromCharCode(o >> 6 | 192), t += String.fromCharCode(63 & o | 128)) : (t += String.fromCharCode(o >> 12 | 224), t += String.fromCharCode(o >> 6 & 63 | 128), t += String.fromCharCode(63 & o | 128))
+                }
+                return t
+            },
+            _utf8_decode: function(r) {
+                for (var t = "", e = 0, o = c1 = c2 = 0; e < r.length;) o = r.charCodeAt(e), 128 > o ? (t += String.fromCharCode(o), e++) : o > 191 && 224 > o ? (c2 = r.charCodeAt(e + 1), t += String.fromCharCode((31 & o) << 6 | 63 & c2), e += 2) : (c2 = r.charCodeAt(e + 1), c3 = r.charCodeAt(e + 2), t += String.fromCharCode((15 & o) << 12 | (63 & c2) << 6 | 63 & c3), e += 3);
+                return t
+            }
+        };
 
         // Define the string
         var string = 'VT-server-XzWLJbFxyzU72hwjhpmM_K-y:';
@@ -1027,8 +1054,7 @@ module.exports = function(app, passport) {
             .end(function(response) {
                 var pay = new Pay({
                     order_id: order_id,
-                    user_email: req.user.email,
-                    gross_amount: amount
+                    user_email: req.user.email
                 });
                 // Save transaction data
                 pay.save(function(err) {
@@ -1036,6 +1062,8 @@ module.exports = function(app, passport) {
                         req.flash('error', err);
                         res.redirect('/dash');
                     }
+                    // Saving credits amount into session
+                    req.session.credit = req.params.amount;
                     console.log("Saving init transaction success...");
                     res.redirect(response.body.redirect_url);
                 });
@@ -1045,81 +1073,93 @@ module.exports = function(app, passport) {
 
     // Payment notifiication handler
     app.post('/payment/notif', isLoggedIn, function(req, res) {
-        res.send(req.body);
-        //res.redirect('/');
+        Pay.find({
+            "order_id": req.body.order_id
+        }, function(err, pay) {
+            pay.gross_amount = req.body.gross_amount;
+            pay.payment_type = req.body.payment_type;
+            pay.transaction_time = req.body.transaction_time;
+            pay.status_code = req.body.status_code;
+            pay.save(function(err) {
+                if (err) {
+                    req.flash('error', err);
+                }
+                res.send('Success! saved to database >>>\n' + req.body);
+            });
+        })
     });
-    
+
     // Payment status handler
     app.get('/payment/:state', isLoggedIn, function(req, res) {
-        switch (req.params.state) {
+        var state = req.params.state;
+
+        switch (state) {
             case "finish":
-                if (status == '200') {
+                var status_code = req.query.status_code;
+                var order_id = req.query.order_id;
+
+                if (status_code == '200') {
+                    console.log('Looking for transaction with order_id: ' + order_id);
                     Pay.find({
-                        order_id: req.query.order_id
+                        "order_id": order_id
                     }, function(err, pay) {
                         if (err) {
                             req.flash('error', err);
                             res.redirect('/dash');
-                        }
-
-                        if (pay.gross_amount == '50000') {
-                            var credit = 1;
-                        } else if (pay.gross_amount == '250000') {
-                            var credit = 5;
-                        } else if (pay.gross_amount == '500000') {
-                            var credit = 10;
-                        }
-
-                        pay.payment_type = req.body.payment_type;
-                        pay.transaction_time = req.body.transaction_time;
-                        pay.status_code = status;
-
-                        pay.save(function(err) {
-                            if (err) {
-                                req.flash('error', err);
-                                res.redirect('/dash');
-                            }
+                        } else {
+                            var new_credit = req.session.credit;
+                            console.log('Adding ' + new_credit + ' credits to user: ' + req.user.email + ' (ID: ' + req.user.id + ') / ' + status_code);
                             // Add credit to user
                             User.findById(req.user.id, function(err, user) {
-                                user.credits = user.credits + credit;
+                                console.log('User\'s last credits >>> ' + user.credits);
+                                user.credits = user.credits + parseInt(new_credit); // add the credits
+                                console.log('New user\'s credits >>> ' + user.credits);
                                 user.save(function(err) {
                                     if (err) {
                                         req.flash('error', err);
-                                        res.redirect('/dash');
+                                    } else {
+                                        // Transaction success...
+                                        req.session.credit = false;
+                                        console.log('Success the credit has been added...');
+                                        req.flash('success', 'Your credit has been added.');
                                     }
-                                    // Transaction success...
-                                    console.log('Success your credit has been added...');
-                                    req.flash('success', 'Your credit has been added.');
                                 })
-                            })
-                        });
+                            });
+                        }
                     });
                 } else {
+                    console.log('Transaction pending or cancelled... now deleting...');
+                    Pay.find({
+                            order_id: req.query.order_id
+                        })
+                        .remove(function(err) {
+                            if (err) { // if failed remove
+                                req.flash('error', err);
+                                res.redirect('/dash');
+                            } else { // if succeeded
+                                console.log('Success!! init transaction deleted...');
+                                req.flash('error', 'You cancelled the transaction.');
+                            }
+                        });
                     req.flash('error', 'Your transaction is failed to process...');
                 };
                 break;
 
             case "unfinish":
-                Pay.find({order_id: req.query.order_id})
-                    .exec(function(err, pay) {
-                        if (err || !pay) {
+                Pay.find({
+                        order_id: req.query.order_id
+                    })
+                    .remove(function(err) {
+                        if (err) { // if failed remove
                             req.flash('error', err);
                             res.redirect('/dash');
-                        } else {
-                            console.log('Deleting init transaction:' + req.query.order_id);
-                            pay.remove(function(err) {
-                                if (err) { // if failed remove
-                                    req.flash('error', err);
-                                    res.redirect('/dash');
-                                } else { // if succeeded
-                                    console.log('Success!! init transaction deleted...');
-                                    req.flash('error', 'You cancelled the transaction.');
-                                }
-                            });
+                        } else { // if succeeded
+                            console.log('Success!! init transaction deleted...');
+                            req.flash('error', 'You cancelled the transaction.');
                         }
                     });
 
-                
+
                 break;
 
             case "error":
@@ -1130,12 +1170,12 @@ module.exports = function(app, passport) {
                 req.flash('error', 'Oops, something bad happened...');
 
         };
-                
-        res.redirect('/');
+
+        res.redirect('/dash');
     });
 
     // =============================================================================
-    // ================================================================== API ROUTES 
+    // ================================================================== API ROUTES
     // =============================================================================
 
     // Fetch all activated users
@@ -1163,7 +1203,7 @@ module.exports = function(app, passport) {
     });
 
     // Fetch all published jobs
-    app.get('/api/jobs/0', function(req, res) {
+    app.get('/api/jobs/backup', function(req, res) {
         Job.find({
             status: 'published'
         }, {
@@ -1178,6 +1218,37 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Fetch all published jobs (for Algolia-search function)
+    app.get('/api/jobs/import', function(req, res) {
+        Job.find({
+            status: 'published'
+        }, {
+            createdAt: 0,
+            updatedAt: 0,
+            email: 0,
+            newApp: 0,
+            app: 0,
+            deleteReason: 0,
+            token: 0,
+            status: 0,
+            "profile.description": 0,
+            "profile.logo": 0,
+            "details.jobScope": 0,
+            "details.requirements": 0,
+            "details.currency": 0,
+            "details.salaryFrom": 0,
+            "details.salaryTo": 0,
+            "details.salaryType": 0
+        }, {
+            sort: {
+                createdAt: -1
+            }
+        }, function(err, jobs) {
+            res.json(jobs);
+        });
+    });
+
+
     // Fetch all apps
     app.get('/api/apps', function(req, res) {
         App.find({}, {
@@ -1191,6 +1262,7 @@ module.exports = function(app, passport) {
             res.json(apps);
         });
     });
+
 
     // Fetch all published jobs based on keywords
     app.get('/api/jobs/s/:keyword', function(req, res) {
@@ -1309,7 +1381,6 @@ module.exports = function(app, passport) {
                 res.json(jobs);
             });
     });
-
 
     // Fetch user related jobs
     app.get('/api/jobs/:email/:condition', function(req, res) {

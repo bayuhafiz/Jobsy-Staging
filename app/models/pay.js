@@ -22,7 +22,7 @@ module.exports = mongoose.model('Pay', {
         default: ''
     },
     gross_amount: {
-        type: Number,
-        default: 0
+        type: String,
+        default: ''
     }
 });
