@@ -720,7 +720,7 @@
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
-
+            
             // close apply-btn///
             $('.apply-btn').animate({
                 'right':'-240px',
