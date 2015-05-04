@@ -925,33 +925,6 @@
                     $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
                     $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
-                    /*emailOpened.find('.profile .job-title').text(data.details.jobTitle);
-                    emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
-                    emailOpened.find('.company_overview p').text(data.profile.description);
-                    emailOpened.find('.details .salary .salary-from').text(data.details.currency.toUpperCase() + ' ' + data.details.salaryFrom);
-                    emailOpened.find('.details .salary .salary-to').text(data.details.salaryTo);
-                    emailOpened.find('.details .salary-type').text('/ ' + data.details.salaryType);
-                    emailOpened.find('.company_overview').html(data.profile.description);
-                    emailOpened.find('.job_scope').html(jobScopeText);
-                    emailOpened.find('.requirements').html(requirementsText);
-
-                    var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
-                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses);
-
-                    $('.no-email').hide();
-                    $('.actions-dropdown').toggle();
-                    $('.email-content').hide().fadeIn();
-                    $('.actions, .email-content-wrapper').show();
-                    $('.email-content-wrapper .email-content').fadeIn();
-                    if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
-                        $('.email-list').toggleClass('slideLeft');
-                    }
-
-                    $(".email-content-wrapper").scrollTop(0);
-                    $('#applyForm').attr('action', '/apply/' + id);
-
-
-                    checkJob(data.email, id);*/
 
                 }
             });
