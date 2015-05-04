@@ -9,7 +9,7 @@
 
 body{color: #777;}
 p{  font-size: 17px;font-family:avenir_book;  line-height: 2;  color: #4a4a4a;}
-*{ transition:  all 1s;}
+
 
 .email-wrapper .email-opened {margin-left: 0px;}
 .email-wrapper .email-opened .email-content-wrapper .actions-wrapper{display: none;}
@@ -20,15 +20,22 @@ body.fixed-header .header .btn-complete{width: 142px;}
 .header .search-link-home{border: 1px solid rgba(0, 0, 0, 0.2);border-radius: 3px;padding: 3px 11px;}
 .header .search-link-dash{margin-top: 4px}
 .modal.fade.slide-right .modal-dialog{width: 40%;}
-.modal.fade.slide-right .modal-dialog-userdashboard{width: 55%;}
+.modal.fade.slide-right .modal-dialog-userdashboard{width: 65%;}
+.modal.fade.slide-right .modal-dialog .modal-content{  background: #f8fefe;}
 .post_job{font-weight: bold;cursor: pointer;padding-top: 7px;margin-right: 5px;}
 .email-wrapper .email-list{width: 35%;height: 100%;}
 
 .notification-panel .notification-body .notification-item .heading.open .thumbnail-wrapper i{-webkit-transform: rotate(-90deg);-ms-transform: rotate(-90deg);transform: rotate(-180deg);}
 
-.modal-dialog-userdashboard .panel.panel-transparent .panel-body{padding-left: 70px;padding-right: 70px;padding-top: 35px;padding-bottom: 50px;}
+.modal-dialog-userdashboard .panel.panel-transparent .panel-body{padding-left: 55px;padding-right: 55px;padding-top: 55px;padding-bottom: 50px;}
+.modal-form{  
+    background: #fff;
+    padding: 60px 100px;
+    border: 1px solid #ECECEC;
+      border-radius: 10px;
+}
 
-.select2-drop-active{z-index: 10000!important}
+
 .signIn-panel,.signUp-panel,.forgetPass-panel{display: none;}
 
 .notification-panel{padding-top: 10px;}
@@ -39,9 +46,8 @@ textarea{resize:none;}
 .img-uploader-preview img{width: 100%; height: auto}
 #target-img{display: none;}
 .apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D;border-top-left-radius: 15px;border-bottom-left-radius: 15px; padding-top: 34px;}
-li.animate .apply-btn{
-    right:0;
-}
+
+
 .apply-btn p, .apply-btn i{color: #fff;text-align: center;}
 
 .email-wrapper .email-opened .email-content-wrapper{background-color: #f8fefe}
@@ -269,6 +275,12 @@ a:hover{color:#0E6052;}
 
 .btn-clear-all{  height: 58px;width: 100%;}
 
+.drop-down{padding-bottom: 10px!important}
+.select2-drop-mask{z-index: 10000!important}
+
+.select2-drop-active{width: 462px!important;background: #eef0f1;z-index: 10000!important}
+.select2-results li{display: inline-block;  background: #fff;margin: 8px; border-radius: 5px;}
+.job-dropdown{width: 77%!important}
 
 
 @media(max-width: 568px){

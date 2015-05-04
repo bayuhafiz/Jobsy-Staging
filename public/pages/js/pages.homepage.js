@@ -127,7 +127,7 @@
                             li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
                         }
 
-                        li += '<div class="apply-btn"><center><i class="fa fa-rocket" style="font-size: 23px;"></i></center><p>Apply now</p></div>\
+                        li += '<div class="apply-btn" id="btn-apply-job" data-toggle="modal" data-target="#applyModal"><center><i class="fa fa-rocket" style="font-size: 23px;"></i></center><p>Apply now</p></div>\
                                 <div class="clearfix"></div> \
                                 </li>';
 
@@ -460,7 +460,8 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-    
+        //$("#category-filter").select2({dropdownCssClass : 'bigdrop'});
+        $("#category-filter").select2({ dropdownAutoWidth: 'true' });
         // Load job list
         loadJobList('/api/jobs');
 
@@ -476,6 +477,7 @@
         CKEDITOR.inline('editor2');
         CKEDITOR.inline('editor3');
         CKEDITOR.inline('editor4');
+        
 
 
         // Create job form logic for each user ////
@@ -726,20 +728,42 @@
             e.stopPropagation();
         })
 
+        $('body').on('click','.apply-btn',function(e) {
+            e.stopPropagation();
+        });
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
-            /*$(this).siblings().removeClass("animate");
-        
-            $(this).addClass("animate");*/
-            alert('sdafj');
 
-            /*$(this).find('.apply-btn').animate({
+
+            $(this).find('.apply-btn').animate({
             'right':'0px'
             }).end().siblings()
             .find('.apply-btn').animate({
                 'right':'-240px'
-            });*/
+            });
+
+
+            $('.details-list-box').css({
+                'position': 'relative'
+            })
+            $(this).find('.details-list-box').animate({
+                'left':'-110px'
+            }).end().siblings()
+            .find('.details-list-box').animate({
+                'left':'0px'
+            });
+
+            $('.img-list-box').css({
+                'position': 'relative'
+            })
+            $(this).find('.img-list-box').animate({
+                'left':'-115px'
+            }).end().siblings()
+            .find('.img-list-box').animate({
+                'left':'0px'
+            });
+
 
             // close apply-btn///
             /*$('.apply-btn').animate({
@@ -750,7 +774,9 @@
                 'right': '0px',
             });*/
 
-            $('.img-list-box').css({
+
+
+            /*$('.img-list-box').css({
                 'position': 'relative'
             }).animate({
                 'left': '0'
@@ -760,11 +786,11 @@
                 'position': 'relative'
             }).animate({
                 'left': '-115px'
-            });
+            });*/
 
-            $('.details-list-box').css({
-                'position': 'relative'
-            }).animate({
+
+            
+            /*.animate({
                 'left': '0'
             });
 
@@ -772,7 +798,8 @@
                 'position': 'relative'
             }).animate({
                 'left': '-110px'
-            });
+            });*/
+            
 
 
 
@@ -957,7 +984,8 @@
 
 
         // =============  APPLY JOB HANDLER ===============
-        $('#btnToggleSlideUpSize').click(function() {
+        $('body').on('click','.apply-btn',function() {
+
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
             var location = $('.profile .datetime').text();

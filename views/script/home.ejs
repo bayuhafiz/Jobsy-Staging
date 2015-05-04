@@ -67,6 +67,12 @@
         }
     }
 })();
+    
 
+    $(document).ready(function () {
+        if($('.select2-drop li:first-child .select2-result-label').text() == 'All Categories'){
+            $('.select2-drop').addClass('bagdrop');
+        }
+     });
 </script>
 <!-- END PAGE LEVEL JS -->
