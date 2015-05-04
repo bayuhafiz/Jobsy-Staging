@@ -322,6 +322,18 @@
     }
 
 
+    // ===================== SEARCH FUNCTION ======================
+    function search(string) {
+        // Algolia search API settings
+        var client = $.algolia.Client('6ZKMIQIGQJ', '21e28f38ad78f9d769845a8c53c7f441');
+        var index = client.initIndex('jobs');
+        index.search(string, function searchDone(err, contents) {
+            if (err) console.log(err)
+            else console.log(contents)
+        });
+    }
+
+
 
     // ===================== INITIATE WIZARD FORM ============================
     var formWizard1 = function() {
@@ -448,10 +460,6 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-        // Algolia search API settings
-        var client = $.algolia.Client('6ZKMIQIGQJ', '50d35a74564bb3559e12aa856f3e1c46');
-        var index = client.initIndex('jobs');
-
         // Load job list
         loadJobList('/api/jobs');
 
@@ -527,11 +535,8 @@
         // SEARCH INPUT HANDLER //////
         $(".searchJob").on("keyup", function() {
             var keyword = $(this).val();
-
-            index.search(keyword, function searchDone(err, content) {
-                console.log(err, content)
-            });
-
+            // call search function
+            search(keyword);
         });
 
         $('.searchJob').focus(function() {
