@@ -529,8 +529,9 @@
             var keyword = $(this).val();
 
             index.search(keyword, function searchDone(err, content) {
-                console.log(content)
+                console.log(err, content)
             });
+
         });
 
         $('.searchJob').focus(function() {
