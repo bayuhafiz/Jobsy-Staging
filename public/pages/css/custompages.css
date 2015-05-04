@@ -9,7 +9,7 @@
 
 body{color: #777;}
 p{  font-size: 17px;font-family:avenir_book;  line-height: 2;  color: #4a4a4a;}
-
+*{ transition:  all 1s;}
 
 .email-wrapper .email-opened {margin-left: 0px;}
 .email-wrapper .email-opened .email-content-wrapper .actions-wrapper{display: none;}
@@ -39,6 +39,9 @@ textarea{resize:none;}
 .img-uploader-preview img{width: 100%; height: auto}
 #target-img{display: none;}
 .apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D;border-top-left-radius: 15px;border-bottom-left-radius: 15px; padding-top: 34px;}
+li.animate .apply-btn{
+    right:0;
+}
 .apply-btn p, .apply-btn i{color: #fff;text-align: center;}
 
 .email-wrapper .email-opened .email-content-wrapper{background-color: #f8fefe}

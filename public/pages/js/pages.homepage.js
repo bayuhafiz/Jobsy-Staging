@@ -161,7 +161,7 @@
 
 
 
-                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" style="max-width: none;max-height: 129px;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right');
+                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" style="max-width: none;max-height: none;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right').css({'width':'129px','height':'129px'});
 
                                     $('.no-email').hide();
                                     $('.actions-dropdown').toggle();
@@ -460,6 +460,7 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
+    
         // Load job list
         loadJobList('/api/jobs');
 
@@ -728,15 +729,26 @@
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
-            
+            /*$(this).siblings().removeClass("animate");
+        
+            $(this).addClass("animate");*/
+            alert('sdafj');
+
+            /*$(this).find('.apply-btn').animate({
+            'right':'0px'
+            }).end().siblings()
+            .find('.apply-btn').animate({
+                'right':'-240px'
+            });*/
+
             // close apply-btn///
-            $('.apply-btn').animate({
+            /*$('.apply-btn').animate({
                 'right': '-240px',
             });
             // open apply-btn///
             $(this).children('.apply-btn').animate({
                 'right': '0px',
-            });
+            });*/
 
             $('.img-list-box').css({
                 'position': 'relative'
@@ -803,7 +815,7 @@
                     emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses).addClass('circular pull-right');
                     emailOpened.find('.img-list').css({
                         "max-width": "none",
-                        "max-height": "129px"
+                        "max-height": "none"
                     });
 
                     $('.no-email').hide();
