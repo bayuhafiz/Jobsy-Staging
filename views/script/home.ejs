@@ -90,7 +90,9 @@
             $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
         });
 
-    
+        $('body').on('click','.tags_filter_close',function () {
+            $(this).parent('span').css('display','none')
+        });
      });
 </script>
 <!-- END PAGE LEVEL JS -->
