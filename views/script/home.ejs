@@ -76,7 +76,18 @@
         $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
 
         $('select#category-filter').change(function () {
-            alert($('#s2id_category-filter a.select2-choice span.select2-chosen').text());
+            var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+        });
+
+        $('select#location-filter').change(function () {
+            var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+        });
+
+        $('select#jobType-filter').change(function () {
+            var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
         });
 
     
