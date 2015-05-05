@@ -59,8 +59,6 @@
 
                 clearJobList(); // clear the list before we do the magic
 
-                console.log(data.length);
-
                 if (data.length == 0) { // If there is no job to display
 
                     var noJob = '<div class="text-center" style="margin-top: 50%; margin-bottom: auto; height: auto;"><h1 class="hint-text"><br/><i class="fa fa-ban fa-2x"></i><br/>Oops, no job post found!</h1><span class="hint-text">Hint: Try changing your filter preference or your search keyword</span></div>';
@@ -336,7 +334,6 @@
     }
 
 
-
     // ===================== INITIATE WIZARD FORM ============================
     var formWizard1 = function() {
         console.log('setting up CREATE JOB wizard...');
@@ -459,7 +456,6 @@
     };
 
 
-
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
         //$("#category-filter").select2({dropdownCssClass : 'bigdrop'});
@@ -497,11 +493,14 @@
 
 
         // CKEditor configuration ////
-        CKEDITOR.inline('editor1');
-        CKEDITOR.inline('editor2');
-        CKEDITOR.inline('editor3');
-        CKEDITOR.inline('editor4');
-
+        var user = $('#user_email').val();
+        if (user == 'none') {
+            CKEDITOR.inline('editor4');
+        } else {
+            CKEDITOR.inline('editor1');
+            CKEDITOR.inline('editor2');
+            CKEDITOR.inline('editor3');
+        }
 
 
         // Create job form logic for each user ////
@@ -760,8 +759,6 @@
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
-
-
             $(this).find('.apply-btn').animate({
                     'right': '0px'
                 }).end().siblings()
