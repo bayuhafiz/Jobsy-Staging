@@ -281,6 +281,7 @@ a:hover{color:#0E6052;}
 .select2-drop-active{width: 462px!important;background: #eef0f1;z-index: 10000!important}
 .select2-results li{display: inline-block;  background: #fff;margin: 8px; border-radius: 5px;}
 .job-dropdown{width: 77%!important}
+.select2-results .select2-highlighted{background: #fff}
 
 
 @media(max-width: 568px){
