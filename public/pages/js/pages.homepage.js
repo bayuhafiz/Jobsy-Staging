@@ -460,8 +460,6 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-        //$("#category-filter").select2({dropdownCssClass : 'bigdrop'});
-        $("#category-filter").select2({ dropdownAutoWidth: 'true' });
         // Load job list
         loadJobList('/api/jobs');
 
