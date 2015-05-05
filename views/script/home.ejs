@@ -75,9 +75,9 @@
         $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
         $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
 
-        /*$('div.category_filter_dropdown ul > li').click(function () {
-            alert('kldsafjl');
-        });*/
+        $('select#category-filter').change(function () {
+            alert($('#s2id_category-filter a.select2-choice span.select2-chosen').text());
+        });
 
     
      });

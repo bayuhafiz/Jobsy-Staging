@@ -387,6 +387,7 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted{
     .email-wrapper .email-list .email-refresh{display: none;}
 
     .page-container{position: initial;z-index: initial}
+    .filter-box{display: none!important;}
     
 }
 

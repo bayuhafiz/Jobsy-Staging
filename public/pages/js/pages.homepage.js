@@ -193,6 +193,9 @@
 
                                 }
                             });
+
+
+                            
                         }
 
                     });
@@ -563,17 +566,12 @@
             loadJobList('/api/search/' + keyword);
         });
 
-        $('.searchJob').focus(function() {
-            $('.filter-box').show();
-        })
+      
 
-        /* $('.searchJob').blur(function () {
+        /*$('.searchJob').blur(function () {
              $('.filter-box').css('display','none');
         });*/
 
-        /*$('a.select2-choice').click(function() {
-            $('.filter-box').css('display','block');
-        });*/
 
         $('body').on("click", '.clear-search', function() {
             if ($(".searchJob").val() != '') {
@@ -586,6 +584,7 @@
         });
 
         $(".searchJob").on("focus", function() {
+            $('.filter-box').show();
             $(this).attr('placeholder', '');
         });
 
@@ -665,24 +664,7 @@
             e.stopPropagation();
         });
 
-        /*$('body').on('mouseenter', '.item', function(e) {
-            $(this).children('.job-title').animate({
-                'right': '20px',
-                'opacity': '1'
-            });
-
-            $(this).children('.datetime').css('opacity', '0');
-        });
-
-        $('body').on('mouseleave', '.item', function(e) {
-            $(this).children('.job-title').animate({
-                'right': '0px',
-                'opacity': '0'
-            });
-
-            $(this).children('.datetime').css('opacity', '1');
-        });*/
-
+    
 
         // BASIC BUTTONS HANDLER ////
         $('.firstTab,.btn-previous').click(function() {
@@ -753,6 +735,8 @@
             e.stopPropagation();
         });
 
+        
+
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
 
@@ -784,44 +768,6 @@
                 .find('.img-list-box').animate({
                     'left': '0px'
                 });
-
-
-            // close apply-btn///
-            /*$('.apply-btn').animate({
-                'right': '-240px',
-            });
-            // open apply-btn///
-            $(this).children('.apply-btn').animate({
-                'right': '0px',
-            });*/
-
-
-
-            /*$('.img-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '0'
-            });
-
-            $(this).children('.img-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '-115px'
-            });*/
-
-
-
-            /*.animate({
-                'left': '0'
-            });
-
-            $(this).children('.details-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '-110px'
-            });*/
-
-
 
 
             $('.list-view-group-container li').attr('data', '');
