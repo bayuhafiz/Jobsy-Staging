@@ -556,8 +556,8 @@
         });
 
         $('.searchJob').focus(function() {
-            $('.filter-box').css('display', 'block');
-        });
+            $('.filter-box').show();
+        })
 
         /* $('.searchJob').blur(function () {
              $('.filter-box').css('display','none');

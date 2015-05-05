@@ -220,7 +220,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .radio.radio-danger input[type=radio]:checked + label:before{border-color: #12806D}
 
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
-.email-wrapper .email-list .item{height: 110px;cursor: pointer;margin-left: auto;margin-right: auto;}
+.email-wrapper .email-list .item{height: 110px;cursor: pointer;margin-left: auto;margin-right: auto;padding-left: 25px!important;padding-right: 25px!important}
 a{color:#12806D;}
 a:hover{color:#0E6052;}
 .header .notification-list{z-index: 1}
@@ -278,10 +278,52 @@ a:hover{color:#0E6052;}
 .drop-down{padding-bottom: 10px!important}
 .select2-drop-mask{z-index: 10000!important}
 
-.select2-drop-active{width: 462px!important;background: #eef0f1;z-index: 10000!important}
-.select2-results li{display: inline-block;  background: #fff;margin: 8px; border-radius: 5px;}
+
+
+.select2-drop-active{z-index: 10000!important}
+.category_filter_dropdown,
+.location_filter_dropdown,
+.jobType_filter_dropdown{
+    background: #eef0f1;   
+}
+.category_filter_dropdown{width: 462px!important;}
+.location_filter_dropdown{width: 460px!important;}
+.jobType_filter_dropdown{width: 307px!important;}
+
+div.category_filter_dropdown ul.select2-results li.select2-result:first-child,
+div.location_filter_dropdown ul.select2-results li.select2-result:first-child,
+div.jobType_filter_dropdown ul.select2-results li.select2-result:first-child{
+    display: none
+}
+
+div.category_filter_dropdown ul.select2-results li,
+div.location_filter_dropdown ul.select2-results li,
+div.jobType_filter_dropdown ul.select2-results li{
+    display: inline-block;  
+    background: #fff;
+    margin: 8px; 
+    border-radius: 5px;
+}
+div.category_filter_dropdown ul.select2-results li.select2-no-results, 
+div.location_filter_dropdown ul.select2-results li.select2-no-results, 
+div.jobType_filter_dropdown ul.select2-results li.select2-no-results{
+    background: transparent;
+}
+
+div.category_filter_dropdown ul.select2-results .select2-highlighted,
+div.location_filter_dropdown ul.select2-results .select2-highlighted,
+div.jobType_filter_dropdown ul.select2-results .select2-highlighted{
+    background: #fff
+}
+
+.job-filter-dropdown.select2-dropdown-open a{background: #eef0f1!important}
+
 .job-dropdown{width: 77%!important}
-.select2-results .select2-highlighted{background: #fff}
+
+.placeholder{  font-size: 17px;
+  font-family: avenir_book;
+  line-height: 2;
+  color: #4a4a4a;}
 
 
 @media(max-width: 568px){
@@ -301,13 +343,14 @@ a:hover{color:#0E6052;}
  
     .notification-panel{width: 100%!important;}
     .header .search-link input{width: 90%!important;}
-    .email-wrapper .email-opened .email-content-wrapper .email-content{width: 100%;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content{width: 100%;padding-top: 62px;padding-left: 20px;padding-right: 20px;}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box{margin-bottom: 20px;}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 0!important;}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{width: 100%!important}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .middle{width: 100%!important}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc{width: auto;}
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{margin-top: 40px;margin-bottom: 15px;}
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{margin-top: 40px;margin-bottom: 15px;text-align: left!important;}
+    .thumbnail-wrapper{float: left!important;}
     .company_overview p,.job_scope p,.requirements p{line-height: 20px;}
     .job-title-hover{display: none;}
     .email-wrapper .email-list .item .datetime{opacity: 1!important}
@@ -332,7 +375,6 @@ a:hover{color:#0E6052;}
     .notification-panel{width: 400px;}
 
     .email-wrapper .email-opened .email-content-wrapper{height: 100%;}
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary{text-align: center;}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{left: 0}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 20px;}
 
