@@ -1313,19 +1313,25 @@ module.exports = function(app, passport) {
                 return;
             } else {
                 // Begin processing the results
-                var result = [];
+                var arr = [];
+                var ids = [];
                 if (content.hits.length > 0) {
                     for (var h in content.hits) {
-                        // fetching related job from DB
-                        Job.findOne({
-                            _id: content.hits[h]._id
-                        }, function(err, job) {
-                            result = result.concat(job);
-                        });
+                        var ids = ids.concat(content.hits[h]._id);
                     }
-                    return result;
+                    // fetching related job from DB
+                    Job.find({
+                        _id: {
+                            $in: ids
+                        }
+                    }, function(err, job) {
+                        res.json(job);
+                        return;
+                    });
+                } else {
+                    res.json(arr);
+                    return;
                 }
-                res.json(result);
             }
         });
     });
