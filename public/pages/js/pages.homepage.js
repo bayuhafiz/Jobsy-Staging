@@ -745,13 +745,13 @@
             $(this).attr('placeholder', '');
         });
 
-        $(".searchJob").on("blur", function() {
+        /*$(".searchJob").on("blur", function() {
             var q = $(this).text();
             if (q == '') {
                 //$('.clear-search').css('display', 'none'); // remove clear icon
                 $(this).attr('placeholder', 'Search here..');
             }
-        });
+        });*/
 
 
 

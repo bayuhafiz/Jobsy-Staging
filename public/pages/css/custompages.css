@@ -325,13 +325,16 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted{
   line-height: 2;
   color: #4a4a4a;}
 
-span.searchJob_tag span{
+span.searchJob_tag span.category_tag,
+span.searchJob_tag span.location_tag,
+span.searchJob_tag span.jobType_tag{
     background: #0F81A3;
     color: #fff;
-    padding: 5px 13px;
+    padding: 5px 6px;
     padding-right: 0px;
     font-size: 12px;
     margin: 0 5px;
+    display: none;
 }
 
 span.searchJob_tag span i{

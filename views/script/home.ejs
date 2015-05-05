@@ -77,10 +77,22 @@
 
         $('select#category-filter').change(function () {
             var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+            $('span.searchJob_tag span.category_tag').show();
+            $('span.searchJob_tag span.category_tag span').text(a);
         });
 
         $('select#location-filter').change(function () {
+            var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag span.location_tag').show();
+            $('span.searchJob_tag span.location_tag span').text(a);
+        });
+
+        $('select#jobType-filter').change(function () {
+            var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag span.jobType_tag').show();
+            $('span.searchJob_tag span.jobType_tag span').text(a);
+        });
+        /*$('select#location-filter').change(function () {
             var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
             $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
         });
@@ -88,10 +100,10 @@
         $('select#jobType-filter').change(function () {
             var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
             $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
-        });
+        });*/
 
         $('body').on('click','.tags_filter_close',function () {
-            $(this).parent('span').css('display','none')
+            $(this).parent('span').css('display','none');
         });
      });
 </script>
