@@ -39,6 +39,7 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
 var client = new Algolia('6ZKMIQIGQJ', '1e30dd72f506417d0ac436e1e5b6c35d', keepaliveAgent);
+var index = client.initIndex('jobs');
 
 
 // Here are our precious module
@@ -501,7 +502,7 @@ module.exports = function(app, passport) {
     // Upload temp Logo ---------------------------------
     app.post('/logo/temp', function(req, res) {
         console.log("Uploading: \n" + JSON.stringify(req.files.img));
-        
+
         cloudinary.uploader.upload(req.files.img.path, function(result) {
             console.log('Success!\n' + JSON.stringify(result));
             res.json({
@@ -515,48 +516,12 @@ module.exports = function(app, passport) {
 
     // Upload Cropped Logo ---------------------------------
     app.post('/logo/save', function(req, res) {
-        console.log(util.inspect(req, {showHidden: false, depth: null}));
-        
-        console.log("Saving: \n" + req.imgUrl);
-        
-        /*cloudinary.uploader.upload(req.files.img.path, function(result) {
-            console.log('Success!\n' + result);
-            res.json({
-                "status": "success",
-                "url": result.url,
-                "width": result.width,
-                "height": result.height
-            });
-        });
+        console.log(util.inspect(req.files, {
+            showHidden: false,
+            depth: null
+        }));
 
-        /*var random_id = crypto.randomBytes(10).toString('hex');
-        var filePath = './public/uploads/temp/' + random_id + '.png';
-        var database_filepath = random_id + '.png';
-        var tmpPath = req.files.img.path;
-        var targetPath = path.resolve(filePath);
-
-        console.log("Calculating image dimension...");
-        gm(filePath)
-            .size(function(err, size) {
-                if (!err) {
-                    fs.rename(tmpPath, targetPath, function(err) {
-                        if (err) {
-                            res.json({
-                                "status": "error",
-                                "message": "Image failed to be processed"
-                            });
-                        } else {
-                            res.json({
-                                "status": "success",
-                                "url": "uploads/temp/" + database_filepath,
-                                "width": size.width,
-                                "height": size.height
-                            });
-                            console.log("Done successfully!!!");
-                        }
-                    });
-                }
-            });*/
+        //console.log("Saving: \n" + req.imgUrl);
     });
 
     // Create new job post --------------------------------------------
@@ -1338,27 +1303,42 @@ module.exports = function(app, passport) {
     });
 
 
-    // Fetch all published jobs based on keywords
-    app.get('/api/jobs/s/:keyword', function(req, res) {
-        var regex = RegExp("/.*" + req.params.keyword + ".*/");
-        console.log('Keyword >> ' + req.params.keyword);
 
-        var query = {
-            $and: [{
-                'status': "published"
-            }, {
-                'details.jobTitle': regex
-            }]
-        }
+    // Search all published jobs based on keywords :: AlgoliaSearch powered ::
+    app.get('/api/search/:keyword', function(req, res) {
+        var keyword = req.params.keyword;
+        index.search(keyword, function(err, content) {
+            if (err) {
+                console.error(err);
+                return;
+            } else {
+                // Begin processing the results
+                var result = [];
+                if (content.hits.length > 0) {
+                    for (var h in content.hits) {
+                        // fetching related job from DB
+                        Job.findOne({
+                            _id: content.hits[h]._id
+                        }, function(err, job) {
+                            result = result.concat(job);
+                        });
+                    }
+                    return result;
+                }
+                res.json(result);
+            }
+        });
+    });
 
-        console.log('Query >> ' + JSON.stringify(query));
-
-        Job.find(query, null, {
+    // Function for empty keyword search
+    app.get('/api/search', function(req, res) {
+        Job.find({
+            status: 'published'
+        }, null, {
             sort: {
                 createdAt: -1
             }
         }, function(err, jobs) {
-            console.log('Result >> ' + JSON.stringify(jobs));
             res.json(jobs);
         });
     });
