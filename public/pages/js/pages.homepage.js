@@ -325,7 +325,7 @@
     // ===================== SEARCH FUNCTION ======================
     function search(string) {
         // Algolia search API settings
-        var client = $.algolia.Client('6ZKMIQIGQJ', '21e28f38ad78f9d769845a8c53c7f441');
+        var client = $.algolia.Client('6ZKMIQIGQJ', '1e30dd72f506417d0ac436e1e5b6c35d');
         var index = client.initIndex('jobs');
         index.search(string, function searchDone(err, contents) {
             if (err) console.log(err)
@@ -464,6 +464,19 @@
         $("#category-filter").select2({ dropdownAutoWidth: 'true' });
         // Load job list
         loadJobList('/api/jobs');
+
+        // initiate image cropper
+        var cropperOptions = {
+            uploadUrl:'/logo/temp/',
+            cropUrl:'/logo/save/',
+            imgEyecandy:true,
+            imgEyecandyOpacity:0.2,
+            zoomFactor:10,
+            doubleZoomControls:true,
+            rotateFactor:10,
+            rotateControls:true 
+        };     
+        var cropperHeader = new Croppic('image-cropper-container', cropperOptions);
 
         // Infinite scroll trigger /////
         $('#item-list').jscroll({
@@ -951,32 +964,6 @@
                     $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
                     $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
-                    /*emailOpened.find('.profile .job-title').text(data.details.jobTitle);
-                    emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
-                    emailOpened.find('.company_overview p').text(data.profile.description);
-                    emailOpened.find('.details .salary .salary-from').text(data.details.currency.toUpperCase() + ' ' + data.details.salaryFrom);
-                    emailOpened.find('.details .salary .salary-to').text(data.details.salaryTo);
-                    emailOpened.find('.details .salary-type').text('/ ' + data.details.salaryType);
-                    emailOpened.find('.company_overview').html(data.profile.description);
-                    emailOpened.find('.job_scope').html(jobScopeText);
-                    emailOpened.find('.requirements').html(requirementsText);
-
-                    var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
-                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses);
-
-                    $('.no-email').hide();
-                    $('.actions-dropdown').toggle();
-                    $('.email-content').hide().fadeIn();
-                    $('.actions, .email-content-wrapper').show();
-                    $('.email-content-wrapper .email-content').fadeIn();
-                    if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
-                        $('.email-list').toggleClass('slideLeft');
-                    }
-
-                    $(".email-content-wrapper").scrollTop(0);
-                    $('#applyForm').attr('action', '/apply/' + id);
-
-                    checkJob(data.email, id);*/
 
                 }
             });

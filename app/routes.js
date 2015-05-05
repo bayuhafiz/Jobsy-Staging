@@ -6,10 +6,22 @@ var async = require('async'),
     emailTemplates = require('email-templates'),
     nodemailer = require('nodemailer'),
     fs = require('fs'),
-    unirest = require('unirest');
+    unirest = require('unirest'),
+    gm = require('gm');
+
+// For development purpose ONLY!
+var util = require('util');
 
 // Load up the secret file
 var secrets = require('../config/secret');
+
+// Cloudinary images CDN settings
+var cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'jobsyimgcdn',
+    api_key: '534351268798955',
+    api_secret: 'IzlEJLEVY93u-90xIOqguA-9E5c'
+});
 
 // Load up the model files
 var Job = require('./models/job');
@@ -485,6 +497,68 @@ module.exports = function(app, passport) {
     // =============================================================================
     // JOB MANIPULATION ROUTES =====================================================
     // =============================================================================
+
+    // Upload temp Logo ---------------------------------
+    app.post('/logo/temp', function(req, res) {
+        console.log("Uploading: \n" + JSON.stringify(req.files.img));
+        
+        cloudinary.uploader.upload(req.files.img.path, function(result) {
+            console.log('Success!\n' + JSON.stringify(result));
+            res.json({
+                "status": "success",
+                "url": result.url,
+                "width": result.width,
+                "height": result.height
+            });
+        });
+    });
+
+    // Upload Cropped Logo ---------------------------------
+    app.post('/logo/save', function(req, res) {
+        console.log(util.inspect(req, {showHidden: false, depth: null}));
+        
+        console.log("Saving: \n" + req.imgUrl);
+        
+        /*cloudinary.uploader.upload(req.files.img.path, function(result) {
+            console.log('Success!\n' + result);
+            res.json({
+                "status": "success",
+                "url": result.url,
+                "width": result.width,
+                "height": result.height
+            });
+        });
+
+        /*var random_id = crypto.randomBytes(10).toString('hex');
+        var filePath = './public/uploads/temp/' + random_id + '.png';
+        var database_filepath = random_id + '.png';
+        var tmpPath = req.files.img.path;
+        var targetPath = path.resolve(filePath);
+
+        console.log("Calculating image dimension...");
+        gm(filePath)
+            .size(function(err, size) {
+                if (!err) {
+                    fs.rename(tmpPath, targetPath, function(err) {
+                        if (err) {
+                            res.json({
+                                "status": "error",
+                                "message": "Image failed to be processed"
+                            });
+                        } else {
+                            res.json({
+                                "status": "success",
+                                "url": "uploads/temp/" + database_filepath,
+                                "width": size.width,
+                                "height": size.height
+                            });
+                            console.log("Done successfully!!!");
+                        }
+                    });
+                }
+            });*/
+    });
+
     // Create new job post --------------------------------------------
     app.post('/job/create', isLoggedIn, function(req, res, next) {
         async.waterfall([
