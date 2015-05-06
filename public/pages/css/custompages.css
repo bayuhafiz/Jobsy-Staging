@@ -9,7 +9,7 @@
 
 body{color: #777;}
 p{  font-size: 17px;font-family:avenir_book;  line-height: 2;  color: #4a4a4a;}
-
+span,h1,h2,h3,h4,h5,h6{font-family: avenir_book!important}
 
 .email-wrapper .email-opened {margin-left: 0px;}
 .email-wrapper .email-opened .email-content-wrapper .actions-wrapper{display: none;}
@@ -246,6 +246,7 @@ a:hover{color:#0E6052;}
 .form-group-default.focused{background-color: transparent;}
 .form-group-default{background-color: transparent;border:0px;}
 .form-group label.custom-label:not(.error){ font-size: 23px;padding-bottom: 40px;font-weight: 400;color: #4a4a4a;text-transform:none;}
+.form-group label:not(.error){font-family: avenir_book}
 .form-group-default.focused label{opacity: 1}
 .form-group-default label.fade{opacity: 1}
 .form-group-default{padding-right: 0;padding-left: 0}
@@ -260,7 +261,7 @@ a:hover{color:#0E6052;}
         }
 
 .list-view-group-container{padding: 0}
-.searchJob{border: none;opacity:1;color: #626262;font-size: 16px;  width: 335px;}
+.searchJob{border: none;opacity:1;color: #626262;font-size: 20px;  width: 335px;}
 .searchApplicant{border: none;opacity:1;color: #626262;font-size: 16px;}
 #no-job-post{display: none; margin-top: 10px;}
 .filter-box{  width: 615px;height: 60px;background: #f9fafb;position: absolute;z-index: 1000;top: 60px;left: 124px; border:1px solid #ECECEC;display: none;}

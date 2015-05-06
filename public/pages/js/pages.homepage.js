@@ -768,6 +768,11 @@
             $('span.searchJob_tag span.jobType_tag').show();
             $('span.searchJob_tag span.jobType_tag span').text(a);
         });
+        $('body').on('click','.tags_filter_close',function () {
+            $(this).parent('span').css('display','none');
+        });
+
+        
 
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
             var filters = $.map($("select.mobile-filter-dropdown").toArray(), function(e) {
