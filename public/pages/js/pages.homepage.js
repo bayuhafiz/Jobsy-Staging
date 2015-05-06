@@ -220,6 +220,9 @@
 
                                 }
                             });
+
+
+
                         }
 
                     });
@@ -487,11 +490,6 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-        //$("#category-filter").select2({dropdownCssClass : 'bigdrop'});
-        $("#category-filter").select2({
-            dropdownAutoWidth: 'true'
-        });
-
 
         // Load job list
         loadJobList('/api/jobs');
@@ -581,6 +579,11 @@
             }).show();
         }
 
+        // Tagged filters values
+        $('#s2id_category-filter div.select2-drop').addClass('category_filter_dropdown');
+        $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
+        $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
+
 
 
         // ========================
@@ -616,44 +619,6 @@
                 .find('.img-list-box').animate({
                     'left': '0px'
                 });
-
-
-            // close apply-btn///
-            /*$('.apply-btn').animate({
-                'right': '-240px',
-            });
-            // open apply-btn///
-            $(this).children('.apply-btn').animate({
-                'right': '0px',
-            });*/
-
-
-
-            /*$('.img-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '0'
-            });
-
-            $(this).children('.img-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '-115px'
-            });*/
-
-
-
-            /*.animate({
-                'left': '0'
-            });
-
-            $(this).children('.details-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '-110px'
-            });*/
-
-
 
 
             $('.list-view-group-container li').attr('data', '');
@@ -725,17 +690,12 @@
             loadJobList('/api/search/' + keyword);
         });
 
-        $('.searchJob').focus(function() {
-            $('.filter-box').show();
-        })
 
-        /* $('.searchJob').blur(function () {
+
+        /*$('.searchJob').blur(function () {
              $('.filter-box').css('display','none');
         });*/
 
-        /*$('a.select2-choice').click(function() {
-            $('.filter-box').css('display','block');
-        });*/
 
         $('body').on("click", '.clear-search', function() {
             if ($(".searchJob").val() != '') {
@@ -748,6 +708,7 @@
         });
 
         $(".searchJob").on("focus", function() {
+            $('.filter-box').show();
             $(this).attr('placeholder', '');
         });
 
@@ -781,15 +742,30 @@
 
 
         // DROPDOWN FILTERS HANDLER ////
-        $("select.job-filter-dropdown").on("change", function() {
+        /*$("select.job-filter-dropdown").on("change", function() {
             var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
             }).join("/");
 
-            console.log(filters);
-
             // run the load job list function
             loadJobList('/api/jobs/' + filters);
+        });*/
+
+        $('select#category-filter').change(function() {
+            var x = this.select2('val');
+            alert(x);
+            //var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
+            //$('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+        });
+
+        $('select#location-filter').change(function() {
+            var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+        });
+
+        $('select#jobType-filter').change(function() {
+            var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
         });
 
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
@@ -827,6 +803,7 @@
         $('body').on('click', '.item .checkbox', function(e) {
             e.stopPropagation();
         });
+
 
 
         // BASIC BUTTONS HANDLER ////
@@ -897,6 +874,102 @@
         $('body').on('click', '.apply-btn', function(e) {
             e.stopPropagation();
         });
+
+
+
+        // =========== OPEN JOB DETAILS HANDLER ======================
+        $('body').on('click', '.item', function(e) {
+
+
+            $(this).find('.apply-btn').animate({
+                    'right': '0px'
+                }).end().siblings()
+                .find('.apply-btn').animate({
+                    'right': '-240px'
+                });
+
+
+            $('.details-list-box').css({
+                'position': 'relative'
+            })
+            $(this).find('.details-list-box').animate({
+                    'left': '-110px'
+                }).end().siblings()
+                .find('.details-list-box').animate({
+                    'left': '0px'
+                });
+
+            $('.img-list-box').css({
+                'position': 'relative'
+            })
+            $(this).find('.img-list-box').animate({
+                    'left': '-115px'
+                }).end().siblings()
+                .find('.img-list-box').animate({
+                    'left': '0px'
+                });
+
+
+            $('.list-view-group-container li').attr('data', '');
+            $(this).attr('data', 'active');
+
+            // hide dropdown filter (mobile only)
+            $('.mobile-dropdown').hide();
+
+            e.stopPropagation();
+
+            var id = $(this).attr('data-id');
+            var email = null;
+            var thumbnailWrapper = $(this).find('.thumbnail-wrapper');
+
+            $.ajax({
+                dataType: "json",
+                url: "/api/job/" + id,
+                success: function(data) {
+
+                    //if (data != null) return;
+                    var emailOpened = $('.email-opened');
+                    var loc = capitalize(data.profile.location);
+                    var jobType = capitalize(data.details.jobType);
+                    var jobScopeText = nl2br(data.details.jobScope);
+                    var requirementsText = nl2br(data.details.requirements);
+
+                    emailOpened.find('.profile .name').text(data.profile.name);
+                    emailOpened.find('.profile .job-title').text(data.details.jobTitle);
+                    emailOpened.find('.profile .datetime').text(replaceDash(loc) + ' - ' + replaceDash(jobType));
+                    emailOpened.find('.company_overview p').text(data.profile.description);
+                    emailOpened.find('.details .salary .salary-from').text(data.details.currency.toUpperCase() + ' ' + data.details.salaryFrom);
+                    emailOpened.find('.details .salary .salary-to').text(data.details.salaryTo);
+                    emailOpened.find('.details .salary-type').text('/ ' + data.details.salaryType);
+                    emailOpened.find('.company_overview').html(data.profile.description);
+                    emailOpened.find('.job_scope').html(jobScopeText);
+                    emailOpened.find('.requirements').html(requirementsText);
+
+                    var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
+                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses).addClass('circular pull-right');
+                    emailOpened.find('.img-list').css({
+                        "max-width": "none",
+                        "max-height": "none"
+                    });
+
+                    $('.no-email').hide();
+                    $('.actions-dropdown').toggle();
+                    $('.email-content').hide().fadeIn();
+                    $('.actions, .email-content-wrapper').show();
+                    $('.email-content-wrapper .email-content').fadeIn();
+                    if ($.Pages.isVisibleSm() || $.Pages.isVisibleXs()) {
+                        $('.email-list').toggleClass('slideLeft');
+                    }
+
+                    $(".email-content-wrapper").scrollTop(0);
+                    $('#applyForm').attr('action', '/apply/' + id);
+
+                    checkJob(data.email, id);
+
+                }
+            });
+        });
+
 
 
         // FILTERS CONTROL ON MOBILE

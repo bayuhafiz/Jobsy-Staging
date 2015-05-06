@@ -325,6 +325,18 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted{
   line-height: 2;
   color: #4a4a4a;}
 
+span.searchJob_tag span{
+    background: #0F81A3;
+    color: #fff;
+    padding: 5px 13px;
+    padding-right: 0px;
+    font-size: 12px;
+    margin: 0 5px;
+}
+
+span.searchJob_tag span i{
+    cursor: pointer;
+}
 
 @media(max-width: 568px){
     .deletedJob-btn{
@@ -387,6 +399,7 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted{
     .email-wrapper .email-list .email-refresh{display: none;}
 
     .page-container{position: initial;z-index: initial}
+    .filter-box{display: none!important;}
     
 }
 
