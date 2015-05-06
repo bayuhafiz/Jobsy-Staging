@@ -738,9 +738,11 @@
         $(document).mouseup(function(e) {
             var container = $('.filter-box');
             var searchBox = $('.searchJob');
+            var filters = $('#select2-drop-mask');
 
             if (!container.is(e.target) // if the target of the click isn't the container...
                 && !searchBox.is(e.target) // nor the search box...
+                && !filters.is(e.target) // nor the filters also...
                 && container.has(e.target).length === 0) // ... nor a descendant of the container
             {
                 container.hide();
