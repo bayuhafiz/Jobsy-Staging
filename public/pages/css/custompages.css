@@ -416,7 +416,7 @@ span.searchJob_tag span i{
 }
 
 
-.list-view-group-container li[data=active]{background:#CFF5F2}
+.list-view-group-container li[data=active]{}
 .email-wrapper .email-list .item:hover{background:#f7f7f7;}
 
 

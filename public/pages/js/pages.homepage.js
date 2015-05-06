@@ -725,10 +725,10 @@
         $('body').on("click", '.clear-search', function() {
             if ($(".searchJob").val() != '') {
                 // remove clear icon
-                $(".searchJob").val('');
                 $('.clear-search').css('display', 'none');
                 loadJobList('/api/jobs');
                 //$(this).css('display', 'none'); 
+                $(".searchJob").val('').attr('placeholder', 'Search here..');
             }
         });
 
@@ -747,6 +747,9 @@
                 && !filters.is(e.target) // nor the filters also...
                 && container.has(e.target).length === 0) // ... nor a descendant of the container
             {
+                if (searchBox.val() == '') {
+                    $(".searchJob").val('').attr('placeholder', 'Search here..');
+                }
                 container.hide();
             }
         });
@@ -829,6 +832,8 @@
             $('span.searchJob_tag span.jobType_tag span').text('');
             // Apply the filters
             applyFilters();
+
+            $(".searchJob").val('').attr('placeholder', 'Search here..');
 
             e.preventDefault();
         });
