@@ -352,6 +352,8 @@
             return $(e).val();
         }).join("/");
 
+        console.log(filters);
+
         // run the load job list function
         loadJobList('/api/jobs/' + filters);
     }
@@ -775,7 +777,7 @@
                 $('span.searchJob_tag span.location_tag').show();
                 $('span.searchJob_tag span.location_tag span').text(a);
             }
-            // Run the filters
+            // Apply the filters
             applyFilters();
         });
 
@@ -787,7 +789,7 @@
                 $('span.searchJob_tag span.jobType_tag').show();
                 $('span.searchJob_tag span.jobType_tag span').text(a);
             }
-            // Run the filters
+            // Apply the filters
             applyFilters();
         });
 
@@ -803,11 +805,11 @@
             }
             $(this).siblings('span').html('').parent('span').css('display', 'none');
 
-            // Run the filters
+            // Apply the filters
             applyFilters();
         });
 
-        // Handler for reset button
+        // Handler for mobile filters
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
             var filters = $.map($("select.mobile-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
@@ -817,20 +819,22 @@
             loadJobListMobile('/api/jobs/' + filters);
         });
 
-
-        /*$("a[href='#reset']").click(function(e) {
-
+        // Handler for reset button
+        $("#btn-clear-filters").click(function(e) {
+            // Reset all filters' value
             $("select.job-filter-dropdown").select2('val', 'all');
-
-            var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
-                return $(e).val();
-            }).join("/");
-
-            // run the load job list function
-            loadJobList('/api/jobs/' + filters);
+            // Hide all tags
+            $('span.searchJob_tag span.category_tag').hide();
+            $('span.searchJob_tag span.category_tag span').text('');
+            $('span.searchJob_tag span.location_tag').hide();
+            $('span.searchJob_tag span.location_tag span').text('');
+            $('span.searchJob_tag span.jobType_tag').hide();
+            $('span.searchJob_tag span.jobType_tag span').text('');
+            // Apply the filters
+            applyFilters();
 
             e.preventDefault();
-        });*/
+        });
 
 
         // add mousedown handler on select2 mask to close dropdown /////
@@ -846,7 +850,6 @@
         $('body').on('click', '.item .checkbox', function(e) {
             e.stopPropagation();
         });
-
 
 
         // BASIC BUTTONS HANDLER ////
