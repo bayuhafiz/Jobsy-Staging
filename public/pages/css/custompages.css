@@ -21,7 +21,7 @@ body.fixed-header .header .btn-complete{width: 142px;}
 .header .search-link-dash{margin-top: 4px}
 .modal.fade.slide-right .modal-dialog{width: 40%;}
 .modal.fade.slide-right .modal-dialog-userdashboard{width: 65%;}
-.modal.fade.slide-right .modal-dialog .modal-content{  background: #f8fefe;}
+.modal.fade.slide-right .modal-dialog .modal-content.bg-modal-content{  background: #f8fefe;}
 .post_job{font-weight: bold;cursor: pointer;padding-top: 7px;margin-right: 5px;}
 .email-wrapper .email-list{width: 35%;height: 100%;}
 
@@ -45,7 +45,7 @@ textarea{resize:none;}
 .img-uploader-preview{width: 130px; height: auto;border:3px solid #fff;display: none;}
 .img-uploader-preview img{width: 100%; height: auto}
 #target-img{display: none;}
-.apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D;border-top-left-radius: 15px;border-bottom-left-radius: 15px; padding-top: 34px;}
+.apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D; padding-top: 34px;}
 
 
 .apply-btn p, .apply-btn i{color: #fff;text-align: center;}
@@ -220,7 +220,7 @@ div.currency span.cs-placeholder{background: #f0f0f0}
 .radio.radio-danger input[type=radio]:checked + label:before{border-color: #12806D}
 
 .btn-animated.apply-job-btn:before{line-height: 3.5;}
-.email-wrapper .email-list .item{height: 110px;cursor: pointer;margin-left: auto;margin-right: auto;padding-left: 25px!important;padding-right: 25px!important}
+.email-wrapper .email-list .item{height: 110px;cursor: pointer;margin-left: auto;margin-right: auto;padding-left: 40px!important;padding-right: 25px!important}
 a{color:#12806D;}
 a:hover{color:#0E6052;}
 .header .notification-list{z-index: 1}
@@ -245,7 +245,7 @@ a:hover{color:#0E6052;}
 .img-list{margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto}
 .form-group-default.focused{background-color: transparent;}
 .form-group-default{background-color: transparent;border:0px;}
-.form-group label:not(.error){ font-size: 23px;padding-bottom: 40px;font-weight: 400;color: #4a4a4a;text-transform:none;}
+.form-group label.custom-label:not(.error){ font-size: 23px;padding-bottom: 40px;font-weight: 400;color: #4a4a4a;text-transform:none;}
 .form-group-default.focused label{opacity: 1}
 .form-group-default label.fade{opacity: 1}
 .form-group-default{padding-right: 0;padding-left: 0}
@@ -325,18 +325,24 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted{
   line-height: 2;
   color: #4a4a4a;}
 
-span.searchJob_tag span{
+span.searchJob_tag span.category_tag,
+span.searchJob_tag span.location_tag,
+span.searchJob_tag span.jobType_tag{
     background: #0F81A3;
     color: #fff;
-    padding: 5px 13px;
+    padding: 5px 6px;
     padding-right: 0px;
     font-size: 12px;
     margin: 0 5px;
+    display: none;
 }
 
 span.searchJob_tag span i{
     cursor: pointer;
 }
+
+.email-wrapper .email-list .item .recipients{font-family: avenir_book}
+
 
 @media(max-width: 568px){
     .deletedJob-btn{
@@ -367,6 +373,7 @@ span.searchJob_tag span i{
     .job-title-hover{display: none;}
     .email-wrapper .email-list .item .datetime{opacity: 1!important}
     ul#user-job-list li h3.cbp-nttrigger span.pull-right{display: none;}
+    .email-wrapper .email-list .item .inline{width: 133px;}
 }
 
 
