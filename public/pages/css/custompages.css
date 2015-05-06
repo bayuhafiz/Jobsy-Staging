@@ -45,7 +45,7 @@ textarea{resize:none;}
 .img-uploader-preview{width: 130px; height: auto;border:3px solid #fff;display: none;}
 .img-uploader-preview img{width: 100%; height: auto}
 #target-img{display: none;}
-.apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D; padding-top: 34px;}
+.apply-btn{position:absolute;height: 100%;right:-240px;top: 0;width: 25%;background:#12806D; padding-top: 27px;}
 
 
 .apply-btn p, .apply-btn i{color: #fff;text-align: center;}
