@@ -751,22 +751,28 @@
             loadJobList('/api/jobs/' + filters);
         });*/
 
-        $('select#category-filter').change(function() {
-            var x = this.select2('val');
-            alert(x);
-            //var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
-            //$('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+        $('select#category-filter').change(function () {
+            var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag span.category_tag').show();
+            $('span.searchJob_tag span.category_tag span').text(a);
         });
 
-        $('select#location-filter').change(function() {
+        $('select#location-filter').change(function () {
             var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+            $('span.searchJob_tag span.location_tag').show();
+            $('span.searchJob_tag span.location_tag span').text(a);
         });
 
-        $('select#jobType-filter').change(function() {
+        $('select#jobType-filter').change(function () {
             var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+            $('span.searchJob_tag span.jobType_tag').show();
+            $('span.searchJob_tag span.jobType_tag span').text(a);
         });
+        $('body').on('click','.tags_filter_close',function () {
+            $(this).parent('span').css('display','none');
+        });
+
+        
 
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
             var filters = $.map($("select.mobile-filter-dropdown").toArray(), function(e) {
