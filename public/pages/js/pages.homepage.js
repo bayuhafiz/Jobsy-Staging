@@ -502,6 +502,7 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
+        
         // Load job list
         loadJobList('/api/jobs');
 
@@ -913,9 +914,6 @@
             e.stopPropagation();
         })
 
-        $('body').on('click', '.apply-btn', function(e) {
-            e.stopPropagation();
-        });
 
         // FILTERS CONTROL ON MOBILE
         $(window).resize(function() {
@@ -1011,7 +1009,7 @@
 
 
         // =============  APPLY JOB HANDLER ===============
-        $('body').on('click', '.apply-btn', function() {
+        $('body').on('click', '.apply-btn', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
@@ -1020,6 +1018,13 @@
             console.log(jobTitle + ' at ' + companyName);
 
             $('#app-to').text(jobTitle + ' at ' + companyName);
+
+
+            $('#applyModal').modal({
+                'show':true
+            });
+            
+            e.stopPropagation();
         });
 
 
