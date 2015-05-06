@@ -227,15 +227,6 @@ a:hover{color:#0E6052;}
 #notification-center{color:rgba(0, 0, 0, 0.4);font-weight:bold;font-size: 18px;}
 #notification-center:hover{color:#2C2C2C;}
 
-.arrow-right {
-    width: 0; 
-    height: 0; 
-    border-bottom: 105px solid transparent;
-    border-right: 115px solid #12806D;
-    position: absolute;
-    right: -1px;
-    top: -1px;
-}
 
 .list-view-group-header{color:#E1DCDC!important;}
 
