@@ -55,6 +55,7 @@
         <!-- END MOBILE DROPDOWN FILTER -->
     </div>
     <!-- END MOBILE CONTROLS -->
+
     <div class=" pull-left sm-table">
         <div class="header-inner">
             <div class="brand brand-home inline pull-left">
@@ -71,15 +72,13 @@
             <span class="search-link b-grey b-l">
                 <i class="p-l-30 pg-search"></i>
                 <span class="searchJob_tag">
-                    <span class="category_tag"><span>lsadf&nbsp;&nbsp;</span><i class="fa fa-times tags_filter_close"></i></span>
-                    <span class="location_tag"><span>kldsf&nbsp;&nbsp;</span><i class="fa fa-times tags_filter_close"></i></span>
-                    <span class="jobType_tag"><span>klasdf&nbsp;&nbsp;</span><i class="fa fa-times tags_filter_close"></i></span>
+                    <span class="category_tag"><span></span><i class="fa fa-times tags_filter_close"></i></span>
+                    <span class="location_tag"><span></span><i class="fa fa-times tags_filter_close"></i></span>
+                    <span class="jobType_tag"><span></span><i class="fa fa-times tags_filter_close"></i></span>
                     <input type="text" placeholder="Search here.." id="searchJob" class="searchJob">
                 </span>
             </span>
             <!--<span class="search-link search-link-home"><i class="pg-search"></i><input type="text" placeholder="Search here.." id="searchJob" class="searchJob"></span>-->
-
-
             
         </div>
     </div>
@@ -135,17 +134,17 @@
             </div>
             <div class="col-md-3" style="padding-left:0;padding-right:0">
                 <div class="form-group ">
-                    <select class="full-width job-filter-dropdown" id="jobType-filter" data-init-plugin="select2">
-                        <option selected="" value="all">Positions</option>
-                        <option value="full-time">Full Time</option>
-                        <option value="contract">Contract</option>
-                        <option value="part-time">Part Time</option>
+                    <select class="full-width job-filter-dropdown" id="jobType-filter">
+                        <option selected="" value="all">Job Type</option>
+                        <option value="Full Time">Full Time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Part Time">Part Time</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-3" style="padding-left:0;padding-right:0">
                 <div class="form-group ">
-                    <button class="btn btn-clear-all btn-cons">Clear All</button>
+                    <button class="btn btn-clear-all btn-cons" id="btn-clear-filters">Clear All</button>
                 </div>
             </div>
         </div>
