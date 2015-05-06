@@ -237,7 +237,7 @@
         })
     };
 
-    // LOAD JOB LIST FUNCTION (MOBILE!!!) ==================================
+    // LOAD JOB LIST FUNCTION (MOBILE!!!) ===================================
     var loadJobListMobile = function(apiUrl) {
         $.ajax({
             dataType: "json",
@@ -344,6 +344,17 @@
             }
         })
     };
+
+
+    // APPLY FILTERS FUNCTION ===============================================
+    var applyFilters = function() {
+        var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
+            return $(e).val();
+        }).join("/");
+
+        // run the load job list function
+        loadJobList('/api/jobs/' + filters);
+    }
 
 
     function nl2br(str, is_xhtml) {
@@ -490,25 +501,22 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-
         // Load job list
         loadJobList('/api/jobs');
 
 
-        // initiate image cropper
-        /*var cropperOptions = {
-            uploadUrl:'/logo/temp/',
-            cropUrl:'/logo/save/',
-            imgEyecandy:true,
-            imgEyecandyOpacity:0.2,
-            zoomFactor:10,
-            doubleZoomControls:true,
-            rotateFactor:10,
-            rotateControls:true 
-        };     
-        var cropperHeader = new Croppic('image-cropper-container', cropperOptions);*/
+        //$('.cropme').simpleCropper();
 
-        $('.cropme').simpleCropper();
+
+        // Initiate filters dropdown
+        $('select#category-filter').select2();
+        $('select#location-filter').select2();
+        $('select#jobType-filter').select2();
+
+        // Tagged filters values
+        $('#s2id_category-filter div.select2-drop').addClass('category_filter_dropdown');
+        $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
+        $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
 
 
         // Infinite scroll trigger /////
@@ -578,11 +586,6 @@
                 'timeout': '5000'
             }).show();
         }
-
-        // Tagged filters values
-        $('#s2id_category-filter div.select2-drop').addClass('category_filter_dropdown');
-        $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
-        $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
 
 
 
@@ -741,7 +744,8 @@
 
 
 
-        // DROPDOWN FILTERS HANDLER ////
+        ////////////////// DROPDOWN FILTERS HANDLER //////////////////
+
         /*$("select.job-filter-dropdown").on("change", function() {
             var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
@@ -751,29 +755,59 @@
             loadJobList('/api/jobs/' + filters);
         });*/
 
-        $('select#category-filter').change(function () {
-            var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag span.category_tag').show();
-            $('span.searchJob_tag span.category_tag span').text(a);
+        $('select#category-filter').change(function() {
+            var a = $(this).select2('val');
+            if (a == 'all') {
+                $('span.searchJob_tag span.category_tag span').text('')
+            } else {
+                $('span.searchJob_tag span.category_tag').show();
+                $('span.searchJob_tag span.category_tag span').text(a);
+            }
+            // Run the filters
+            applyFilters();
         });
 
-        $('select#location-filter').change(function () {
-            var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag span.location_tag').show();
-            $('span.searchJob_tag span.location_tag span').text(a);
+        $('select#location-filter').change(function() {
+            var a = $(this).select2('val');
+            if (a == 'all') {
+                $('span.searchJob_tag span.location_tag span').text('');
+            } else {
+                $('span.searchJob_tag span.location_tag').show();
+                $('span.searchJob_tag span.location_tag span').text(a);
+            }
+            // Run the filters
+            applyFilters();
         });
 
-        $('select#jobType-filter').change(function () {
-            var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag span.jobType_tag').show();
-            $('span.searchJob_tag span.jobType_tag span').text(a);
-        });
-        $('body').on('click','.tags_filter_close',function () {
-            $(this).parent('span').css('display','none');
+        $('select#jobType-filter').change(function() {
+            var a = $(this).select2('val');
+            if (a == 'all') {
+                $('span.searchJob_tag span.jobType_tag span').text('');
+            } else {
+                $('span.searchJob_tag span.jobType_tag').show();
+                $('span.searchJob_tag span.jobType_tag span').text(a);
+            }
+            // Run the filters
+            applyFilters();
         });
 
-        
+        // handler for deleting tags
+        $('body').on('click', '.tags_filter_close', function() {
+            var tag_type = $(this).parent('span').attr('class');
+            if (tag_type == 'category_tag') {
+                $("select#category-filter").select2("val", "");
+            } else if (tag_type == 'location_tag') {
+                $("select#location-filter").select2("val", "");
+            } else if (tag_type == 'jobType_tag') {
+                $("select#jobType-filter").select2("val", "");
+            }
+            $(this).siblings('span').html('').parent('span').css('display', 'none');
 
+            // Run the filters
+            applyFilters();
+        });
+
+        // Handler for reset button
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
             var filters = $.map($("select.mobile-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
@@ -783,7 +817,8 @@
             loadJobListMobile('/api/jobs/' + filters);
         });
 
-        $("a[href='#reset']").click(function(e) {
+
+        /*$("a[href='#reset']").click(function(e) {
 
             $("select.job-filter-dropdown").select2('val', 'all');
 
@@ -795,7 +830,7 @@
             loadJobList('/api/jobs/' + filters);
 
             e.preventDefault();
-        });
+        });*/
 
 
         // add mousedown handler on select2 mask to close dropdown /////
@@ -803,6 +838,8 @@
             $('.job-filter-dropdown.open').removeClass('open');
             $('.job-dropdown.open').removeClass('open');
         });
+
+        //////////////// END OF FILTERS HANDLER //////////////
 
 
         // JOB LIST HANDLER /////
