@@ -352,8 +352,6 @@
             return $(e).val();
         }).join("/");
 
-        console.log(filters);
-
         // run the load job list function
         loadJobList('/api/jobs/' + filters);
     }
@@ -686,16 +684,36 @@
             });
         });
 
-        // SEARCH INPUT HANDLER //////
-        $(".searchJob").on("keyup", function() {
+
+        
+        // Buy Credits buttons HANDLER
+        $('#btnBuy1').click(function() {
+            var url = '/buy/1';
+            window.location.href = url;
+            return false;
+        });
+        $('#btnBuy5').click(function() {
+            var url = '/buy/5';
+            window.location.href = url;
+            return false;
+        });
+        $('#btnBuy10').click(function() {
+            var url = '/buy/10';
+            window.location.href = url;
+            return false;
+        });
+
+
+        //////////////// SEARCH INPUT HANDLER //////////////
+        $(".searchJob").on("keyup", function(e) {
             var keyword = $(this).val();
             // clear job list
             clearJobList();
             // call search function
             loadJobList('/api/search/' + keyword);
+
+            e.preventDefault;
         });
-
-
 
         /*$('.searchJob').blur(function () {
              $('.filter-box').css('display','none');
@@ -717,46 +735,21 @@
             $(this).attr('placeholder', '');
         });
 
-        /*$(".searchJob").on("blur", function() {
-            var q = $(this).text();
-            if (q == '') {
-                //$('.clear-search').css('display', 'none'); // remove clear icon
-                $(this).attr('placeholder', 'Search here..');
+        $(document).mouseup(function(e) {
+            var container = $('.filter-box');
+            var searchBox = $('.searchJob');
+
+            if (!container.is(e.target) // if the target of the click isn't the container...
+                && !searchBox.is(e.target) // nor the search box...
+                && container.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                container.hide();
             }
-        });*/
-
-
-
-        // Buy Credits buttons action
-        $('#btnBuy1').click(function() {
-            var url = '/buy/1';
-            window.location.href = url;
-            return false;
         });
-        $('#btnBuy5').click(function() {
-            var url = '/buy/5';
-            window.location.href = url;
-            return false;
-        });
-        $('#btnBuy10').click(function() {
-            var url = '/buy/10';
-            window.location.href = url;
-            return false;
-        });
-
+        ///////////// END OF SEARCH INPUT HANDLER //////////////
 
 
         ////////////////// DROPDOWN FILTERS HANDLER //////////////////
-
-        /*$("select.job-filter-dropdown").on("change", function() {
-            var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
-                return $(e).val();
-            }).join("/");
-
-            // run the load job list function
-            loadJobList('/api/jobs/' + filters);
-        });*/
-
         $('select#category-filter').change(function() {
             var a = $(this).select2('val');
             if (a == 'all') {
@@ -838,10 +831,10 @@
 
 
         // add mousedown handler on select2 mask to close dropdown /////
-        $(document).on('mousedown', '#select2-drop-mask', function() {
+        /*$(document).on('mousedown', '#select2-drop-mask', function() {
             $('.job-filter-dropdown.open').removeClass('open');
             $('.job-dropdown.open').removeClass('open');
-        });
+        });*/
 
         //////////////// END OF FILTERS HANDLER //////////////
 
