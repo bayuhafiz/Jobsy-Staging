@@ -10,20 +10,21 @@
 <script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
 <script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
 <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script type="text/javascript" src="assets/plugins/bootstrap-select2/select2.js"></script>
+<script src="assets/plugins/bootstrap-select2/select2.js"></script>
 <script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
 <script src="assets/plugins/jquery-inputmask/jquery.inputmask.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
+<script src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
 <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
-<script type="text/javascript" src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js"></script>
+<script src="assets/plugins/classie/classie.js"></script>
+<script src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js"></script>
 <script src="assets/plugins/initial.min.js" type="text/javascript"></script>
 <script src="assets/plugins/jquery.jscroll.min.js" type="text/javascript"></script>
 <script src="assets/plugins/ckeditor/ckeditor.js"></script>
 <script src="assets/plugins/ckeditor/adapters/jquery.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery.Jcrop.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery.SimpleCropper.js"></script>
+<script src="assets/plugins/jquery.Jcrop.js"></script>
+<script src="assets/plugins/jquery.SimpleCropper.js"></script>
+<script src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
 <!-- END VENDOR JS -->
 
 <!-- BEGIN CORE TEMPLATE JS -->
@@ -68,43 +69,5 @@
         }
     }
 })();
-    
-
-    $(document).ready(function () {
-        $('#s2id_category-filter div.select2-drop').addClass('category_filter_dropdown');
-        $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
-        $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
-
-        $('select#category-filter').change(function () {
-            var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag span.category_tag').show();
-            $('span.searchJob_tag span.category_tag span').text(a);
-        });
-
-        $('select#location-filter').change(function () {
-            var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag span.location_tag').show();
-            $('span.searchJob_tag span.location_tag span').text(a);
-        });
-
-        $('select#jobType-filter').change(function () {
-            var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag span.jobType_tag').show();
-            $('span.searchJob_tag span.jobType_tag span').text(a);
-        });
-        /*$('select#location-filter').change(function () {
-            var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
-        });
-
-        $('select#jobType-filter').change(function () {
-            var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
-            $('span.searchJob_tag').prepend('<span>'+a+' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
-        });*/
-
-        $('body').on('click','.tags_filter_close',function () {
-            $(this).parent('span').css('display','none');
-        });
-     });
 </script>
 <!-- END PAGE LEVEL JS -->

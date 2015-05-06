@@ -222,7 +222,7 @@
                             });
 
 
-                            
+
                         }
 
                     });
@@ -579,6 +579,11 @@
             }).show();
         }
 
+        // Tagged filters values
+        $('#s2id_category-filter div.select2-drop').addClass('category_filter_dropdown');
+        $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
+        $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
+
 
 
         // ========================
@@ -614,44 +619,6 @@
                 .find('.img-list-box').animate({
                     'left': '0px'
                 });
-
-
-            // close apply-btn///
-            /*$('.apply-btn').animate({
-                'right': '-240px',
-            });
-            // open apply-btn///
-            $(this).children('.apply-btn').animate({
-                'right': '0px',
-            });*/
-
-
-
-            /*$('.img-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '0'
-            });
-
-            $(this).children('.img-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '-115px'
-            });*/
-
-
-
-            /*.animate({
-                'left': '0'
-            });
-
-            $(this).children('.details-list-box').css({
-                'position': 'relative'
-            }).animate({
-                'left': '-110px'
-            });*/
-
-
 
 
             $('.list-view-group-container li').attr('data', '');
@@ -723,7 +690,7 @@
             loadJobList('/api/search/' + keyword);
         });
 
-      
+
 
         /*$('.searchJob').blur(function () {
              $('.filter-box').css('display','none');
@@ -775,15 +742,30 @@
 
 
         // DROPDOWN FILTERS HANDLER ////
-        $("select.job-filter-dropdown").on("change", function() {
+        /*$("select.job-filter-dropdown").on("change", function() {
             var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
                 return $(e).val();
             }).join("/");
 
-            console.log(filters);
-
             // run the load job list function
             loadJobList('/api/jobs/' + filters);
+        });*/
+
+        $('select#category-filter').change(function() {
+            var x = this.select2('val');
+            alert(x);
+            //var a = $('#s2id_category-filter a.select2-choice span.select2-chosen').text();
+            //$('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+        });
+
+        $('select#location-filter').change(function() {
+            var a = $('#s2id_location-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
+        });
+
+        $('select#jobType-filter').change(function() {
+            var a = $('#s2id_jobType-filter a.select2-choice span.select2-chosen').text();
+            $('span.searchJob_tag').prepend('<span>' + a + ' &nbsp;&nbsp;<i class="fa fa-times tags_filter_close"></i></span>');
         });
 
         $("select.mobile-filter-dropdown").on("change", function() { // For mobile only!!!
