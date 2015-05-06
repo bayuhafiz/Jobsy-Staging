@@ -165,7 +165,7 @@
 <div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-userdashboard">
         <div class="modal-content-wrapper">
-            <div class="modal-content outer">
+            <div class="modal-content bg-modal-content outer">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
                 <div class="panel panel-transparent middle">
                     <div class="panel-body">
@@ -251,19 +251,19 @@
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group required">
-                                                       <label class="drop-down">Location</label>
+                                                       <label class="drop-down custom-label">Location</label>
                                                         <% include ../dropdown/location_create %>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group required">
-                                                        <label class="drop-down">Category</label>
+                                                        <label class="drop-down custom-label">Category</label>
                                                         <% include ../dropdown/category_create %>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group required">
-                                                        <label class="drop-down">Job Type</label>
+                                                        <label class="drop-down custom-label">Job Type</label>
                                                         <select class="full-width job-dropdown" name="jobType" data-init-plugin="select2" required>
                                                           
                                                                 <option value="Full Time" selected="">Full Time</option>
@@ -280,7 +280,7 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group form-group-default">
-                                                    <label>Description</label>
+                                                    <label class="custom-label">Description</label>
                                                         <textarea id="editor1" class="textarea-desc" name="description" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
                                                         Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices." class="description-text"></textarea>
@@ -293,7 +293,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
-                                                <label>Job Scope <span class="hint-text small"></label>
+                                                <label class="custom-label">Job Scope <span class="hint-text small"></label>
                                                 <textarea id="editor2" name="jobScope" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
                                                 Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices."></textarea>
@@ -306,7 +306,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group form-group-default">
-                                                <label>Requirements  <span class="hint-text small"></label>
+                                                <label class="custom-label">Requirements  <span class="hint-text small"></label>
                                                 <textarea id="editor3" name="requirements" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
                                                 Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices."></textarea>
