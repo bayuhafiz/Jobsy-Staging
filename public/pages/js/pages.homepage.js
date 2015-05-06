@@ -503,6 +503,7 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
+
         // Load job list
         loadJobList('/api/jobs');
 
@@ -713,7 +714,7 @@
         });
 
         $(".searchJob").on("focus", function() {
-            $('.filter-box').show();
+            $('.filter-box').slideDown();
             $(this).attr('placeholder', '');
         });
 
@@ -920,7 +921,6 @@
         $('body').on('click', '.apply-btn', function(e) {
             e.stopPropagation();
         });
-
 
         // FILTERS CONTROL ON MOBILE
         $(window).resize(function() {
