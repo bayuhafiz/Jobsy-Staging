@@ -6,6 +6,18 @@
         return url.substr(0, url.lastIndexOf('/'));
     }
 
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#logo_cropper').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     // Check user mail to matches w/ job email
     var checkJob = function(jobEmail, jobId) {
         var userEmail = $('#user_email').val(); // get user email
@@ -197,11 +209,9 @@
                                     emailOpened.find('.job_scope').html(jobScopeText);
                                     emailOpened.find('.requirements').html(requirementsText);
 
-
-
-                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" style="max-width: none;max-height: none;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right').css({
-                                        'width': '129px',
-                                        'height': '129px'
+                                    emailOpened.find('#opened-thumbnail').html('<img style="width: 100%;height: 100%;border-radius:50%;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right').css({
+                                        'width': '120px',
+                                        'height': '120px'
                                     });
 
                                     $('.no-email').hide();
@@ -501,14 +511,8 @@
 
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-
-        
         // Load job list
         loadJobList('/api/jobs');
-
-
-        //$('.cropme').simpleCropper();
-
 
         // Initiate filters dropdown
         $('select#category-filter').select2();
@@ -649,6 +653,7 @@
                     var jobType = capitalize(data.details.jobType);
                     var jobScopeText = nl2br(data.details.jobScope);
                     var requirementsText = nl2br(data.details.requirements);
+                    var logo = 'uploads/logo/' + data.profile.logo;
 
                     emailOpened.find('.profile .name').text(data.profile.name.toUpperCase());
                     emailOpened.find('.profile .job-title').text(data.details.jobTitle);
@@ -662,10 +667,9 @@
                     emailOpened.find('.requirements').html(requirementsText);
 
                     var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
-                    emailOpened.find('#opened-thumbnail').html(thumbnailWrapper.html()).attr('class', thumbnailClasses).addClass('circular pull-right');
-                    emailOpened.find('.img-list').css({
-                        "max-width": "none",
-                        "max-height": "none"
+                    emailOpened.find('#opened-thumbnail').html('<img style="width: 100%;height: 100%;border-radius:50%;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right').css({
+                        'width': '120px',
+                        'height': '120px'
                     });
 
                     $('.no-email').hide();
@@ -687,7 +691,16 @@
         });
 
 
-        
+        // Logo cropper event handler
+        $('#logo_cropper').click(function() {
+            $('#logo_file').trigger('click');
+        });
+
+        $("#logo_file").change(function() {
+            readURL(this);
+        });
+
+
         // Buy Credits buttons HANDLER
         $('#btnBuy1').click(function() {
             var url = '/buy/1';
@@ -1038,9 +1051,9 @@
 
 
             $('#applyModal').modal({
-                'show':true
+                'show': true
             });
-            
+
             e.stopPropagation();
         });
 
