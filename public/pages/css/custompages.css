@@ -251,7 +251,7 @@ a:hover{color:#0E6052;}
         }
 
 .list-view-group-container{padding: 0}
-.searchJob{border: none;opacity:1;color: #626262;font-size: 20px;  width: 335px;}
+.searchJob,#searchJob{border: none;opacity:1;color: #626262;font-size: 20px;  width: 335px;font-family: avenir_book}
 .searchApplicant{border: none;opacity:1;color: #626262;font-size: 16px;}
 #no-job-post{display: none; margin-top: 10px;}
 .filter-box{  width: 615px;height: 60px;background: #f9fafb;position: absolute;z-index: 1000;top: 60px;left: 124px; border:1px solid #ECECEC;display: none;}
