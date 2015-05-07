@@ -750,7 +750,7 @@
                 if (searchBox.val() == '') {
                     $(".searchJob").val('').attr('placeholder', 'Search here..');
                 }
-                container.hide();
+                container.slideUp('fast');
             }
         });
         ///////////// END OF SEARCH INPUT HANDLER //////////////
