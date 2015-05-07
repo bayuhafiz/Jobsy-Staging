@@ -20,7 +20,7 @@ body.fixed-header .header .btn-complete{width: 142px;}
 .header .search-link-home{border: 1px solid rgba(0, 0, 0, 0.2);border-radius: 3px;padding: 3px 11px;}
 .header .search-link-dash{margin-top: 4px}
 .modal.fade.slide-right .modal-dialog{width: 40%;}
-.modal.fade.slide-right .modal-dialog-userdashboard{width: 65%;}
+.modal.fade.slide-right .modal-dialog.modal-dialog-custom{width: 65%;}
 .modal.fade.slide-right .modal-dialog .modal-content.bg-modal-content{  background: #f8fefe;}
 .post_job{font-weight: bold;cursor: pointer;padding-top: 7px;margin-right: 5px;}
 .email-wrapper .email-list{width: 35%;height: 100%;}
