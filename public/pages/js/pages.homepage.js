@@ -763,7 +763,7 @@
                 if (searchBox.val() == '') {
                     $(".searchJob").val('').attr('placeholder', 'Search here..');
                 }
-                container.hide();
+                container.slideUp('fast');
             }
         });
         ///////////// END OF SEARCH INPUT HANDLER //////////////
@@ -1027,6 +1027,18 @@
 
 
         // =============  APPLY JOB HANDLER ===============
+        $('body').on('click', '#btnToggleSlideUpSize', function(e) {
+
+            var jobTitle = $('.profile .job-title').text();
+            var companyName = $('.profile .name').text();
+            var location = $('.profile .datetime').text();
+
+            console.log(jobTitle + ' at ' + companyName);
+
+            $('#app-to').text(jobTitle + ' at ' + companyName);
+
+        });
+
         $('body').on('click', '.apply-btn', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
