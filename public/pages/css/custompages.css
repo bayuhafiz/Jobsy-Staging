@@ -321,7 +321,7 @@ span.searchJob_tag span.location_tag,
 span.searchJob_tag span.jobType_tag{
     background: #0F81A3;
     color: #fff;
-    padding: 5px 6px;
+    padding: 5px 13px;
     padding-right: 0px;
     font-size: 12px;
     margin: 0 5px;
@@ -388,7 +388,6 @@ span.searchJob_tag span i{
 
     .email-wrapper .email-opened .email-content-wrapper{height: 100%;}
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper{left: 0}
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender{margin-left: 20px;}
 
     #btnGroupVerticalDrop1{display: block!important;}
     .user-name{display: none;}
