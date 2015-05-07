@@ -235,12 +235,11 @@ a:hover{color:#0E6052;}
 .img-list-box{width: 110px;}
 .img-list{margin-left: auto;margin-right: auto;display: block;max-width:79px;max-height:79px; width:auto; height:auto}
 .form-group-default.focused{background-color: transparent;}
-.form-group-default{background-color: transparent;border:0px;}
+/*.form-group-default{background-color: transparent;border:0px;}*/
 .form-group label.custom-label:not(.error){ font-size: 23px;padding-bottom: 40px;font-weight: 400;color: #4a4a4a;text-transform:none;}
 .form-group label:not(.error){font-family: avenir_book}
 .form-group-default.focused label{opacity: 1}
 .form-group-default label.fade{opacity: 1}
-.form-group-default{padding-right: 0;padding-left: 0}
 .select2-container .select2-choice > .select2-chosen{  color: #4a4a4a;  font-weight: 100;font-family: avenir_book;font-size: .875rem;}
 .select2-container .select2-choice{border:0;}
 
@@ -334,7 +333,9 @@ span.searchJob_tag span i{
 }
 
 .email-wrapper .email-list .item .recipients{font-family: avenir_book}
-
+.p-l-0{padding-left: 0!important}
+.p-r-0{padding-right: 0!important}
+.b-0{border:0!important;}
 
 @media(max-width: 568px){
     .deletedJob-btn{
@@ -399,7 +400,7 @@ span.searchJob_tag span i{
 
     .page-container{position: initial;z-index: initial}
     .filter-box{display: none!important;}
-    
+    .apply-btn{display: none;}
 }
 
 @media(max-width: 1200px){
