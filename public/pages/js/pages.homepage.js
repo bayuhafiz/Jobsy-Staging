@@ -851,13 +851,6 @@
             e.preventDefault();
         });
 
-
-        // add mousedown handler on select2 mask to close dropdown /////
-        /*$(document).on('mousedown', '#select2-drop-mask', function() {
-            $('.job-filter-dropdown.open').removeClass('open');
-            $('.job-dropdown.open').removeClass('open');
-        });*/
-
         //////////////// END OF FILTERS HANDLER //////////////
 
 
