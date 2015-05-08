@@ -522,7 +522,6 @@
             formWizard2();
             $('#editWizard').bootstrapWizard('show', 0);
 
-
             var dataHtml = '';
             var id = $(this).attr('data-id');
 

@@ -69,6 +69,9 @@
 
                 } else {
 
+                    // Get logged user's email
+                    var userEmail = $('#user_email').val();
+
                     // Let's do the magic!
 
                     var ul = $('<ul/>', {
@@ -136,9 +139,22 @@
                             li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
                         }
 
-                        li += '<div class="apply-btn" id="btn-apply-job" data-toggle="modal" data-target="#applyModal"><center><i class="fa fa-rocket" style="font-size: 23px;"></i></center><p>Apply now</p></div>\
+                        if (userEmail == 'none') {
+                            li += '<div class="apply-btn" id="btn-apply-job" data-toggle="modal" data-target="#applyModal"><center><i class="fa fa-rocket" style="font-size: 23px;"></i></center><p>Apply now</p></div>\
                                 <div class="clearfix"></div> \
                                 </li>';
+                        } else {
+                            if (userEmail != data[i].email) {
+                                li += '<div class="apply-btn" style="background-color:#b2050d;"><p>You can\'t edit this post</p></div>\
+                                <div class="clearfix"></div> \
+                                </li>';
+                            } else {
+                                li += '<div class="apply-btn" id="btn-edit-job" data-toggle="modal" data-target="#EditJob"><center><i class="fa fa-pencil" style="font-size: 23px;"></i></center><p>Edit this post</p></div>\
+                                <div class="clearfix"></div> \
+                                </li>';
+                            }
+                        }
+
 
                         ul.append(li);
 
@@ -502,7 +518,7 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-        
+
         // Load job list
         loadJobList('/api/jobs');
 
@@ -687,7 +703,7 @@
         });
 
 
-        
+
         // Buy Credits buttons HANDLER
         $('#btnBuy1').click(function() {
             var url = '/buy/1';
@@ -931,12 +947,11 @@
 
 
         // =============  EDIT JOB HANDLER ===============
-        $('body').on('click', '.edit', function() {
+        $('body').on('click', '#btn-edit-job', function(e) {
+            e.preventDefault();
 
-            formWizard2();
-            $('#editWizard').bootstrapWizard('show', 0);
 
-            var id = $(this).attr('data-id');
+            var id = $(this).parent('li').attr('data-id');
             var email = null;
             var thumbnailWrapper = $(this).find('.thumbnail-wrapper');
 
@@ -1003,6 +1018,9 @@
 
                 }
             });
+
+            //formWizard2();
+            $('#EditJob').modal('show', true);
         });
 
 
@@ -1016,10 +1034,9 @@
             console.log(jobTitle + ' at ' + companyName);
 
             $('#app-to').text(jobTitle + ' at ' + companyName);
-
         });
 
-        $('body').on('click', '.apply-btn', function(e) {
+        $('body').on('click', '#btn-apply-job', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
@@ -1031,9 +1048,9 @@
 
 
             $('#applyModal').modal({
-                'show':true
+                'show': true
             });
-            
+
             e.stopPropagation();
         });
 
