@@ -749,7 +749,7 @@
         });
 
         $(".searchJob").on("focus", function() {
-            $('.filter-box').show();
+            $('.filter-box').slideDown('fast');
             $(this).attr('placeholder', '');
         });
 
@@ -766,7 +766,7 @@
                 if (searchBox.val() == '') {
                     $(".searchJob").val('').attr('placeholder', 'Search here..');
                 }
-                container.hide();
+                container.slideUp('fast');
             }
         });
         ///////////// END OF SEARCH INPUT HANDLER //////////////
