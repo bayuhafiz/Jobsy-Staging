@@ -12,7 +12,7 @@ var app = express();
 var cloudflare = require('cloudflare-express');
 app.use(cloudflare.restore());
 
-var port = process.env.PORT || 2000;
+var port = process.env.PORT || 1234;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');

@@ -3,17 +3,16 @@
     'use strict';
 
     function readURL(input) {
-        // read logo file being uploaded
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function(e) {
-                $('#editJobImg-preview').attr('src', e.target.result);
+                $('#logo_cropper').attr('src', e.target.result);
             }
 
             reader.readAsDataURL(input.files[0]);
         }
-    };
+    }
 
     // Date formatter function
     function localDate(date) {
@@ -274,79 +273,6 @@
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-        var croppicHeaderOptions = {
-                //uploadUrl:'img_save_to_file.php',
-                cropData:{
-                    "dummyData":1,
-                    "dummyData2":"asdas"
-                },
-                cropUrl:'pages/js/img_crop_to_file.php',
-                customUploadButtonId:'cropContainerHeaderButton',
-                modal:false,
-                processInline:true,
-                loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
-                onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
-                onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
-                onImgDrag: function(){ console.log('onImgDrag') },
-                onImgZoom: function(){ console.log('onImgZoom') },
-                onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
-                onAfterImgCrop:function(){ console.log('onAfterImgCrop') },
-                onError:function(errormessage){ console.log('onError:'+errormessage) }
-        }   
-        var croppic = new Croppic('croppic', croppicHeaderOptions);
-        
-        
-        var croppicContainerModalOptions = {
-                uploadUrl:'img_save_to_file.php',
-                cropUrl:'pages/js/img_crop_to_file.php',
-                modal:true,
-                imgEyecandyOpacity:0.4,
-                loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> '
-        }
-        var cropContainerModal = new Croppic('cropContainerModal', croppicContainerModalOptions);
-        
-        
-        var croppicContaineroutputOptions = {
-                uploadUrl:'img_save_to_file.php',
-                cropUrl:'pages/js/img_crop_to_file.php', 
-                outputUrlId:'cropOutput',
-                modal:false,
-                loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> '
-        }
-        var cropContaineroutput = new Croppic('cropContaineroutput', croppicContaineroutputOptions);
-        
-        var croppicContainerEyecandyOptions = {
-                uploadUrl:'img_save_to_file.php',
-                cropUrl:'pages/js/img_crop_to_file.php',
-                imgEyecandy:false,              
-                loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> '
-        }
-        var cropContainerEyecandy = new Croppic('cropContainerEyecandy', croppicContainerEyecandyOptions);
-        
-        var croppicContaineroutputMinimal = {
-                uploadUrl:'img_save_to_file.php',
-                cropUrl:'pages/js/img_crop_to_file.php', 
-                modal:false,
-                doubleZoomControls:false,
-                rotateControls: false,
-                loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> '
-        }
-        var cropContaineroutput = new Croppic('cropContainerMinimal', croppicContaineroutputMinimal);
-        
-        var croppicContainerPreloadOptions = {
-                uploadUrl:'img_save_to_file.php',
-                cropUrl:'pages/js/img_crop_to_file.php',
-                loadPicture:'assets/img/croppic/night.jpg',
-                enableMousescroll:true,
-                loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> '
-        }
-        var cropContainerPreload = new Croppic('cropContainerPreload', croppicContainerPreloadOptions);
-
-
-
-
-
-
         var uEmail = $('#user-email').val(); // Get logged user email
         showJobs('/api/jobs/' + uEmail + '/hide');
 
@@ -415,6 +341,15 @@
         // ================================================================================================
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
+
+        // Logo cropper event handler
+        $('#logo_cropper').click(function() {
+            $('#logo_file').trigger('click');
+        });
+
+        $("#logo_file").change(function() {
+            readURL(this);
+        });
 
         // Buy Credits buttons action
         $('#btnBuy1').click(function() {
