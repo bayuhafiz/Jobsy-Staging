@@ -56,7 +56,6 @@ module.exports = function(app, passport) {
 
     app.get('/home', function(req, res) {
         if (req.user) {
-            console.log(req.user.initCompany);
             var user = req.user;
             if ((user.actStatus == 'inactive') || (user.initLogin == true)) {
                 res.render('act.ejs', {
@@ -93,7 +92,6 @@ module.exports = function(app, passport) {
     // DASHBOARD SECTION =========================
     app.get('/dash', isLoggedIn, function(req, res) {
         var user = req.user;
-        console.log(req.user.initCompany);
         if ((user.actStatus == 'inactive') || (user.initLogin == true)) { // If user not activated or has no post yet
             res.render('act.ejs', {
                 title: 'Activation',
@@ -237,7 +235,6 @@ module.exports = function(app, passport) {
                 }
             });
     });
-
 
 
     // =============================================================================
@@ -523,6 +520,7 @@ module.exports = function(app, passport) {
 
         //console.log("Saving: \n" + req.imgUrl);
     });
+
 
     // Create new job post --------------------------------------------
     app.post('/job/create', isLoggedIn, function(req, res, next) {
@@ -1217,6 +1215,110 @@ module.exports = function(app, passport) {
     // ================================================================== API ROUTES
     // =============================================================================
 
+    // ============================ ALGOLIA SEARCH APIs ============================
+    app.get('/alg', function(req, res) {
+        res.render('notif', {
+            msg: 'Select action by clicking buttons below...',
+            title: 'Algolia Control Center'
+        });
+    });
+
+    app.get('/alg/init', function(req, res) {
+        Job.find({
+            status: 'published'
+        }, {
+            createdAt: 0,
+            updatedAt: 0,
+            email: 0,
+            newApp: 0,
+            app: 0,
+            deleteReason: 0,
+            token: 0,
+            status: 0,
+            "profile.description": 0,
+            "profile.logo": 0,
+            "details.jobScope": 0,
+            "details.requirements": 0,
+            "details.currency": 0,
+            "details.salaryFrom": 0,
+            "details.salaryTo": 0,
+            "details.salaryType": 0
+        }, {
+            sort: {
+                createdAt: -1
+            }
+        }, function(err, jobs) {
+            jobs.forEach(function(job) {
+                index.saveObject({
+                    objectID: job._id,
+                    details: {
+                        jobType: job.jobType,
+                        category: job.category,
+                        jobTitle: job.jobTitle
+                    },
+                    profile: {
+                        location: job.location,
+                        name: job.name
+                    }
+                }, function(err, content) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+
+                    res.render('notif', {
+                        msg: 'Initial import has been done successfully..',
+                        title: 'Initial Import'
+                    });
+                });
+            });
+        });
+    });
+
+    app.get('/alg/clear', function(req, res) {
+        index.clearIndex(function(err) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            res.render('notif', {
+                msg: 'Clearing index has been done successfully..',
+                title: 'Clear Index'
+            });
+        });
+    });
+
+    app.get('/alg/update/:data', function(req, res) {
+        index.saveObject({
+            firstname: 'Jimmie',
+            lastname: 'Barninger',
+            objectID: 'myID1'
+        }, function(err, content) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            console.log(content);
+        });
+    });
+
+    app.get('/alg/delete/:id', function(req, res) {
+        var id = req.params.id;
+        index.deleteObject(id, function(err) {
+            if (err) {
+                res.send(err);
+                return;
+            } else {
+                res.send("Object has been successfully deleted..");
+            }
+        });
+    });
+
+    // ======================== END of ALGOLIA SEARCH APIs =========================
+
+
     // Fetch all activated users
     app.get('/api/users', function(req, res) {
         User.find({
@@ -1248,36 +1350,6 @@ module.exports = function(app, passport) {
         }, {
             _id: 0,
             __v: 0
-        }, {
-            sort: {
-                createdAt: -1
-            }
-        }, function(err, jobs) {
-            res.json(jobs);
-        });
-    });
-
-    // Fetch all published jobs (for Algolia-search function)
-    app.get('/api/jobs/import', function(req, res) {
-        Job.find({
-            status: 'published'
-        }, {
-            createdAt: 0,
-            updatedAt: 0,
-            email: 0,
-            newApp: 0,
-            app: 0,
-            deleteReason: 0,
-            token: 0,
-            status: 0,
-            "profile.description": 0,
-            "profile.logo": 0,
-            "details.jobScope": 0,
-            "details.requirements": 0,
-            "details.currency": 0,
-            "details.salaryFrom": 0,
-            "details.salaryTo": 0,
-            "details.salaryType": 0
         }, {
             sort: {
                 createdAt: -1
