@@ -864,6 +864,12 @@ span.searchJob_tag span i {
     .email-wrapper .email-list .item .inline {
         width: 133px;
     }
+    .modal-form{
+        padding: 60px 25px;
+    }
+
+    #upload{float: left!important;}
+    .div-col{padding-left: 15px!important;}
 }
 @media(max-width: 991px) {
     .apply-job-btn {
