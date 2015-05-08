@@ -53,25 +53,12 @@ body.fixed-header .header .btn-complete {
     width: 142px;
 }
 
-<<<<<<< HEAD .header .search-link-home {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    padding: 3px 11px;
-}
-
-=======body.menu-behind .header .brand-home {
-    width: 110px;
-}
-
-body.fixed-header .header .btn-complete {
-    width: 142px;
-}
-
 .header .search-link-home {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 3px;
     padding: 3px 11px;
 }
+
 
 .header .search-link-dash {
     margin-top: 4px
@@ -101,33 +88,6 @@ body.fixed-header .header .btn-complete {
     height: 100%;
 }
 
->>>>>>> e1dac65586752be1bd0984dae883740acc167abd .header .search-link-dash {
-    margin-top: 4px
-}
-
-.modal.fade.slide-right .modal-dialog {
-    width: 40%;
-}
-
-.modal.fade.slide-right .modal-dialog-userdashboard {
-    width: 65%;
-}
-
-.modal.fade.slide-right .modal-dialog .modal-content.bg-modal-content {
-    background: #f8fefe;
-}
-
-.post_job {
-    font-weight: bold;
-    cursor: pointer;
-    padding-top: 7px;
-    margin-right: 5px;
-}
-
-.email-wrapper .email-list {
-    width: 35%;
-    height: 100%;
-}
 
 .notification-panel .notification-body .notification-item .heading.open .thumbnail-wrapper i {
     -webkit-transform: rotate(-90deg);
@@ -537,108 +497,6 @@ div.currency span.cs-placeholder {
     padding-right: 25px!important
 }
 
-a {
-    color: #12806D;
-}
-
-a:hover {
-    color: #0E6052;
-}
-
-.header .notification-list {
-    z-index: 1
-}
-
-#notification-center {
-    color: rgba(0, 0, 0, 0.4);
-    font-weight: bold;
-    font-size: 18px;
-}
-
-#notification-center:hover {
-    color: #2C2C2C;
-}
-
-.list-view-group-header {
-    color: #E1DCDC!important;
-}
-
-.email-list-toggle {
-    padding-top: 15px;
-    font-size: 20px;
-    color: #fff;
-}
-
-.salary {
-    line-height: 18px;
-}
-
-.img-list-box {
-    width: 110px;
-}
-
-.img-list {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    max-width: 79px;
-    max-height: 79px;
-    width: auto;
-    height: auto
-}
-
-.form-group-default.focused {
-    background-color: transparent;
-}
-/*.form-group-default{background-color: transparent;border:0px;}*/
-
-.form-group label.custom-label:not(.error) {
-    font-size: 23px;
-    padding-bottom: 40px;
-    font-weight: 400;
-    color: #4a4a4a;
-    text-transform: none;
-}
-
-.form-group label:not(.error) {
-    font-family: avenir_book
-}
-
-.form-group-default.focused label {
-    opacity: 1
-}
-
-.form-group-default label.fade {
-    opacity: 1
-}
-
-.select2-container .select2-choice > .select2-chosen {
-    color: #4a4a4a;
-    font-weight: 100;
-    font-family: avenir_book;
-    font-size: .875rem;
-}
-
-.select2-container .select2-choice {
-    border: 0;
-}
-
-.radio.radio-danger input[type=radio]:checked + label:before {
-    border-color: #12806D
-}
-
-.btn-animated.apply-job-btn:before {
-    line-height: 3.5;
-}
-
-.email-wrapper .email-list .item {
-    height: 110px;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 40px!important;
-    padding-right: 25px!important
-}
 
 a {
     color: #12806D;
@@ -694,10 +552,6 @@ a:hover {
     background-color: transparent;
 }
 
-.form-group-default {
-    background-color: transparent;
-    border: 0px;
-}
 
 .form-group label.custom-label:not(.error) {
     font-size: 23px;
@@ -717,11 +571,6 @@ a:hover {
 
 .form-group-default label.fade {
     opacity: 1
-}
-
-.form-group-default {
-    padding-right: 0;
-    padding-left: 0
 }
 
 .select2-container .select2-choice > .select2-chosen {
@@ -904,11 +753,8 @@ span.searchJob_tag span i {
     cursor: pointer;
 }
 
-<<<<<<< HEAD .email-wrapper .email-list .item .recipients {
-    font-family: avenir_book
-}
 
-=======.email-wrapper .email-list .item .recipients {
+.email-wrapper .email-list .item .recipients {
     font-family: avenir_book
 }
 
@@ -924,13 +770,11 @@ span.searchJob_tag span i {
     border: 0!important;
 }
 
->>>>>>> e1dac65586752be1bd0984dae883740acc167abd @media(max-width: 568px) {
+@media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
-        <<<<<<< HEAD margin-bottom: -33px;
+        margin-bottom: -33px;
     }
-    =======margin-bottom: -33px;
-}
 }
 @media(max-width: 768px) {
     .applicant-icon {
@@ -1126,205 +970,11 @@ span.searchJob_tag span i {
         display: none;
     }
     
-    >>>>>>> e1dac65586752be1bd0984dae883740acc167abd
 }
-@media(max-width: 768px) {
-    .applicant-icon {
-        display: none!important;
-    }
-    
-    .applicant-header {
-        display: block!important;
-        padding-left: 0!important
-    }
-    
-    .salary-type {
-        margin-top: 10px;
-    }
-    
-    .modal.fade.slide-right .modal-dialog {
-        width: auto;
-    }
-    
-    .modal-dialog-userdashboard .panel.panel-transparent .panel-body {
-        padding: 15px;
-    }
-    
-    .notification-panel {
-        width: 100%!important;
-    }
-    
-    .header .search-link input {
-        width: 90%!important;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content {
-        width: 100%;
-        padding-top: 62px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box {
-        margin-bottom: 20px;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender {
-        margin-left: 0!important;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {
-        width: 100%!important
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .middle {
-        width: 100%!important
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc {
-        width: auto;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary {
-        margin-top: 40px;
-        margin-bottom: 15px;
-        text-align: left!important;
-    }
-    
-    .thumbnail-wrapper {
-        float: left!important;
-    }
-    
-    .company_overview p,
-    .job_scope p,
-    .requirements p {
-        line-height: 20px;
-    }
-    
-    .job-title-hover {
-        display: none;
-    }
-    
-    .email-wrapper .email-list .item .datetime {
-        opacity: 1!important
-    }
-    
-    ul#user-job-list li h3.cbp-nttrigger span.pull-right {
-        display: none;
-    }
-    
-    .email-wrapper .email-list .item .inline {
-        width: 133px;
-    }
-}
-@media(max-width: 991px) {
-    .apply-job-btn {
-        width: 85%
-    }
-    
-    .responsive-search {
-        display: block;
-    }
-    
-    .email-wrapper {
-        z-index: 1
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .actions-wrapper {
-        display: block;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-success {
-        top: 0px;
-    }
-    
-    .email-wrapper .email-list {
-        width: 100%;
-    }
-    
-    .notification-list1 {
-        display: none!important;
-    }
-    
-    .header .notification-list2 {
-        display: inline-block!important;
-        border: 0;
-        position: absolute;
-        top: 11px;
-        right: -30px;
-    }
-    
-    .icon-set.globe-fill {
-        z-index: 1
-    }
-    
-    .post-job-bar {
-        top: 30%;
-    }
-    
-    .notification-toggle {
-        left: -300px!important;
-        z-index: 10000000!important
-    }
-    
-    .notification-panel {
-        width: 400px;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper {
-        height: 100%;
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {
-        left: 0
-    }
-    
-    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender {
-        margin-left: 20px;
-    }
-    
-    #btnGroupVerticalDrop1 {
-        display: block!important;
-    }
-    
-    .user-name {
-        display: none;
-    }
-    
-    .theeee {
-        display: none;
-    }
-    
-    .dropdown-user {
-        margin-top: 6px!important;
-        right: -17px!important;
-    }
-    
-    .list-view-fake-header,
-    .list-view-group-header {
-        display: none;
-    }
-    
-    .list-view-group-container {
-        padding: 0
-    }
-    
-    .email-wrapper .email-list .email-refresh {
-        display: none;
-    }
-    
-    .page-container {
-        position: initial;
-        z-index: initial
-    }
-    
-    .filter-box {
-        display: none!important;
-    }
-}
+
 @media(max-width: 1200px) {
     .modal.fade.slide-right .modal-dialog-userdashboard {
-        width: 100%
+        width: 100%!important
     }
 }
 .list-view-group-container li[data=active] {}
