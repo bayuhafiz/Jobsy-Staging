@@ -328,7 +328,8 @@ ol > li {
 .requirements,
 .job_scope li,
 .requirements li {
-    line-height: 2
+    line-height: 2;
+    font-size:17px;
 }
 
 .job_scope,
