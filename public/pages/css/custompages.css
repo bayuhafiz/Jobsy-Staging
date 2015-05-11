@@ -285,10 +285,15 @@ textarea {
 ul > li,
 ol > li {
     padding-left: 3px;
-    font-size: 17px;
+    font-size: 13px;
     font-family: avenir_book;
     line-height: 2;
     color: #4a4a4a;
+}
+
+.cke_editable ul > li,
+.cke_editable ol > li {
+    font-size: 17px;
 }
 
 .table.table-hover tbody tr#applyDetail:hover td {
