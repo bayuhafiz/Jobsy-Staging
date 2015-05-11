@@ -782,6 +782,7 @@ span.searchJob_tag span i {
 }
 
 .div-col{padding-left: 7px!important}
+.pgn-circle .alert{min-width: 338px;}
 @media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
