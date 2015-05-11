@@ -7,7 +7,8 @@ var async = require('async'),
     nodemailer = require('nodemailer'),
     fs = require('fs'),
     unirest = require('unirest'),
-    gm = require('gm');
+    gm = require('gm'),
+    braintree = require('braintree');
 
 // For development purpose ONLY!
 var util = require('util');
@@ -1025,8 +1026,11 @@ module.exports = function(app, passport) {
 
 
 
+
+
+
     // =============================================================================
-    // PAYMENT SYSTEMS =============================================================
+    // ============================================================= PAYMENT SYSTEMS
     // =============================================================================
 
     // Buy Credits /////
@@ -1211,6 +1215,30 @@ module.exports = function(app, passport) {
         res.redirect('/dash');
     });
 
+
+    // TESTING
+    app.get('/braintree', isLoggedIn, function(req, res) {
+        var userId = req.user._id; // Get logged user id
+
+        var gateway = braintree.connect({
+            environment: braintree.Environment.Sandbox,
+            merchantId: "wr9spyx7zjcmt7f8",
+            publicKey: "3mt3683g3hyp38p7",
+            privateKey: "b2caa2806a3edc7f9d06bb7163d50d63"
+        });
+
+        gateway.clientToken.generate({
+            customerId: userId
+        }, function(err, response) {
+            res.send(response.clientToken);
+        });
+    })
+
+
+
+
+
+
     // =============================================================================
     // ================================================================== API ROUTES
     // =============================================================================
@@ -1218,23 +1246,24 @@ module.exports = function(app, passport) {
     // ============================ ALGOLIA SEARCH APIs ============================
     app.get('/alg', function(req, res) {
         res.render('notif', {
-            msg: 'Select action by clicking buttons below...',
+            msg: 'Select action by clicking buttons below',
+            datas: 'none',
             title: 'Algolia Control Center'
         });
     });
 
     app.get('/alg/init', function(req, res) {
         Job.find({
-            status: 'published'
+            "status": 'published'
         }, {
-            createdAt: 0,
-            updatedAt: 0,
-            email: 0,
-            newApp: 0,
-            app: 0,
-            deleteReason: 0,
-            token: 0,
-            status: 0,
+            "createdAt": 0,
+            "updatedAt": 0,
+            "email": 0,
+            "newApp": 0,
+            "app": 0,
+            "deleteReason": 0,
+            "token": 0,
+            "status": 0,
             "profile.description": 0,
             "profile.logo": 0,
             "details.jobScope": 0,
@@ -1248,42 +1277,49 @@ module.exports = function(app, passport) {
                 createdAt: -1
             }
         }, function(err, jobs) {
-            jobs.forEach(function(job) {
-                index.saveObject({
-                    objectID: job._id,
-                    details: {
-                        jobType: job.jobType,
-                        category: job.category,
-                        jobTitle: job.jobTitle
-                    },
-                    profile: {
-                        location: job.location,
-                        name: job.name
-                    }
-                }, function(err, content) {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
+            if (jobs.length > 0) {
+                for (var i in jobs) {
+                    var arr = {
+                        "details": {
+                            "jobType": jobs[i].details.jobType,
+                            "category": jobs[i].details.category,
+                            "jobTitle": jobs[i].details.jobTitle
+                        },
+                        "profile": {
+                            "location": jobs[i].profile.location,
+                            "name": jobs[i].profile.name
+                        },
+                        "objectID": jobs[i]._id
+                    };
 
-                    res.render('notif', {
-                        msg: 'Initial import has been done successfully..',
-                        title: 'Initial Import'
+                    // Save the datas
+                    index.saveObject(arr, function(err, content) {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        res.render('notif', {
+                            msg: 'Pushing database.. Done!',
+                            datas: JSON.stringify(content),
+                            title: 'Initial Import'
+                        });
                     });
-                });
-            });
+                }
+            }
         });
     });
 
     app.get('/alg/clear', function(req, res) {
-        index.clearIndex(function(err) {
+        index.clearIndex(function(err, content) {
             if (err) {
                 console.error(err);
                 return;
             }
 
             res.render('notif', {
-                msg: 'Clearing index has been done successfully..',
+                msg: 'Clearing index.. Done!',
+                datas: JSON.stringify(content),
                 title: 'Clear Index'
             });
         });
@@ -1383,28 +1419,29 @@ module.exports = function(app, passport) {
             if (err) {
                 console.error(err);
                 return;
-            } else {
-                // Begin processing the results
-                var arr = [];
-                var ids = [];
-                if (content.hits.length > 0) {
-                    for (var h in content.hits) {
-                        var ids = ids.concat(content.hits[h]._id);
-                    }
-                    // fetching related job from DB
-                    Job.find({
-                        _id: {
-                            $in: ids
-                        }
-                    }, function(err, job) {
-                        res.json(job);
-                        return;
-                    });
-                } else {
-                    res.json(arr);
-                    return;
-                }
             }
+
+            // Begin processing the results
+            var arr = [];
+            var ids = [];
+            if (content.hits.length > 0) {
+                for (var h in content.hits) {
+                    var ids = ids.concat(content.hits[h].objectID);
+                }
+                // fetching related job from DB
+                Job.find({
+                    _id: {
+                        $in: ids
+                    }
+                }, function(err, job) {
+                    res.json(job);
+                    return;
+                });
+            } else {
+                res.json(arr);
+                return;
+            }
+
         });
     });
 

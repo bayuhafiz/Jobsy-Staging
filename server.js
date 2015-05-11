@@ -26,19 +26,7 @@ var MongoStore = require('connect-mongo')({ session: session });
 
 // Multer setting ==============================================================
 var multer = require('multer');
-app.use(multer())
-
-
-// Algolia-search configuration ================================================
-var HttpsAgent = require('agentkeepalive').HttpsAgent;
-var Algolia = require('algolia-search');
-var keepaliveAgent = new HttpsAgent({
-    maxSockets: 1,
-    maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
-    maxKeepAliveTime: 30000 // keepalive for 30 seconds
-});
-var client = new Algolia('6ZKMIQIGQJ', '1e30dd72f506417d0ac436e1e5b6c35d', keepaliveAgent);
-
+app.use(multer());
 
 // configuration ===============================================================
 var configDB = require('./config/database.js');
