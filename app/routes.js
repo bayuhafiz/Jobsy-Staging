@@ -734,31 +734,6 @@ module.exports = function(app, passport) {
         });
     });
 
-    // Pause / Publish job post -------------------------------------
-    app.get('/job/stat/:id', isLoggedIn, function(req, res, next) {
-        Job.findById(req.params.id, function(err, job) {
-            if (err) {
-                req.flash('error', err);
-                res.redirect('/dash');
-            }
-            if (job.status == 'published') {
-                job.status = 'paused';
-            } else {
-                job.status = 'published';
-            }
-
-            job.save(function(err) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('/dash');
-                }
-                req.flash('success', 'Job status changed!');
-                res.redirect('/dash');
-            });
-
-        });
-    });
-
     // Set app status as reviewed -------------------------------------
     app.get('/app/set/:id', isLoggedIn, function(req, res, next) {
         App.findById(req.params.id, function(err, app) {
@@ -796,42 +771,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    // Delete job post ----------------------------------------------
-    app.get('/job/del/:id', isLoggedIn, function(req, res, next) {
-        Job.findById(req.params.id, function(err, job) {
-            if (err) {
-                req.flash('error', err);
-                res.redirect('back');
-            }
-
-            var status = '';
-            if ((job.status == 'published') || (job.status == 'paused')) {
-                job.status = 'deleted';
-                status = 0;
-            } else {
-                job.status = 'published';
-                status = 1;
-            }
-
-            job.updatedAt = Date.now();
-
-            job.save(function(err) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('back');
-                }
-
-                if (status == 0) {
-                    req.flash('success', 'Job post has been deleted');
-                } else if (status == 1) {
-                    req.flash('success', 'Job post has been restored');
-                }
-
-                res.redirect('/dash');
-            });
-
-        });
-    });
+    
 
     // Get application on job post read ---------------------------------
     app.get('/job/app/:id', isLoggedIn, function(req, res, next) {
@@ -867,6 +807,8 @@ module.exports = function(app, passport) {
             res.redirect('/dash');
         });
     });
+
+
 
     // APPLY FOR A JOB ---------------------------------
     app.post('/apply/:id', function(req, res, next) {
@@ -1030,8 +972,6 @@ module.exports = function(app, passport) {
                 }
             });
     });
-
-
 
 
 
@@ -1252,6 +1192,74 @@ module.exports = function(app, passport) {
     // ================================================================== API ROUTES
     // =============================================================================
 
+
+    // =========================== JOB MANIPULATIONS APIs ==========================
+    // Pause / Publish job post
+    app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
+        Job.findById(req.params.id, function(err, job) {
+            if (err) {
+                req.flash('error', err);
+                res.redirect('/dash');
+            }
+            if (job.status == 'published') {
+                job.status = 'paused';
+            } else {
+                job.status = 'published';
+            }
+
+            job.save(function(err) {
+                if (err) {
+                    var msg = {'type': 'error', 'msg': 'Failed to change job post\'s state'};
+                    res.json(msg);
+                    return;
+                }
+
+                var msg = {'type': 'success', 'msg': 'Job status changed!'};
+                res.json(msg);
+            });
+
+        });
+    });
+
+    // Delete job post
+    app.get('/api/job/del/:id', isLoggedIn, function(req, res, next) {
+        Job.findById(req.params.id, function(err, job) {
+            if (err) {
+                req.flash('error', err);
+                res.redirect('back');
+            }
+
+            var status = '';
+            if ((job.status == 'published') || (job.status == 'paused')) {
+                job.status = 'deleted';
+                status = 0;
+            } else {
+                job.status = 'published';
+                status = 1;
+            }
+
+            job.updatedAt = Date.now();
+
+            job.save(function(err) {
+                if (err) {
+                    req.flash('error', err);
+                    res.redirect('back');
+                }
+
+                if (status == 0) {
+                    var msg = {'type': 'success', 'msg': 'Job post has been deleted'};
+                } else if (status == 1) {
+                    var msg = {'type': 'success', 'msg': 'Job post has been restored'};
+                }
+                
+                res.json(msg);
+            });
+
+        });
+    });
+
+
+
     // ============================ ALGOLIA SEARCH APIs ============================
     app.get('/alg', function(req, res) {
         res.render('notif', {
@@ -1443,7 +1451,7 @@ module.exports = function(app, passport) {
         } else {
             var index = client.initIndex('Jobs');
         }
-        
+
         var keyword = req.params.keyword;
         index.search(keyword, function(err, content) {
             if (err) {
