@@ -329,7 +329,6 @@
             if (type == 'success') {
                 $('body').pgNotification({
                     'message': msg,
-                    'timeout':'100000000000000000',
                     'type': type,
                     'style': 'circle',
                     'position': 'top-left',
