@@ -48,7 +48,6 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
 var client = new Algolia('SQX1HWFCVJ', 'c0fa958b479a53e6b7cdf980ea7bf35b', keepaliveAgent);
-var index = client.initIndex('Jobs');
 
 
 // Here are our precious module
@@ -1224,7 +1223,7 @@ module.exports = function(app, passport) {
     });
 
 
-    // TESTING
+    // TESTING ONLY!!!!
     app.get('/bt/:amount', isLoggedIn, function(req, res) {
         var userId = req.user._id; // Get logged user id
         var amount = parseInt(req.params.amount) * 50000;
@@ -1263,6 +1262,13 @@ module.exports = function(app, passport) {
     });
 
     app.get('/alg/init', function(req, res) {
+        var host = req.host; // checking host to determine index
+        if (host == 'localhost') {
+            var index = client.initIndex('Jobs-local');
+        } else {
+            var index = client.initIndex('Jobs');
+        }
+
         Job.find({
             "status": 'published'
         }, {
@@ -1321,6 +1327,13 @@ module.exports = function(app, passport) {
     });
 
     app.get('/alg/clear', function(req, res) {
+        var host = req.host; // checking host to determine index
+        if (host == 'localhost') {
+            var index = client.initIndex('Jobs-local');
+        } else {
+            var index = client.initIndex('Jobs');
+        }
+
         index.clearIndex(function(err, content) {
             if (err) {
                 console.error(err);
@@ -1424,6 +1437,13 @@ module.exports = function(app, passport) {
 
     // Search all published jobs based on keywords :: AlgoliaSearch powered ::
     app.get('/api/search/:keyword', function(req, res) {
+        var host = req.host; // checking host to determine index
+        if (host == 'localhost') {
+            var index = client.initIndex('Jobs-local');
+        } else {
+            var index = client.initIndex('Jobs');
+        }
+        
         var keyword = req.params.keyword;
         index.search(keyword, function(err, content) {
             if (err) {
