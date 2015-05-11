@@ -368,6 +368,12 @@
            return false;
         });
 
+        $('#genToken').click(function() {
+            var url = '/braintree';
+            window.location.href = url;
+            return false;
+        });
+
 
         // Switchery Handler >>> 'show deleted job'
         $('.switchery').change(function() {
