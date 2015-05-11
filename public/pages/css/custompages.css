@@ -664,6 +664,9 @@ a:hover {
 .btn-clear-all {
     height: 58px;
     width: 100%;
+    border-radius: 0;
+    border: 0;
+    border-left: 1px solid #ECECEC;
 }
 
 .drop-down {
