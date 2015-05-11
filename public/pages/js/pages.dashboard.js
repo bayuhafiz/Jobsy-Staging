@@ -44,15 +44,15 @@
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
                             badge = '<span class="btn btn-sm btn-danger" style="cursor:default">DELETED</span>';
-                            toolbox = '<div class="btn-group"><a href="/job/del/' + data[i]._id + '" id="restoreButton" class="btn btn-sm btn-white"><i class="fa fa-reply"></i></a></div>';
+                            toolbox = '<div class="btn-group"><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-reply"></i></button></div>';
                         } else if (data[i].status == 'paused') {
                             pauCounter = pauCounter + 1; // Count paused job
                             badge = '<span class="btn btn-sm btn-warning" style="cursor:default">PAUSED</span>';
-                            toolbox = '<div class="btn-group"><a href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a></div>';
+                            toolbox = '<div class="btn-group"><button id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></button><button data-id="' + data[i]._id + '" class="btn btn-sm btn-white" id="pauseButton"><i class="fa fa-refresh"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></button></div>';
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
                             badge = '<span class="btn btn-sm btn-success" style="cursor:default">PUBLISHED</span>';
-                            toolbox = '<a href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></a><a href="/job/stat/' + data[i]._id + '" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></a><a href="/job/del/' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></a>';
+                            toolbox = '<button href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></button><button data-id="' + data[i]._id + '" id="pauseButton" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></button>';
                         }
 
                         if (data[i].newApp > 0) {
@@ -272,9 +272,9 @@
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
-
         var uEmail = $('#user-email').val(); // Get logged user email
         showJobs('/api/jobs/' + uEmail + '/hide');
+
 
         // Create job form logic ////
         var initLogin = $('#init-login').val();
@@ -338,6 +338,31 @@
         }
 
 
+
+        // ////////////  Input masking ////////////////
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+
+
         // ================================================================================================
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
@@ -353,19 +378,19 @@
 
         // Buy Credits buttons action
         $('#btnBuy1').click(function() {
-           var url = '/buy/1';
-           window.location.href = url;
-           return false;
+            var url = '/buy/1';
+            window.location.href = url;
+            return false;
         });
         $('#btnBuy5').click(function() {
-           var url = '/buy/5';
-           window.location.href = url;
-           return false;
+            var url = '/buy/5';
+            window.location.href = url;
+            return false;
         });
         $('#btnBuy10').click(function() {
-           var url = '/buy/10';
-           window.location.href = url;
-           return false;
+            var url = '/buy/10';
+            window.location.href = url;
+            return false;
         });
 
         $('#braintree1').click(function() {
@@ -389,9 +414,11 @@
         // Switchery Handler >>> 'show deleted job'
         $('.switchery').change(function() {
             if ($(this).attr('checked')) {
+                localStorage['switch_checked'] = "yes";
                 showJobs('/api/jobs/' + uEmail + '/show');
                 $('p.switch-label').html('Click to hide<br>deleted job posting');
             } else {
+                localStorage['switch_checked'] = "no";
                 showJobs('/api/jobs/' + uEmail + '/hide');
                 $('p.switch-label').html('Click to show<br>deleted job posting');
             }
@@ -474,7 +501,9 @@
         });
 
 
-        /* ============== DETAILS APP FUNCTION ==========================
+
+
+        /* ============== DETAILS APP BUTTON ==========================
         ==============================================================*/
         $('body').on('click', '#appDetailsButton', function() {
             $('#appDetailsCloseBtn').removeAttr('onClick'); // dummy clean button's onClick attribute
@@ -529,9 +558,8 @@
         });
 
 
-        /* ============== EDIT JOB FUNCTION ==========================
+        /* ============= JOB MANIPULATION BUTTONs =====================
         ==============================================================*/
-
         $('body').on('click', '#editButton', function(e) {
             e.preventDefault();
 
@@ -605,69 +633,67 @@
         });
 
 
-        // Input masking
-        $("#salary-from").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
+        $('body').on('click', '#pauseButton', function(e) {
+            e.preventDefault();
+
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                dataType: "json",
+                url: "/api/job/stat/" + id,
+                success: function(data) {
+                    $('body').pgNotification({
+                        'message': data.msg,
+                        'type': data.type,
+                        'style': 'circle',
+                        'position': 'top-left',
+                        'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
+                    }).show();
+
+                    // Get switch status
+                    var switch_checked = localStorage['switch_checked'];
+                    if (switch_checked == 'yes') {
+                        var stat = 'show';
+                    } else {
+                        var stat = 'hide';
+                    }
+
+                    // Refresh the job list
+                    showJobs('/api/jobs/' + uEmail + '/' + stat);
+                }
+            });
         });
-        $("#salary-to").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
+
+        $('body').on('click', '#deleteButton', function(e) {
+            e.preventDefault();
+
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                dataType: "json",
+                url: "/api/job/del/" + id,
+                success: function(data) {
+                    $('body').pgNotification({
+                        'message': data.msg,
+                        'type': data.type,
+                        'style': 'circle',
+                        'position': 'top-left',
+                        'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
+                    }).show();
+                    
+                    // Get switch status
+                    var switch_checked = localStorage['switch_checked'];
+                    if (switch_checked == 'yes') {
+                        var stat = 'show';
+                    } else {
+                        var stat = 'hide';
+                    }
+
+                    // Refresh the job list
+                    showJobs('/api/jobs/' + uEmail + '/' + stat);
+                }
+            });
         });
-
-        $("#salary-from-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-
-
-        /*var data = {
-          // A labels array that can contain any sort of values
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-          // Our series array that contains series objects or in this case series data arrays
-          series: [
-            [5, 2, 4, 2, 0]
-          ]
-        };
-
-        // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
-        // as you saw in the previous example
-        var options = {
-          height: '200px'
-        };
-
-        var responsiveOptions = [
-          ['screen and (min-width: 641px) and (max-width: 1024px)', {
-            showPoint: false,
-            axisX: {
-              labelInterpolationFnc: function(value) {
-                // Will return Mon, Tue, Wed etc. on medium screens
-                return value.slice(0, 3);
-              }
-            }
-          }],
-          ['screen and (max-width: 640px)', {
-            showLine: false,
-            axisX: {
-              labelInterpolationFnc: function(value) {
-                // Will return M, T, W etc. on small screens
-                return value[0];
-              }
-            }
-          }]
-        ];
-        // Create a new line chart object where as first parameter we pass in a selector
-        // that is resolving to our chart container element. The Second parameter
-        // is the actual data object. As a third parameter we pass in our custom options.
-        new Chartist.Bar('.ct-chart', data, options,responsiveOptions);*/
 
     });
 
