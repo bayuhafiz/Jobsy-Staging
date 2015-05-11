@@ -595,12 +595,13 @@ a:hover {
     padding: 0
 }
 
-.searchJob {
+#searchJob,.searchJob {
     border: none;
     opacity: 1;
     color: #626262;
     font-size: 20px;
     width: 335px;
+    font-family: avenir_book;
 }
 
 .searchApplicant {
@@ -740,7 +741,7 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted {
 span.searchJob_tag span.category_tag,
 span.searchJob_tag span.location_tag,
 span.searchJob_tag span.jobType_tag {
-    background: #0F81A3;
+    background: #12806D;
     color: #fff;
     padding: 5px 13px;
     padding-right: 0px;
@@ -968,7 +969,7 @@ span.searchJob_tag span i {
         z-index: initial
     }
     
-    .filter-box {
+    .filter-box,.select2-drop {
         display: none!important;
     }
     

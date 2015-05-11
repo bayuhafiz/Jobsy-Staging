@@ -145,7 +145,7 @@
                                 </li>';
                         } else {
                             if (userEmail != data[i].email) {
-                                li += '<div class="apply-btn" style="background-color:#b2050d;"><p>You can\'t edit this post</p></div>\
+                                li += '<div class="apply-btn" style="background-color:#b2050d;width:30%"><p>You can\'t edit this post</p></div>\
                                 <div class="clearfix"></div> \
                                 </li>';
                             } else {
