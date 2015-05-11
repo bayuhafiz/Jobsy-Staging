@@ -1333,7 +1333,7 @@ module.exports = function(app, passport) {
         } else {
             var index = client.initIndex('Jobs');
         }
-        
+
         index.clearIndex(function(err, content) {
             if (err) {
                 console.error(err);
@@ -1437,6 +1437,13 @@ module.exports = function(app, passport) {
 
     // Search all published jobs based on keywords :: AlgoliaSearch powered ::
     app.get('/api/search/:keyword', function(req, res) {
+        var host = req.host; // checking host to determine index
+        if (host == 'localhost') {
+            var index = client.initIndex('Jobs-local');
+        } else {
+            var index = client.initIndex('Jobs');
+        }
+        
         var keyword = req.params.keyword;
         index.search(keyword, function(err, content) {
             if (err) {
