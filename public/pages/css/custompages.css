@@ -26,7 +26,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: avenir_book!important
+    font-family: avenir_book!important;
 }
 
 .email-wrapper .email-opened {
@@ -759,9 +759,9 @@ span.searchJob_tag span.location_tag,
 span.searchJob_tag span.jobType_tag {
     background: #12806D;
     color: #fff;
-    padding: 5px 13px;
+    padding: 1px 13px;
     padding-right: 0px;
-    font-size: 12px;
+    font-size: 20px;
     margin: 0 5px;
     display: none;
 }
