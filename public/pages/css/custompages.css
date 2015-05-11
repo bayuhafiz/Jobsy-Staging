@@ -590,7 +590,6 @@ a:hover {
     width: 200px;
     height: 150px;
     position: relative;
-    /* or fixed or absolute */
 }
 
 .list-view-group-container {
@@ -606,6 +605,15 @@ a:hover {
     font-family: avenir_book;
 }
 
+#searchJob{
+    position: relative;
+    top: -2px;
+}
+
+.pg-search{
+    position: relative;
+    top: -3px;
+}
 .searchApplicant {
     border: none;
     opacity: 1;
@@ -981,7 +989,7 @@ span.searchJob_tag span i {
         display: none;
     }
 
-    .modal-dialog-userdashboard .panel.panel-transparent .panel-body{width: 95%}
+    .modal-dialog-userdashboard .panel.panel-transparent .panel-body.panel-body-custom{width: 95%}
     
 }
 
