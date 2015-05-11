@@ -69,7 +69,7 @@ body.fixed-header .header .btn-complete {
 }
 
 .modal.fade.slide-right .modal-dialog.modal-dialog-custom {
-    width: 65%;
+    width: 100%;
 }
 
 .modal.fade.slide-right .modal-dialog .modal-content.bg-modal-content {
@@ -96,17 +96,11 @@ body.fixed-header .header .btn-complete {
 }
 
 .modal-dialog-userdashboard .panel.panel-transparent .panel-body {
-    padding-left: 55px;
-    padding-right: 55px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 55px;
     padding-bottom: 50px;
-}
-
-.modal-form {
-    background: #fff;
-    padding: 60px 100px;
-    border: 1px solid #ECECEC;
-    border-radius: 10px;
 }
 
 .signIn-panel,
@@ -149,7 +143,7 @@ textarea {
     right: -240px;
     top: 0;
     width: 25%;
-    background: #12806D;
+    background: #52D5BE;
     padding-top: 27px;
     cursor: pointer;
 }
@@ -456,8 +450,8 @@ div.currency span.cs-placeholder {
 }
 
 .btn-primary {
-    background-color: #12806D!important;
-    border-color: #12806D!important
+    background-color: #52D5BE!important;
+    border-color: #52D5BE!important
 }
 
 .btn-primary:hover {
@@ -466,15 +460,15 @@ div.currency span.cs-placeholder {
 }
 
 .btn-success {
-    background-color: #12806D;
-    border-color: #12806D
+    background-color: #52D5BE;
+    border-color: #52D5BE;
 }
 
 .btn-success:hover {
     background-color: #0C9B8E;
     border-color: #0C9B8E
 }
-
+.text-success{color: #52D5BE!important;}
 .btn-danger {
     background-color: #b2050d!important
 }
@@ -547,7 +541,7 @@ a:hover {
     width: auto;
     height: auto
 }
-
+.form-group-default{padding-top: 12px;}
 .form-group-default.focused {
     background-color: transparent;
 }
@@ -577,7 +571,7 @@ a:hover {
     color: #4a4a4a;
     font-weight: 100;
     font-family: avenir_book;
-    font-size: .875rem;
+    font-size: 17px;
 }
 
 .select2-container .select2-choice {
@@ -730,9 +724,6 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted {
     background: #eef0f1!important
 }
 
-.job-dropdown {
-    width: 77%!important
-}
 
 .placeholder {
     font-size: 17px;
@@ -774,12 +765,15 @@ span.searchJob_tag span i {
     border: 0!important;
 }
 
+.div-col{padding-left: 7px!important}
 @media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
         margin-bottom: -33px;
     }
 }
+
+
 @media(max-width: 768px) {
     .applicant-icon {
         display: none!important;
@@ -798,9 +792,6 @@ span.searchJob_tag span i {
         width: auto;
     }
     
-    .modal-dialog-userdashboard .panel.panel-transparent .panel-body {
-        padding: 15px;
-    }
     
     .notification-panel {
         width: 100%!important;
@@ -875,6 +866,8 @@ span.searchJob_tag span i {
     #upload{float: left!important;}
     .div-col{padding-left: 15px!important;}
 }
+
+
 @media(max-width: 991px) {
     .apply-job-btn {
         width: 85%
@@ -979,6 +972,8 @@ span.searchJob_tag span i {
     .apply-btn {
         display: none;
     }
+
+    .modal-dialog-userdashboard .panel.panel-transparent .panel-body{width: 95%}
     
 }
 

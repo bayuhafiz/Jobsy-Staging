@@ -168,44 +168,46 @@
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
                   <div class="panel panel-transparent middle">
                       <div class="panel-body">
-                          <form action="/job/create" id="form-create-job" class="modal-form" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                          <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
                            
                               
                               <div class="row">
-                                  <div class="col-sm-9">
+                                  <div class="col-sm-8">
                                       <div class="row">
-                                          <div class="col-sm-12">
-                                              <div class="form-group form-group-default p-l-0 b-0">
+                                          <div class="col-sm-12 p-l-0">
+                                              <div class="form-group form-group-default b-0">
                                                   <input type="text" name="companyName" placeholder="Company Name" class="form-control" required style="font-family:avenir_book;color: #4a4a4a;font-size: 1.12rem;font-weight: bold;">
                                               </div>
                                           </div>
-                                          <div class="col-sm-12 p-l-0 div-col">
-                                              <div class="form-group form-group-default p-l-0 b-0">
+                                          <div class="col-sm-12 p-l-0">
+                                              <div class="form-group form-group-default b-0">
                                                   <input type="text" class="form-control" name="jobTitle" placeholder="Position Title" style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
                                               </div>
                                           </div>
-                                          <div class="col-sm-12">
+                                          <br>
+                                          <br>
+                                          <div class="col-sm-12 p-l-0">
                                               <div class="row">
                                                           <div class="col-sm-8">
                                                               <div class="row">
-                                                                  <div class="col-sm-4 col-xs-4">
-                                                                      <select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 74px;  border: 0;">
+                                                                  <div class="col-sm-3 col-xs-3 p-r-0">
+                                                                      <select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
                                                                           <option value="USD">USD</option>
                                                                           <option value="IDR" selected="selected">IDR</option>
                                                                       </select>
                                                                   </div>
-                                                                  <div class="col-sm-8 col-xs-8" style="padding-left: 0;">
-                                                                      <div class="input-daterange input-group" style="  position: relative;left: -30px;">
-                                                                          <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" style=" border: 0;" value="2.000.000" />
-                                                                          <span class="input-group-addon" style="  background: transparent;">-</span>
-                                                                          <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" style=" border: 0;" value="4.000.000"/>
+                                                                  <div class="col-sm-8 col-xs-8 p-l-0">
+                                                                      <div class="input-daterange input-group">
+                                                                          <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" style="border: 0;font-size: 17px;" value="2.000.000"/>
+                                                                          <span class="input-group-addon" style="  background:#F5F4F4;">-</span>
+                                                                          <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" style=" border: 0;font-size: 17px;" value="4.000.000" />
                                                                       </div>
                                                                   </div>
                                                               </div>
                                                           </div>
                                                           <div class="col-sm-4">
                                                               <div class="form-group salary-type">
-                                                                  <select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;">
+                                                                  <select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
                                                                       <option value="Monthly" selected="selected">Monthly</option>
                                                                       <option value="Annually">Annually</option>
                                                                       <option value="Daily">Daily</option>
@@ -217,7 +219,7 @@
                                           </div>
                                       </div>
                                   </div>
-                                  <div class="col-sm-3 text-right">
+                                  <div class="col-sm-4 text-right">
                                           <div id="upload" class="pull-right">
                                               <input type="file" name="file" id="logo_file" style="display: none;">
                                               <img id="logo_cropper" src="assets/img/logohere.png">
@@ -259,7 +261,7 @@
                                                   <br>
                                                   <div class="row">
                                                       <div class="col-sm-12">
-                                                          <div class="form-group form-group-default p-l-0 b-0">
+                                                          <div class="form-group form-group-default b-0">
                                                               <label class="custom-label">Description</label>
                                                               <textarea id="editor1" class="textarea-desc" name="description" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
@@ -272,7 +274,7 @@
                                                   <br>
                                                   <div class="row">
                                                       <div class="col-sm-12">
-                                                          <div class="form-group form-group-default p-l-0 b-0">
+                                                          <div class="form-group form-group-default b-0">
                                                               <label class="custom-label">Job Scope <span class="hint-text small"></label>
                                                               <textarea id="editor2" name="jobScope" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
@@ -285,7 +287,7 @@
                                                   <br>
                                                   <div class="row">
                                                       <div class="col-sm-12">
-                                                          <div class="form-group form-group-default p-l-0 b-0">
+                                                          <div class="form-group form-group-default b-0">
                                                               <label class="custom-label">Requirements  <span class="hint-text small"></label>
                                                               <textarea id="editor3" name="requirements" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
 
@@ -575,121 +577,101 @@
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
                         <div class="panel panel-transparent middle">
                             <div class="panel-body">
-                                <form id="form-edit" class="modal-form" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
-                                    <!--<div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group form-group-default">
-                                                <label style="padding-bottom:10px;">Profile Picture</label>
-                                                <input type="file" class="form-control" id="editJobImg" name="logo">
-                                                <input type="hidden" name="oldLogo" id="oldJobImg">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <img id="editJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;">
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <br>-->
+                                <form id="form-edit" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+                                  
+                                   
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group form-group-default p-l-0 b-0 ">
-                                                        <input type="text" name="companyName" placeholder="" class="form-control companyName" required style="font-family:avenir_book;color: #4a4a4a;font-size: 1.12rem;font-weight: bold;">
+                                                <div class="col-sm-12 p-l-0">
+                                                    <div class="form-group form-group-default b-0">
+                                                        <input type="text" name="companyName" class="form-control companyName" required style="font-family:avenir_book;color: #4a4a4a;font-size: 1.12rem;font-weight: bold;">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 p-l-0 div-col">
-                                                    <div class="form-group form-group-default p-l-0 b-0">
-                                                        <input type="text" class="form-control jobTitle" name="jobTitle" style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
+                                                <div class="col-sm-12 p-l-0">
+                                                    <div class="form-group form-group-default b-0">
+                                                        <input type="text" class="form-control jobTitle" name="jobTitle" placeholder="Position Title" style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="col-sm-12">
-                                                <div class="col-sm-6">
-                                                    <div class="cropme" style="width: 405px; height: 200px;"></div>
-                                                                          <!--<div id="image-cropper-container" style="width: 190px; height: 190px;position:relative; overflow: hidden;">
-                                                                              <img id="createJobImg">
+                                                <br>
+                                                <br>
+                                                <div class="col-sm-12 p-l-0">
+                                                    <div class="row">
+                                                                <div class="col-sm-8">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-3 col-xs-3 p-r-0">
+                                                                            <select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
+                                                                                <option value="USD">USD</option>
+                                                                                <option value="IDR">IDR</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-sm-8 col-xs-8" style="padding-left: 0;">
+                                                                            <div class="input-daterange input-group">
+                                                                              <input name="salaryFrom" id="salary-from-edit" type="text" style=" border: 0;font-size: 17px;" class="input-sm form-control salaryFrom"/>
+                                                                              <span class="input-group-addon" style="background:#F5F4F4;">-</span>
+                                                                              <input name="salaryTo" id="salary-to-edit" type="text" style=" border: 0;font-size: 17px;" class="input-sm form-control salaryTo" />
                                                                           </div>
-                                                                          <input type="file" class="form-control" id="createJobImg" name="file" value="" aria-invalid="false">
-                                                                          <input type="hidden" name="savedLogo" id="savedLogo" value="">-->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group salary-type">
+                                                                        <select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;font-size: 17px;">
+                                                                            <option value="Monthly" selected="selected">Monthly</option>
+                                                                            <option value="Annually">Annually</option>
+                                                                            <option value="Daily">Daily</option>
+                                                                            <option value="Hourly">Hourly</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                 </div>
                                             </div>
                                         </div>
-                                                  <!--<div class="col-sm-6">
-                                                      <div id="croppic"></div>
-                                                      <span class="btn" id="cropContainerHeaderButton">click here to try it</span>
-                                                  </div>-->
+                                        <div class="col-sm-4 text-right">
+                                                <div id="upload" class="pull-right">
+                                                    <input type="file" name="file" id="logo_file" style="display: none;">
+                                                    <img id="logo_cropper" src="assets/img/logohere.png">
+                                                </div>
+                                          </div>
                                     </div>
+                                    
                                     <br>
                                     <br>
                                     <br>
                                     <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-sm-4 col-xs-4">
-                                                    <select name="currency" class="currency" style="  background: #FFF;border-color: rgba(0,0,0,0.07);height: 32px;border-radius: 0px;width:74px;border: 0;">
-                                                        <option value="USD">USD</option>
-                                                        <option value="IDR">IDR</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-8 col-xs-8" style="padding-left: 0;">
-                                                    <div class="input-daterange input-group" style="  position: relative;left: -30px;">
-                                                        <input name="salaryFrom" id="salary-from-edit" type="text" style=" border: 0;" class="input-sm form-control salaryFrom"/>
-                                                        <span class="input-group-addon" style="  background: transparent;">-</span>
-                                                        <input name="salaryTo" id="salary-to-edit" type="text" style=" border: 0;" class="input-sm form-control salaryTo" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                      <div class="col-sm-4">
+                                        <div class="form-group required">
+                                          <label class="drop-down custom-label">Location</label>
+                                          <% include ../dropdown/location_edit %>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group salary-type">
-                                                <select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;">
-                                                    <option value="Monthly">Monthly</option>
-                                                    <option value="Annually">Annually</option>
-                                                    <option value="Daily">Daily</option>
-                                                    <option value="Hourly">Hourly</option>
-                                                </select>
-                                            </div>
+                                      </div>
+                                      <div class="col-sm-4">
+                                        <div class="form-group required">
+                                          <label class="drop-down custom-label">Category</label>
+                                          <% include ../dropdown/category_edit %>
                                         </div>
+                                      </div>
+                                      <div class="col-sm-4">
+                                        <div class="form-group required">
+                                          <label class="drop-down custom-label">Job Type</label>
+                                            <select class="full-width job-dropdown" name="jobType" id="jobType" data-init-plugin="select2" required>
+                                                                
+                                              <option value="Full Time">Full Time</option>
+                                              <option value="Contract">Contract</option>
+                                              <option value="Part Time">Part Time</option>
+                                                                  
+                                            </select>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group form-group-default p-l-0 b-0">
-                                                <label class="drop-down custom-label">Location</label>
-                                                <% include ../dropdown/location_edit %>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group form-group-default p-l-0 b-0">
-                                                <label class="drop-down custom-label">Category</label>
-                                                <% include ../dropdown/category_edit %>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group form-group-default p-l-0 b-0">
-                                                <label class="drop-down custom-label">Job Type</label>
-                                                <select class="full-width job-dropdown" data-init-plugin="select2" id="jobType" name="jobType" required>
-                                                    <optgroup label="Position Type">
-                                                        <option value="Full Time">Full Time</option>
-                                                        <option value="Contract">Contract</option>
-                                                        <option value="Part Time">Part Time</option>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <br>
                                     <br>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="form-group form-group-default p-l-0 b-0" style="min-height:190px;">
+                                            <div class="form-group form-group-default b-0" style="min-height:190px;">
                                                 <label class="custom-label">Description</label>
                                                 <textarea id="editor1-edit" name="description"></textarea>
                                             </div>
@@ -700,7 +682,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="form-group form-group-default p-l-0 b-0" style="min-height:190px;">
+                                            <div class="form-group form-group-default b-0" style="min-height:190px;">
                                                 <label class="custom-label">Job Scope <span class="hint-text small"></label>
                                                 <textarea id="editor2-edit" name="jobScope"></textarea>
                                             </div>
@@ -711,7 +693,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="form-group form-group-default p-l-0 b-0" style="min-height:190px;">
+                                            <div class="form-group form-group-default b-0" style="min-height:190px;">
                                                 <label class="custom-label">Requirements <span class="hint-text small"></span></label>
                                                 <textarea id="editor3-edit" name="requirements"></textarea>
                                             </div>
