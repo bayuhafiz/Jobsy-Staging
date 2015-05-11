@@ -368,11 +368,22 @@
            return false;
         });
 
-        $('#genToken').click(function() {
-            var url = '/braintree';
+        $('#braintree1').click(function() {
+            var url = '/bt/1';
             window.location.href = url;
             return false;
         });
+        $('#braintree5').click(function() {
+            var url = '/bt/5';
+            window.location.href = url;
+            return false;
+        });
+        $('#braintree10').click(function() {
+            var url = '/bt/10';
+            window.location.href = url;
+            return false;
+        });
+
 
 
         // Switchery Handler >>> 'show deleted job'

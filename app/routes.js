@@ -8,10 +8,18 @@ var async = require('async'),
     fs = require('fs'),
     unirest = require('unirest'),
     gm = require('gm'),
+    util = require('util'),
     braintree = require('braintree');
 
 // For development purpose ONLY!
 var util = require('util');
+
+var gateway = braintree.connect({
+    environment: braintree.Environment.Sandbox,
+    merchantId: "wr9spyx7zjcmt7f8",
+    publicKey: "3mt3683g3hyp38p7",
+    privateKey: "b2caa2806a3edc7f9d06bb7163d50d63"
+});
 
 // Load up the secret file
 var secrets = require('../config/secret');
@@ -1217,24 +1225,26 @@ module.exports = function(app, passport) {
 
 
     // TESTING
-    app.get('/braintree', isLoggedIn, function(req, res) {
+    app.get('/bt/:amount', isLoggedIn, function(req, res) {
         var userId = req.user._id; // Get logged user id
+        var amount = parseInt(req.params.amount) * 50000;
 
-        var gateway = braintree.connect({
-            environment: braintree.Environment.Sandbox,
-            merchantId: "wr9spyx7zjcmt7f8",
-            publicKey: "3mt3683g3hyp38p7",
-            privateKey: "b2caa2806a3edc7f9d06bb7163d50d63"
-        });
+        gateway.transaction.sale({
+            amount: amount,
+            creditCard: {
+                number: '4111111111111111',
+                expirationDate: '05/18'
+            }
+        }, function(err, result) {
+            if (err) throw err;
 
-        gateway.clientToken.generate({
-            customerId: userId
-        }, function(err, response) {
-            res.send(response.clientToken);
+            if (result.success) {
+                util.log('Transaction ID: ' + result.transaction.id);
+            } else {
+                util.log(result.message);
+            }
         });
     })
-
-
 
 
 
