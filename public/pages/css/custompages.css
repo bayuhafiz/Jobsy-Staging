@@ -95,8 +95,16 @@ body.fixed-header .header .btn-complete {
     transform: rotate(-180deg);
 }
 
-.modal-dialog-userdashboard .panel.panel-transparent .panel-body {
+.modal-dialog-userdashboard .panel.panel-transparent .panel-body.panel-body-custom {
     width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 55px;
+    padding-bottom: 50px;
+}
+
+.modal-dialog-userdashboard .panel.panel-transparent .panel-body {
+    width: 85%;
     margin-left: auto;
     margin-right: auto;
     padding-top: 55px;
