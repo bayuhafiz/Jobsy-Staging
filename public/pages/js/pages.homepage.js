@@ -234,7 +234,7 @@
                         }
 
                         li += '<div class="middle img-list-box"> \
-                                        <div class="thumbnail-wrapper d32b-danger" id="list-thumbnail"> \
+                                        <div class="thumbnail-wrapper circular d32b-danger" id="list-thumbnail" style="width:55px;height:55px;"> \
                                             <img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                         </div> \
                                     </div> \
@@ -267,7 +267,7 @@
                                 </li>';
                         } else {
                             if (userEmail != data[i].email) {
-                                li += '<div class="apply-btn" style="background-color:#b2050d;"><p>You can\'t edit this post</p></div>\
+                                li += '<div class="apply-btn" style="background-color:#b2050d;width:30%"><p>You can\'t edit this post</p></div>\
                                 <div class="clearfix"></div> \
                                 </li>';
                             } else {
