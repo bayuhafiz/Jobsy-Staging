@@ -24,6 +24,7 @@
 <link class="main-stylesheet" href="pages/css/pages.css" rel="stylesheet" type="text/css" />
 <!--<link rel="stylesheet" type="text/css" href="assets/css/main.css">-->
 
+<link class="main-stylesheet" href="pages/css/custompages.css" rel="stylesheet" type="text/css" />
 <link type="text/css" rel="stylesheet" href="assets/plugins/rickshaw/rickshaw.min.css"></link>
 <link rel="stylesheet" type="text/css" href="assets/css/codrops/normalize.css">
 <link rel="stylesheet" type="text/css" href="assets/css/codrops/set2.css">
@@ -31,7 +32,6 @@
 <link rel="stylesheet" type="text/css" href="assets/css/chartist.min.css">
 <link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css'>
 
-<link class="main-stylesheet" href="pages/css/custompages.css" rel="stylesheet" type="text/css" />
 
 <!--[if lte IE 9]>
         <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
@@ -135,57 +135,6 @@ window.onload = function() {
     if (navigator.appVersion.indexOf("Windows NT 6.2") != -1) {
         document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="pages/css/windows.chrome.fix.css" />';
     }
-
-    // Image preview function - Create Job
-    function readURL1(input) {
-        // read logo file being uploaded
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#createJobImg-preview').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#createJobImg").change(function() {
-        readURL1(this);
-    });
-
-    // Image preview function - Create Job
-    function readURL2(input) {
-        // read logo file being uploaded
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#editJobImg-preview').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#editJobImg").change(function() {
-        readURL2(this);
-    });
-
-    // Image preview function - Create Job
-    function readURL3(input) {
-        // read logo file being uploaded
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#profile-img-preview').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#profile-img").change(function() {
-        readURL3(this);
-    });
 }
 
 </script>
