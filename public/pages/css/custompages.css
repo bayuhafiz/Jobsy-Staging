@@ -1002,7 +1002,7 @@ div.cs-skin-border{font-size: 16px!important}
         z-index: initial
     }
     
-    .filter-box,.select2-drop {
+    .filter-box {
         display: none!important;
     }
     
