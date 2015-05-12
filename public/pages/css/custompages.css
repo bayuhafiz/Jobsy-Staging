@@ -59,7 +59,6 @@ body.fixed-header .header .btn-complete {
     padding: 3px 11px;
 }
 
-
 .header .search-link-dash {
     margin-top: 4px
 }
@@ -87,7 +86,6 @@ body.fixed-header .header .btn-complete {
     width: 35%;
     height: 100%;
 }
-
 
 .notification-panel .notification-body .notification-item .heading.open .thumbnail-wrapper i {
     -webkit-transform: rotate(-90deg);
@@ -334,7 +332,7 @@ ol > li {
 .job_scope li,
 .requirements li {
     line-height: 2;
-    font-size:17px;
+    font-size: 17px;
 }
 
 .job_scope,
@@ -482,7 +480,11 @@ div.currency span.cs-placeholder {
     background-color: #0C9B8E;
     border-color: #0C9B8E
 }
-.text-success{color: #52D5BE!important;}
+
+.text-success {
+    color: #52D5BE!important;
+}
+
 .btn-danger {
     background-color: #b2050d!important
 }
@@ -504,7 +506,6 @@ div.currency span.cs-placeholder {
     padding-left: 40px!important;
     padding-right: 25px!important
 }
-
 
 a {
     color: #12806D;
@@ -555,11 +556,14 @@ a:hover {
     width: auto;
     height: auto
 }
-.form-group-default{padding-top: 12px;}
+
+.form-group-default {
+    padding-top: 12px;
+}
+
 .form-group-default.focused {
     background-color: transparent;
 }
-
 
 .form-group label.custom-label:not(.error) {
     font-size: 23px;
@@ -602,7 +606,8 @@ a:hover {
     padding: 0
 }
 
-#searchJob,.searchJob {
+#searchJob,
+.searchJob {
     border: none;
     opacity: 1;
     color: #626262;
@@ -611,15 +616,16 @@ a:hover {
     font-family: avenir_book;
 }
 
-#searchJob{
+#searchJob {
     position: relative;
     top: -2px;
 }
 
-.pg-search{
+.pg-search {
     position: relative;
     top: -3px;
 }
+
 .searchApplicant {
     border: none;
     opacity: 1;
@@ -746,7 +752,6 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted {
     background: #eef0f1!important
 }
 
-
 .placeholder {
     font-size: 17px;
     font-family: avenir_book;
@@ -770,7 +775,6 @@ span.searchJob_tag span i {
     cursor: pointer;
 }
 
-
 .email-wrapper .email-list .item .recipients {
     font-family: avenir_book
 }
@@ -787,8 +791,14 @@ span.searchJob_tag span i {
     border: 0!important;
 }
 
-.div-col{padding-left: 7px!important}
-.pgn-circle .alert{min-width: 338px;}
+.div-col {
+    padding-left: 7px!important
+}
+
+.pgn-circle .alert {
+    min-width: 338px;
+}
+
 @media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
@@ -796,130 +806,105 @@ span.searchJob_tag span i {
     }
 }
 
-
 @media(max-width: 768px) {
     .applicant-icon {
         display: none!important;
     }
-    
     .applicant-header {
         display: block!important;
         padding-left: 0!important
     }
-    
     .salary-type {
         margin-top: 10px;
     }
-    
     .modal.fade.slide-right .modal-dialog {
         width: auto;
     }
-    
-    
     .notification-panel {
         width: 100%!important;
     }
-    
     .header .search-link input {
         width: 90%!important;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content {
         width: 100%;
         padding-top: 62px;
         padding-left: 20px;
         padding-right: 20px;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box {
         margin-bottom: 20px;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender {
         margin-left: 0!important;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {
         width: 100%!important
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .middle {
         width: 100%!important
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-desc {
         width: auto;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary {
         margin-top: 40px;
         margin-bottom: 15px;
         text-align: left!important;
     }
-    
     .thumbnail-wrapper {
         float: left!important;
     }
-    
     .company_overview p,
     .job_scope p,
     .requirements p {
         line-height: 20px;
     }
-    
     .job-title-hover {
         display: none;
     }
-    
     .email-wrapper .email-list .item .datetime {
         opacity: 1!important
     }
-    
     ul#user-job-list li h3.cbp-nttrigger span.pull-right {
         display: none;
     }
-    
     .email-wrapper .email-list .item .inline {
         width: 133px;
     }
-    .modal-form{
+    .modal-form {
         padding: 60px 25px;
     }
-
-    #upload{float: left!important;}
-    .div-col{padding-left: 15px!important;}
+    #upload {
+        float: left!important;
+    }
+    .div-col {
+        padding-left: 15px!important;
+    }
 }
-
 
 @media(max-width: 991px) {
     .apply-job-btn {
         width: 85%
     }
-    
     .responsive-search {
         display: block;
     }
-    
     .email-wrapper {
         z-index: 1
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .actions-wrapper {
         display: block;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .actions-wrapper .btn-success {
         top: 0px;
     }
-    
     .email-wrapper .email-list {
         width: 100%;
     }
-    
     .notification-list1 {
         display: none!important;
     }
-    
     .header .notification-list2 {
         display: inline-block!important;
         border: 0;
@@ -927,77 +912,62 @@ span.searchJob_tag span i {
         top: 11px;
         right: -30px;
     }
-    
     .icon-set.globe-fill {
         z-index: 1
     }
-    
     .post-job-bar {
         top: 30%;
     }
-    
     .notification-toggle {
         left: -300px!important;
         z-index: 10000000!important
     }
-    
     .notification-panel {
         width: 400px;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper {
         height: 100%;
     }
-    
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {
         left: 0
     }
-    
     #btnGroupVerticalDrop1 {
         display: block!important;
     }
-    
     .user-name {
         display: none;
     }
-    
     .theeee {
         display: none;
     }
-    
     .dropdown-user {
         margin-top: 6px!important;
         right: -17px!important;
     }
-    
     .list-view-fake-header,
     .list-view-group-header {
         display: none;
     }
-    
     .list-view-group-container {
         padding: 0
     }
-    
     .email-wrapper .email-list .email-refresh {
         display: none;
     }
-    
     .page-container {
         position: initial;
         z-index: initial
     }
-    
-    .filter-box,.select2-drop {
+    .filter-box,
+    .select2-drop {
         display: none!important;
     }
-    
     .apply-btn {
         display: none;
     }
-
-    .modal-dialog-userdashboard .panel.panel-transparent .panel-body.panel-body-custom{width: 95%}
-    
+    .modal-dialog-userdashboard .panel.panel-transparent .panel-body.panel-body-custom {
+        width: 95%
+    }
 }
 
 @media(max-width: 1200px) {
@@ -1005,7 +975,9 @@ span.searchJob_tag span i {
         width: 100%!important
     }
 }
+
 .list-view-group-container li[data=active] {}
+
 .email-wrapper .email-list .item:hover {
     background: #f7f7f7;
 }
@@ -1016,30 +988,37 @@ span.searchJob_tag span i {
     margin: 0;
     padding: 0;
 }
+
 .cbp-ntaccordion li {
     border-bottom: 1px solid #ddd;
     padding-top: 0px;
 }
+
 .cbp-ntaccordion li h5 {
     display: inline-block;
     width: 100%;
 }
+
 .cbp-ntaccordion li h5 a {
     color: #8B8585;
     padding-right: 35px;
 }
+
 .cbp-ntsubaccordion {
     list-style: none;
 }
+
 .cbp-ntaccordion .cbp-nttrigger {
     cursor: pointer;
 }
+
 .cbp-ntaccordion h3 {
     margin: 0 0 0.3em;
     padding: 0.5em 0 0.5em;
     font-size: 1.75em;
     font-weight: 300;
 }
+
 .cbp-ntaccordion h4 {
     font-size: 1.2em;
     text-transform: uppercase;
@@ -1047,11 +1026,13 @@ span.searchJob_tag span i {
     padding: 0.5em 0 0.5em;
     margin: 0 0 0.5em;
 }
+
 .cbp-ntaccordion h5 {
     font-size: 1.2em;
     padding: 0.5em 0 0.5em;
     margin: 0 0 0.5em;
 }
+
 .cbp-ntaccordion .cbp-ntcontent p {
     color: #888;
     font-size: 1.25em;
@@ -1075,28 +1056,35 @@ span.searchJob_tag span i {
     margin-right: 0.5em;
     -webkit-font-smoothing: antialiased;
 }
+
 .cbp-ntaccordion > li > .cbp-nttrigger:before {
     font-size: 75%;
 }
+
 .cbp-ntaccordion > li > .cbp-nttrigger:before {
     content: "\36";
 }
+
 .cbp-ntaccordion > li > .cbp-nttrigger:hover:before {
     content: "\35";
     color: inherit;
 }
+
 .cbp-ntaccordion > li.cbp-ntopen > .cbp-nttrigger:before,
 .no-js .cbp-ntaccordion > li > .cbp-nttrigger:before {
     content: "\34";
     color: inherit;
 }
+
 .cbp-ntsubaccordion > li > .cbp-nttrigger:before {
     content: "\32";
 }
+
 .cbp-ntsubaccordion > li > .cbp-nttrigger:hover:before {
     content: "\33";
     color: inherit;
 }
+
 .cbp-ntsubaccordion > li.cbp-ntopen > .cbp-nttrigger:before,
 .no-js .cbp-ntsubaccordion > li > .cbp-nttrigger:before {
     content: "\31";
@@ -1123,16 +1111,19 @@ span.searchJob_tag span i {
         font-size: 70%;
     }
 }
-#upload {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    /* or fixed or absolute */
+/* for image cropping */
+
+input.cropit-image-input {
+    visibility: hidden;
 }
-#logo_cropper {
+
+.cropit-image-preview {
     cursor: pointer;
     cursor: hand;
-    width: 100%;
-    height: 100%;
+    width: 129px;
+    height: 129px;
     border-radius: 50%;
+    background-image: url('../../assets/img/logohere.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
 }

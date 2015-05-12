@@ -220,14 +220,14 @@
                                       </div>
                                   </div>
                                   <div class="col-sm-4 text-right">
-                                          <div id="upload" class="pull-right">
-                                              <input type="file" name="file" id="logo_file" style="display: none;">
-                                              <img id="logo_cropper" src="assets/img/logohere.png">
-                                              <input type="hidden" name="x" value="" id="ci-x" />
-                                              <input type="hidden" name="y" value="" id="ci-y" />
-                                              <input type="hidden" name="w" value="" id="ci-w" />
-                                              <input type="hidden" name="h" value="" id="ci-h" />
-                                          </div>
+                                        <div id="image-cropper">
+                                            <div class="cropit-image-preview"></div>
+                                            <br/>
+                                            <input type="range" min="0" max="1" step="0.01" class="cropit-image-zoom-input" />
+                                            
+                                            <!-- The actual file input will be hidden -->
+                                            <input type="file" class="cropit-image-input" />
+                                        </div>
                                     </div>
                               </div>
                                                       
