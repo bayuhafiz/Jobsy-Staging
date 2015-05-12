@@ -518,8 +518,6 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-<<<<<<< HEAD
-=======
         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function () {
             $(this).css('background-color','#fff');
         });
@@ -528,13 +526,12 @@
             $(this).css('background-color','#f9f9fb');
         });
 
->>>>>>> eeb013b61c4810007f416145eb12703227c8ee40
         // Load job list
         loadJobList('/api/jobs');
 
 
         // Image processing
-        $imageCropper = $('#image_cropper').cropit();
+        $('#image_cropper').cropit();
         // When user clicks select image button,
         // open select file dialog programmatically
         $('.cropit-image-preview').click(function() {
