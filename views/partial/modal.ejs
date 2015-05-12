@@ -188,43 +188,41 @@
                                           <br>
                                           <div class="col-sm-12 p-l-0">
                                               <div class="row">
-                                                          <div class="col-sm-8">
+                                                          <div class="col-sm-12">
                                                               <div class="row">
                                                                   <div class="col-sm-3 col-xs-3 p-r-0">
                                                                       <!--<select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
                                                                           <option value="USD">USD</option>
                                                                           <option value="IDR" selected="selected">IDR</option>
                                                                       </select>-->
-                                                                        <select name="currency" class="currency cs-select cs-skin-border">
-                                                                          <option value="" disabled selected>Currency</option>
+                                                                        <select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
                                                                           <option value="USD">USD</option>
                                                                           <option value="IDR">IDR</option>
                                                                         </select>
                                                                   </div>
-                                                                  <div class="col-sm-8 col-xs-8 p-l-0">
+                                                                  <div class="col-sm-5 col-xs-9 p-l-0">
                                                                       <div class="input-daterange input-group">
-                                                                          <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" style="border: 0;font-size: 17px;" placeholder="2.000.000"/>
+                                                                          <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" style="border: 0;font-size: 17px;height: 35px;border-radius: 0;" placeholder="2.000.000"/>
                                                                           <span class="input-group-addon" style="  background:#F5F4F4;">-</span>
-                                                                          <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" style=" border: 0;font-size: 17px;" placeholder="4.000.000" />
+                                                                          <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" style=" border: 0;font-size: 17px;height: 35px;border-radius: 0;" placeholder="4.000.000" />
                                                                       </div>
                                                                   </div>
-                                                              </div>
-                                                          </div>
-                                                          <div class="col-sm-4">
-                                                              <div class="form-group salary-type">
-                                                                  <!--<select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
-                                                                      <option value="Monthly" selected="selected">Monthly</option>
-                                                                      <option value="Annually">Annually</option>
-                                                                      <option value="Daily">Daily</option>
-                                                                      <option value="Hourly">Hourly</option>
-                                                                  </select>-->
-                                                                  <select name="salaryType" class="cs-select cs-skin-border">
-                                                                          <option value="" disabled selected>Salary Type</option>
-                                                                          <option value="Monthly">Monthly</option>
-                                                                          <option value="Annually">Annually</option>
-                                                                          <option value="Daily">Daily</option>
-                                                                          <option value="Hourly">Hourly</option>
-                                                                  </select>
+                                                                  <div class="col-sm-4 salary-type-box">
+                                                                      <div class="form-group salary-type">
+                                                                          <!--<select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
+                                                                              <option value="Monthly" selected="selected">Monthly</option>
+                                                                              <option value="Annually">Annually</option>
+                                                                              <option value="Daily">Daily</option>
+                                                                              <option value="Hourly">Hourly</option>
+                                                                          </select>-->
+                                                                          <select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
+                                                                                  <option value="Monthly">Monthly</option>
+                                                                                  <option value="Annually">Annually</option>
+                                                                                  <option value="Daily">Daily</option>
+                                                                                  <option value="Hourly">Hourly</option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </div>
                                                               </div>
                                                           </div>
                                                       </div>
@@ -612,47 +610,64 @@
                                                 </div>
                                                 <br>
                                                 <br>
+                                                <br>
+                                                <div class="row">
+                                                  <div class="col-sm-12">
+                                                    <div class="form-group required">
+                                                      <label class="drop-down custom-label">Salary</label>
+                                                    </div>
+                                                  </div>
+                                                </div>
                                                 <div class="col-sm-12 p-l-0">
                                                     <div class="row">
-                                                                <div class="col-sm-8">
+                                                                <div class="col-sm-12">
                                                                     <div class="row">
                                                                         <div class="col-sm-3 col-xs-3 p-r-0">
                                                                             <!--<select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
                                                                                 <option value="USD">USD</option>
                                                                                 <option value="IDR">IDR</option>
                                                                             </select>-->
-                                                                            <select name="currency" class="currency cs-select cs-skin-border">
-                                                                              <option value="" disabled selected>Currency</option>
+                                                                            <select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
                                                                               <option value="USD">USD</option>
                                                                               <option value="IDR">IDR</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-sm-8 col-xs-8" style="padding-left: 0;">
+                                                                        <div class="col-sm-5 col-xs-9" style="padding-left: 0;">
                                                                             <div class="input-daterange input-group">
-                                                                              <input name="salaryFrom" id="salary-from-edit" type="text" style=" border: 0;font-size: 17px;" class="input-sm form-control salaryFrom"/>
+                                                                              <input name="salaryFrom" id="salary-from-edit" type="text" style=" border: 0;font-size: 17px;height: 35px;border-radius: 0;" class="input-sm form-control salaryFrom"/>
                                                                               <span class="input-group-addon" style="background:#F5F4F4;">-</span>
-                                                                              <input name="salaryTo" id="salary-to-edit" type="text" style=" border: 0;font-size: 17px;" class="input-sm form-control salaryTo" />
+                                                                              <input name="salaryTo" id="salary-to-edit" type="text" style=" border: 0;font-size: 17px;height: 35px;border-radius: 0;" class="input-sm form-control salaryTo" />
                                                                           </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4 salary-type-box">
+                                                                            <div class="form-group salary-type">
+                                                                                <!--<select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;font-size: 17px;">
+                                                                                    <option value="Monthly" selected="selected">Monthly</option>
+                                                                                    <option value="Annually">Annually</option>
+                                                                                    <option value="Daily">Daily</option>
+                                                                                    <option value="Hourly">Hourly</option>
+                                                                                </select>-->
+                                                                                <select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;font-size: 17px;">
+                                                                                    <option value="Monthly">Monthly</option>
+                                                                                    <option value="Annually">Annually</option>
+                                                                                    <option value="Daily">Daily</option>
+                                                                                    <option value="Hourly">Hourly</option>
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-4">
+                                                                <!--<div class="col-sm-4">
                                                                     <div class="form-group salary-type">
-                                                                        <!--<select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;font-size: 17px;">
-                                                                            <option value="Monthly" selected="selected">Monthly</option>
-                                                                            <option value="Annually">Annually</option>
-                                                                            <option value="Daily">Daily</option>
-                                                                            <option value="Hourly">Hourly</option>
-                                                                        </select>-->
-                                                                        <select name="salaryType" class="salaryType cs-select cs-skin-border">
-                                                                            <option value="" disabled selected>Salary Type</option>
+                                                                     
+                                                                        <select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;font-size: 17px;">
                                                                             <option value="Monthly">Monthly</option>
                                                                             <option value="Annually">Annually</option>
                                                                             <option value="Daily">Daily</option>
                                                                             <option value="Hourly">Hourly</option>
                                                                         </select>
                                                                     </div>
-                                                                </div>
+                                                                </div>-->
                                                             </div>
                                                 </div>
                                             </div>
