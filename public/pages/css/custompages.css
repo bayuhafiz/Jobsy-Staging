@@ -432,9 +432,9 @@ ol > li {
     background-size: cover
 }
 
-div.currency span.cs-placeholder {
+/*div.currency span.cs-placeholder {
     background: #f0f0f0
-}
+}*/
 
 .apply-job-btn {
     position: absolute;
@@ -789,6 +789,19 @@ span.searchJob_tag span i {
 
 .div-col{padding-left: 7px!important}
 .pgn-circle .alert{min-width: 338px;}
+
+
+div.cs-active{z-index: 10000!important}
+.cs-skin-border > span{border:0!important;}
+div.cs-skin-border{font-size: 16px!important}
+.cs-backdrop{border:0!important;}
+.cs-select span{padding: 6px!important}
+.cs-select .cs-placeholder{  padding-left: 15px!important;}
+.cs-skin-border ul span{padding-left: 13px!important}
+.cs-skin-border > span::after, .cs-skin-border .cs-selected span::after{font-size: 12px!important}
+.cs-skin-border .cs-selected span::after{color: #000!important}
+.cs-skin-border.cs-active > span{color: #4a4a4a!important}
+
 @media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
