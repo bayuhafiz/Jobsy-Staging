@@ -994,6 +994,10 @@ span.searchJob_tag span i {
     .email-wrapper .email-opened .email-content-wrapper {
         height: 100%;
     }
+
+    .email-wrapper .email-opened .email-content-wrapper .email-content{
+        border-radius: 0;
+    }
     
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {
         left: 0
@@ -1063,6 +1067,7 @@ span.searchJob_tag span i {
     }
 
     .category_filter_dropdown,.location_filter_dropdown,.jobType_filter_dropdown{width: 326px!important}
+
     
 }
 
