@@ -191,11 +191,15 @@
                                                           <div class="col-sm-12">
                                                               <div class="row">
                                                                   <div class="col-sm-3 col-xs-3 p-r-0">
+<<<<<<< HEAD
                                                                       <!--<select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
                                                                           <option value="USD">USD</option>
                                                                           <option value="IDR" selected="selected">IDR</option>
                                                                       </select>-->
                                                                         <select name="currency" class="currency" style="border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
+=======
+                                                                        <select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
+>>>>>>> d72471e96aec336a8fa26ca271ac8c4c69d94bb7
                                                                           <option value="USD">USD</option>
                                                                           <option value="IDR">IDR</option>
                                                                         </select>
@@ -209,6 +213,7 @@
                                                                   </div>
                                                                   <div class="col-sm-4 salary-type-box">
                                                                       <div class="form-group salary-type">
+<<<<<<< HEAD
                                                                           <!--<select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
                                                                               <option value="Monthly" selected="selected">Monthly</option>
                                                                               <option value="Annually">Annually</option>
@@ -216,6 +221,9 @@
                                                                               <option value="Hourly">Hourly</option>
                                                                           </select>-->
                                                                           <select name="salaryType" class="salaryType" style="border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
+=======
+                                                                          <select name="salaryType" class="salaryType" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
+>>>>>>> d72471e96aec336a8fa26ca271ac8c4c69d94bb7
                                                                                   <option value="Monthly">Monthly</option>
                                                                                   <option value="Annually">Annually</option>
                                                                                   <option value="Daily">Daily</option>
@@ -230,14 +238,16 @@
                                       </div>
                                   </div>
                                   <div class="col-sm-4 text-right">
-                                          <div id="upload" class="pull-right">
-                                              <input type="file" name="file" id="logo_file" style="display: none;">
-                                              <img id="logo_cropper" src="assets/img/logohere.png">
-                                              <input type="hidden" name="x" value="" id="ci-x" />
-                                              <input type="hidden" name="y" value="" id="ci-y" />
-                                              <input type="hidden" name="w" value="" id="ci-w" />
-                                              <input type="hidden" name="h" value="" id="ci-h" />
-                                          </div>
+                                        <div id="image-cropper">
+                                          <div class="cropit-image-preview"></div>
+                                          
+                                          <input type="range" class="cropit-image-zoom-input" />
+                                          
+                                          <!-- The actual file input will be hidden -->
+                                          <input type="file" class="cropit-image-input" />
+                                          <!-- And clicking on this button will open up select file dialog -->
+                                          <div class="select-image-btn">Select new image</div>
+                                        </div>
                                     </div>
                               </div>
                                                       

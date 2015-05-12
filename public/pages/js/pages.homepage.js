@@ -524,9 +524,11 @@
 
 
         // Image processing
-        $('img.logo_cropper').cropimg({
-            resultWidth: 200,
-            resultHeight: 200
+        $('#image_cropper').cropit();
+        // When user clicks select image button,
+        // open select file dialog programmatically
+        $('.cropit-image-preview').click(function() {
+            $('.cropit-image-input').click();
         });
 
 

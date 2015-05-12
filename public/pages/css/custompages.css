@@ -601,6 +601,7 @@ a:hover {
 #EditJob input,
 #EditJob .select2-container .select2-choice {
     background: transparent;
+
 }
 
 #PostNewJob .select2-container.select2-dropdown-open .select2-choice,

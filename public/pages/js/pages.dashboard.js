@@ -12,7 +12,7 @@
 
             reader.readAsDataURL(input.files[0]);
         }
-    } */
+    }*/
 
     // Date formatter function
     function localDate(date) {
@@ -273,11 +273,23 @@
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-        // init switchery ////// Image processing
-        $('img.logo_cropper').cropimg({
-            resultWidth: 200,
-            resultHeight: 200
+        // Image processing
+        $('#image-cropper').cropit();
+
+        // When user clicks select image button,
+        // open select file dialog programmatically
+        $('.select-image-btn').click(function() {
+            $('.cropit-image-input').click();
         });
+
+        // Logo cropper event handler
+        /*$('#image_cropper').click(function() {
+            $('#logo_file').trigger('click');
+        });
+
+        $("#logo_file").change(function() {
+            readURL(this);
+        });*/
 
 
         var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
@@ -291,13 +303,13 @@
         var switch_checked = localStorage['switch_checked']; // Get switchery status from session
         if (switch_checked == 'yes') {
             var stat = 'show';
-            $('p.switch-label').html('Click to hide<br>deleted job posting');
+            $('p.switch-label').html('Click to view<br>live job posts');
             if ($('.switchery').attr('checked')) {
                 console.log('nothing to change...');
             }
         } else {
             var stat = 'hide';
-            $('p.switch-label').html('Click to show<br>deleted job posting');
+            $('p.switch-label').html('Click to view<br>deleted job posts');
             if ($('.switchery').attr('checked')) {
                 $(this).removeAttr('checked');
                 console.log('state changed!');
@@ -400,14 +412,14 @@
             if ($(this).attr('checked')) {
                 localStorage['switch_checked'] = "yes";
                 showJobs('/api/jobs/' + uEmail + '/show');
-                $('p.switch-label').html('Click to hide<br>deleted job posting');
+                $('p.switch-label').html('Click to view<br>live job posts');
             } else {
                 localStorage['switch_checked'] = "no";
                 showJobs('/api/jobs/' + uEmail + '/hide');
-                $('p.switch-label').html('Click to show<br>deleted job posting');
+                $('p.switch-label').html('Click to show<br>deleted job posts');
             }
         });
-        
+
 
         // Buy Credits buttons action
         $('#btnBuy1').click(function() {
