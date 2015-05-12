@@ -1151,16 +1151,25 @@ div.cs-skin-border{font-size: 16px!important}
         font-size: 70%;
     }
 }
-#upload {
-    width: 140px;
-    height: 140px;
+
+
+/* For image processing */
+.cropit-image-preview {
+    cursor: all-scroll;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
-    /* or fixed or absolute */
+    margin-bottom: 20px;
+      margin-left: auto;
+  margin-right: auto;
 }
-#logo_cropper {
-    cursor: pointer;
+
+/* Hide file input */
+input.cropit-image-input {
+    visibility: hidden;
+}
+
+.select-image-btn {
+    cursor: pointer; 
     cursor: hand;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
 }
