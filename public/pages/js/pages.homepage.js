@@ -267,7 +267,7 @@
                                 </li>';
                         } else {
                             if (userEmail != data[i].email) {
-                                li += '<div class="apply-btn" style="background-color:#b2050d;width:30%"><p>You can\'t edit this post</p></div>\
+                                li += '<div class="apply-btn" style="background-color:#b2050d;width:30%"><center><i class="fa fa-ban" style="font-size: 23px;"></i></center><p>Logout to apply</p></div>\
                                 <div class="clearfix"></div> \
                                 </li>';
                             } else {
@@ -366,7 +366,7 @@
                     });
 
                     listViewGroupCont.append(ul);
-                    $('#emailList').append(listViewGroupCont).hide().show('slow'); // give it a little effect :P
+                    $('#emailList').append(listViewGroupCont).hide().show('medium'); // give it a little effect :P
                     //$("#emailList").ioslist();
 
                 }
@@ -474,7 +474,7 @@
                     });
 
                     listViewGroupCont.append(ul);
-                    $('#emailList').append(listViewGroupCont).hide().show('slow'); // give it a little effect :P
+                    $('#emailList').append(listViewGroupCont).hide().show('medium'); // give it a little effect :P
                     $("#emailList").ioslist();
 
                 }
@@ -523,7 +523,11 @@
         loadJobList('/api/jobs');
 
 
-        //$('.cropme').simpleCropper();
+        // Image processing
+        $('img.logo_cropper').cropimg({
+            resultWidth: 200,
+            resultHeight: 200
+        });
 
 
         // Initiate filters dropdown
@@ -535,6 +539,10 @@
         $('#s2id_category-filter div.select2-drop').addClass('category_filter_dropdown');
         $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
         $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
+
+        // Initiate select2 dropdown
+        $('select.currency').select2();
+        $('select.salaryType').select2();
 
 
         // Infinite scroll trigger /////
@@ -610,6 +618,15 @@
         // ========================
         // START EVENT HANDLERS ===
         // ========================
+        // Logo cropper event handler
+        $('#logo_cropper').click(function() {
+            $('#logo_file').trigger('click');
+        });
+
+        $("#logo_file").change(function() {
+            readURL(this);
+        });
+
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
@@ -1032,24 +1049,11 @@
 
 
         // =============  APPLY JOB HANDLER ===============
-        $('body').on('click', '#btnToggleSlideUpSize', function(e) {
-
-            var jobTitle = $('.profile .job-title').text();
-            var companyName = $('.profile .name').text();
-            var location = $('.profile .datetime').text();
-
-            console.log(jobTitle + ' at ' + companyName);
-
-            $('#app-to').text(jobTitle + ' at ' + companyName);
-        });
-
         $('body').on('click', '#btn-apply-job', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
             var location = $('.profile .datetime').text();
-
-            console.log(jobTitle + ' at ' + companyName);
 
             $('#app-to').text(jobTitle + ' at ' + companyName);
 
