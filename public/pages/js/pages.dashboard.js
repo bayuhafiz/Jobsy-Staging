@@ -416,7 +416,7 @@
             } else {
                 localStorage['switch_checked'] = "no";
                 showJobs('/api/jobs/' + uEmail + '/hide');
-                $('p.switch-label').html('Click to show<br>deleted job posts');
+                $('p.switch-label').html('Click to view<br>deleted job posts');
             }
         });
 
