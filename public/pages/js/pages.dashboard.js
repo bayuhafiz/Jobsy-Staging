@@ -273,6 +273,15 @@
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
+        $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function () {
+            $(this).css('background-color','#fff');
+        });
+
+         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').blur(function () {
+            $(this).css('background-color','#f9f9fb');
+        });
+
+        
         // Image processing
         $('#image-cropper').cropit();
 
