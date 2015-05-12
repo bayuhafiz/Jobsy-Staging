@@ -1065,7 +1065,7 @@ span.searchJob_tag span i {
           /* border-radius: 5px; */
     }
 
-    .category_filter_dropdown{width: 326px!important}
+    .category_filter_dropdown,.location_filter_dropdown,.jobType_filter_dropdown{width: 326px!important}
     
 }
 
