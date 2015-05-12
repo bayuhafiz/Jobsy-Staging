@@ -168,9 +168,7 @@
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
                   <div class="panel panel-transparent middle">
                       <div class="panel-body panel-body-custom">
-                          <form action="/job/create" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
-                           
-                              
+                          <form action="#" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
                               <div class="row">
                                   <div class="col-sm-8">
                                       <div class="row">
@@ -236,13 +234,13 @@
                                             
                                           <div class="zoom-box">
                                             <div class="pull-left zoom_1"><i class="fa fa-picture-o"></i></div>
-                                            <div class="pull-left zoom_2"><input type="range" class="cropit-image-zoom-input" /></div>
+                                            <div class="pull-left zoom_2"><input type="range" min="-10" max="10" class="cropit-image-zoom-input" /></div>
                                             <div class="pull-left zoom_3"><i class="fa fa-picture-o"></i></div>
                                           </div>
                                           <!-- The actual file input will be hidden -->
-                                          <input type="file" class="cropit-image-input" />
+                                          <input type="file" class="cropit-image-input" required/>
                                           <!-- And clicking on this button will open up select file dialog -->
-                                          <div class="select-image-btn">Select new logo</div>
+                                          <input type="hidden" id="hidden-image-data">
                                         </div>
                                     </div>
                               </div>
@@ -328,8 +326,8 @@
                                       </div>
                                   </div>
                               </div>
-                          </div>
-                      </div>
+      </div>
+  </div>
                       <% } %>
 
                       <!-- APPLY JOB FORM -->

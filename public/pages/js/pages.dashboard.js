@@ -270,26 +270,32 @@
     };
 
 
+
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-        // Image processing
-        $('#image-cropper').cropit();
+        // Init image processor
+        $('#image-cropper').cropit({
+            imageState: {
+                src: '../../assets/img/logohere.png'
+            },
+            previewSize: {
+                width: 160,
+                height: 160
+            },
+            rejectSmallImage: true,
+            
+            fitWidth: true,
+            freeMove: true,
+            minZoom: 'fill'
+            
+        });
 
         // When user clicks select image button,
         // open select file dialog programmatically
-        $('.select-image-btn').click(function() {
+        $('.cropit-image-preview').dblclick(function() {
             $('.cropit-image-input').click();
         });
-
-        // Logo cropper event handler
-        /*$('#image_cropper').click(function() {
-            $('#logo_file').trigger('click');
-        });
-
-        $("#logo_file").change(function() {
-            readURL(this);
-        });*/
 
 
         var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
@@ -406,6 +412,19 @@
         // ================================================================================================
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
+
+        // CREATE JOB POST [SUBMIT] HANDLER ///////////
+        $('#form-create-job').submit(function() {
+          // Move cropped image data to hidden input
+          var imageData = $('#image-cropper').cropit('export');
+          $('#hidden-image-data').val(imageData);
+          // Print HTTP request params
+          var formValue = $(this).serialize();
+
+          // Prevent the form from actually submitting
+          return false;
+        });
+
 
         // Switchery Handler >>> 'show deleted job'
         $('.switchery').change(function() {

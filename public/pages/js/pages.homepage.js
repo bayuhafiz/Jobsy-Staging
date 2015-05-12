@@ -518,13 +518,12 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-
         // Load job list
         loadJobList('/api/jobs');
 
 
         // Image processing
-        $('#image_cropper').cropit();
+        $imageCropper = $('#image_cropper').cropit();
         // When user clicks select image button,
         // open select file dialog programmatically
         $('.cropit-image-preview').click(function() {
