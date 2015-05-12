@@ -26,7 +26,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: avenir_book!important
+    font-family: avenir_book!important;
 }
 
 .email-wrapper .email-opened {
@@ -291,6 +291,11 @@ ol > li {
     color: #4a4a4a;
 }
 
+.cke_editable ul > li,
+.cke_editable ol > li {
+    font-size: 17px;
+}
+
 .table.table-hover tbody tr#applyDetail:hover td {
     background: #daeffd !important;
 }
@@ -328,7 +333,8 @@ ol > li {
 .requirements,
 .job_scope li,
 .requirements li {
-    line-height: 2
+    line-height: 2;
+    font-size:17px;
 }
 
 .job_scope,
@@ -753,9 +759,9 @@ span.searchJob_tag span.location_tag,
 span.searchJob_tag span.jobType_tag {
     background: #12806D;
     color: #fff;
-    padding: 5px 13px;
+    padding: 1px 13px;
     padding-right: 0px;
-    font-size: 12px;
+    font-size: 20px;
     margin: 0 5px;
     display: none;
 }
