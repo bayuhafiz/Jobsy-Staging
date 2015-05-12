@@ -274,6 +274,22 @@
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
+        // Init image processor
+        $('#image-cropper').cropit({
+            imageState: {
+                src: '../../assets/img/logohere.png'
+            },
+            previewSize: {
+                width: 160,
+                height: 160
+            },
+            rejectSmallImage: true,
+            
+            fitWidth: true,
+            freeMove: true,
+            minZoom: 'fill'
+            
+        });
 
         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function () {
             $(this).css('background-color','#fff');
