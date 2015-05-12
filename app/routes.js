@@ -249,6 +249,7 @@ module.exports = function(app, passport) {
     // ================================================ AUTHORIZE (ALREADY LOGGED IN
     // =============================================================================
 
+
     // update account settings --------------------------------
     app.post('/account/profile', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
@@ -267,6 +268,7 @@ module.exports = function(app, passport) {
 
         });
     });
+
 
     // locally --------------------------------
     app.get('/password', isLoggedIn, function(req, res) {
@@ -486,6 +488,7 @@ module.exports = function(app, passport) {
         });
     });
 
+
     // Deactivate account -----------------------------------
     app.get('/unlink', isLoggedIn, function(req, res) {
         var user = req.user;
@@ -616,15 +619,38 @@ module.exports = function(app, passport) {
                             email: req.user.email
                         });
 
-                        job.save(function(err) {
+                        job.save(function(err, job) {
                             if (err) return next(err);
-                            req.flash('success', 'Job successfully created.');
-                            done(err, 'done');
+
+                            var host = req.host; // checking host to determine index
+                            if (host == 'localhost') {
+                                var index = client.initIndex('Jobs-local');
+                            } else {
+                                var index = client.initIndex('Jobs');
+                            }
+
+                            var arr = {
+                                "details": {
+                                    "jobType": job.details.jobType,
+                                    "category": job.details.category,
+                                    "jobTitle": job.details.jobTitle
+                                },
+                                "profile": {
+                                    "location": job.profile.location,
+                                    "name": job.profile.name
+                                },
+                                "objectID": job._id
+                            };
+
+                            index.saveObject(arr, function(err) {
+                                if (err) return next(err);
+
+                                req.flash('success', 'Job successfully created.');
+                                done(err, 'done');
+                            });
                         });
                     });
-
                 });
-
             },
         ], function(err) {
             if (err) {
@@ -636,19 +662,6 @@ module.exports = function(app, passport) {
     })
 
     // Edit job post ---------------------------------
-    app.get('/edit/:id', isLoggedIn, function(req, res, next) {
-        Job.findById(req.params.id, function(err, job) {
-            if (err) return next(err);
-
-            console.log(JSON.stringify(job));
-
-            res.render('edit', {
-                title: 'Edit Job',
-                job: job
-            });
-        });
-    });
-
     app.post('/update/:id', isLoggedIn, function(req, res, next) {
         var logo = '';
 
@@ -721,18 +734,49 @@ module.exports = function(app, passport) {
             job.updatedAt = Date.now();
 
             // Save into database
-            job.save(function(err) {
+            job.save(function(err, job) {
                 if (err) {
                     req.flash('error', err);
                     res.redirect('back');
                 }
 
-                req.flash('success', 'Job has been updated.');
-                res.redirect('/dash');
+                // Saving to search engine server
+                var host = req.host; // checking host to determine index
+                if (host == 'localhost') {
+                    var index = client.initIndex('Jobs-local');
+                } else {
+                    var index = client.initIndex('Jobs');
+                }
+
+                var arr = {
+                    "details": {
+                        "jobType": job.details.jobType,
+                        "category": job.details.category,
+                        "jobTitle": job.details.jobTitle
+                    },
+                    "profile": {
+                        "location": job.profile.location,
+                        "name": job.profile.name
+                    },
+                    "objectID": job._id
+                };
+                index.saveObject(arr, function(err) {
+                    if (err) {
+                        req.flash('error', err);
+                        res.redirect('back');
+                    }
+                    
+                    req.flash('success', 'Job has been updated.');
+                    res.redirect('/dash');
+                });
+
+
             });
 
         });
     });
+
+
 
     // Set app status as reviewed -------------------------------------
     app.get('/app/set/:id', isLoggedIn, function(req, res, next) {
@@ -771,7 +815,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    
+
 
     // Get application on job post read ---------------------------------
     app.get('/job/app/:id', isLoggedIn, function(req, res, next) {
@@ -1058,7 +1102,6 @@ module.exports = function(app, passport) {
             });
     });
 
-
     // Payment notifiication handler
     app.post('/payment/notif', isLoggedIn, function(req, res) {
         Pay.find({
@@ -1207,17 +1250,57 @@ module.exports = function(app, passport) {
                 job.status = 'published';
             }
 
-            job.save(function(err) {
+            job.save(function(err, job) {
                 if (err) {
-                    var msg = {'type': 'error', 'msg': 'Failed to change job post\'s state'};
+                    var msg = {
+                        'type': 'error',
+                        'msg': 'Failed to change job post\'s state'
+                    };
                     res.json(msg);
                     return;
                 }
 
-                var msg = {'type': 'success', 'msg': 'Job status changed!'};
-                res.json(msg);
-            });
+                // Saving to search engine server
+                var host = req.host; // checking host to determine index
+                if (host == 'localhost') {
+                    var index = client.initIndex('Jobs-local');
+                } else {
+                    var index = client.initIndex('Jobs');
+                }
 
+                if (job.status == 'published') {
+                    var arr = {
+                        "details": {
+                            "jobType": job.details.jobType,
+                            "category": job.details.category,
+                            "jobTitle": job.details.jobTitle
+                        },
+                        "profile": {
+                            "location": job.profile.location,
+                            "name": job.profile.name
+                        },
+                        "objectID": job._id
+                    };
+                    index.saveObject(arr, function(err) {
+                        if (err) return next(err);
+                        var msg = {
+                            'type': 'success',
+                            'msg': 'Job post published'
+                        };
+                        res.json(msg);
+                    });
+                } else {
+                    index.deleteObject(job._id, function(err) {
+                        if (err) return next(err);
+                        var msg = {
+                            'type': 'success',
+                            'msg': 'Job post paused'
+                        };
+                        res.json(msg);
+                    });
+                }
+
+            });
         });
     });
 
@@ -1240,21 +1323,54 @@ module.exports = function(app, passport) {
 
             job.updatedAt = Date.now();
 
-            job.save(function(err) {
+            job.save(function(err, job) {
                 if (err) {
                     req.flash('error', err);
                     res.redirect('back');
                 }
 
-                if (status == 0) {
-                    var msg = {'type': 'success', 'msg': 'Job post has been deleted'};
-                } else if (status == 1) {
-                    var msg = {'type': 'success', 'msg': 'Job post has been restored'};
+                // Saving to search engine server
+                var host = req.host; // checking host to determine index
+                if (host == 'localhost') {
+                    var index = client.initIndex('Jobs-local');
+                } else {
+                    var index = client.initIndex('Jobs');
                 }
-                
-                res.json(msg);
-            });
 
+                if (status == 0) {
+                    index.deleteObject(job._id, function(err) { // Delete from search engine server
+                        if (err) return next(err);
+                        var msg = {
+                            'type': 'success',
+                            'msg': 'Job post has been deleted'
+                        };
+                        res.json(msg);
+                    });
+
+                } else if (status == 1) {
+                    var arr = {
+                        "details": {
+                            "jobType": job.details.jobType,
+                            "category": job.details.category,
+                            "jobTitle": job.details.jobTitle
+                        },
+                        "profile": {
+                            "location": job.profile.location,
+                            "name": job.profile.name
+                        },
+                        "objectID": job._id
+                    };
+                    index.saveObject(arr, function(err) { // Add to search engine server
+                        if (err) return next(err);
+                        var msg = {
+                            'type': 'success',
+                            'msg': 'Job post has been restored'
+                        };
+                        res.json(msg);
+                    });
+                }
+
+            });
         });
     });
 
@@ -1605,6 +1721,8 @@ module.exports = function(app, passport) {
         } else if (cond == 'show') {
             var filter = {
                 $and: [{
+                    'status': 'deleted'
+                }, {
                     'email': req.params.email
                 }]
             };

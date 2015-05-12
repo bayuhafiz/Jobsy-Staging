@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function readURL(input) {
+    /*function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
@@ -12,7 +12,7 @@
 
             reader.readAsDataURL(input.files[0]);
         }
-    }
+    } */
 
     // Date formatter function
     function localDate(date) {
@@ -272,8 +272,40 @@
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
+
+        // init switchery ////// Image processing
+        $('img.logo_cropper').cropimg({
+            resultWidth: 200,
+            resultHeight: 200
+        });
+
+
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+        elems.forEach(function(html) {
+            var switchery = new Switchery(html, {
+                color: '#b2050d'
+            });
+        });
+
         var uEmail = $('#user-email').val(); // Get logged user email
-        showJobs('/api/jobs/' + uEmail + '/hide');
+        var switch_checked = localStorage['switch_checked']; // Get switchery status from session
+        if (switch_checked == 'yes') {
+            var stat = 'show';
+            $('p.switch-label').html('Click to hide<br>deleted job posting');
+            if ($('.switchery').attr('checked')) {
+                console.log('nothing to change...');
+            }
+        } else {
+            var stat = 'hide';
+            $('p.switch-label').html('Click to show<br>deleted job posting');
+            if ($('.switchery').attr('checked')) {
+                $(this).removeAttr('checked');
+                console.log('state changed!');
+            }
+        }
+        // Then show the jobs
+        showJobs('/api/jobs/' + uEmail + '/' + stat);
+
 
 
         // Create job form logic ////
@@ -289,6 +321,7 @@
 
             $('#createWizard').bootstrapWizard('show', 1);
         }
+
 
 
         // CKEditor configuration /////
@@ -313,14 +346,6 @@
         });
 
 
-        // init switchery ////
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-        elems.forEach(function(html) {
-            var switchery = new Switchery(html, {
-                color: '#b2050d'
-            });
-        });
-
 
         // NOTIFICATIONS HANDLER /////
         var msg = $('.msg-container').text();
@@ -336,7 +361,6 @@
                 }).show();
             }
         }
-
 
 
         // ////////////  Input masking ////////////////
@@ -367,14 +391,19 @@
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
 
-        // Logo cropper event handler
-        $('#logo_cropper').click(function() {
-            $('#logo_file').trigger('click');
+        // Switchery Handler >>> 'show deleted job'
+        $('.switchery').change(function() {
+            if ($(this).attr('checked')) {
+                localStorage['switch_checked'] = "yes";
+                showJobs('/api/jobs/' + uEmail + '/show');
+                $('p.switch-label').html('Click to hide<br>deleted job posting');
+            } else {
+                localStorage['switch_checked'] = "no";
+                showJobs('/api/jobs/' + uEmail + '/hide');
+                $('p.switch-label').html('Click to show<br>deleted job posting');
+            }
         });
-
-        $("#logo_file").change(function() {
-            readURL(this);
-        });
+        
 
         // Buy Credits buttons action
         $('#btnBuy1').click(function() {
@@ -410,19 +439,6 @@
         });
 
 
-
-        // Switchery Handler >>> 'show deleted job'
-        $('.switchery').change(function() {
-            if ($(this).attr('checked')) {
-                localStorage['switch_checked'] = "yes";
-                showJobs('/api/jobs/' + uEmail + '/show');
-                $('p.switch-label').html('Click to hide<br>deleted job posting');
-            } else {
-                localStorage['switch_checked'] = "no";
-                showJobs('/api/jobs/' + uEmail + '/hide');
-                $('p.switch-label').html('Click to show<br>deleted job posting');
-            }
-        });
 
         //add mousedown handler on select2 mask to close dropdown
         $(document).on('mousedown', '#select2-drop-mask', function() {
@@ -680,7 +696,7 @@
                         'position': 'top-left',
                         'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
                     }).show();
-                    
+
                     // Get switch status
                     var switch_checked = localStorage['switch_checked'];
                     if (switch_checked == 'yes') {
