@@ -323,6 +323,10 @@
         }
 
 
+        // Initiate select2 dropdown
+        $('select.currency').select2();
+        $('select.salaryType').select2();
+
 
         // CKEditor configuration /////
         CKEDITOR.inline('editor1');
@@ -630,6 +634,9 @@
 
                         var cur = data.details.currency;
                         $("#EditJob select.currency").select2('val', cur);
+
+                        var sal = data.details.salaryType;
+                        $("#EditJob select.salaryType").select2('val', sal);
 
                         var typ = data.details.jobType;
                         $('#EditJob select.jobType').select2('val', typ);

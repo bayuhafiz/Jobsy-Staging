@@ -73,7 +73,7 @@ body.fixed-header .header .btn-complete {
 }
 
 .modal.fade.slide-right .modal-dialog .modal-content.bg-modal-content {
-    background: #f8fefe;
+    background: #f9f9fb;
 }
 
 .post_job {
@@ -600,7 +600,13 @@ a:hover {
 #PostNewJob input,
 #EditJob input,
 #EditJob .select2-container .select2-choice {
-    background: #f8fefe;
+    background: transparent;
+}
+
+#PostNewJob .select2-container.select2-dropdown-open .select2-choice,
+#EditJob .select2-container.select2-dropdown-open .select2-choice{
+    background: #fff!important;  
+    /*border: 1px solid rgba(0, 0, 0, 0.07);*/
 }
 
 #cropContainerHeader {
@@ -801,6 +807,8 @@ span.searchJob_tag span i {
 
 .div-col{padding-left: 7px!important}
 .pgn-circle .alert{min-width: 338px;}
+
+.select2-results .select2-result-label{font-size: 16px}
 
 
 div.cs-active{z-index: 10000!important}
