@@ -267,7 +267,7 @@
                                 </li>';
                         } else {
                             if (userEmail != data[i].email) {
-                                li += '<div class="apply-btn" style="background-color:#b2050d;width:30%"><center><i class="fa fa-ban" style="font-size: 23px;"></i></center><p>Logout to apply</p></div>\
+                                li += '<div class="apply-btn" style="background-color:#cd5f64;width:30%"><center><i class="fa fa-ban" style="font-size: 23px;"></i></center><p>Logout to apply</p></div>\
                                 <div class="clearfix"></div> \
                                 </li>';
                             } else {

@@ -556,8 +556,12 @@ a:hover {
     height: auto
 }
 .form-group-default{padding-top: 12px;}
-.form-group-default.focused {
-    background-color: transparent;
+
+#PostNewJob .form-group-default,#EditJob .form-group-default{background: transparent;}
+
+
+.form-group-default.focused, .form-group-default.focused input {
+    background-color: #fff!important;
 }
 
 
@@ -590,6 +594,13 @@ a:hover {
 
 .select2-container .select2-choice {
     border: 0;
+}
+
+#PostNewJob .select2-container .select2-choice,
+#PostNewJob input,
+#EditJob input,
+#EditJob .select2-container .select2-choice {
+    background: #f8fefe;
 }
 
 #cropContainerHeader {
@@ -686,7 +697,8 @@ a:hover {
 }
 
 .drop-down {
-    padding-bottom: 10px!important
+    padding-bottom: 10px!important;
+    padding-left:8px;
 }
 
 .select2-drop-mask {
