@@ -484,7 +484,12 @@ ol > li {
 }
 .text-success{color: #52D5BE!important;}
 .btn-danger {
-    background-color: #b2050d!important
+    background-color: rgb(205, 95, 100)!important;
+    border-color: rgb(205, 95, 100)!important
+}
+
+.text-danger{
+    color: rgb(205, 95, 100)!important;
 }
 /*.btn-primary{background:#12806D;border-color: #12806D}*/
 
@@ -607,7 +612,7 @@ a:hover {
 #PostNewJob .select2-container.select2-dropdown-open .select2-choice,
 #EditJob .select2-container.select2-dropdown-open .select2-choice{
     background: #fff!important;  
-    /*border: 1px solid rgba(0, 0, 0, 0.07);*/
+    border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
 #cropContainerHeader {
@@ -776,7 +781,7 @@ div.jobType_filter_dropdown ul.select2-results .select2-highlighted {
 span.searchJob_tag span.category_tag,
 span.searchJob_tag span.location_tag,
 span.searchJob_tag span.jobType_tag {
-    background: #12806D;
+    background: #52D5BE;
     color: #fff;
     padding: 1px 13px;
     padding-right: 0px;
@@ -824,7 +829,10 @@ span.searchJob_tag span i {
 .zoom-box .zoom_2{width:75%;}
 .zoom-box .zoom_3{width:15%;font-size: 20px;position: relative;top: -5px;}
 
+#salary-from,#salary-from-edit{border: 0;font-size: 17px;height: 35px;border-radius: 0;}
+#salary-to,#salary-to-edit{border: 0;font-size: 17px;height: 35px;border-radius: 0;}
 
+.badge-danger{background: rgb(205, 95, 100)}
 
 @media(max-width: 568px) {
     .deletedJob-btn {
@@ -986,6 +994,10 @@ span.searchJob_tag span i {
     .email-wrapper .email-opened .email-content-wrapper {
         height: 100%;
     }
+
+    .email-wrapper .email-opened .email-content-wrapper .email-content{
+        border-radius: 0;
+    }
     
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {
         left: 0
@@ -1035,6 +1047,27 @@ span.searchJob_tag span i {
     }
 
     .modal-dialog-userdashboard .panel.panel-transparent .panel-body.panel-body-custom{width: 95%}
+
+    .category_filter_dropdown, 
+    .location_filter_dropdown, 
+    .jobType_filter_dropdown{
+        background: #fff!important;
+    }
+
+    div.category_filter_dropdown ul.select2-results .select2-highlighted, 
+    div.location_filter_dropdown ul.select2-results .select2-highlighted,
+    div.jobType_filter_dropdown ul.select2-results .select2-highlighted{
+          background: #f0f0f0!important;
+    }
+
+    div.category_filter_dropdown ul.select2-results li, 
+    div.location_filter_dropdown ul.select2-results li, 
+    div.jobType_filter_dropdown ul.select2-results li{
+          display: block;
+    }
+
+    .category_filter_dropdown,.location_filter_dropdown,.jobType_filter_dropdown{width: 326px!important}
+
     
 }
 
