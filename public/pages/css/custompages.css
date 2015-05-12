@@ -1131,8 +1131,9 @@ div.cs-skin-border{font-size: 16px!important}
 }
 /* for image cropping */
 
+/* Hide file input */
 input.cropit-image-input {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .cropit-image-preview {

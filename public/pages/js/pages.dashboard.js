@@ -274,10 +274,11 @@
     $(document).ready(function() {
 
         // Image processing
-        $('#image_cropper').cropit();
+        $('#image-cropper').cropit();
+
         // When user clicks select image button,
         // open select file dialog programmatically
-        $('.cropit-image-preview').click(function() {
+        $('.select-image-btn').click(function() {
             $('.cropit-image-input').click();
         });
 
