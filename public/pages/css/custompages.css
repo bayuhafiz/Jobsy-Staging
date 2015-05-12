@@ -1060,9 +1060,6 @@ span.searchJob_tag span i {
     div.location_filter_dropdown ul.select2-results li, 
     div.jobType_filter_dropdown ul.select2-results li{
           display: block;
-          /* background: #fff; */
-          /* margin: 8px; */
-          /* border-radius: 5px; */
     }
 
     .category_filter_dropdown,.location_filter_dropdown,.jobType_filter_dropdown{width: 326px!important}
