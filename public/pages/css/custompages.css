@@ -882,11 +882,11 @@ span.searchJob_tag span i {
 .attach-btn{cursor: pointer;}
 .email-replay .footer-box .attachment span{
     font-size: 15px;
-    padding-left: 20px;
     color: rgb(205, 95, 100);
     position: relative;
-    top: -3px;
+    top: 3px;
     font-weight: bold;
+    word-break:break-word;
 }
 
 #resumeFile{display: none;}
@@ -926,7 +926,7 @@ span.searchJob_tag span i {
         width: 90%!important;
     }
     
-    .email-wrapper .email-opened .email-content-wrapper .email-content {
+    .email-wrapper .email-opened .email-content-wrapper .email-content, .email-replay {
         width: 100%;
         padding-top: 62px;
         padding-left: 20px;
@@ -991,6 +991,20 @@ span.searchJob_tag span i {
     #upload{float: left!important;}
     .div-col{padding-left: 15px!important;}
     .salary-type-box{margin-top: 50px}
+
+    .email-replay .footer-box .button-replay{
+        margin-top: 30px;
+    }
+
+    .email-replay .header-box .input-text{
+        padding-left: 0;
+        padding-right: 0
+    }
+
+    .email-replay .content-box{
+        padding-left: 15px!important;
+        padding-right: 15px!important
+    }
 }
 
 
@@ -1053,6 +1067,10 @@ span.searchJob_tag span i {
     }
 
     .email-wrapper .email-opened .email-content-wrapper .email-content{
+        margin-top: 75px;
+    }
+
+    .email-wrapper .email-opened .email-content-wrapper .email-content, .email-replay{
         border-radius: 0;
     }
     

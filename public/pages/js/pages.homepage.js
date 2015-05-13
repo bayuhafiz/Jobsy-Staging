@@ -132,7 +132,7 @@
     var checkJob = function(jobEmail, jobId) {
         var userEmail = $('#user_email').val(); // get user email
         var button = $('#btnToggleSlideUpSize');
-        var initialState = button.attr('data-target', '#applyModal').attr('disabled', false).attr('class', 'btn btn-primary btn-animated from-top fa fa-arrow-down apply-job-btn apply').find('#button-text').text('Apply for this job');
+        var initialState = button.attr('disabled', false).attr('class', 'btn btn-primary btn-animated from-top fa fa-arrow-down apply-job-btn apply').find('#button-text').text('Apply for this job');
 
         if (userEmail == 'none') {
             initialState;
@@ -1071,6 +1071,15 @@
         })
 
 
+        $('#resumeFile').change(function () {
+            var nameFile = $(this).val().replace(/C:\\fakepath\\/i, '');
+            $('span.attach-btn').text(nameFile);
+
+            if ($('span.attach-btn').text() == '') {
+                $('span.attach-btn').text('Please Attach a PDF Resume');
+            };
+        });
+
         $('.discard-replay').click(function () {
             $('.email-replay').slideUp();
             $('body .email-wrapper .email-opened .email-content-wrapper').animate({scrollTop:0}, 'slow');
@@ -1078,7 +1087,7 @@
         });
 
         // =============  APPLY JOB HANDLER ===============
-        $('body').on('click', '#btn-apply-job', function(e) {
+        $('body').on('click', '#btn-apply-job,.apply-job-btn.apply', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
