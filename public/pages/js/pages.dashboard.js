@@ -2,17 +2,22 @@
 
     'use strict';
 
-    /*function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#logo_cropper').attr('src', e.target.result);
+    // Function to serialize form-datas to JSON
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
             }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }*/
+        });
+        return o;
+    };
 
     // Date formatter function
     function localDate(date) {
@@ -87,7 +92,7 @@
                                         }
 
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5 class="cbp-nttrigger">' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('minute').fromNow() + '</span></h5>' +
+                                            '<h5 class="cbp-nttrigger">' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).format('minute').fromNow() + '</span></h5>' +
                                             '<div class="cbp-ntcontent">' +
                                             '<div class="panel panel-default">' +
                                             '<div class="panel-heading separator">PROFILE' + status + '</div><div class="panel-body">' +
@@ -270,43 +275,84 @@
     };
 
 
+    // For image processing purpose
+    function tempUpload(img) {
+        var data = {
+            'image': img
+        };
+        $.ajax({
+            type: 'post',
+            url: '/api/upload/image',
+            data: data,
+            dataType: "json",
+            success: function(data) {
+                var temp_img = data.msg;
+                $('#image-file').attr('src', 'uploads/temp/' + temp_img);
+            }
+        });
+    };
+
+
 
     // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-        // Init image processor
-        $('#image-cropper').cropit({
-            imageState: {
-                src: '../../assets/img/logohere.png'
-            },
-            previewSize: {
-                width: 160,
-                height: 160
-            },
-            rejectSmallImage: true,
-            
-            fitWidth: true,
-            freeMove: true,
-            minZoom: 'fill'
-            
+        //////// Image processing /////////
+        var options = {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png',
+            resizeToWidth: 180,
+            resizeToHeight: 180
+        }
+        var cropper;
+
+        $('#file').on('change', function() {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                // Upload image for temporary use
+                /*tempUpload(e.target.result);
+                $.adaptiveBackground.run({
+                    parent: '.imageBox'
+                });*/
+                // Attach image to canvas
+                cropper = $('.imageBox').cropbox(options);
+            }
+
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+
+            $('.action').fadeIn('slow');
+        })
+
+        $('.thumbBox').on('dblclick', function() {
+            $('#file').click();
+        })
+        $('#btnDone').on('click', function(e) {
+            var img = cropper.getDataURL()
+            $('#image-result').val(img);
+            $('.action').fadeOut('slow');
+            e.preventDefault();
+        })
+        $('#btnZoomIn').on('click', function(e) {
+            cropper.zoomIn();
+            e.preventDefault();
+        })
+        $('#btnZoomOut').on('click', function(e) {
+            cropper.zoomOut();
+            e.preventDefault();
+        })
+
+
+
+        // Salary input group events
+        $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function() {
+            $(this).css('background-color', '#fff');
         });
 
-        $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function () {
-            $(this).css('background-color','#fff');
-        });
-
-         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').blur(function () {
-            $(this).css('background-color','#f9f9fb');
-        });
-
-        
-        // Image processing
-        $('#image-cropper').cropit();
-
-        // When user clicks select image button,
-        // open select file dialog programmatically
-        $('.cropit-image-preview').dblclick(function() {
-            $('.cropit-image-input').click();
+        $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').blur(function() {
+            $(this).css('background-color', '#f9f9fb');
         });
 
 
@@ -424,19 +470,6 @@
         // ================================================================================================
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
-
-        // CREATE JOB POST [SUBMIT] HANDLER ///////////
-        $('#form-create-job').submit(function() {
-          // Move cropped image data to hidden input
-          var imageData = $('#image-cropper').cropit('export');
-          $('#hidden-image-data').val(imageData);
-          // Print HTTP request params
-          var formValue = $(this).serialize();
-
-          // Prevent the form from actually submitting
-          return false;
-        });
-
 
         // Switchery Handler >>> 'show deleted job'
         $('.switchery').change(function() {
@@ -623,6 +656,22 @@
 
         /* ============= JOB MANIPULATION BUTTONs =====================
         ==============================================================*/
+
+        // CREATE JOB POST [SUBMIT] HANDLER ///////////
+        $('#form-create-job').submit(function() {
+            // Print HTTP request params
+            var result = $(this).serializeObject();
+            // Save to server
+            $.ajax({
+                method: "POST",
+                type: "POST",
+                data: result,
+                dataType: "json",
+                url: "/api/job/post"
+            });
+        });
+
+
         $('body').on('click', '#editButton', function(e) {
             e.preventDefault();
 

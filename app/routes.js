@@ -532,135 +532,6 @@ module.exports = function(app, passport) {
         //console.log("Saving: \n" + req.imgUrl);
     });
 
-
-    // Create new job post --------------------------------------------
-    app.post('/job/create', isLoggedIn, function(req, res, next) {
-        async.waterfall([
-            function(done) {
-                crypto.randomBytes(20, function(err, buf) {
-                    var token = buf.toString('hex');
-                    done(err, token);
-                });
-            },
-            function(token, done) {
-                var random_id = crypto.randomBytes(10).toString('hex');
-                var filePath = './public/uploads/logo/' + random_id + '.png';
-                var database_filepath = random_id + '.png';
-
-                if (req.files.file) {
-                    var tmpPath = req.files.file.path;
-                    var targetPath = path.resolve(filePath);
-                    // Begin upload proces
-                    if (path.extname(req.files.file.name).toLowerCase() == '.png' || path.extname(req.files.file.name).toLowerCase() == '.jpg') {
-                        fs.rename(tmpPath, targetPath, function(err) {
-                            if (err) {
-                                req.flash('error', err);
-                                res.redirect('back');
-                            }
-                            console.log('Using NEW logo >>> ' + database_filepath);
-                            done(err, database_filepath, token);
-                        });
-                    } else {
-                        fs.unlink(tmpPath, function(err) {
-                            req.flash('error', 'Only *.png or *.jpg allowed');
-                            res.redirect('/dash');
-                        });
-                    }
-                } else { // if no new logo inserted
-                    database_filepath = req.body.savedLogo;
-                    console.log('Using PREVIOUS logo >>> ' + database_filepath);
-                    done(false, database_filepath, token);
-                }
-            },
-            function(src, token, done) {
-                User.findById(req.user.id, function(err, user) {
-                    if (err) return next(err);
-
-                    var init_status = req.user.initLogin;
-                    if (init_status == true) {
-                        init_status = false;
-                    }
-
-                    user.initLogin = init_status;
-                    user.initPost = false;
-                    user.initCompany = {
-                        logo: src,
-                        name: req.body.companyName,
-                        location: req.body.location,
-                        description: req.body.description
-                    };
-
-                    user.save(function(err) {
-                        if (err)
-                            return next(err);
-
-                        var job = new Job({
-                            profile: {
-                                logo: src,
-                                name: req.body.companyName,
-                                location: req.body.location,
-                                description: req.body.description
-                            },
-                            details: {
-                                jobTitle: req.body.jobTitle,
-                                category: req.body.category,
-                                jobType: req.body.jobType,
-                                jobScope: req.body.jobScope,
-                                requirements: req.body.requirements,
-                                currency: req.body.currency,
-                                salaryFrom: req.body.salaryFrom,
-                                salaryTo: req.body.salaryTo,
-                                salaryType: req.body.salaryType,
-                            },
-                            token: token,
-                            status: 'published',
-                            createdAt: Date.now(),
-                            updatedAt: Date.now(),
-                            email: req.user.email
-                        });
-
-                        job.save(function(err, job) {
-                            if (err) return next(err);
-
-                            var host = req.host; // checking host to determine index
-                            if (host == 'localhost') {
-                                var index = client.initIndex('Jobs-local');
-                            } else {
-                                var index = client.initIndex('Jobs');
-                            }
-
-                            var arr = {
-                                "details": {
-                                    "jobType": job.details.jobType,
-                                    "category": job.details.category,
-                                    "jobTitle": job.details.jobTitle
-                                },
-                                "profile": {
-                                    "location": job.profile.location,
-                                    "name": job.profile.name
-                                },
-                                "objectID": job._id
-                            };
-
-                            index.saveObject(arr, function(err) {
-                                if (err) return next(err);
-
-                                req.flash('success', 'Job successfully created.');
-                                done(err, 'done');
-                            });
-                        });
-                    });
-                });
-            },
-        ], function(err) {
-            if (err) {
-                req.flash('error', err);
-                res.redirect('/dash');
-            }
-            res.redirect('/dash');
-        });
-    })
-
     // Edit job post ---------------------------------
     app.post('/update/:id', isLoggedIn, function(req, res, next) {
         var logo = '';
@@ -765,7 +636,7 @@ module.exports = function(app, passport) {
                         req.flash('error', err);
                         res.redirect('back');
                     }
-                    
+
                     req.flash('success', 'Job has been updated.');
                     res.redirect('/dash');
                 });
@@ -1237,6 +1108,184 @@ module.exports = function(app, passport) {
 
 
     // =========================== JOB MANIPULATIONS APIs ==========================
+
+    // Temporary image upload
+    app.post('/api/upload/image', isLoggedIn, function(req, res) {
+        var image_data = req.body.image;
+        var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
+        var random_id = crypto.randomBytes(6).toString('hex');
+        var logo = 'TEMP_' + random_id + '.png';
+
+        // Writing file to disk
+        fs.writeFile('./public/uploads/temp/' + logo, base64Data, 'base64', function(err, file) {
+            if (err) {
+                var msg = {
+                    'type': 'error',
+                    'msg': 'Failed to save logo...'
+                };
+                res.json(msg);
+                return;
+            }
+
+            var msg = {
+                'type': 'success',
+                'msg': logo
+            };
+            res.json(msg);
+        });
+    });
+
+
+    // Create a job post
+    app.post('/api/job/post', isLoggedIn, function(req, res) {
+        async.waterfall([
+            function(done) {
+                crypto.randomBytes(20, function(err, buf) {
+                    var token = buf.toString('hex');
+                    done(err, token);
+                });
+            },
+            function(token, done) {
+                var image_data = req.body.cropped_image;
+                var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
+                var random_id = crypto.randomBytes(10).toString('hex');
+                var logo = random_id + '.png';
+
+                // Writing file to disk
+                fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err, file) {
+                    if (err) {
+                        var msg = {
+                            'type': 'error',
+                            'msg': 'Failed to save logo...'
+                        };
+                        res.json(msg);
+                        return;
+                    }
+                    done(false, logo, token);
+                });
+            },
+            function(src, token, done) {
+                User.findById(req.user.id, function(err, user) {
+                    if (err) {
+                        var msg = {
+                            'type': 'error',
+                            'msg': err
+                        };
+                        res.json(msg);
+                        return;
+                    }
+
+                    var init_status = req.user.initLogin;
+                    if (init_status == true) {
+                        init_status = false;
+                    }
+
+                    user.initLogin = init_status;
+                    user.initPost = false;
+                    user.initCompany = {
+                        logo: src,
+                        name: req.body.companyName,
+                        location: req.body.location,
+                        description: req.body.description
+                    };
+
+                    user.save(function(err) {
+                        if (err) {
+                            var msg = {
+                                'type': 'error',
+                                'msg': err
+                            };
+                            res.json(msg);
+                            return;
+                        }
+
+                        var job = new Job({
+                            profile: {
+                                logo: src,
+                                name: req.body.companyName,
+                                location: req.body.location,
+                                description: req.body.description
+                            },
+                            details: {
+                                jobTitle: req.body.jobTitle,
+                                category: req.body.category,
+                                jobType: req.body.jobType,
+                                jobScope: req.body.jobScope,
+                                requirements: req.body.requirements,
+                                currency: req.body.currency,
+                                salaryFrom: req.body.salaryFrom,
+                                salaryTo: req.body.salaryTo,
+                                salaryType: req.body.salaryType,
+                            },
+                            token: token,
+                            status: 'published',
+                            createdAt: Date.now(),
+                            updatedAt: Date.now(),
+                            email: req.user.email
+                        });
+
+                        job.save(function(err, job) {
+                            if (err) {
+                                var msg = {
+                                    'type': 'error',
+                                    'msg': err
+                                };
+                                res.json(msg);
+                                return;
+                            }
+
+                            var host = req.host; // checking host to determine index
+                            if (host == 'localhost') {
+                                var index = client.initIndex('Jobs-local');
+                            } else {
+                                var index = client.initIndex('Jobs');
+                            }
+
+                            var arr = {
+                                "details": {
+                                    "jobType": job.details.jobType,
+                                    "category": job.details.category,
+                                    "jobTitle": job.details.jobTitle
+                                },
+                                "profile": {
+                                    "location": job.profile.location,
+                                    "name": job.profile.name
+                                },
+                                "objectID": job._id
+                            };
+
+                            index.saveObject(arr, function(err) {
+                                if (err) {
+                                    var msg = {
+                                        'type': 'error',
+                                        'msg': err
+                                    };
+                                    res.json(msg);
+                                    return;
+                                }
+
+                                req.flash('success', 'Job post has been created!');
+                                res.redirect('/dash');
+
+                                done(err, 'done');
+                            });
+                        });
+                    });
+                });
+            },
+        ], function(err) {
+            if (err) {
+                var msg = {
+                    'type': 'error',
+                    'msg': err
+                };
+                res.json(msg);
+                return;
+            }
+        });
+    })
+
+
     // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {

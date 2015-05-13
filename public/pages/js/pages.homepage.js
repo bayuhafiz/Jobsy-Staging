@@ -6,6 +6,23 @@
         return url.substr(0, url.lastIndexOf('/'));
     }
 
+    // Function to serialize form-datas to JSON
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
 
     // ===================== INITIATE WIZARD FORM ============================
     var formWizard1 = function() {
@@ -235,7 +252,7 @@
 
                         li += '<div class="middle img-list-box"> \
                                         <div class="thumbnail-wrapper circular d32b-danger" id="list-thumbnail" style="width:55px;height:55px;"> \
-                                            <img class="img-list" width="30" height="40" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
+                                            <img class="img-list" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '"> \
                                         </div> \
                                     </div> \
                                     <div class="checkbox  no-margin p-l-10"> \
@@ -337,7 +354,7 @@
 
 
 
-                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" width="30" height="40" style="max-width: none;max-height: none;" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right').css({
+                                    emailOpened.find('#opened-thumbnail').html('<img class="img-list" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right').css({
                                         'width': '129px',
                                         'height': '129px'
                                     });
@@ -519,40 +536,66 @@
     $(document).ready(function() {
 
 
-        $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function () {
-            $(this).css('background-color','#fff');
+        $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function() {
+            $(this).css('background-color', '#fff');
         });
 
-         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').blur(function () {
-            $(this).css('background-color','#f9f9fb');
+        $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').blur(function() {
+            $(this).css('background-color', '#f9f9fb');
         });
 
         // Load job list
         loadJobList('/api/jobs');
 
 
-        // Image processing
-        $('#image-cropper').cropit({
-            imageState: {
-                src: '../../assets/img/logohere.png'
-            },
-            previewSize: {
-                width: 160,
-                height: 160
-            },
-            rejectSmallImage: true,
-            
-            fitWidth: true,
-            freeMove: true,
-            minZoom: 'fill'
-            
-        });
+        //////// Image processing /////////
+        var options = {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png',
+            resizeToWidth: 180,
+            resizeToHeight: 180
+        }
+        var cropper;
 
-        // When user clicks select image button,
-        // open select file dialog programmatically
-        $('.cropit-image-preview').dblclick(function() {
-            $('.cropit-image-input').click();
-        });
+        $('#file').on('change', function() {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                // Upload image for temporary use
+                /*tempUpload(e.target.result);
+                $.adaptiveBackground.run({
+                    parent: '.imageBox'
+                });*/
+                // Attach image to canvas
+                cropper = $('.imageBox').cropbox(options);
+            }
+
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+
+            $('.action').fadeIn('slow');
+        })
+
+        $('.thumbBox').on('dblclick', function() {
+            $('#file').click();
+        })
+        $('#btnDone').on('click', function(e) {
+            var img = cropper.getDataURL()
+            $('#image-result').val(img);
+            $('.action').fadeOut('slow');
+            e.preventDefault();
+        })
+        $('#btnZoomIn').on('click', function(e) {
+            cropper.zoomIn();
+            e.preventDefault();
+        })
+        $('#btnZoomOut').on('click', function(e) {
+            cropper.zoomOut();
+            e.preventDefault();
+        })
+
+
 
 
         // Initiate filters dropdown
@@ -643,6 +686,21 @@
         // ========================
         // START EVENT HANDLERS ===
         // ========================
+
+        // CREATE JOB POST [SUBMIT] HANDLER ///////////
+        $('#form-create-job').submit(function() {
+            // Print HTTP request params
+            var result = $(this).serializeObject();
+            // Save to server
+            $.ajax({
+                method: "POST",
+                type: "POST",
+                data: result,
+                dataType: "json",
+                url: "/api/job/post"
+            });
+        });
+
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {

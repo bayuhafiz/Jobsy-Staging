@@ -191,10 +191,6 @@
                                                           <div class="col-sm-12">
                                                               <div class="row">
                                                                   <div class="col-sm-3 col-xs-3 p-r-0">
-                                                                      <!--<select name="currency" class="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;  width: 100%;  border: 0;  font-size: 17px;">
-                                                                          <option value="USD">USD</option>
-                                                                          <option value="IDR" selected="selected">IDR</option>
-                                                                      </select>-->
                                                                         <select name="currency" class="currency">
                                                                           <option value="USD">USD</option>
                                                                           <option value="IDR">IDR</option>
@@ -209,12 +205,6 @@
                                                                   </div>
                                                                   <div class="col-sm-4 salary-type-box">
                                                                       <div class="form-group salary-type">
-                                                                          <!--<select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border:0px;  width:100%;  font-size: 17px;">
-                                                                              <option value="Monthly" selected="selected">Monthly</option>
-                                                                              <option value="Annually">Annually</option>
-                                                                              <option value="Daily">Daily</option>
-                                                                              <option value="Hourly">Hourly</option>
-                                                                          </select>-->
                                                                           <select name="salaryType" class="salaryType">
                                                                                   <option value="Monthly">Monthly</option>
                                                                                   <option value="Annually">Annually</option>
@@ -231,20 +221,21 @@
                                   </div>
                                   <div class="col-sm-1"></div>
                                   <div class="col-sm-3 text-right">
-                                        <div id="image-cropper">
-                                          <div class="cropit-image-preview"></div>
-                                            
-                                          <div class="zoom-box">
-                                            <div class="pull-left zoom_1"><i class="fa fa-picture-o"></i></div>
-                                            <div class="pull-left zoom_2"><input type="range" min="-10" max="10" class="cropit-image-zoom-input" /></div>
-                                            <div class="pull-left zoom_3"><i class="fa fa-picture-o"></i></div>
-                                          </div>
-                                          <!-- The actual file input will be hidden -->
-                                          <input type="file" class="cropit-image-input" required/>
-                                          <!-- And clicking on this button will open up select file dialog -->
-                                          <input type="hidden" id="hidden-image-data">
+                                        <div class="container">
+                                            <div class="imageBox">
+                                                <div class="thumbBox"></div>
+                                                <div class="spinner" style="display: none">Loading...</div>
+                                                <input type="file" id="file" style="float:left; width: 250px">
+                                            </div>
+                                            <div class="btn-group action">
+                                                <button class="btn btn-sm btn-success" id="btnDone" style="float: right"><i class="fa fa-check"></i> DONE</button>
+                                                <button class="btn btn-sm" id="btnZoomOut" style="float: left"><i class="fa fa-minus"></i></button>
+                                                <button class="btn btn-sm" id="btnZoomIn" style="float: left"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <img id="image-file" style="display:none;" src="#" data-adaptive-background='1'>
+                                            <input id="image-result" type="hidden" name="cropped_image">
                                         </div>
-                                    </div>
+                                  </div>
                               </div>
                                                       
                                                       <br>
