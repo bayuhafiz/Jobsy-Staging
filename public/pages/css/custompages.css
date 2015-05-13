@@ -934,7 +934,7 @@ span.searchJob_tag span i {
     }
     
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header-box {
-        margin-bottom: 20px;
+        margin-bottom: 38px;
     }
     
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .sender {
@@ -954,20 +954,19 @@ span.searchJob_tag span i {
     }
     
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-salary {
-        margin-top: 40px;
-        margin-bottom: 15px;
+        margin-top: 15px;
+        margin-bottom: -11px;
         text-align: left!important;
     }
     
+    .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header{
+        margin-bottom: 28px;
+    }
     .thumbnail-wrapper {
         float: left!important;
     }
     
-    .company_overview p,
-    .job_scope p,
-    .requirements p {
-        line-height: 20px;
-    }
+ 
     
     .job-title-hover {
         display: none;
@@ -1029,9 +1028,6 @@ span.searchJob_tag span i {
         top: 0px;
     }
     
-    .email-wrapper .email-list {
-        width: 100%;
-    }
     
     .notification-list1 {
         display: none!important;
@@ -1117,9 +1113,6 @@ span.searchJob_tag span i {
         display: none!important;
     }
     
-    .apply-btn {
-        display: none;
-    }
 
     .modal-dialog-userdashboard .panel.panel-transparent .panel-body.panel-body-custom{width: 95%}
 
@@ -1143,7 +1136,13 @@ span.searchJob_tag span i {
 
     .category_filter_dropdown,.location_filter_dropdown,.jobType_filter_dropdown{width: 326px!important}
 
-    
+    .email-wrapper .email-list {
+        width: 100%;
+    }
+
+    .apply-btn {
+        display: none;
+    }
 }
 
 @media(max-width: 1200px) {
@@ -1151,6 +1150,8 @@ span.searchJob_tag span i {
         width: 100%!important
     }
 }
+
+
 .list-view-group-container li[data=active] {}
 .email-wrapper .email-list .item:hover {
     background: #f7f7f7;

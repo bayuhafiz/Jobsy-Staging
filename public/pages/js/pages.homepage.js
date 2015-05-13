@@ -1104,9 +1104,9 @@
             /*$('#applyModal').modal({
                 'show': true
             });*/
-
+        
             $('.email-replay').show();
-            $('body .email-wrapper .email-opened .email-content-wrapper').animate({scrollTop:'1446px'}, 'slow');
+            $('body .email-wrapper .email-opened .email-content-wrapper').animate({scrollTop:$('.email-wrapper .email-opened .email-content-wrapper .email-content').outerHeight()}, 'slow');
             return false;
 
             e.stopPropagation();
