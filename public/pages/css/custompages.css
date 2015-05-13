@@ -163,7 +163,7 @@ textarea {
 }
 
 .email-wrapper .email-opened .email-content-wrapper {
-    background-color: #f8fefe
+    background-color: #f9f9fb
 }
 
 .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {
@@ -171,11 +171,12 @@ textarea {
 }
 
 .email-wrapper .email-opened .email-content-wrapper .email-content {
-    width: 90%;
-    margin-top: 50px;
+    width: 95%;
+    margin-top: 30px;
+    margin-bottom:30px;
     background: #fff;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 70px;
+    padding-right: 70px;
     padding-top: 100px;
     border-radius: 10px;
     border: 1px solid #ECECEC;
@@ -418,7 +419,7 @@ ol > li {
 }
 
 .cke_editable {
-    min-height: 150px;
+    min-height: 190px;
 }
 
 .cke_editable:focus {
@@ -833,6 +834,63 @@ span.searchJob_tag span i {
 #salary-to,#salary-to-edit{border: 0;font-size: 17px;height: 35px;border-radius: 0;}
 
 .badge-danger{background: rgb(205, 95, 100)}
+.email-replay{  
+    width: 95%;
+    height: auto;
+    background: #fff;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    border: 1px solid #ECECEC;
+    padding: 45px;
+    padding-left: 70px;
+    padding-right: 70px;
+    display: none;
+
+}
+
+.email-replay .header-box{
+    padding-left: 30px;
+}
+
+.email-replay .header-box .title{
+    font-size: 17px;
+    padding: 8px 0;
+    padding: 8px 0;
+    color: #000;
+}
+
+.email-replay .header-box .input-text .form-control{
+    border:0;
+}
+
+.email-replay .content-box {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.email-replay .content-box .form-group{
+    border-left: 0;
+    border-right: 0
+}
+
+.email-replay .footer-box .fa-paperclip{
+    font-size: 25px;
+    color: #000;
+}
+
+.attach-btn{cursor: pointer;}
+.email-replay .footer-box .attachment span{
+    font-size: 15px;
+    padding-left: 20px;
+    color: rgb(205, 95, 100);
+    position: relative;
+    top: -3px;
+    font-weight: bold;
+}
+
+#resumeFile{display: none;}
 
 @media(max-width: 568px) {
     .deletedJob-btn {

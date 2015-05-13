@@ -518,6 +518,7 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
+
         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function () {
             $(this).css('background-color','#fff');
         });
@@ -530,11 +531,26 @@
         loadJobList('/api/jobs');
 
 
-        // Image processing
-        $('#image_cropper').cropit();
+
+        $('#image-cropper').cropit({
+            imageState: {
+                src: '../../assets/img/logohere.png'
+            },
+            previewSize: {
+                width: 160,
+                height: 160
+            },
+            rejectSmallImage: true,
+            
+            fitWidth: true,
+            freeMove: true,
+            minZoom: 'fill'
+            
+        });
+
         // When user clicks select image button,
         // open select file dialog programmatically
-        $('.cropit-image-preview').click(function() {
+        $('.cropit-image-preview').dblclick(function() {
             $('.cropit-image-input').click();
         });
 
@@ -627,15 +643,6 @@
         // ========================
         // START EVENT HANDLERS ===
         // ========================
-        // Logo cropper event handler
-        $('#logo_cropper').click(function() {
-            $('#logo_file').trigger('click');
-        });
-
-        $("#logo_file").change(function() {
-            readURL(this);
-        });
-
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
@@ -1058,7 +1065,17 @@
             //formWizard2();
             $('#EditJob').modal('show', true);
         });
+        
+        $('.attach-btn').click(function () {
+            $('#resumeFile').click();
+        })
 
+
+        $('.discard-replay').click(function () {
+            $('.email-replay').slideUp();
+            $('body .email-wrapper .email-opened .email-content-wrapper').animate({scrollTop:0}, 'slow');
+            return false;
+        });
 
         // =============  APPLY JOB HANDLER ===============
         $('body').on('click', '#btn-apply-job', function(e) {
@@ -1070,9 +1087,13 @@
             $('#app-to').text(jobTitle + ' at ' + companyName);
 
 
-            $('#applyModal').modal({
+            /*$('#applyModal').modal({
                 'show': true
-            });
+            });*/
+
+            $('.email-replay').show();
+            $('body .email-wrapper .email-opened .email-content-wrapper').animate({scrollTop:'1446px'}, 'slow');
+            return false;
 
             e.stopPropagation();
         });
