@@ -646,6 +646,9 @@
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
+
+            $('.email-replay').hide();
+
             $(this).find('.apply-btn').animate({
                     'right': '0px'
                 }).end().siblings()
@@ -1077,7 +1080,9 @@
 
             if ($('span.attach-btn').text() == '') {
                 $('span.attach-btn').text('Please Attach a PDF Resume');
-            };
+            } else {
+                $('#resumeFile-error').hide();
+            }
         });
 
         $('.discard-replay').click(function () {
