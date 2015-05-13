@@ -149,7 +149,7 @@
     var checkJob = function(jobEmail, jobId) {
         var userEmail = $('#user_email').val(); // get user email
         var button = $('#btnToggleSlideUpSize');
-        var initialState = button.attr('data-target', '#applyModal').attr('disabled', false).attr('class', 'btn btn-primary btn-animated from-top fa fa-arrow-down apply-job-btn apply').find('#button-text').text('Apply for this job');
+        var initialState = button.attr('disabled', false).attr('class', 'btn btn-primary btn-animated from-top fa fa-arrow-down apply-job-btn apply').find('#button-text').text('Apply for this job');
 
         if (userEmail == 'none') {
             initialState;
@@ -597,7 +597,6 @@
 
 
 
-
         // Initiate filters dropdown
         $('select#category-filter').select2();
         $('select#location-filter').select2();
@@ -704,6 +703,9 @@
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
+
+            $('.email-replay').hide();
+
             $(this).find('.apply-btn').animate({
                     'right': '0px'
                 }).end().siblings()
@@ -1123,10 +1125,31 @@
             //formWizard2();
             $('#EditJob').modal('show', true);
         });
+        
+        $('.attach-btn').click(function () {
+            $('#resumeFile').click();
+        })
 
+
+        $('#resumeFile').change(function () {
+            var nameFile = $(this).val().replace(/C:\\fakepath\\/i, '');
+            $('span.attach-btn').text(nameFile);
+
+            if ($('span.attach-btn').text() == '') {
+                $('span.attach-btn').text('Please Attach a PDF Resume');
+            } else {
+                $('#resumeFile-error').hide();
+            }
+        });
+
+        $('.discard-replay').click(function () {
+            $('.email-replay').slideUp();
+            $('body .email-wrapper .email-opened .email-content-wrapper').animate({scrollTop:0}, 'slow');
+            return false;
+        });
 
         // =============  APPLY JOB HANDLER ===============
-        $('body').on('click', '#btn-apply-job', function(e) {
+        $('body').on('click', '#btn-apply-job,.apply-job-btn.apply', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
@@ -1135,9 +1158,13 @@
             $('#app-to').text(jobTitle + ' at ' + companyName);
 
 
-            $('#applyModal').modal({
+            /*$('#applyModal').modal({
                 'show': true
-            });
+            });*/
+        
+            $('.email-replay').show();
+            $('body .email-wrapper .email-opened .email-content-wrapper').animate({scrollTop:$('.email-wrapper .email-opened .email-content-wrapper .email-content').outerHeight()}, 'slow');
+            return false;
 
             e.stopPropagation();
         });

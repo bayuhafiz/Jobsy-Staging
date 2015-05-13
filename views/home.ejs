@@ -118,6 +118,87 @@
                         </div>
                     </div>
                 </div>
+                <div class="email-replay">
+                  <form id="applyForm" class="applyForm" method="POST" enctype="multipart/form-data" autocomplete="off" role="form">
+                    <div class="row">
+                      <div class="col-md-12 header-box">
+                        <div class="row">
+                          <div class="col-md-3 col-sm-3 title">
+                            Full Name :
+                          </div>
+                          <div class="col-md-9 col-sm-9 input-text">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="ex: John Smith" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 col-sm-3 title">
+                            Phone Number :
+                          </div>
+                          <div class="col-md-9 col-sm-9 input-text">
+                            <div class="form-group">
+                                <input type="text" name="phone" class="form-control" placeholder="ex: 0812 34567890" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 col-sm-3 title">
+                            Email :
+                          </div>
+                          <div class="col-md-9 col-sm-9 input-text">
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="ex: some@example.com" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 col-sm-3 title">
+                            Location :
+                          </div>
+                          <div class="col-md-9 col-sm-9 input-text">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="location" placeholder="ex: Surabaya" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 col-sm-3 title">
+                            Last Job/Education :
+                          </div>
+                          <div class="col-md-9 col-sm-9 input-text">
+                            <div class="form-group">
+                              <input type="text" class="form-control" name="lastJob" placeholder="ex: Apple Inc. (2010 - 2015) as Web Developer" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 content-box p-l-0 p-r-0">
+                        <div class="form-group form-group-default">
+                          <textarea placeholder="Type your cover letter here (optional)" class="form-control" id="editor4" name="coverLetter" aria-invalid="false"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-12 footer-box">
+                        <div class="row">
+                          <div class="col-md-6 col-sm-6 col-xs-12 pull-left attachment">
+                            <div class="row">
+                              <div class="col-md-1 col-sm-1 col-xs-1"><i class="fa fa-paperclip attach-btn"></i></div>
+                              <div class="col-md-11 col-sm-11 col-xs-11"><span class="attach-btn">Please Attach a PDF Resume</span></div>
+                            </div>
+                            <input type="file" name="resumeFile" id="resumeFile" class="form-control" required>
+                          </div>
+                          <div class="col-md-4 col-sm-4 col-xs-12 pull-right button-replay">
+                            <div class="row">
+                              <div class="col-md-6 col-sm-6 col-xs-6 discard-replay"><button type="button" class="btn btn-default btn-animated from-top fa fa-times btn-block" ><span>Discard</span></button></div>
+                              <div class="col-md-6 col-sm-6 col-xs-6"><button type="submit" class="btn btn-primary btn-animated from-top fa fa-check btn-block" data-target="#applyModal" id="btnToggleSlideUpSize"><span>Send</span></button></div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
             <!-- END OPENED JOB -->
