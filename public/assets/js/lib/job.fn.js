@@ -224,7 +224,7 @@ window.loadJobList = function(apiUrl) {
                                 }
 
                                 $(".email-content-wrapper").scrollTop(0);
-                                $('#applyForm').attr('action', '/apply/' + id);
+                                $('#applyForm').attr('action', '/api/job/apply/' + id);
 
                                 checkJob(data.email, id);
 

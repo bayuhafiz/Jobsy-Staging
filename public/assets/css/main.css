@@ -909,7 +909,7 @@ span.searchJob_tag span i {
     background: rgb(205, 95, 100)
 }
 
-.email-replay {
+.job-apply {
     width: 95%;
     height: auto;
     background: #fff;
@@ -924,32 +924,32 @@ span.searchJob_tag span i {
     display: none;
 }
 
-.email-replay .header-box {
+.job-apply .header-box {
     padding-left: 30px;
 }
 
-.email-replay .header-box .title {
+.job-apply .header-box .title {
     font-size: 17px;
     padding: 8px 0;
     color: #000;
 }
 
-.email-replay .header-box .input-text .form-control {
+.job-apply .header-box .input-text .form-control {
     border: 0;
     font-size: 17px;
 }
 
-.email-replay .content-box {
+.job-apply .content-box {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.email-replay .content-box .form-group {
+.job-apply .content-box .form-group {
     border-left: 0;
     border-right: 0
 }
 
-.email-replay .footer-box .fa-paperclip {
+.job-apply .footer-box .fa-paperclip {
     font-size: 25px;
     color: #000;
 }
@@ -958,7 +958,7 @@ span.searchJob_tag span i {
     cursor: pointer;
 }
 
-.email-replay .footer-box .attachment span {
+.job-apply .footer-box .attachment span {
     font-size: 15px;
     color: rgb(205, 95, 100);
     position: relative;
@@ -968,7 +968,7 @@ span.searchJob_tag span i {
 }
 
 #resumeFile {
-    display: none;
+    display: inline-block;
 }
 
 .no-job{font-size: 32px;}
@@ -1005,7 +1005,7 @@ span.searchJob_tag span i {
         width: 90%!important;
     }
     .email-wrapper .email-opened .email-content-wrapper .email-content,
-    .email-replay {
+    .job-apply {
         width: 100%;
         padding-top: 62px;
         padding-left: 20px;
@@ -1061,14 +1061,14 @@ span.searchJob_tag span i {
     .salary-type-box {
         margin-top: 50px
     }
-    .email-replay .footer-box .button-replay {
+    .job-apply .footer-box .button-replay {
         margin-top: 30px;
     }
-    .email-replay .header-box .input-text {
+    .job-apply .header-box .input-text {
         padding-left: 0;
         padding-right: 0
     }
-    .email-replay .content-box {
+    .job-apply .content-box {
         padding-left: 15px!important;
         padding-right: 15px!important;
     }
@@ -1120,7 +1120,7 @@ span.searchJob_tag span i {
         margin-top: 75px;
     }
     .email-wrapper .email-opened .email-content-wrapper .email-content,
-    .email-replay {
+    .job-apply {
         border-radius: 0;
     }
     .email-wrapper .email-opened .email-content-wrapper .email-content .email-content-header .thumbnail-wrapper {

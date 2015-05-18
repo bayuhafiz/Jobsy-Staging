@@ -480,172 +480,6 @@ module.exports = function(app, passport) {
 
 
 
-    // APPLY FOR A JOB ---------------------------------
-    app.post('/apply/:id', function(req, res, next) {
-        Job
-            .findById(req.params.id, function(err, job) {
-
-                var random_id = crypto.randomBytes(10).toString('hex');
-                var filePath = './public/uploads/resume/' + random_id + '.pdf';
-                var database_filepath = random_id + '.pdf';
-
-                if (req.files.resumeFile) {
-                    var tmpPath = req.files.resumeFile.path;
-                    var targetPath = path.resolve(filePath);
-
-                    if (path.extname(req.files.resumeFile.name).toLowerCase() == '.pdf') {
-                        /* Begin Upload process */
-                        fs.rename(tmpPath, targetPath, function(err) {
-                            if (err) {
-                                req.flash('error', err);
-                                res.redirect('/home');
-                            } else {
-                                // Save the values into database
-                                var app = new App({
-                                    jobId: job._id,
-                                    firstName: req.body.firstName,
-                                    lastName: req.body.lastName,
-                                    phone: req.body.phone,
-                                    email: req.body.email,
-                                    location: req.body.location,
-                                    lastJob: req.body.lastJob,
-                                    resumeFile: database_filepath,
-                                    coverLetter: req.body.coverLetter,
-                                    applyDate: Date.now()
-                                });
-
-                                app.save(function(err) {
-                                    if (err) {
-                                        req.flash('error', err);
-                                        res.redirect('/home');
-                                    }
-                                });
-
-                                // Add app number to job collection
-                                Job.findById(job._id, function(err, job) {
-                                    if (err) {
-                                        req.flash('error', err);
-                                        res.redirect('/home');
-                                    }
-
-                                    var position = job.details.jobTitle;
-                                    var company = job.profile.name;
-
-                                    console.log('Sending application for: ' + position + ' at ' + company);
-
-                                    emailTemplates(templatesDir, function(err, template) {
-                                        var now = new Date();
-                                        // Send activation mail to user
-                                        var transport = nodemailer.createTransport({
-                                            service: 'Mailgun',
-                                            auth: {
-                                                user: secrets.mailgun.user,
-                                                pass: secrets.mailgun.password
-                                            }
-                                        });
-
-                                        // An users object with formatted email function
-                                        var locals = {
-                                            header: 'New Application Received!',
-                                            body: 'You got new application for job posting ' + position + ' at ' + company + ':',
-                                            app: {
-                                                fullName: 'Full Name: ' + req.body.firstName + ' ' + req.body.lastName,
-                                                phone: 'Phone: ' + req.body.phone,
-                                                email: 'Email: ' + req.body.email,
-                                                location: 'Location: ' + req.body.location,
-                                                applyDate: 'Date Applied: ' + now
-                                            },
-                                            footer: 'You can review the application on your dashboard by clicking on related job posting title.'
-                                        };
-
-                                        // Send a single email
-                                        template('email', locals, function(err, html, text) {
-                                            if (err) {
-                                                console.log(err);
-                                            } else {
-                                                transport.sendMail({
-                                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                                    to: job.email,
-                                                    subject: 'New application for: ' + position + ' at ' + company,
-                                                    html: html,
-                                                    text: text
-                                                }, function(err, responseStatus) {
-                                                    if (err) {
-                                                        console.log(err);
-                                                    } else {
-                                                        console.log('Email to employer: ' + job.email + ' sent!!!');
-                                                        // If email to employer has been sent
-
-                                                        // Send activation mail to user
-                                                        var transport = nodemailer.createTransport({
-                                                            service: 'Mailgun',
-                                                            auth: {
-                                                                user: secrets.mailgun.user,
-                                                                pass: secrets.mailgun.password
-                                                            }
-                                                        });
-
-                                                        // An users object with formatted email function
-                                                        var locals = {
-                                                            header: 'Application sent successfully!',
-                                                            body: 'Your job application for the position ' + position + ' at ' + company + ' has been successfully sent on ' + now + '.',
-                                                            footer: 'The company will contact you directly if your application were successfull. Good luck.'
-                                                        };
-
-                                                        // Send a single email
-                                                        template('email', locals, function(err, html, text) {
-                                                            if (err) {
-                                                                console.log(err);
-                                                            } else {
-                                                                transport.sendMail({
-                                                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                                                    to: req.body.email,
-                                                                    subject: 'Your application for: ' + position + ' at ' + company,
-                                                                    html: html,
-                                                                    text: text
-                                                                }, function(err, responseStatus) {
-                                                                    if (err) {
-                                                                        console.log(err);
-                                                                    } else {
-                                                                        console.log('Email to applicant: ' + req.body.email + ' sent!!!');
-                                                                        req.flash('success', 'Success! Your application have been successfully sent.');
-                                                                        res.redirect('/home');
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
-
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    });
-
-                                    job.app = job.app + 1;
-                                    job.newApp = job.newApp + 1;
-
-                                    job.save(function(err) {
-                                        if (err) {
-                                            req.flash('error', err);
-                                            res.redirect('/home');
-                                        }
-                                    });
-                                });
-                            }
-                        });
-                    } else {
-                        fs.unlink(tmpPath, function(err) {
-                            req.flash('error', 'Only PDF file allowed');
-                            res.redirect('/home');
-                        });
-                    }
-                }
-            });
-    });
-
-
-
-
     // =============================================================================
     // ======================================================= BEGIN PAYMENT SYSTEMS
     // =============================================================================
@@ -881,7 +715,7 @@ module.exports = function(app, passport) {
 
     app.get('/signinFailure', function(req, res) {
         var arr = req.session.flash.error;
-        var msg = arr[arr.length-1]; // to prevent multi msg
+        var msg = arr[arr.length - 1]; // to prevent multi msg
 
         res.json({
             'type': 'error',
@@ -914,7 +748,7 @@ module.exports = function(app, passport) {
 
     app.get('/signupFailure', function(req, res) {
         var arr = req.session.flash.error;
-        var msg = arr[arr.length-1]; // to prevent multi msg
+        var msg = arr[arr.length - 1]; // to prevent multi msg
 
         res.json({
             'type': 'error',
@@ -997,6 +831,97 @@ module.exports = function(app, passport) {
                                         'msg': 'An e-mail has been sent to ' + user.email + ' with further instructions'
                                     });
                                     done(err, 'done');
+                                }
+                            });
+                        }
+                    });
+                });
+
+            }
+        ], function(err) {
+            if (err) return next(err);
+        });
+    });
+
+    // resetting password ----------------------------------------------------------
+    app.get('/reset/:token', function(req, res) {
+        User
+            .findOne({
+                resToken: req.params.token
+            })
+            .where('resTokenExpired').gt(Date.now())
+            .exec(function(err, user) {
+                if (!user) {
+                    req.flash('error', 'Password reset token is invalid or has expired.');
+                    res.redirect('/');
+                }
+
+                res.render('reset', {
+                    title: 'Reset Password',
+                    user: user
+                });
+            });
+    });
+
+    app.post('/reset/:id', function(req, res) {
+        async.waterfall([
+            function(done) {
+                User
+                    .findById(req.params.id)
+                    .exec(function(err, user) {
+                        user.password = user.generateHash(req.body.newPass);
+
+                        user.resToken = undefined;
+                        user.resTokenCreated = undefined;
+                        user.resTokenExpired = undefined;
+
+                        user.save(function(err) {
+                            if (err) return next(err);
+                            req.logIn(user, function(err) {
+                                done(err, user);
+                            });
+                        });
+                    });
+            },
+            function(user, done) {
+                emailTemplates(templatesDir, function(err, template) {
+                    // Send activation mail to user
+                    var transport = nodemailer.createTransport({
+                        service: 'Mailgun',
+                        auth: {
+                            user: secrets.mailgun.user,
+                            pass: secrets.mailgun.password
+                        }
+                    });
+
+                    // An users object with formatted email function
+                    var locals = {
+                        header: 'Hi ' + user.firstName,
+                        body: 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.'
+                    };
+
+                    // Send a single email
+                    template('email', locals, function(err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            transport.sendMail({
+                                from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                to: user.email,
+                                subject: 'Your Jobsy account password has been changed',
+                                html: html,
+                                text: text
+                            }, function(err, responseStatus) {
+                                if (err) {
+                                    res.json({
+                                        'type': 'error',
+                                        'msg': err
+                                    });
+                                } else {
+                                    res.json({
+                                        'type': 'success',
+                                        'msg': 'Your password has been successfully changed. You will be redirected to your dashboard now..'
+                                    });
                                 }
                             });
                         }
@@ -1328,222 +1253,205 @@ module.exports = function(app, passport) {
         });
     });
 
-    // resetting password ------------------------------
-    app.get('/reset/:token', function(req, res) {
-        User
-            .findOne({
-                resToken: req.params.token
-            })
-            .where('resTokenExpired').gt(Date.now())
-            .exec(function(err, user) {
-                if (!user) {
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    res.redirect('/');
-                }
+    // APPLY FOR A JOB ---------------------------------
+    app.post('/api/job/apply/:id', function(req, res, next) {
+        Job
+            .findById(req.params.id, function(err, job) {
 
-                res.render('reset', {
-                    title: 'Reset Password',
-                    user: user
-                });
-            });
-    });
+                var random_id = crypto.randomBytes(10).toString('hex');
+                var filePath = './public/uploads/resume/' + random_id + '.pdf';
+                var database_filepath = random_id + '.pdf';
 
-    app.post('/reset/:id', function(req, res) {
-        async.waterfall([
-            function(done) {
-                User
-                    .findById(req.params.id)
-                    .exec(function(err, user) {
-                        user.password = user.generateHash(req.body.newPass);
+                if (req.files.resumeFile) {
+                    var tmpPath = req.files.resumeFile.path;
+                    var targetPath = path.resolve(filePath);
 
-                        user.resToken = undefined;
-                        user.resTokenCreated = undefined;
-                        user.resTokenExpired = undefined;
+                    if (path.extname(req.files.resumeFile.name).toLowerCase() == '.pdf') {
+                        /* Begin Upload process */
+                        fs.rename(tmpPath, targetPath, function(err) {
+                            if (err) {
+                                res.json({
+                                    type: 'error',
+                                    msg: 'Failed uploading file to server'
+                                });
+                                return;
+                            } else {
+                                // Save the values into database
+                                var app = new App({
+                                    jobId: job._id,
+                                    firstName: req.body.firstName,
+                                    lastName: req.body.lastName,
+                                    phone: req.body.phone,
+                                    email: req.body.email,
+                                    location: req.body.location,
+                                    lastJob: req.body.lastJob,
+                                    resumeFile: database_filepath,
+                                    coverLetter: req.body.coverLetter,
+                                    applyDate: Date.now()
+                                });
 
-                        user.save(function(err) {
-                            if (err) return next(err);
-                            req.logIn(user, function(err) {
-                                done(err, user);
-                            });
+                                app.save(function(err) {
+                                    if (err) {
+                                        res.json({
+                                            type: 'error',
+                                            msg: 'Failed saving to database'
+                                        });
+                                        return;
+                                    }
+                                });
+
+                                // Add app number to job collection
+                                Job.findById(job._id, function(err, job) {
+                                    if (err) {
+                                        res.json({
+                                            type: 'error',
+                                            msg: err
+                                        });
+                                        return;
+                                    }
+
+                                    var position = job.details.jobTitle;
+                                    var company = job.profile.name;
+
+                                    console.log('Sending application for: ' + position + ' at ' + company);
+
+                                    emailTemplates(templatesDir, function(err, template) {
+                                        var now = new Date();
+                                        // Send activation mail to user
+                                        var transport = nodemailer.createTransport({
+                                            service: 'Mailgun',
+                                            auth: {
+                                                user: secrets.mailgun.user,
+                                                pass: secrets.mailgun.password
+                                            }
+                                        });
+
+                                        // An users object with formatted email function
+                                        var locals = {
+                                            header: 'New Application Received!',
+                                            body: 'You got new application for job posting ' + position + ' at ' + company + ':',
+                                            app: {
+                                                fullName: 'Full Name: ' + req.body.firstName + ' ' + req.body.lastName,
+                                                phone: 'Phone: ' + req.body.phone,
+                                                email: 'Email: ' + req.body.email,
+                                                location: 'Location: ' + req.body.location,
+                                                applyDate: 'Date Applied: ' + now
+                                            },
+                                            footer: 'You can review the application on your dashboard by clicking on related job posting title.'
+                                        };
+
+                                        // Send a single email
+                                        template('email', locals, function(err, html, text) {
+                                            if (err) {
+                                                if (err) {
+                                                    res.json({
+                                                        type: 'error',
+                                                        msg: err
+                                                    });
+                                                    return;
+                                                }
+                                            } else {
+                                                transport.sendMail({
+                                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                                    to: job.email,
+                                                    subject: 'New application for: ' + position + ' at ' + company,
+                                                    html: html,
+                                                    text: text
+                                                }, function(err, responseStatus) {
+                                                    if (err) {
+                                                        res.json({
+                                                            type: 'error',
+                                                            msg: err
+                                                        });
+                                                        return;
+                                                    } else {
+                                                        console.log('Email to employer: ' + job.email + ' sent!!!');
+                                                        // If email to employer has been sent
+
+                                                        // Send activation mail to user
+                                                        var transport = nodemailer.createTransport({
+                                                            service: 'Mailgun',
+                                                            auth: {
+                                                                user: secrets.mailgun.user,
+                                                                pass: secrets.mailgun.password
+                                                            }
+                                                        });
+
+                                                        // An users object with formatted email function
+                                                        var locals = {
+                                                            header: 'Application sent successfully!',
+                                                            body: 'Your job application for the position ' + position + ' at ' + company + ' has been successfully sent on ' + now + '.',
+                                                            footer: 'The company will contact you directly if your application were successfull. Good luck.'
+                                                        };
+
+                                                        // Send a single email
+                                                        template('email', locals, function(err, html, text) {
+                                                            if (err) {
+                                                                res.json({
+                                                                    type: 'error',
+                                                                    msg: err
+                                                                });
+                                                                return;
+                                                            } else {
+                                                                transport.sendMail({
+                                                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                                                    to: req.body.email,
+                                                                    subject: 'Your application for: ' + position + ' at ' + company,
+                                                                    html: html,
+                                                                    text: text
+                                                                }, function(err, responseStatus) {
+                                                                    if (err) {
+                                                                        res.json({
+                                                                            type: 'error',
+                                                                            msg: err
+                                                                        });
+                                                                        return;
+                                                                    }
+
+                                                                    console.log('Email to applicant: ' + req.body.email + ' sent!!!');
+                                                                    res.json({
+                                                                        type: 'success',
+                                                                        msg: 'Your application have been successfully sent. The company will contact you directly if your application were successfull. Good luck..'
+                                                                    });
+                                                                });
+                                                            }
+                                                        });
+
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    });
+
+                                    job.app = job.app + 1;
+                                    job.newApp = job.newApp + 1;
+
+                                    job.save(function(err) {
+                                        if (err) {
+                                            res.json({
+                                                type: 'error',
+                                                msg: err
+                                            });
+                                            return;
+                                        }
+                                    });
+                                });
+                            }
                         });
-                    });
-            },
-            function(user, done) {
-                emailTemplates(templatesDir, function(err, template) {
-                    // Send activation mail to user
-                    var transport = nodemailer.createTransport({
-                        service: 'Mailgun',
-                        auth: {
-                            user: secrets.mailgun.user,
-                            pass: secrets.mailgun.password
-                        }
-                    });
-
-                    // An users object with formatted email function
-                    var locals = {
-                        header: 'Hi ' + user.firstName,
-                        body: 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.'
-                    };
-
-                    // Send a single email
-                    template('email', locals, function(err, html, text) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            transport.sendMail({
-                                from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                to: user.email,
-                                subject: 'Your Jobsy account password has been changed',
-                                html: html,
-                                text: text
-                            }, function(err, responseStatus) {
-                                if (err) {
-                                    res.json({
-                                        'type': 'error',
-                                        'msg': err
-                                    });
-                                } else {
-                                    res.json({
-                                        'type': 'success',
-                                        'msg': 'Your password has been successfully changed. You will be redirected to your dashboard now..'
-                                    });
-                                }
+                    } else {
+                        fs.unlink(tmpPath, function(err) {
+                            res.json({
+                                type: 'error',
+                                msg: 'Please upload a PDF file only!'
                             });
-                        }
-                    });
-                });
-
-            }
-        ], function(err) {
-            if (err) return next(err);
-        });
-    });
-
-
-
-    // ============================ ALGOLIA SEARCH APIs ============================
-    app.get('/alg', function(req, res) {
-        res.render('notif', {
-            msg: 'Select action by clicking buttons below',
-            datas: 'none',
-            title: 'Algolia Control Center'
-        });
-    });
-
-    app.get('/alg/init', function(req, res) {
-        var host = req.host; // checking host to determine index
-        if (host == 'localhost') {
-            var index = client.initIndex('Jobs-local');
-        } else {
-            var index = client.initIndex('Jobs');
-        }
-
-        Job.find({
-            "status": 'published'
-        }, {
-            "createdAt": 0,
-            "updatedAt": 0,
-            "email": 0,
-            "newApp": 0,
-            "app": 0,
-            "deleteReason": 0,
-            "token": 0,
-            "status": 0,
-            "profile.description": 0,
-            "profile.logo": 0,
-            "details.jobScope": 0,
-            "details.requirements": 0,
-            "details.currency": 0,
-            "details.salaryFrom": 0,
-            "details.salaryTo": 0,
-            "details.salaryType": 0
-        }, {
-            sort: {
-                createdAt: -1
-            }
-        }, function(err, jobs) {
-            if (jobs.length > 0) {
-                for (var i in jobs) {
-                    var arr = {
-                        "details": {
-                            "jobType": jobs[i].details.jobType,
-                            "category": jobs[i].details.category,
-                            "jobTitle": jobs[i].details.jobTitle
-                        },
-                        "profile": {
-                            "location": jobs[i].profile.location,
-                            "name": jobs[i].profile.name
-                        },
-                        "objectID": jobs[i]._id
-                    };
-
-                    // Save the datas
-                    index.saveObject(arr, function(err, content) {
-                        if (err) {
-                            console.error(err);
                             return;
-                        }
-
-                        res.render('notif', {
-                            msg: 'Pushing database.. Done!',
-                            datas: JSON.stringify(content),
-                            title: 'Initial Import'
                         });
-                    });
+                    }
                 }
-            }
-        });
-    });
-
-    app.get('/alg/clear', function(req, res) {
-        var host = req.host; // checking host to determine index
-        if (host == 'localhost') {
-            var index = client.initIndex('Jobs-local');
-        } else {
-            var index = client.initIndex('Jobs');
-        }
-
-        index.clearIndex(function(err, content) {
-            if (err) {
-                console.error(err);
-                return;
-            }
-
-            res.render('notif', {
-                msg: 'Clearing index.. Done!',
-                datas: JSON.stringify(content),
-                title: 'Clear Index'
             });
-        });
+
     });
 
-    app.get('/alg/update/:data', function(req, res) {
-        index.saveObject({
-            firstname: 'Jimmie',
-            lastname: 'Barninger',
-            objectID: 'myID1'
-        }, function(err, content) {
-            if (err) {
-                console.error(err);
-                return;
-            }
-
-            console.log(content);
-        });
-    });
-
-    app.get('/alg/delete/:id', function(req, res) {
-        var id = req.params.id;
-        index.deleteObject(id, function(err) {
-            if (err) {
-                res.send(err);
-                return;
-            } else {
-                res.send("Object has been successfully deleted..");
-            }
-        });
-    });
-    // ======================== END of ALGOLIA SEARCH APIs =========================
 
 
     // Fetch all activated users
@@ -1821,6 +1729,134 @@ module.exports = function(app, passport) {
             res.json(app);
         });
     });
+
+
+
+    // ============================ ALGOLIA SEARCH APIs ============================
+    app.get('/alg', function(req, res) {
+        res.render('notif', {
+            msg: 'Select action by clicking buttons below',
+            datas: 'none',
+            title: 'Algolia Control Center'
+        });
+    });
+
+    app.get('/alg/init', function(req, res) {
+        var host = req.host; // checking host to determine index
+        if (host == 'localhost') {
+            var index = client.initIndex('Jobs-local');
+        } else {
+            var index = client.initIndex('Jobs');
+        }
+
+        Job.find({
+            "status": 'published'
+        }, {
+            "createdAt": 0,
+            "updatedAt": 0,
+            "email": 0,
+            "newApp": 0,
+            "app": 0,
+            "deleteReason": 0,
+            "token": 0,
+            "status": 0,
+            "profile.description": 0,
+            "profile.logo": 0,
+            "details.jobScope": 0,
+            "details.requirements": 0,
+            "details.currency": 0,
+            "details.salaryFrom": 0,
+            "details.salaryTo": 0,
+            "details.salaryType": 0
+        }, {
+            sort: {
+                createdAt: -1
+            }
+        }, function(err, jobs) {
+            if (jobs.length > 0) {
+                for (var i in jobs) {
+                    var arr = {
+                        "details": {
+                            "jobType": jobs[i].details.jobType,
+                            "category": jobs[i].details.category,
+                            "jobTitle": jobs[i].details.jobTitle
+                        },
+                        "profile": {
+                            "location": jobs[i].profile.location,
+                            "name": jobs[i].profile.name
+                        },
+                        "objectID": jobs[i]._id
+                    };
+
+                    // Save the datas
+                    index.saveObject(arr, function(err, content) {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        res.render('notif', {
+                            msg: 'Pushing database.. Done!',
+                            datas: JSON.stringify(content),
+                            title: 'Initial Import'
+                        });
+                    });
+                }
+            }
+        });
+    });
+
+    app.get('/alg/clear', function(req, res) {
+        var host = req.host; // checking host to determine index
+        if (host == 'localhost') {
+            var index = client.initIndex('Jobs-local');
+        } else {
+            var index = client.initIndex('Jobs');
+        }
+
+        index.clearIndex(function(err, content) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            res.render('notif', {
+                msg: 'Clearing index.. Done!',
+                datas: JSON.stringify(content),
+                title: 'Clear Index'
+            });
+        });
+    });
+
+    app.get('/alg/update/:data', function(req, res) {
+        index.saveObject({
+            firstname: 'Jimmie',
+            lastname: 'Barninger',
+            objectID: 'myID1'
+        }, function(err, content) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            console.log(content);
+        });
+    });
+
+    app.get('/alg/delete/:id', function(req, res) {
+        var id = req.params.id;
+        index.deleteObject(id, function(err) {
+            if (err) {
+                res.send(err);
+                return;
+            } else {
+                res.send("Object has been successfully deleted..");
+            }
+        });
+    });
+    // ======================== END of ALGOLIA SEARCH APIs =========================
+
+
 
 
     // =============================================================================
