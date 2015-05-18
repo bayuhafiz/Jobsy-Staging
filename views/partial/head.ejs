@@ -2,17 +2,17 @@
 <meta charset="UTF-8" />
 <title>Jobsy&trade; - <%= title %></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<link rel="apple-touch-icon" href="pages/ico/60.png">
-<link rel="apple-touch-icon" sizes="76x76" href="pages/ico/76.png">
-<link rel="apple-touch-icon" sizes="120x120" href="pages/ico/120.png">
-<link rel="apple-touch-icon" sizes="152x152" href="pages/ico/152.png">
+<link rel="apple-touch-icon" href="assets/ico/60.png">
+<link rel="apple-touch-icon" sizes="76x76" href="assets/ico/76.png">
+<link rel="apple-touch-icon" sizes="120x120" href="assets/ico/120.png">
+<link rel="apple-touch-icon" sizes="152x152" href="assets/ico/152.png">
 <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta content="" name="description" />
-<meta content="" name="author" />
+<meta content="Job Application" name="description" />
+<meta content="Colorblind Labs. Pte. Ltd." name="author" />
 <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
 <link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
@@ -20,120 +20,32 @@
 <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
-<link href="pages/css/pages-icons.css" rel="stylesheet" type="text/css">
-<link class="main-stylesheet" href="pages/css/pages.css" rel="stylesheet" type="text/css" />
-<!--<link rel="stylesheet" type="text/css" href="assets/css/main.css">-->
+<link href="assets/css/pages-icons.css" rel="stylesheet" type="text/css">
 
-<link class="main-stylesheet" href="pages/css/custompages.css" rel="stylesheet" type="text/css" />
-<link type="text/css" rel="stylesheet" href="assets/plugins/rickshaw/rickshaw.min.css"></link>
-<link rel="stylesheet" type="text/css" href="assets/css/codrops/normalize.css">
-<link rel="stylesheet" type="text/css" href="assets/css/codrops/set2.css">
-<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-<link rel="stylesheet" type="text/css" href="assets/css/chartist.min.css">
-<link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css'>
+<link type="text/css" rel="stylesheet" href="assets/plugins/rickshaw/rickshaw.min.css"/>
+<link type="text/css" rel="stylesheet" href="assets/plugins/formvalidation/dist/css/formValidation.min.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/codrops/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/codrops/set2.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/chartist.min.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/sweetalert.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/hover.css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/accordion.css"/>
+
+<link class="main-stylesheet" href="assets/css/pages.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 
 
 <!--[if lte IE 9]>
-        <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/ie9.css" rel="stylesheet" type="text/css" />
     <![endif]-->
 
 <script type="text/javascript">
 
-// Text area manipulation functions
-function getInputSelection(el) {
-    var start = 0, end = 0, normalizedValue, range,
-        textInputRange, len, endRange;
-
-    if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
-        start = el.selectionStart;
-        end = el.selectionEnd;
-    } else {
-        range = document.selection.createRange();
-
-        if (range && range.parentElement() == el) {
-            len = el.value.length;
-            normalizedValue = el.value.replace(/\r\n/g, "\n");
-
-            // Create a working TextRange that lives only in the input
-            textInputRange = el.createTextRange();
-            textInputRange.moveToBookmark(range.getBookmark());
-
-            // Check if the start and end of the selection are at the very end
-            // of the input, since moveStart/moveEnd doesn't return what we want
-            // in those cases
-            endRange = el.createTextRange();
-            endRange.collapse(false);
-
-            if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
-                start = end = len;
-            } else {
-                start = -textInputRange.moveStart("character", -len);
-                start += normalizedValue.slice(0, start).split("\n").length - 1;
-
-                if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
-                    end = len;
-                } else {
-                    end = -textInputRange.moveEnd("character", -len);
-                    end += normalizedValue.slice(0, end).split("\n").length - 1;
-                }
-            }
-        }
-    }
-
-    return {
-        start: start,
-        end: end
-    };
-}
-
-function offsetToRangeCharacterMove(el, offset) {
-    return offset - (el.value.slice(0, offset).split("\r\n").length - 1);
-}
-
-function setInputSelection(el, startOffset, endOffset) {
-    if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
-        el.selectionStart = startOffset;
-        el.selectionEnd = endOffset;
-    } else {
-        var range = el.createTextRange();
-        var startCharMove = offsetToRangeCharacterMove(el, startOffset);
-        range.collapse(true);
-        if (startOffset == endOffset) {
-            range.move("character", startCharMove);
-        } else {
-            range.moveEnd("character", offsetToRangeCharacterMove(el, endOffset));
-            range.moveStart("character", startCharMove);
-        }
-        range.select();
-    }
-}
-
-function getCaret(el) {
-  if (el.selectionStart) {
-     return el.selectionStart;
-  } else if (document.selection) {
-     el.focus();
-
-   var r = document.selection.createRange();
-   if (r == null) {
-    return 0;
-   }
-
-    var re = el.createTextRange(),
-    rc = re.duplicate();
-    re.moveToBookmark(r.getBookmark());
-    rc.setEndPoint('EndToStart', re);
-
-    return rc.text.length;
-  }  
-  return 0;
-}
-// end of textarea manipulation
-
 window.onload = function() {
     // fix for windows 8
     if (navigator.appVersion.indexOf("Windows NT 6.2") != -1) {
-        document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="pages/css/windows.chrome.fix.css" />';
+        document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="assets/css/windows.chrome.fix.css" />';
     }
 }
 

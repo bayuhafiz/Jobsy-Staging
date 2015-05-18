@@ -1,0 +1,68 @@
+<!-- BEGIN APPLY JOB MODAL -->
+<div class="modal fade slide-up disable-scroll" id="applyModal" tabindex="-1" role="dialog" aria-hidden="false" style="overflow:auto">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content-wrapper">
+      <div class="modal-content" style="box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);">
+        <div class="modal-header clearfix text-left">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14" style="position: relative;left: 19px;top: -16px;"></i>
+          </button>
+          <img class="applicant-icon" src="assets/img/aplly_job.png" alt="logo" data-src="assets/img/aplly_job.png" data-src-retina="assets/img/aplly_job.png" width="100" style="margin-top:25px; margin-bottom:25px;display: inline-block;width: 64px;  margin-left: 17px;">
+          <h5 class="applicant-header" style="display:inline-block;padding-left:20px;position: relative;top: 14px;">Application form for <span class="semi-bold" id="app-to"></span><p class="p-b-10">Fill you informations bellow to apply</p></h5>
+        </div>
+        <div class="modal-body">
+          <form id="applyForm" class="applyForm" method="POST" enctype="multipart/form-data" autocomplete="off" role="form">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group form-group-default">
+                  <label>First name</label>
+                  <input type="text" name="firstName" class="form-control" required>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group form-group-default">
+                  <label>Last name</label>
+                  <input type="text" name="lastName" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="form-group  form-group-default required">
+              <label>Email</label>
+              <input type="email" class="form-control" name="email" placeholder="ex: some@example.com" required>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group form-group-default">
+                  <label>Phone</label>
+                  <input type="text" class="form-control" name="phone" placeholder="ex: 0812 34567890" required>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group form-group-default">
+                  <label>Location</label>
+                  <input type="text" class="form-control" name="location" placeholder="ex: Surabaya" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group form-group-default">
+              <label>Last Job/Education</label>
+              <input type="text" class="form-control" name="lastJob" placeholder="ex: Apple Inc. (2010 - 2015) as Web Developer" required>
+            </div>
+            <div class="form-group form-group-default">
+              <label style="padding-bottom:10px;">Resume</label>
+              <input type="file" name="resumeFile" id="resumeFile" class="form-control" required>
+            </div>
+            <div class="form-group form-group-default">
+              <textarea class="form-control" id="editor4" name="coverLetter" placeholder="Type your resume cover letters here (optional)" aria-invalid="false" style="height: 140px;"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 m-t-10 sm-m-t-10 pull-right">
+                <button type="submit" class="btn btn-primary btn-animated from-top fa fa-check btn-block" data-target="#applyModal" id="btnToggleSlideUpSize"><span>Submit Application</span></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END APPLY JOB MODAL -->

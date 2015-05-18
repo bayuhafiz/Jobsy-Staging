@@ -59,10 +59,6 @@ module.exports = function(app, passport) {
 
     // show the home page ===========================
     app.get('/', function(req, res) {
-        res.redirect('/home');
-    });
-
-    app.get('/home', function(req, res) {
         if (req.user) {
             var user = req.user;
             if ((user.actStatus == 'inactive') || (user.initLogin == true)) {
@@ -139,19 +135,6 @@ module.exports = function(app, passport) {
     // =============================================================================
     // ================================================== AUTHENTICATE (FIRST LOGIN)
     // =============================================================================
-
-    // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/dash', // redirect to the secure profile section
-        failureRedirect: '/', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
-
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/dash', // redirect to the secure profile section
-        failureRedirect: '/', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
 
     // Get activate account
     app.get('/activate/:token', function(req, res) {
@@ -268,226 +251,6 @@ module.exports = function(app, passport) {
 
         });
     });
-
-
-    // locally --------------------------------
-    app.get('/password', isLoggedIn, function(req, res) {
-        var user = req.user;
-        res.render('pass', {
-            title: 'Change Password',
-            user: user
-        });
-    });
-
-    app.post('/password', isLoggedIn, function(req, res) {
-        User.findById(req.user.id, function(err, user) {
-            if (err) return next(err);
-            if (req.body.password == req.body.confirmPassword) {
-                user.password = user.generateHash(req.body.password);
-                user.save(function(err) {
-                    req.logout();
-                    req.flash('success', 'Your password has been updated. You can now login using your new password.');
-                    res.redirect('http://' + req.headers.host + '/');
-                });
-            } else {
-                req.flash('error', 'Password confirmation did not match!');
-                res.redirect('back');
-            }
-        });
-    });
-
-    // locally --------------------------------
-    app.get('/connect/local', function(req, res) {
-        res.render('connect-local.ejs', {
-            message: req.flash('loginMessage')
-        });
-    });
-
-    app.post('/connect/local', passport.authenticate('local-signup', {
-        successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/connect/local', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
-
-    // LOGOUT ==============================
-    app.get('/logout', function(req, res) {
-        req.session.destroy(function(err) {
-            res.redirect('http://' + req.headers.host + '/'); // Redirect back to Http 
-        });
-    });
-
-
-    // =============================================================================
-    // UNLINK ACCOUNTS =============================================================
-    // =============================================================================
-
-    // forgot password -------------------------------------------------------------
-    app.post('/forgot', function(req, res) {
-        async.waterfall([
-            function(done) {
-                crypto.randomBytes(16, function(err, buf) {
-                    var token = buf.toString('hex');
-                    done(err, token);
-                });
-            },
-            function(token, done) {
-                User.findOne({
-                    email: req.body.email.toLowerCase()
-                }, function(err, user) {
-
-                    if (!user) {
-                        req.flash('error', 'No account with that email address exists.');
-                        res.redirect('/home');
-                    } else {
-                        user.resToken = token;
-                        user.resTokenCreated = Date.now();
-                        user.resTokenExpired = Date.now() + 3600000; // 1 hour
-
-                        user.save(function(err) {
-                            done(err, token, user);
-                        });
-                    }
-                });
-            },
-            function(token, user, done) {
-
-                emailTemplates(templatesDir, function(err, template) {
-                    // Send activation mail to user
-                    var transport = nodemailer.createTransport({
-                        service: 'Mailgun',
-                        auth: {
-                            user: secrets.mailgun.user,
-                            pass: secrets.mailgun.password
-                        }
-                    });
-
-                    // An users object with formatted email function
-                    var locals = {
-                        header: 'Hi ' + user.firstName,
-                        body: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account. Please click on the following button to complete the process:',
-                        button: {
-                            link: 'http://' + req.headers.host + '/reset/' + token,
-                            text: 'Click to reset your password'
-                        },
-                        footer: 'If you did not request this, please ignore this email and your password will remain unchanged.'
-                    };
-
-                    // Send a single email
-                    template('email', locals, function(err, html, text) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            transport.sendMail({
-                                from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                to: user.email,
-                                subject: 'Reset your password on Jobsy',
-                                html: html,
-                                text: text
-                            }, function(err, responseStatus) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                                    done(err, 'done');
-                                }
-                            });
-                        }
-                    });
-                });
-
-            }
-        ], function(err) {
-            if (err) return next(err);
-            res.redirect('/');
-        });
-    });
-
-    // resetting password ------------------------------
-    app.get('/reset/:token', function(req, res) {
-        User
-            .findOne({
-                resToken: req.params.token
-            })
-            .where('resTokenExpired').gt(Date.now())
-            .exec(function(err, user) {
-                if (!user) {
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    res.redirect('/');
-                }
-                res.render('reset', {
-                    title: 'Reset Password',
-                    user: user
-                });
-            });
-    });
-
-    app.post('/reset/:id', function(req, res) {
-        async.waterfall([
-            function(done) {
-                User
-                    .findById(req.params.id)
-                    .exec(function(err, user) {
-                        user.password = user.generateHash(req.body.newPass);
-
-                        user.resToken = undefined;
-                        user.resTokenCreated = undefined;
-                        user.resTokenExpired = undefined;
-
-                        user.save(function(err) {
-                            if (err) return next(err);
-                            req.logIn(user, function(err) {
-                                done(err, user);
-                            });
-                        });
-                    });
-            },
-            function(user, done) {
-
-                emailTemplates(templatesDir, function(err, template) {
-                    // Send activation mail to user
-                    var transport = nodemailer.createTransport({
-                        service: 'Mailgun',
-                        auth: {
-                            user: secrets.mailgun.user,
-                            pass: secrets.mailgun.password
-                        }
-                    });
-
-                    // An users object with formatted email function
-                    var locals = {
-                        header: 'Hi ' + user.firstName,
-                        body: 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.'
-                    };
-
-                    // Send a single email
-                    template('email', locals, function(err, html, text) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            transport.sendMail({
-                                from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                to: user.email,
-                                subject: 'Your Jobsy account password has been changed',
-                                html: html,
-                                text: text
-                            }, function(err, responseStatus) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    done(err, 'done');
-                                }
-                            });
-                        }
-                    });
-                });
-
-            }
-        ], function(err) {
-            if (err) return next(err);
-            res.redirect('/dash');
-        });
-    });
-
 
     // Deactivate account -----------------------------------
     app.get('/unlink', isLoggedIn, function(req, res) {
@@ -892,7 +655,7 @@ module.exports = function(app, passport) {
 
 
     // =============================================================================
-    // ============================================================= PAYMENT SYSTEMS
+    // ======================================================= BEGIN PAYMENT SYSTEMS
     // =============================================================================
 
     // Buy Credits /////
@@ -1076,7 +839,6 @@ module.exports = function(app, passport) {
         res.redirect('/dash');
     });
 
-
     // TESTING ONLY!!!!
     app.get('/bt/:amount', isLoggedIn, function(req, res) {
         var userId = req.user._id; // Get logged user id
@@ -1099,12 +861,256 @@ module.exports = function(app, passport) {
         });
     })
 
+    // =============================================================================
+    // ====================================================== END OF PAYMENT SYSTEMS
+    // =============================================================================
 
 
 
     // =============================================================================
-    // ================================================================== API ROUTES
+    // ============================================================ BEGIN API ROUTES
     // =============================================================================
+
+    // ============================== USER ACCOUNT APIs ============================
+
+    // User sign in handlers
+    app.post('/api/account/signin', passport.authenticate('local-login', {
+        successRedirect: '/signinSuccess',
+        failureRedirect: '/signinFailure',
+        failureFlash: true
+    }));
+
+    app.get('/signinSuccess', function(req, res) {
+        res.json({
+            'type': 'success',
+            'msg': 'You will be redirected to your dashboard..'
+        });
+    });
+
+    app.get('/signinFailure', function(req, res) {
+        res.json({
+            'type': 'error',
+            'msg': req.session.flash.error
+        });
+    });
+
+    // User log out 
+    app.get('/api/account/signout', isLoggedIn, function(req, res) {
+        req.session.destroy(function(err) {
+            res.json({
+                'msg': 'You are successfully signed out'
+            });
+        });
+    });
+
+    // User sign up / register
+    app.post('/api/account/signup', passport.authenticate('local-signup', {
+        successRedirect: '/signupSuccess',
+        failureRedirect: '/signupFailure',
+        failureFlash: true
+    }));
+
+    app.get('/signupSuccess', function(req, res) {
+        res.json({
+            'type': 'success',
+            'msg': 'Your account has been created. Please check your email for further instructions.'
+        });
+    });
+
+    app.get('/signupFailure', function(req, res) {
+        res.json({
+            'type': 'error',
+            'msg': req.session.flash.error
+        });
+    });
+
+    // User forgot password
+    app.post('', function(req, res) {
+        res.json({
+            'type': 'success',
+            'msg': 'You\'re connected!!!'
+        });
+    });
+
+
+    // forgot password -------------------------------------------------------------
+    app.post('/api/account/forgot', function(req, res) {
+        async.waterfall([
+            function(done) {
+                crypto.randomBytes(16, function(err, buf) {
+                    var token = buf.toString('hex');
+                    done(err, token);
+                });
+            },
+            function(token, done) {
+                User.findOne({
+                    email: req.body.email.toLowerCase()
+                }, function(err, user) {
+
+                    if (!user) {
+                        res.json({
+                            'type': 'error',
+                            'msg': 'No account with that email address exists'
+                        });
+                        return;
+                    } else {
+                        user.resToken = token;
+                        user.resTokenCreated = Date.now();
+                        user.resTokenExpired = Date.now() + 3600000; // 1 hour
+
+                        user.save(function(err) {
+                            done(err, token, user);
+                        });
+                    }
+                });
+            },
+            function(token, user, done) {
+
+                emailTemplates(templatesDir, function(err, template) {
+                    // Send activation mail to user
+                    var transport = nodemailer.createTransport({
+                        service: 'Mailgun',
+                        auth: {
+                            user: secrets.mailgun.user,
+                            pass: secrets.mailgun.password
+                        }
+                    });
+
+                    // An users object with formatted email function
+                    var locals = {
+                        header: 'Hi ' + user.firstName,
+                        body: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account. Please click on the following button to complete the process:',
+                        button: {
+                            link: 'http://' + req.headers.host + '/reset/' + token,
+                            text: 'Click to reset your password'
+                        },
+                        footer: 'If you did not request this, please ignore this email and your password will remain unchanged.'
+                    };
+
+                    // Send a single email
+                    template('email', locals, function(err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            transport.sendMail({
+                                from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                to: user.email,
+                                subject: 'Reset your password on Jobsy',
+                                html: html,
+                                text: text
+                            }, function(err, responseStatus) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    res.json({
+                                        'type': 'success',
+                                        'msg': 'An e-mail has been sent to ' + user.email + ' with further instructions'
+                                    });
+                                    done(err, 'done');
+                                }
+                            });
+                        }
+                    });
+                });
+
+            }
+        ], function(err) {
+            if (err) return next(err);
+        });
+    });
+    
+
+    // resetting password ------------------------------
+    app.get('/reset/:token', function(req, res) {
+        User
+            .findOne({
+                resToken: req.params.token
+            })
+            .where('resTokenExpired').gt(Date.now())
+            .exec(function(err, user) {
+                if (!user) {
+                    req.flash('error', 'Password reset token is invalid or has expired.');
+                    res.redirect('/');
+                }
+
+                res.render('reset', {
+                    title: 'Reset Password',
+                    user: user
+                });
+            });
+    });
+
+    app.post('/reset/:id', function(req, res) {
+        async.waterfall([
+            function(done) {
+                User
+                    .findById(req.params.id)
+                    .exec(function(err, user) {
+                        user.password = user.generateHash(req.body.newPass);
+
+                        user.resToken = undefined;
+                        user.resTokenCreated = undefined;
+                        user.resTokenExpired = undefined;
+
+                        user.save(function(err) {
+                            if (err) return next(err);
+                            req.logIn(user, function(err) {
+                                done(err, user);
+                            });
+                        });
+                    });
+            },
+            function(user, done) {
+                emailTemplates(templatesDir, function(err, template) {
+                    // Send activation mail to user
+                    var transport = nodemailer.createTransport({
+                        service: 'Mailgun',
+                        auth: {
+                            user: secrets.mailgun.user,
+                            pass: secrets.mailgun.password
+                        }
+                    });
+
+                    // An users object with formatted email function
+                    var locals = {
+                        header: 'Hi ' + user.firstName,
+                        body: 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.'
+                    };
+
+                    // Send a single email
+                    template('email', locals, function(err, html, text) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            transport.sendMail({
+                                from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                to: user.email,
+                                subject: 'Your Jobsy account password has been changed',
+                                html: html,
+                                text: text
+                            }, function(err, responseStatus) {
+                                if (err) {
+                                    res.json({
+                                        'type': 'error',
+                                        'msg': err
+                                    });
+                                } else {
+                                    res.json({
+                                        'type': 'success',
+                                        'msg': 'Your password has been successfully changed. You will be redirected to your dashboard now..'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+
+            }
+        ], function(err) {
+            if (err) return next(err);
+        });
+    });
+
 
 
     // =========================== JOB MANIPULATIONS APIs ==========================
@@ -1134,7 +1140,6 @@ module.exports = function(app, passport) {
             res.json(msg);
         });
     });
-
 
     // Create a job post
     app.post('/api/job/post', isLoggedIn, function(req, res) {
@@ -1264,8 +1269,11 @@ module.exports = function(app, passport) {
                                     return;
                                 }
 
-                                req.flash('success', 'Job post has been created!');
-                                res.redirect('/dash');
+                                var msg = {
+                                    'type': 'success',
+                                    'msg': 'Job post successfully created!'
+                                };
+                                res.json(msg);
 
                                 done(err, 'done');
                             });
@@ -1284,7 +1292,6 @@ module.exports = function(app, passport) {
             }
         });
     })
-
 
     // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
@@ -1547,7 +1554,6 @@ module.exports = function(app, passport) {
             }
         });
     });
-
     // ======================== END of ALGOLIA SEARCH APIs =========================
 
 
@@ -1605,7 +1611,6 @@ module.exports = function(app, passport) {
             res.json(apps);
         });
     });
-
 
 
     // Search all published jobs based on keywords :: AlgoliaSearch powered ::

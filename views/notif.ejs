@@ -2,20 +2,18 @@
 <html>
   <head>
     <% include ./partial/head_reset %>
-      <script src="../assets/plugins/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
-      <script>
-      $(document).ready(function() {
-          var host = 'http://' + window.location.hostname;
-
-          $('#init').click(function() {
-              document.location.href = host + '/alg/init';
-          });
-
-          $('#clear').click(function() {
-              document.location.href = host + '/alg/clear';
-          });
-      });
-      </script>
+    <script src="../assets/plugins/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script>
+    $(document).ready(function() {
+    var host = 'http://' + window.location.hostname;
+    $('#init').click(function() {
+    document.location.href = host + '/alg/init';
+    });
+    $('#clear').click(function() {
+    document.location.href = host + '/alg/clear';
+    });
+    });
+    </script>
   </head>
   <body class="fixed-header error-page  ">
     <div class="container-xs-height full-height">
@@ -24,11 +22,11 @@
           <div class="error-container text-center">
             <a href="/alg"><img src="../assets/img/jobsy_logo_black.png" style="max-width:280px;margin-bottom:40px;"> <span class="bold hint-text">Search Engine Control Center</span></a>
             <h2 class="semi-bold">
-                <%= msg %>
+            <%= msg %>
             </h2>
             <% if (datas != 'none') { %>
             <span class="small">
-                <%= datas %>
+              <%= datas %>
             </span>
             <% } %>
           </div>
@@ -36,7 +34,7 @@
             <div class="btn-group">
               <button type="button" class="btn btn-default" id="init">
               <span class="p-t-5 p-b-5">
-              <i class="fa fa-cloud-upload fs-15"></i>
+                <i class="fa fa-cloud-upload fs-15"></i>
               </span>
               <br>
               <span class="fs-11 font-montserrat text-uppercase">Initialization</span>
@@ -45,7 +43,7 @@
             <div class="btn-group">
               <button type="button" class="btn btn-default" id="clear">
               <span class="p-t-5 p-b-5">
-              <i class="fa fa-times fs-15"></i>
+                <i class="fa fa-times fs-15"></i>
               </span>
               <br>
               <span class="fs-11 font-montserrat text-uppercase">Clear Index</span>
@@ -54,7 +52,7 @@
             <div class="btn-group">
               <button type="button" class="btn btn-default" id="display">
               <span class="p-t-5 p-b-5">
-              <i class="fa fa-arrow-down fs-15"></i>
+                <i class="fa fa-arrow-down fs-15"></i>
               </span>
               <br>
               <span class="fs-11 font-montserrat text-uppercase">Display Records</span>
@@ -63,7 +61,7 @@
             <div class="btn-group">
               <button type="button" class="btn btn-default" id="check">
               <span class="p-t-5 p-b-5">
-              <i class="fa  fa-check-square-o fs-15"></i>
+                <i class="fa  fa-check-square-o fs-15"></i>
               </span>
               <br>
               <span class="fs-11 font-montserrat text-uppercase">Check Status</span>
@@ -77,12 +75,12 @@
       <div class="error-container">
         <div class="error-container-innner">
           <div class="text-center">
-              <p class="small">Powered by</p>
-              <img alt="algolia_logo" src="https://d3ibatyzauff7b.cloudfront.net/assets/flat2/algolia/algolia1200x500_dark-74763e0f935fa95855c6c79b5980d8c8.jpg" style="max-height:60px;margin-bottom:60px;">
+            <p class="small">Powered by</p>
+            <img alt="algolia_logo" src="https://d3ibatyzauff7b.cloudfront.net/assets/flat2/algolia/algolia1200x500_dark-74763e0f935fa95855c6c79b5980d8c8.jpg" style="max-height:60px;margin-bottom:60px;">
           </div>
         </div>
       </div>
     </div>
-      <% include ./script/pass %>
+    <% include ./script/pass %>
   </body>
 </html>

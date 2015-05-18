@@ -1,0 +1,102 @@
+<!-- ACCOUNT SETTINGS MODAL -->
+<div class="modal fade slide-right" id="accountSettings" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-userdashboard">
+    <div class="modal-content-wrapper">
+      <div class="modal-content outer" style="background: #FAFAFA;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+        </button>
+        <div class="panel panel-transparent middle password1">
+          <div class="panel-body">
+            <div class="panel-heading" style="padding:0">
+              <div class="panel-title" style="text-transform: none;">
+                <div class="col-sm-12" style="padding-left: 0;">
+                  <img src="assets/img/create_account.png" alt="logo" data-src="assets/img/create_account.png" data-src-retina="assets/img/create_account.png" width="100" style="margin-top:25px; margin-bottom:25px;  display: inline-block;width: 45px;">
+                  <p class="bold" style="display: inline-block;padding-left: 20px;font-size: 19px;  position: relative;top: 19px;">ACCOUNT <br/>SETTINGS</p>
+                  <p>Edit the form below to change your profile</p>
+                </div>
+              </div>
+            </div>
+            <br>
+            <form id="form-account" action="/account/profile" class="" method="POST" enctype="multipart/form-data" role="form">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group form-group-default">
+                    <label>First Name</label>
+                    <input type="text" name="firstName" value="<%= user.firstName %>" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group form-group-default">
+                    <label>Last Names</label>
+                    <input type="text" name="lastName" value="<%= user.lastName %>" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default">
+                    <label>Company Name</label>
+                    <input type="text" name="companyName" value="<%= user.companyName %>" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default">
+                    <label for="password">Password:</label>
+                    <a href="#" class="updatePassword-btn"><span class="link">Click here to change your password</span></a>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="clearfix"></div>
+              <button class="btn btn-primary btn-cons">Save</button>
+              <div class="clearfix"></div>
+              <div class="clearfix"></div><!--
+              <br>
+              <br>
+              <br>
+              <br>
+              <button data-target="#deleteAccount" data-toggle="modal" class="btn btn-danger btn-cons" style="margin-top: 20px !important;" disabled>Deactivate My Account</button>-->
+            </form>
+          </div>
+        </div>
+        <div class="panel panel-transparent password2">
+          <div class="panel-body">
+            <div class="panel-heading" style="padding-top:20px;">
+              <div class="panel-title" style="display: none;">
+                <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="78" height="22" style="height: auto;">
+                <h3>Update Password</h3>
+              </div>
+            </div>
+            <br>
+            <form id="form-register" class="p-t-15" role="form" method="POST" action="/password">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default">
+                    <label>New Password</label>
+                    <input type="password" name="password" placeholder="" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default">
+                    <label>Confirm New Password</label>
+                    <input type="password" name="confirmPassword" placeholder="" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="clearfix"></div>
+              <div class="hint-text"><span class="bold">Attention!</span> After you hit the update button, you will be logged out and redirected to homepage. You will need to re-login using your new password.</div>
+              <button class="btn btn-primary btn-cons m-t-10" type="submit">Update</button>
+              <button class="btn m-t-10 btn-cancel-reset" type="button">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END ACCOUNT SETTINGS MODAL -->

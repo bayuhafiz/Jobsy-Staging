@@ -10,7 +10,7 @@
           <div class="col-sm-12 col-sm-height col-middle">
             <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="78" height="22" style="height: auto;">
             <h3>Password Reset</h3>
-            <form id="form-register" class="p-t-15" role="form" method="POST" action="/reset/<%= user._id %>">
+            <form id="form-reset" class="p-t-15" role="form" method="POST" action="/reset/<%= user._id %>">
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group form-group-default">
@@ -27,15 +27,12 @@
                   </div>
                 </div>
               </div>
-              
               <button class="btn btn-primary btn-cons m-t-10" type="submit">Reset my password</button>
             </form>
           </div>
         </div>
       </div>
     </div>
-
     <% include ./script/reset %>
-
   </body>
 </html>

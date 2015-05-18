@@ -56,10 +56,10 @@ module.exports = function(passport) {
 
                     // if no user is found, return the message
                     if (!user)
-                        return done(null, false, req.flash('error', 'No user with this email found.'));
+                        return done(null, false, req.flash('error', 'No user with that email found'));
 
                     if (!user.validPassword(password))
-                        return done(null, false, req.flash('error', 'Oops! Wrong password.'));
+                        return done(null, false, req.flash('error', 'Wrong password'));
 
                     // all is well, return user
                     else
@@ -95,7 +95,7 @@ module.exports = function(passport) {
 
                         // check to see if theres already a user with that email
                         if (user) {
-                            return done(null, false, req.flash('error', 'That email is already taken.'));
+                            return done(null, false, req.flash('error', 'That email is already taken'));
                         } else {
 
                             // Generate random token
@@ -179,7 +179,7 @@ module.exports = function(passport) {
                             return done(err);
 
                         if (user) {
-                            return done(null, false, req.flash('error', 'That email is already taken.'));
+                            return done(null, false, req.flash('error', 'That email is already taken'));
                             // Using 'loginMessage instead of signupMessage because it's used by /connect/local'
                         } else {
                             var user = req.user;

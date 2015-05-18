@@ -1,0 +1,155 @@
+<!-- BEGIN POST JOB POSTING -->
+<div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-userdashboard modal-dialog-custom">
+    <div class="modal-content-wrapper">
+      <div class="modal-content bg-modal-content outer">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+        <div class="panel panel-transparent middle">
+          <div class="panel-body panel-body-custom">
+            <form action="#" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="row">
+                    <div class="col-sm-12 p-l-0">
+                      <div class="form-group form-group-default b-0">
+                        <input type="text" name="companyName" placeholder="Company Name" class="form-control" required style="font-family:avenir_book;color: #4a4a4a;font-size: 1.12rem;font-weight: bold;">
+                      </div>
+                    </div>
+                    <div class="col-sm-12 p-l-0">
+                      <div class="form-group form-group-default b-0">
+                        <input type="text" class="form-control" name="jobTitle" placeholder="Position Title" required style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
+                      </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="col-sm-12 p-l-0">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-xs-3 p-r-0">
+                              <select name="currency" class="currency">
+                                <option value="USD">USD</option>
+                                <option value="IDR">IDR</option>
+                              </select>
+                            </div>
+                            <div class="col-sm-5 col-xs-9 p-l-0">
+                              <div class="input-daterange input-group">
+                                <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" placeholder="2.000.000"/>
+                                <span class="input-group-addon" style="  background:#F5F4F4;">-</span>
+                                <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" placeholder="4.000.000" />
+                              </div>
+                            </div>
+                            <div class="col-sm-4 salary-type-box">
+                              <div class="form-group salary-type">
+                                <select name="salaryType" class="salaryType">
+                                  <option value="Monthly">Monthly</option>
+                                  <option value="Annually">Annually</option>
+                                  <option value="Daily">Daily</option>
+                                  <option value="Hourly">Hourly</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3 text-right">
+                  <div class="container">
+                    <div class="imageBox">
+                      <div class="thumbBox"></div>
+                      <div class="spinner" style="display: none">Loading...</div>
+                      <input type="file" id="file" style="float:left; width: 250px">
+                    </div>
+                    <div class="btn-group action">
+                      <button class="btn btn-sm btn-success" id="btnDone" style="float: right"><i class="fa fa-check"></i> DONE</button>
+                      <button class="btn btn-sm" id="btnZoomOut" style="float: left"><i class="fa fa-minus"></i></button>
+                      <button class="btn btn-sm" id="btnZoomIn" style="float: left"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <img id="image-file" style="display:none;" src="#" data-adaptive-background='1'>
+                    <input id="image-result" type="hidden" name="cropped_image">
+                  </div>
+                </div>
+              </div>
+              
+              <br>
+              <br>
+              <br>
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group required">
+                    <label class="drop-down custom-label">Location</label>
+                    <% include ../dropdown/location_create %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group required">
+                    <label class="drop-down custom-label">Category</label>
+                    <% include ../dropdown/category_create %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group required">
+                    <label class="drop-down custom-label">Job Type</label>
+                    <select class="full-width job-dropdown" name="jobType" data-init-plugin="select2" required>
+                      
+                      <option value="Full Time" selected="">Full Time</option>
+                      <option value="Contract">Contract</option>
+                      <option value="Part Time">Part Time</option>
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <br>
+              <br>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default b-0">
+                    <label class="custom-label">Description</label>
+                    <textarea id="editor1" class="textarea-desc" name="description" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
+                    Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices." class="description-text"></textarea>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default b-0">
+                    <label class="custom-label">Job Scope <span class="hint-text small"></label>
+                    <textarea id="editor2" name="jobScope" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
+                    Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices."></textarea>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default b-0">
+                    <label class="custom-label">Requirements  <span class="hint-text small"></label>
+                    <textarea id="editor3" name="requirements" placeholder="AcmeAgency is a leading app design and development agency based in Copenhagen, London and New York. With a combined experience of over 30 years in the industry, you could say we know a thing or two about app design and crafting sublime, detailed user experiences. This is why our customers come back to us year after year.
+                    Our award winning apps, for such clients as Acme Photography, Acme Hotels & Leisure, and Acme Dating have gained us a lot of industry attention, given the respective client a great deal of success and pushed the boundaries on what we can acheive on with mobile devices."></textarea>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <br>
+              <br>
+              <button class="btn btn-primary btn-cons" type="submit" style="margin-left: 10px;">
+              <span>Post Job</span>
+              </button>
+              <div id="createWizard">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- BEGIN POST JOB POSTING -->

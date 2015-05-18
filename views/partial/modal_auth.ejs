@@ -1,0 +1,160 @@
+<!-- BEGIN USER AUTHENTICATION MODAL  -->
+<div class="modal fade slide-right" id="modalAuth" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+        </button>
+        <div class="container-xs-height full-height">
+          <div class="row-xs-height outer">
+
+            <!-- START SIGN-IN FORM -->
+            <div class="signIn-panel middle">
+              <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <h3>Sign In</h3>
+                  </div>
+                </div>
+                <div class="panel-body" style="height:auto">
+                  <h5>Sign in to your employer account</h5>
+                  <form id="form-login" class="" role="form" method="POST" action="/api/account/signin">
+                    <div class="form-group form-group-default">
+                      <label>Email</label>
+                      <div class="controls">
+                        <input type="email" name="email" placeholder="Your Email" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="form-group form-group-default">
+                      <label>Password</label>
+                      <div class="controls">
+                        <input type="password" class="form-control" name="password" placeholder="Credentials" required>
+                      </div>
+                    </div>
+                    <!--<div class="checkbox check-success pull-left">
+                      <input type="checkbox" value="1" id="checkbox1">
+                      <label for="checkbox1">Keep Me Signed in</label>
+                    </div>-->
+                    <a href="#" class="pull-right forgotPassword-btn small">Forgot your password?</a>
+                    <div class="clearfix"></div>
+                    <button type="submit" class="btn btn-primary btn-cons">Sign in</button>
+                  </form>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>if you don't have an employer account, <a href="#" class="bold signUp-btn" style="color:#F55753;text-decoration:underline">register</a> here!!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END SIGN-IN FORM -->
+            
+            <!-- START SIGN-UP FORM -->
+            <div class="signUp-panel">
+              <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0;">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <h3>Sign Up</h3>
+                  </div>
+                </div>
+                <div class="panel-body" style="height:auto">
+                  <h5>Create your employer account in under a minute</h5>
+                  <form id="form-register" action="api/account/signup" class="" method="POST" role="form" autocomplete="off">
+                    <input type="hidden" name="_csrf" />
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default required">
+                          <label>First Name</label>
+                          <input type="text" name="firstName" placeholder="John" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default required">
+                          <label>Last Names</label>
+                          <input type="text" name="lastName" placeholder="Appleseed" class="form-control" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group form-group-default required">
+                          <label>Company Name</label>
+                          <input type="text" name="companyName" placeholder="eg. Apple Inc" class="form-control" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                          <label>Email</label>
+                          <input type="email" name="email" placeholder="We will send activation details to you" class="form-control" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="fform-group form-group-default required">
+                          <label>Password</label>
+                          <input type="text" name="password" placeholder="Minimum of 4 Characters" class="form-control" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row m-t-10">
+                      <div class="col-md-12">
+                        <p class="small" style="font-weight: bold;">By clicking the button below, you are agree to our <a href="http://jobsy.io/termsofservice.html" target="_blank" class="text-info small">Service Terms</a> and <a href="http://jobsy.io/privacypolicy.html" target="_blank" class="text-info small">Privacy</a>.</p>
+                      </div>
+                    </div>
+                    <br/><br/>
+                    <div class="clearfix"></div>
+                    <button type="submit" class="btn btn-primary btn-cons">Create a new account</button>
+                  </form>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>If you already have an account, <a href="#" class="bold login-btn" style="color:#F55753;text-decoration:underline">login</a> here!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END SIGN-UP FORM -->
+
+            <!-- START FORGET-PASS FORM -->
+            <div class="forgetPass-panel">
+              <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <h3>Forgot Password?</h3>
+                  </div>
+                </div>
+                <div class="panel-body" style="height:auto">
+                  <h5>Type your email below to retrieve Reset Password Link</h5>
+                  <form id="form-forgot" class="" role="form" method="POST" action="api/account/forgot">
+                    <div class="form-group form-group-default">
+                      <label>Email</label>
+                      <div class="controls">
+                        <input type="email" name="email" placeholder="Your Email" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <button type="submit" class="btn btn-primary btn-cons">Send Link</button>
+                  </form>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>If you don't have an account, <a href="#" class="bold signUp-btn" style="color:#F55753;text-decoration:underline">register</a> here!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END FORGET-PASS FORM -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END USER AUTHENTICATION MODAL  -->

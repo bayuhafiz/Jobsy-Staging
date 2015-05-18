@@ -1,7 +1,7 @@
 /*
 Author: bayu@colorblindlabs.com
 
-Made fo Jobsy App project
+Made for Jobsy-App project
 */
 
 "use strict";

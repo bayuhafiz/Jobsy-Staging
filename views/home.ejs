@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-     <% include ./partial/head %>
+    <% include ./partial/head %>
   </head>
   <body class="fixed-header menu-behind">
     <!-- START PAGE-CONTAINER -->
     <div class="page-container">
       <!-- START HEADER -->
-      <% include ./partial/header_home %>
+      <% include ./partial/topbar_home %>
       <!-- END HEADER -->
       <!-- START PAGE CONTENT WRAPPER -->
       <div class="page-content-wrapper full-height">
@@ -15,216 +15,207 @@
           <div class="email-wrapper">
             <!-- START JOBS LIST -->
             <div class="email-list b-r b-grey"> <a class="email-refresh" href="#"></a>
-              <div id="emailList">
-                <!-- START EMAIL LIST SORTED BY DATE -->
-                <!-- END EMAIL LIST SORTED BY DATE -->
-              </div>
+            <div id="emailList">
+              <!-- START EMAIL LIST SORTED BY DATE -->
+              <!-- END EMAIL LIST SORTED BY DATE -->
             </div>
-            <!-- END JOBS LIST -->
-            
-            <% if (info.length > 0) { %>
-              <div class="msg-container" data-type="info" style="display:none;"><%= info %></div>
-            <% } else if (success.length > 0) { %>
-              <div class="msg-container" data-type="success" style="display:none;"><%= success %></div>
-            <% } else if (error.length > 0) { %>
-              <div class="msg-container" data-type="error" style="display:none;"><%= error %></div>
-            <% } %>
-
-            <!-- START OPENED JOB -->
-            <div class="email-opened">
-              <div class="no-email">
-                <h1><img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="73"><span class="small">&trade;</span></h1>
-              </div>
-              <div class="email-content-wrapper">
-                <div class="actions-wrapper bg-master-lightest">
-                  <div class="actions no-margin" style="width: 100%;">
-                    <div class="visible-sm-inline-block visible-xs-inline-block all-job-list">
-                      <a href="#list" class="email-list-toggle"><center><i class="fa fa-chevron-left" style="padding-top: 15px;font-size: 20px;color: #fff;"></i></center></a>
-                    </div>
-                      <div class="btn btn-success btn-animated from-top fa fa-arrow-down" data-toggle="modal" id="btnToggleSlideUpSize"><span id="button-text">Apply for this job</span></div>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="email-content">
-                    <div class="row email-content-header-box">
-                        <div class="col-sm-8">
-                            <div class="outer email-content-header">
-                                <!--<div class="col-xs-4 col-sm-3">
-                                <div class="middle" style="width: 1px;">
-                                    <div class="thumbnail-wrapper d48" id="opened-thumbnail">
-                                    </div>
-                                </div>
-                                </div>-->
-
-                                <div class="col-xs-8 col-sm-9" style="padding-left:0">
-                                  <div class="sender profile inline m-l-10">
-                                    <p class="name no-margin bold"></p>
-                                    <h3 class="job-title semi-bold p-b-10 p-t-10"></h3>
-                                    <div class="details email-content-salary">
-                                        <h4 class="salary light p-t-10">
-                                          <span class="salary-from"></span>
-                                          <span class="small">-</span>
-                                          <span class="salary-to"></span>
-                                          <span class="salary-type no-margin"></span>
-                                        </h4>
-                                        
-                                    </div>
-                                    <p class="datetime location no-margin hint-text"></p>
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-4 col-sm-4">
-                            <div class="thumbnail-wrapper d48 circular" id="opened-thumbnail"></div>
-                        </div>
-                        <!--<div class="details col-sm-4 email-content-salary">
-                            <h4 class="salary light p-t-10">
-                              <span class="salary-from"></span>
-                              <span class="small">s/d</span>
-                              <span class="salary-to"></span>
-                            </h4>
-                            <p class="salary-type no-margin"></p>
-                        </div>-->
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 email-content-desc">
-                            <p class="bold">Company Overview</p>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="col-sm-12 company_overview">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-12 email-content-desc">
-                            <p class="bold">Job Scope</p>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="col-sm-12 job_scope">
-                            <p></p>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-12 email-content-desc">
-                            <p class="bold">Requirements</p>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="col-sm-12 requirements">
-                            <p></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="email-replay">
-                  <form id="applyForm" class="applyForm" method="POST" enctype="multipart/form-data" autocomplete="off" role="form">
-                    <div class="row">
-                      <div class="col-md-12 header-box">
-                        <div class="row">
-                          <div class="col-md-3 col-sm-3 title">
-                            Full Name :
-                          </div>
-                          <div class="col-md-9 col-sm-9 input-text">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="ex: John Smith" required>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3 col-sm-3 title">
-                            Phone Number :
-                          </div>
-                          <div class="col-md-9 col-sm-9 input-text">
-                            <div class="form-group">
-                                <input type="text" name="phone" class="form-control" placeholder="ex: 0812 34567890" required>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3 col-sm-3 title">
-                            Email :
-                          </div>
-                          <div class="col-md-9 col-sm-9 input-text">
-                            <div class="form-group">
-                                <input type="email" name="email" class="form-control" placeholder="ex: some@example.com" required>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3 col-sm-3 title">
-                            Location :
-                          </div>
-                          <div class="col-md-9 col-sm-9 input-text">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="location" placeholder="ex: Surabaya" required>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3 col-sm-3 title">
-                            Last Job/Education :
-                          </div>
-                          <div class="col-md-9 col-sm-9 input-text">
-                            <div class="form-group">
-                              <input type="text" class="form-control" name="lastJob" placeholder="ex: Apple Inc. (2010 - 2015) as Web Developer" required>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-12 content-box p-l-0 p-r-0">
-                        <div class="form-group form-group-default">
-                          <textarea placeholder="Type your cover letter here (optional)" class="form-control" id="editor4" name="coverLetter" aria-invalid="false"></textarea>
-                        </div>
-                      </div>
-                      <div class="col-md-12 footer-box">
-                        <div class="row">
-                          <div class="col-md-6 col-sm-6 col-xs-12 pull-left attachment">
-                            <div class="row">
-                              <div class="col-md-1 col-sm-1 col-xs-1"><i class="fa fa-paperclip attach-btn"></i></div>
-                              <div class="col-md-11 col-sm-11 col-xs-11"><span class="attach-btn">Please Attach a PDF Resume</span></div>
-                            </div>
-                            <input type="file" name="resumeFile" id="resumeFile" class="form-control" required>
-                          </div>
-                          <div class="col-md-4 col-sm-4 col-xs-12 pull-right button-replay">
-                            <div class="row">
-                              <div class="col-md-6 col-sm-6 col-xs-6 discard-replay"><button type="button" class="btn btn-default btn-animated from-top fa fa-times btn-block" ><span>Discard</span></button></div>
-                              <div class="col-md-6 col-sm-6 col-xs-6"><button type="submit" class="btn btn-primary btn-animated from-top fa fa-check btn-block" data-target="#applyModal" id="btnToggleSlideUpSize"><span>Send</span></button></div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <!-- END OPENED JOB -->
           </div>
+          <!-- END JOBS LIST -->
+          <% if (info.length > 0) { %>
+          <div class="msg-container" data-type="info" style="display:none;"><%= info %></div>
+          <% } else if (success.length > 0) { %>
+          <div class="msg-container" data-type="success" style="display:none;"><%= success %></div>
+          <% } else if (error.length > 0) { %>
+          <div class="msg-container" data-type="error" style="display:none;"><%= error %></div>
+          <% } %>
+          <!-- START OPENED JOB -->
+          <div class="email-opened">
+            <div class="no-email">
+              <h1><img src="assets/img/jobsy_logo_black.png" alt="logo" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="73"><span class="small">&trade;</span></h1>
+            </div>
+            <div class="email-content-wrapper">
+              <div class="actions-wrapper bg-master-lightest">
+                <div class="actions no-margin" style="width: 100%;">
+                  <div class="visible-sm-inline-block visible-xs-inline-block all-job-list">
+                    <a href="#list" class="email-list-toggle"><center><i class="fa fa-chevron-left" style="padding-top: 15px;font-size: 20px;color: #fff;"></i></center></a>
+                  </div>
+                  <div class="btn btn-success btn-animated from-top fa fa-arrow-down" data-toggle="modal" id="btnToggleSlideUpSize"><span id="button-text">Apply for this job</span></div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="email-content">
+                <div class="row email-content-header-box">
+                  <div class="col-sm-8">
+                    <div class="outer email-content-header">
+                      <div class="col-xs-8 col-sm-9" style="padding-left:0">
+                        <div class="sender profile inline m-l-10">
+                          <p class="name no-margin bold"></p>
+                          <h3 class="job-title semi-bold p-b-10 p-t-10"></h3>
+                          <div class="details email-content-salary">
+                            <h4 class="salary light p-t-10">
+                            <span class="salary-from"></span>
+                            <span class="small">-</span>
+                            <span class="salary-to"></span>
+                            <span class="salary-type no-margin"></span>
+                            </h4>
+                            
+                          </div>
+                          <p class="datetime location no-margin hint-text"></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4 col-sm-4">
+                    <div class="thumbnail-wrapper d48 circular" id="opened-thumbnail"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 email-content-desc">
+                    <p class="bold">Company Overview</p>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="col-sm-12 company_overview">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-12 email-content-desc">
+                    <p class="bold">Job Scope</p>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="col-sm-12 job_scope">
+                    <p></p>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-12 email-content-desc">
+                    <p class="bold">Requirements</p>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="col-sm-12 requirements">
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+              <div class="email-replay">
+                <form id="applyForm" class="applyForm" method="POST" enctype="multipart/form-data" autocomplete="off" role="form">
+                  <div class="row">
+                    <div class="col-md-12 header-box">
+                      <div class="row">
+                        <div class="col-md-3 col-sm-3 title">
+                          Full Name :
+                        </div>
+                        <div class="col-md-9 col-sm-9 input-text">
+                          <div class="form-group">
+                            <input type="text" class="form-control" placeholder="ex: John Smith" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 col-sm-3 title">
+                          Phone Number :
+                        </div>
+                        <div class="col-md-9 col-sm-9 input-text">
+                          <div class="form-group">
+                            <input type="text" name="phone" class="form-control" placeholder="ex: 0812 34567890" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 col-sm-3 title">
+                          Email :
+                        </div>
+                        <div class="col-md-9 col-sm-9 input-text">
+                          <div class="form-group">
+                            <input type="email" name="email" class="form-control" placeholder="ex: some@example.com" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 col-sm-3 title">
+                          Location :
+                        </div>
+                        <div class="col-md-9 col-sm-9 input-text">
+                          <div class="form-group">
+                            <input type="text" class="form-control" name="location" placeholder="ex: Surabaya" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 col-sm-3 title">
+                          Last Job/Education :
+                        </div>
+                        <div class="col-md-9 col-sm-9 input-text">
+                          <div class="form-group">
+                            <input type="text" class="form-control" name="lastJob" placeholder="ex: Apple Inc. (2010 - 2015) as Web Developer" required>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 content-box p-l-0 p-r-0">
+                      <div class="form-group form-group-default">
+                        <textarea placeholder="Type your cover letter here (optional)" class="form-control" id="editor4" name="coverLetter" aria-invalid="false"></textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-12 footer-box">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12 pull-left attachment">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-1 col-xs-1"><i class="fa fa-paperclip attach-btn"></i></div>
+                            <div class="col-md-11 col-sm-11 col-xs-11"><span class="attach-btn">Please Attach a PDF Resume</span></div>
+                          </div>
+                          <input type="file" name="resumeFile" id="resumeFile" class="form-control" required>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 pull-right button-replay">
+                          <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6 discard-replay"><button type="button" class="btn btn-default btn-animated from-top fa fa-times btn-block" ><span>Discard</span></button></div>
+                            <div class="col-md-6 col-sm-6 col-xs-6"><button type="submit" class="btn btn-primary btn-animated from-top fa fa-check btn-block" data-target="#applyModal" id="btnToggleSlideUpSize"><span>Send</span></button></div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- END OPENED JOB -->
         </div>
       </div>
     </div>
-    <!-- END PAGE CONTAINER -->
+  </div>
+  <!-- END PAGE CONTAINER -->
 
-    <!-- BEGIN MODAL OVERLAY -->
-    <% include ./partial/modal %>
-    <!-- END MODAL OVERLAY -->
+  <!-- BEGIN MODAL OVERLAY -->
+  <% if (user) { %>
+  <% include ./partial/modal_account %>
+  <% include ./partial/modal_credits %>
+  <% include ./partial/modal_edit %>
+  <% include ./partial/modal_post %>
+  <% } else { %>
+  <% include ./partial/modal_auth %>
+  <% include ./partial/modal_apply %>
+  <% } %>
+  <!-- END MODAL OVERLAY -->
 
-    <% if (user) { %>
-      <input type="hidden" id="user-id" value="<%= user._id %>" />
-      <input type="hidden" id="user_email" value="<%= user.email %>">
-      <input type="hidden" id="init-login" value="<%= initLogin %>" />
-      <input type="hidden" id="hidden-logo" value="<%= initCompany.logo %>" />
-      <input type="hidden" id="hidden-name" value="<%= initCompany.name %>" />
-      <input type="hidden" id="hidden-location" value="<%= initCompany.location %>" />
-      <input type="hidden" id="hidden-description" value="<%= initCompany.description %>" />
-    <% } else { %>
-      <input type="hidden" id="user_email" value="none">
-    <% } %>  
+  <% if (user) { %>
+  <input type="hidden" id="user-id" value="<%= user._id %>" />
+  <input type="hidden" id="user_email" value="<%= user.email %>">
+  <input type="hidden" id="init-login" value="<%= initLogin %>" />
+  <input type="hidden" id="hidden-logo" value="<%= initCompany.logo %>" />
+  <input type="hidden" id="hidden-name" value="<%= initCompany.name %>" />
+  <input type="hidden" id="hidden-location" value="<%= initCompany.location %>" />
+  <input type="hidden" id="hidden-description" value="<%= initCompany.description %>" />
+  <% } else { %>
+  <input type="hidden" id="user_email" value="none">
+  <% } %>
 
-    <% include ./script/home %>
+  <% include ./script/home %>
 
-  </body>
+</body>
 </html>

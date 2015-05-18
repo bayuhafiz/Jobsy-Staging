@@ -1,69 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
-
     <% include ./partial/head %>
-
   </head>
   <body class="fixed-header menu-behind">
-
-
     <!-- START PAGE-CONTAINER -->
     <div class="page-container">
       <!-- START HEADER -->
-
-        <% include ./partial/header_dash %>
-
+      <% include ./partial/topbar_dash %>
       <!-- END HEADER -->
-
       <!-- START PAGE CONTENT WRAPPER -->
       <div class="page-content-wrapper">
         <!-- START PAGE CONTENT -->
         <div class="content">
-
           <div id="message"></div>
           
           <% include ./partial/jumbotron %>
-
           <!-- START CONTAINER FLUID -->
           <div class="container-fluid container-fixed-lg">
             <div class="row">
               <div class="col-md-12">
                 <!-- START PANEL -->
                 <div class="panel panel-transparent">
-
-                    <% if (info.length > 0) { %>
-                      <div class="msg-container" data-type="info" style="display:none;"><%= info %></div>
-                    <% } else if (success.length > 0) { %>
-                      <div class="msg-container" data-type="success" style="display:none;"><%= success %></div>
-                    <% } else if (error.length > 0) { %>
-                      <div class="msg-container" data-type="error" style="display:none;"><%= error %></div>
-                    <% } %>
-
-                    <input type="hidden" id="user-email" value="<%= user.email %>" />
-
+                  <% if (info.length > 0) { %>
+                  <div class="msg-container" data-type="info" style="display:none;"><%= info %></div>
+                  <% } else if (success.length > 0) { %>
+                  <div class="msg-container" data-type="success" style="display:none;"><%= success %></div>
+                  <% } else if (error.length > 0) { %>
+                  <div class="msg-container" data-type="error" style="display:none;"><%= error %></div>
+                  <% } %>
+                  <input type="hidden" id="user-email" value="<%= user.email %>" />
                   <div class="panel-heading" id="user-job-counter">
                     <span class="panel-title" id="job-counter">
                     </span>
-                    <!--<span class="radio radio-danger pull-right" data-init-plugin="js-switchery">
-                        <input type="radio" checked="checked" value="hide" name="hide-radio" id="radio-hide">
-                        <label for="radio-hide" class="small">Hide Deleted Job</label>
-                        <input type="radio" value="show" name="hide-radio" id="radio-show">
-                        <label for="radio-show" class="small">Show Deleted Job</label>
-                    </span>-->
-
                     <div class="pull-right deletedJob-btn">
+                      <div class="inline m-l-10">
+                        <p class="small hint-text m-t-5 switch-label">Click to view deleted job posts</p>
+                      </div>
                       <div class="m-t-5 inline" style="position: relative;top: -9px;">
                         <input id="job-switch" type="checkbox" class="switchery" />
                         <div class="chat-status available">
                         </div>
                       </div>
-                      <div class="inline m-l-10">
-                        <p class="small hint-text m-t-5 switch-label">Click to view
-                        <br> deleted job posts</p>
-                      </div>
                     </div>
-
                   </div>
                   <br>
                   <!-- START JOBS PANEL -->
@@ -72,44 +51,45 @@
                     <p><a href="#" data-target="#PostNewJob" data-toggle="modal">click here</a> to create a new job post or click on grren button above.</p>
                   </div>
                   <div class="jobs-panel">
-                    <ul id="user-job-list" class="cbp-ntaccordion"></ul>
+                    <ul id="accordion" class="accordion">
+                    </ul>
                   </div>
                   <!-- END JOBS PANEL -->
-
+                </div>
               </div>
             </div>
+            <!-- END CONTAINER FLUID -->
           </div>
-          <!-- END CONTAINER FLUID -->
+          <!-- END PAGE CONTENT -->
+          
         </div>
-        <!-- END PAGE CONTENT -->
+        <% include ./partial/copyright %>
         
-
+        <!-- END PAGE CONTENT WRAPPER -->
       </div>
-      <% include ./partial/copyright %>
+      <!-- END PAGE CONTAINER -->
       
-      <!-- END PAGE CONTENT WRAPPER -->
-    </div>
-    <!-- END PAGE CONTAINER -->
-    
-    <!-- START MODAL -->
-
-    <% include ./partial/modal %>
-
-    <!-- END MODAL -->
-
-    <% if (user) { %>
+      <!-- BEGIN MODAL OVERLAY -->
+      <% if (user) { %>
+      <% include ./partial/modal_account %>
+      <% include ./partial/modal_credits %>
+      <% include ./partial/modal_edit %>
+      <% include ./partial/modal_post %>
+      <% } else { %>
+      <% include ./partial/modal_auth %>
+      <% include ./partial/modal_apply %>
+      <% } %>
+      <!-- END MODAL OVERLAY -->
+      <% if (user) { %>
       <input type="hidden" id="user-id" value="<%= user._id %>" />
       <input type="hidden" id="init-login" value="<%= initLogin %>" />
       <input type="hidden" id="hidden-logo" value="<%= user.initCompany.logo %>" />
       <input type="hidden" id="hidden-name" value="<%= user.initCompany.name %>" />
       <input type="hidden" id="hidden-location" value="<%= user.initCompany.location %>" />
       <input type="hidden" id="hidden-description" value="<%= user.initCompany.description %>" />
-    <% } %>
-
-    <!-- BEGIN VENDOR JS -->
-
-    <% include ./script/dash %>
-
-    <!-- END PAGE LEVEL JS -->
-  </body>
-</html>
+      <% } %>
+      <!-- BEGIN VENDOR JS -->
+      <% include ./script/dash %>
+      <!-- END PAGE LEVEL JS -->
+    </body>
+  </html>

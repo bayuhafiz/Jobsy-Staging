@@ -1,47 +1,90 @@
+<!-- BEGIN VENDOR JS -->
+<script src="../assets/plugins/pace/pace.min.js"></script>
+<script src="../assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="../assets/plugins/modernizr.custom.js"></script>
+<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../assets/plugins/boostrapv3/js/bootstrap.min.js"></script>
+<script src="../assets/plugins/jquery/jquery-easy.js"></script>
+<script src="../assets/plugins/jquery-unveil/jquery.unveil.min.js"></script>
+<script src="../assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+<script src="../assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+<script src="../assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../assets/plugins/classie/classie.js"></script>
+<script src="../assets/plugins/formvalidation/dist/js/formValidation.min.js"></script>
+<script src="../assets/plugins/formvalidation/dist/js/framework/bootstrap.min.js"></script>
+<script src="../assets/plugins/sweetalert.min.js"></script>
+<script src="../assets/plugins/pages.min.js"></script>
+<!-- END VENDOR JS -->
 
-    <!-- BEGIN VENDOR JS -->
-    <script src="../assets/plugins/pace/pace.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/modernizr.custom.js" type="text/javascript"></script>
-    <script src="../assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
-    <script src="../assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/jquery-bez/jquery.bez.min.js"></script>
-    <script src="../assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/jquery-actual/jquery.actual.min.js"></script>
-    <script src="../assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-    <script type="text/javascript" src="../assets/plugins/bootstrap-select2/select2.min.js"></script>
-    <script type="text/javascript" src="../assets/plugins/classie/classie.js"></script>
-    <script src="../assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-    <!-- END VENDOR JS -->
-    <!-- BEGIN CORE TEMPLATE JS -->
-    <script src="../pages/js/pages.min.js"></script>
-    <!-- END CORE TEMPLATE JS -->
-    <!-- BEGIN PAGE LEVEL JS -->
-    <script src="../assets/js/scripts.js" type="text/javascript"></script>
-    <script>
-    function readURL(input) {
-        // read logo file being uploaded
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#logoPreview').attr('src', e.target.result);
+<!-- BEGIN PAGE LEVEL JS -->
+<script>
+$(document).ready(function() {
+    $('#form-reset').formValidation({
+        framework: 'bootstrap',
+        fields: {
+            email: {
+                fields: {
+                    newPass: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required'
+                            },
+                            stringLength: {
+                                min: 4,
+                                message: 'The password must be more than 3 characters long'
+                            }
+                        }
+                    },
+                    confirmPass: {
+                        validators: {
+                            identical: {
+                                field: 'newPass',
+                                message: 'The password and its confirm are not the same'
+                            }
+                        }
+                    }
+                }
             }
-
-            reader.readAsDataURL(input.files[0]);
         }
-    }
+    }).on('success.form.fv', function(e) {
+        // Prevent form submission
+        e.preventDefault();
 
-    $("#logo").change(function(){
-        readURL(this);
-    });
+        swal({
+                        type: 'error',
+                        title: "Sorry..",
+                        text: "dshfjdsihfi sfhusi fhuis dfishfu ihsdui "
+                    });
 
-    $('#reset-button').click(function(){
-        $('#edit-form')[0].reset();
+        /*var $form = $(e.target),
+            fv = $form.data('formValidation');
+
+        // Use Ajax to submit form data
+        $.ajax({
+            url: $form.attr('action'),
+            type: 'POST',
+            data: $form.serialize(),
+            success: function(result) {
+                if (result.type == 'success') {
+                    swal({
+                        type: 'success',
+                        title: "Sent!",
+                        text: result.msg
+                    }, function() {
+                        $('#modalAuth').modal({ // Open sign in modal
+                            show: true
+                        });
+                    });
+                } else {
+                    swal({
+                        type: 'error',
+                        title: "Sorry..",
+                        text: result.msg
+                    });
+                }
+            }
+        });*/
     });
-    
-    </script>
-    <!-- END PAGE LEVEL JS -->
+})
+</script>
+<!-- END PAGE LEVEL JS -->
