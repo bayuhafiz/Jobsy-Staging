@@ -122,7 +122,7 @@ window.loadJobList = function(apiUrl) {
                                         </div> \
                                     </div>';
 
-                    li += '<div class="datetime"><span class="hint-text bold">' + moment(data[i].createdAt).format('ddd, D MMM') + '</span></div>';
+                    li += '<div class="datetime"><span class="hint-text">' + moment(data[i].createdAt).format('ddd, D MMM') + '</span></div>';
 
                     if (userEmail == 'none') {
                         li += '<div class="apply-btn" id="btn-apply-job" data-toggle="modal" data-target="#applyModal"><center><i class="fa fa-rocket" style="font-size: 23px;"></i></center><p>Apply now</p></div>\
@@ -157,6 +157,15 @@ window.loadJobList = function(apiUrl) {
                                         'right': '-240px'
                                     });
 
+
+                                li.find('.datetime').animate({
+                                        'right': '160px'
+                                    }).end().siblings()
+                                    .find('.datetime').animate({
+                                        'right': '20px'
+                                    });
+
+                                    
 
                                 $('.details-list-box').css({
                                     'position': 'relative'
@@ -317,12 +326,12 @@ window.loadJobListMobile = function(apiUrl) {
                                     </div>';
                     if (diff <= 3) {
                         if (diff == 1) {
-                            li += '<div class="datetime"><span class="text-danger bold">' + diff + ' day left</span></div>';
+                            li += '<div class="datetime"><span class="text-danger">' + diff + ' day left</span></div>';
                         } else {
-                            li += '<div class="datetime"><span class="text-danger bold">' + diff + ' days left</span></div>';
+                            li += '<div class="datetime"><span class="text-danger">' + diff + ' days left</span></div>';
                         }
                     } else {
-                        li += '<div class="datetime"><span class="hint-text bold">' + diff + ' days left</span></div>';
+                        li += '<div class="datetime"><span class="hint-text">' + diff + ' days left</span></div>';
                     }
 
                     li += '<p class="job-title job-title-hover bold" style="right:20px;line-height: 28px;position: absolute;opacity:0">' + currency + ' ' + salaryFrom + ' - ' + salaryTo + '</p> \

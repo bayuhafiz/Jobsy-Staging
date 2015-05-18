@@ -723,6 +723,14 @@
                     'right': '-240px'
                 });
 
+            $(this).find('.datetime').animate({
+                                        'right': '160px'
+                                    }).end().siblings()
+                                    .find('.datetime').animate({
+                                        'right': '20px'
+                                    });
+
+
 
             $('.details-list-box').css({
                 'position': 'relative'
