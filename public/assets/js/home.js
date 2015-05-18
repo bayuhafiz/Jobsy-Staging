@@ -133,103 +133,11 @@
         }
 
 
-        // FORM VALIDATION HANDLER //////////////
-        $('#form-login')
-            .formValidation({
-                framework: 'bootstrap',
-                fields: {
-                    email: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The email address is required'
-                            },
-                            emailAddress: {
-                                message: 'The email address is not valid'
-                            }
-                        }
-                    },
-                    password: {
-                        validators: {
-                            notEmpty: {
-                                message: 'The password is required'
-                            },
-                            stringLength: {
-                                min: 4,
-                                message: 'The message must be more than 3 characters long'
-                            }
-                        }
-                    }
-                }
-            })
-            .on('success.form.fv', function(e) {
-                // Prevent form submission
-                e.preventDefault();
-
-                var $form = $(e.target),
-                    fv = $form.data('formValidation');
-
-                // Use Ajax to submit form data
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: $form.serialize(),
-                    success: function(result) {
-                        // ... Process the result ...
-                        if (result.type == 'success') {
-                            swal({
-                                type: 'success',
-                                title: "Logged in!",
-                                text: result.msg
-                            }, function() {
-                                window.location.href = '/dash';
-                            });
-                        } else {
-                            swal({
-                                type: 'error',
-                                title: "Sorry..",
-                                text: result.msg
-                            });
-                        }
-                    }
-                });
-            });
-
-        $('#form-register').formValidation({
+        /////////////// FORM VALIDATION HANDLER //////////////
+        // FORM SIGN IN
+        $('#form-login').formValidation({
             framework: 'bootstrap',
             fields: {
-                firstName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The first name is required'
-                        },
-                        stringLength: {
-                            min: 3,
-                            message: 'Must be more than 2 characters long'
-                        }
-                    }
-                },
-                lastName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The last name is required'
-                        },
-                        stringLength: {
-                            min: 3,
-                            message: 'Must be more than 2 characters long'
-                        }
-                    }
-                },
-                companyName: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The company name is required'
-                        },
-                        stringLength: {
-                            min: 5,
-                            message: 'The company name must be more than 4 characters long'
-                        }
-                    }
-                },
                 email: {
                     validators: {
                         notEmpty: {
@@ -252,9 +160,172 @@
                     }
                 }
             }
-        }).on('success.form.fv', function(e) {
+        })
+        .on('success.form.fv', function(e) {
             // Prevent form submission
             e.preventDefault();
+
+            // Reset the message element when the form is valid
+            $('#status_signin').html('');
+
+            var $form = $(e.target),
+                fv = $form.data('formValidation');
+
+            // Use Ajax to submit form data
+            $.ajax({
+                url: $form.attr('action'),
+                type: 'POST',
+                data: $form.serialize(),
+                success: function(result) {
+                    console.log(result.msg);
+                    // ... Process the result ...
+                    if (result.type == 'success') {
+                        swal({
+                            type: 'success',
+                            title: "Logged in!",
+                            timer: 3000,
+                            showConfirmButton: false,
+                            closeOnConfirm: true,
+                            text: result.msg
+                        }, function(isConfirm) { 
+                            window.location.href = '/dash';
+                        });
+                    } else {
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                            )
+                            .appendTo('#status_signin');
+                    }
+                }
+            });
+        })
+        .on('err.field.fv', function(e, data) {
+            // data.fv      --> The FormValidation instance
+            // data.field   --> The field name
+            // data.element --> The field element
+
+            // Get the messages of field
+            var messages = data.fv.getMessages(data.element);
+
+            // Remove the field messages if they're already available
+            $('#errors_signin').find('li[data-field="' + data.field + '"]').remove();
+
+            // Reset the message element when the form is valid
+            $('#status_signin').html('');
+
+            // Loop over the messages
+            for (var i in messages) {
+                // Create new 'li' element to show the message
+                $('<li/>')
+                    .attr('data-field', data.field)
+                    .wrapInner(
+                        $('<a/>')
+                            .attr('href', 'javascript: void(0);')
+                            .html(messages[i])
+                            .on('click', function(e) {
+                                // Focus on the invalid field
+                                data.element.focus();
+                            })
+                    )
+                    .appendTo('#errors_signin');
+            }
+
+            // Hide the default message
+            // $field.data('fv.messages') returns the default element containing the messages
+            data.element
+                .data('fv.messages')
+                .find('.help-block[data-fv-for="' + data.field + '"]')
+                .hide();
+        })
+        .on('success.field.fv', function(e, data) {
+            // Remove the field messages
+            $('#errors_signin').find('li[data-field="' + data.field + '"]').remove();
+
+            // Reset the message element when the form is valid
+            $('#status_signin').html('');
+        });
+        // EOF
+
+        // FORM SIGN UP
+        $('#form-register').formValidation({
+            framework: 'bootstrap',
+            fields: {
+                firstName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name is required'
+                        },
+                        stringLength: {
+                            min: 3,
+                            message: 'First name must be more than 2 characters long'
+                        }
+                    }
+                },
+                lastName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The last name is required'
+                        },
+                        stringLength: {
+                            min: 3,
+                            message: 'Last name must be more than 2 characters long'
+                        }
+                    }
+                },
+                companyName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The company name is required'
+                        },
+                        stringLength: {
+                            min: 5,
+                            message: 'The company name must be more than 4 characters long'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address is required'
+                        },
+                        remote: {
+                            type: 'GET',
+                            url: 'https://api.mailgun.net/v2/address/validate?callback=?',
+                            crossDomain: true,
+                            name: 'address',
+                            data: {
+                                // Registry a Mailgun account and get a free API key
+                                // at https://mailgun.com/signup
+                                api_key: 'pubkey-83a6-sl6j2m3daneyobi87b3-ksx3q29'
+                            },
+                            dataType: 'jsonp',
+                            validKey: 'is_valid',
+                            message: 'The email address is not valid'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required'
+                        },
+                        stringLength: {
+                            min: 4,
+                            message: 'The password must be more than 3 characters long'
+                        }
+                    }
+                }
+            }
+        })
+        .on('success.form.fv', function(e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Reset the message element when the form is valid
+            $('#status_signup').html('');
 
             var $form = $(e.target),
                 fv = $form.data('formValidation');
@@ -275,16 +346,65 @@
                             window.location.href = '/dash';
                         });
                     } else {
-                        swal({
-                            type: 'error',
-                            title: "Sorry..",
-                            text: result.msg
-                        });
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                            )
+                            .appendTo('#status_signup');
                     }
                 }
             });
-        });
+        })
+        .on('err.field.fv', function(e, data) {
+            // data.fv      --> The FormValidation instance
+            // data.field   --> The field name
+            // data.element --> The field element
 
+            // Get the messages of field
+            var messages = data.fv.getMessages(data.element);
+
+            // Remove the field messages if they're already available
+            $('#errors_signup').find('li[data-field="' + data.field + '"]').remove();
+
+            // Reset the message element when the form is valid
+            $('#status_signup').html('');
+
+            // Loop over the messages
+            for (var i in messages) {
+                // Create new 'li' element to show the message
+                $('<li/>')
+                    .attr('data-field', data.field)
+                    .wrapInner(
+                        $('<a/>')
+                            .attr('href', 'javascript: void(0);')
+                            .html(messages[i])
+                            .on('click', function(e) {
+                                // Focus on the invalid field
+                                data.element.focus();
+                            })
+                    )
+                    .appendTo('#errors_signup');
+            }
+
+            // Hide the default message
+            // $field.data('fv.messages') returns the default element containing the messages
+            data.element
+                .data('fv.messages')
+                .find('.help-block[data-fv-for="' + data.field + '"]')
+                .hide();
+        })
+        .on('success.field.fv', function(e, data) {
+            // Remove the field messages
+            $('#errors_signup').find('li[data-field="' + data.field + '"]').remove();
+
+            // Reset the message element when the form is valid
+            $('#status_signup').html('');
+        });
+        // EOF
+
+        // FORM FORGOT PASS
         $('#form-forgot').formValidation({
             framework: 'bootstrap',
             fields: {
@@ -299,9 +419,13 @@
                     }
                 }
             }
-        }).on('success.form.fv', function(e) {
+        })
+        .on('success.form.fv', function(e) {
             // Prevent form submission
             e.preventDefault();
+
+            // Reset the message element when the form is valid
+            $('#status_forgot').html('');
 
             var $form = $(e.target),
                 fv = $form.data('formValidation');
@@ -323,15 +447,225 @@
                             });
                         });
                     } else {
-                        swal({
-                            type: 'error',
-                            title: "Sorry..",
-                            text: result.msg
-                        });
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                            )
+                            .appendTo('#status_forgot');
                     }
                 }
             });
+        })
+        .on('err.field.fv', function(e, data) {
+            // data.fv      --> The FormValidation instance
+            // data.field   --> The field name
+            // data.element --> The field element
+
+            // Get the messages of field
+            var messages = data.fv.getMessages(data.element);
+
+            // Reset the message element when the form is valid
+            $('#status_forgot').html('');
+
+            // Remove the field messages if they're already available
+            $('#errors_forgot').find('li[data-field="' + data.field + '"]').remove();
+
+            // Loop over the messages
+            for (var i in messages) {
+                // Create new 'li' element to show the message
+                $('<li/>')
+                    .attr('data-field', data.field)
+                    .wrapInner(
+                        $('<a/>')
+                            .attr('href', 'javascript: void(0);')
+                            .html(messages[i])
+                            .on('click', function(e) {
+                                // Focus on the invalid field
+                                data.element.focus();
+                            })
+                    )
+                    .appendTo('#errors_forgot');
+            }
+
+            // Hide the default message
+            // $field.data('fv.messages') returns the default element containing the messages
+            data.element
+                .data('fv.messages')
+                .find('.help-block[data-fv-for="' + data.field + '"]')
+                .hide();
+        })
+        .on('success.field.fv', function(e, data) {
+            // Remove the field messages
+            $('#errors_forgot').find('li[data-field="' + data.field + '"]').remove();
+
+            // Reset the message element when the form is valid
+            $('#status_forgot').html('');
         });
+        // EOF
+
+        // FORM APPLY
+        $('#applyForm').formValidation({
+            framework: 'bootstrap',
+            fields: {
+                fullName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name is required'
+                        },
+                        stringLength: {
+                            min: 5,
+                            message: 'The ful name must be more than 4 characters long'
+                        }
+                    }
+                },
+                phone: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The phone number is required'
+                        },
+                        phone: {
+                            country: 'DE',
+                            message: 'The value is not valid phone number'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address is required'
+                        },
+                        remote: {
+                            type: 'GET',
+                            url: 'https://api.mailgun.net/v2/address/validate?callback=?',
+                            crossDomain: true,
+                            name: 'address',
+                            data: {
+                                // Registry a Mailgun account and get a free API key
+                                // at https://mailgun.com/signup
+                                api_key: 'pubkey-83a6-sl6j2m3daneyobi87b3-ksx3q29'
+                            },
+                            dataType: 'jsonp',
+                            validKey: 'is_valid',
+                            message: 'The email address is not valid'
+                        }
+                    }
+                },
+                location: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Location is required'
+                        },
+                        stringLength: {
+                            min: 3,
+                            message: 'The location must be more than 2 characters long'
+                        }
+                    }
+                },
+                lastJob: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The last job is required'
+                        },
+                        stringLength: {
+                            min: 5,
+                            message: 'The last job must be more than 4 characters long'
+                        }
+                    }
+                },
+                resumeFile: {
+                    validators: {
+                        file: {
+                            extension: 'pdf',
+                            type: 'application/pdf',
+                            message: 'Please choose a PDF file'
+                        }
+                    }
+                }
+            }
+        })
+        .on('success.form.fv', function(e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Reset the message element when the form is valid
+            $('#status_apply').html('');
+
+            /* var $form    = $(e.target),
+                formData = new FormData(),
+                params   = $form.serializeArray(),
+                files    = $form.find('[name="uploadedFiles"]')[0].files;
+
+            $.each(files, function(i, file) {
+                // Prefix the name of uploaded files with "uploadedFiles-"
+                // Of course, you can change it to any string
+                formData.append('uploadedFiles-' + i, file);
+            });
+
+            $.each(params, function(i, val) {
+                formData.append(val.name, val.value);
+            });
+
+            $.ajax({
+                url: $form.attr('action'),
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(result) {
+                    // Process the result ...
+                }
+            }); */
+        })
+        .on('err.field.fv', function(e, data) {
+            // data.fv      --> The FormValidation instance
+            // data.field   --> The field name
+            // data.element --> The field element
+
+            // Get the messages of field
+            var messages = data.fv.getMessages(data.element);
+
+            // Remove the field messages if they're already available
+            $('#errors_apply').find('li[data-field="' + data.field + '"]').remove();
+
+            // Reset the message element when the form is valid
+            $('#status_apply').html('');
+
+            // Loop over the messages
+            for (var i in messages) {
+                // Create new 'li' element to show the message
+                $('<li/>')
+                    .attr('data-field', data.field)
+                    .wrapInner(
+                        $('<a/>')
+                            .attr('href', 'javascript: void(0);')
+                            .html(messages[i])
+                            .on('click', function(e) {
+                                // Focus on the invalid field
+                                data.element.focus();
+                            })
+                    )
+                    .appendTo('#errors_apply');
+            }
+
+            // Hide the default message
+            // $field.data('fv.messages') returns the default element containing the messages
+            data.element
+                .data('fv.messages')
+                .find('.help-block[data-fv-for="' + data.field + '"]')
+                .hide();
+        })
+        .on('success.field.fv', function(e, data) {
+            // Remove the field messages
+            $('#errors_apply').find('li[data-field="' + data.field + '"]').remove();
+
+            // Reset the message element when the form is valid
+            $('#status_apply').html('');
+        });
+        // EOF
+
 
         $('#form-create-job').formValidation({
             message: 'This value is not valid',
@@ -343,15 +677,6 @@
             excluded: [':disabled']
         });
 
-        $('#form-register').formValidation({
-            message: 'This value is not valid',
-            excluded: [':disabled']
-        });
-
-        $('#applyForm').formValidation({
-            message: 'This value is not valid',
-            excluded: [':disabled']
-        });
         // END FORM VALIDATION HANDLER ////////////
 
 
@@ -759,6 +1084,7 @@
             $('#modalAuth').modal({
                 show: true
             });
+
             $('.signUp-panel').hide();
             $('.password1').hide();
             $('.forgetPass-panel').hide();
@@ -772,9 +1098,13 @@
                 success: function(result) {
                     swal({
                         title: "Logged out!",
+                        timer: 2000,
+                        showConfirmButton: false,
                         text: result.msg
                     }, function() {
-                        window.location.href = '/';
+                        setTimeout(function() {   
+                            window.location.href = '/';
+                        }, 2000);
                     });
                 }
             });

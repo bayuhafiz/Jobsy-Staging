@@ -13,12 +13,11 @@
 <script src="../assets/plugins/formvalidation/dist/js/formValidation.min.js"></script>
 <script src="../assets/plugins/formvalidation/dist/js/framework/bootstrap.min.js"></script>
 <script src="../assets/plugins/sweetalert.min.js"></script>
-<script src="../assets/plugins/pages.min.js"></script>
 <!-- END VENDOR JS -->
 
 <!-- BEGIN PAGE LEVEL JS -->
 <script>
-$(document).ready(function() {
+$(document).on('load', function() {
     $('#form-reset').formValidation({
         framework: 'bootstrap',
         fields: {
@@ -50,10 +49,10 @@ $(document).ready(function() {
         // Prevent form submission
         e.preventDefault();
 
-        swal({
+                    swal({
                         type: 'error',
                         title: "Sorry..",
-                        text: "dshfjdsihfi sfhusi fhuis dfishfu ihsdui "
+                        text: "bla bla bla"
                     });
 
         /*var $form = $(e.target),

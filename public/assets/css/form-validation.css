@@ -1,0 +1,189 @@
+/* Simple message styles customization */
+#errors_signin {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#errors_signin li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#errors_signin li:before {
+    content: '\F105';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 10px;
+    display: inline-block;
+}
+
+#errors_signin a {
+    color: #4A4A4A;
+    font-size: 12px;
+}
+
+#errors_signup {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#errors_signup li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#errors_signup li:before {
+    content: '\F105';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 10px;
+    display: inline-block;
+}
+
+#errors_signup a {
+    color: #4A4A4A;
+    font-size: 12px;
+}
+
+#errors_forgot {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#errors_forgot li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#errors_forgot li:before {
+    content: '\F105';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 10px;
+    display: inline-block;
+}
+
+#errors_forgot a {
+    color: #4A4A4A;
+    font-size: 12px;
+}
+
+#errors_apply {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#errors_apply li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#errors_apply li:before {
+    content: '\F105';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 10px;
+    display: inline-block;
+}
+
+#errors_apply a {
+    color: #4A4A4A;
+    font-size: 13px;
+}
+
+/* For AJAX errors only! */
+#status_signin {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#status_signin li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#status_signin li:before {
+    content: '\f057';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 15px;
+    display: inline-block;
+}
+
+#status_signin span {
+    color: #4A4A4A;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#status_signup {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#status_signup li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#status_signup li:before {
+    content: '\f057';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 15px;
+    display: inline-block;
+}
+
+#status_signup span {
+    color: #4A4A4A;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#status_forgot {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#status_forgot li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#status_forgot li:before {
+    content: '\f057';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 15px;
+    display: inline-block;
+}
+
+#status_forgot span {
+    color: #4A4A4A;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#status_apply {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#status_apply li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#status_apply li:before {
+    content: '\f057';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 15px;
+    display: inline-block;
+}
+
+#status_apply span {
+    color: #4A4A4A;
+    font-size: 13px;
+    font-weight: 600;
+}
