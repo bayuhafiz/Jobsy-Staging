@@ -77,7 +77,7 @@
                 <div class="modal fade slide-right" id="PostNewJob" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-userdashboard">
                         <div class="modal-content-wrapper">
-                            <div class="modal-content outer" style="background: #FAFAFA;">
+                            <div class="modal-content bg-modal-content outer">
                                 <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>-->
                                 <div class="panel panel-transparent middle">
                                     <div class="panel-body">
@@ -199,30 +199,30 @@
                                                         <div class="row">
                                                             <div class="col-sm-7">
                                                                 <div class="row">
-                                                                    <div class="col-sm-2 col-xs-2">
-                                                                        <select name="currency" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 28px;">
+                                                                    <div class="col-sm-3 col-xs-3">
+                                                                        <select name="currency" class="currency">
                                                                             <option value="USD">USD</option>
-                                                                            <option value="IDR" selected="selected">IDR</option>
-                                                                        </select>
+                                                                            <option value="IDR">IDR</option>
+                                                                          </select>
                                                                     </div>
-                                                                    <div class="col-sm-10 col-xs-10">
+                                                                    <div class="col-sm-9 col-xs-9">
                                                                         <div class="input-daterange input-group">
-                                                                            <input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control"/>
+                                                                            <input name="salaryFrom" id="salary-from" type="text" placeholder="2.000.000" class="input-sm form-control"/>
                                                                             <span class="input-group-addon">to</span>
-                                                                            <input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" />
+                                                                            <input name="salaryTo" id="salary-to" type="text" placeholder="4.000.000" class="input-sm form-control" />
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-5">
                                                                 <div class="form-group salary-type">
-                                                                    <select name="salaryType" class="full-width" style="background: #FFF;border-color:rgba(0,0,0,0.07);height:32px;border-radius:0px;-webkit-appearance: none;padding: 0 26px;">
-                                                                        <option value="Monthly" selected="selected">Monthly</option>
-                                                                        <option value="Annually">Annually</option>
-                                                                        <option value="Daily">Daily</option>
-                                                                        <option value="Hourly">Hourly</option>
+                                                                    <select name="salaryType" class="salaryType">
+                                                                      <option value="Monthly">Monthly</option>
+                                                                      <option value="Annually">Annually</option>
+                                                                      <option value="Daily">Daily</option>
+                                                                      <option value="Hourly">Hourly</option>
                                                                     </select>
-                                                                </div>
+                                                                  </div>
                                                             </div>
                                                         </div>
                                                         
