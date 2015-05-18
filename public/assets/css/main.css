@@ -422,6 +422,7 @@ ol > li {
 
 .cke_editable:focus {
     outline: none;
+    background: #fff;
 }
 
 .jumbotron {
@@ -640,12 +641,37 @@ a:hover {
 
 #searchJob {
     position: relative;
-    top: -2px;
+    top: 3px;
 }
+
+
+@-moz-document url-prefix() {
+
+    #searchJob,
+    .searchJob {
+        border: none;
+        opacity: 1;
+        color: #626262;
+        font-size: 20px;
+        width: 335px;
+        font-family: avenir_book;
+    }
+
+    #searchJob {
+        position: relative;
+        top: 0px;
+    }
+
+    .pg-search {
+        position: relative;
+        top: -1px!important;
+    }
+}
+
 
 .pg-search {
     position: relative;
-    top: -3px;
+    top: -2px;
 }
 
 .searchApplicant {
@@ -945,6 +971,12 @@ span.searchJob_tag span i {
     display: none;
 }
 
+.no-job{font-size: 32px;}
+
+
+
+
+
 @media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
@@ -1160,6 +1192,10 @@ span.searchJob_tag span i {
     }
 }
 
+@media(max-width: 1166px){
+    
+}
+
 @media(max-width: 1200px) {
     .modal.fade.slide-right .modal-dialog-userdashboard {
         width: 100%!important
@@ -1182,7 +1218,9 @@ span.searchJob_tag span i {
     overflow: hidden;
     background-repeat: no-repeat;
     cursor: move;
-    background-image: url('../../assets/img/logohere.png') no-repeat;
+    background: url('../../assets/img/logohere.png') 50% 0 no-repeat;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .imageBox .thumbBox {

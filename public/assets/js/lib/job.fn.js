@@ -53,7 +53,7 @@ window.loadJobList = function(apiUrl) {
 
             if (data.length == 0) { // If there is no job to display
 
-                var noJob = '<div class="text-center" style="margin-top: 50%; margin-bottom: auto; height: auto;"><h1 class="hint-text"><br/><i class="fa fa-ban fa-2x"></i><br/>Oops, no job post found!</h1><span class="hint-text">Hint: Try changing your filter preference or your search keyword</span></div>';
+                var noJob = '<div class="text-center" style="margin-top: 50%; margin-bottom: auto; height: auto;"><h1 class="hint-text no-job"><br/><i class="fa fa-ban fa-2x"></i><br/>Oops, no job post found!</h1><span class="hint-text">Hint: Try changing your filter preference or your search keyword</span></div>';
                 $('div#emailList').html(noJob);
 
                 $('div.email-opened .email-content-wrapper').css('display', 'none');

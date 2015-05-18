@@ -35,7 +35,7 @@
                         <% if (actStatus == 'inactive') { %>
                         <div class="row">
                             <div class="col-md-2 col-sm-1 col-xs-2 icon">
-                                <i class="fa fa-times-circle-o fa-3x" style="color:#b2050d"></i>
+                                <i class="fa fa-times-circle-o fa-3x" style="color:rgb(205, 95, 100)"></i>
                             </div>
                             <div class="col-md-8 col-sm-8 col-xs-8">
                                 <h4 style="font-weight:bold"><span class="hint-text bold">Step 1:</span> <span class="text-danger">Verify your account</span></h4>
@@ -45,10 +45,10 @@
                         <% } else { %>
                         <div class="row">
                             <div class="col-md-2 col-sm-1 col-xs-2 icon">
-                                <i class="fa fa-check-circle-o fa-3x" style="color:#12806D"></i>
+                                <i class="fa fa-check-circle-o fa-3x" style="color:#52D5BE"></i>
                             </div>
                             <div class="col-md-8 col-sm-8 col-xs-8">
-                                <h4 style="font-weight:bold"><span class="hint-text bold">Step 1:</span> <span style="color:#12806D">Activated!</span></h4>
+                                <h4 style="font-weight:bold"><span class="hint-text bold">Step 1:</span> <span style="color:#52D5BE">Activated!</span></h4>
                                 <span class="hint-text">You have verified your account.</span>
                             </div>
                         </div>
@@ -57,10 +57,10 @@
                         <br>
                         <div class="row">
                             <div class="col-md-2 col-sm-1 col-xs-2 icon">
-                                <i class="fa fa-times-circle-o fa-3x" id="step2-icon" style="color:#b2050d"></i>
+                                <i class="fa fa-times-circle-o fa-3x" id="step2-icon" style="color:rgb(205, 95, 100)"></i>
                             </div>
                             <div class="col-md-8 col-sm-8 col-xs-8">
-                                <h4 style="font-weight:bold"><span class="hint-text bold">Step 2:</span> <span style="color:#b2050d" id="step2-text">Create your first job</span></h4>
+                                <h4 style="font-weight:bold"><span class="hint-text bold">Step 2:</span> <span style="color:rgb(205, 95, 100)" id="step2-text">Create your first job</span></h4>
                                 <span class="hint-text" id="step2-subtext">Don't worry, it's completely FREE!</span>
                             </div>
                         </div>
@@ -107,16 +107,24 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane active slide-left" id="tab1">
                                                         <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group form-group-default">
-                                                                    <label style="padding-bottom:10px;">Company Logo</label>
-                                                                    <input type="file" class="form-control" id="createJobImg" name="file">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <img id="createJobImg-preview" style="margin-bottom: 20px; max-height: 120px; max-width: 120px;" required>
+                                                            <div class="col-sm-3">
+                                                                    <div class="imageBox">
+                                                                      <div class="thumbBox"></div>
+                                                                      <div class="spinner" style="display: none">Loading...</div>
+                                                                      <input type="file" id="file" style="float:left; width: 250px">
+                                                                    </div>
+                                                                    <div class="btn-group action">
+                                                                      <button class="btn btn-sm btn-success" id="btnDone" style="float: right"><i class="fa fa-check"></i> DONE</button>
+                                                                      <button class="btn btn-sm" id="btnZoomOut" style="float: left"><i class="fa fa-minus"></i></button>
+                                                                      <button class="btn btn-sm" id="btnZoomIn" style="float: left"><i class="fa fa-plus"></i></button>
+                                                                    </div>
+                                                                    <img id="image-file" style="display:none;" src="#" data-adaptive-background='1'>
+                                                                    <input id="image-result" type="hidden" name="cropped_image">
+                                                             
                                                             </div>
                                                         </div>
+                                                        <br>
+                                                        <br>
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <div class="form-group form-group-default">
