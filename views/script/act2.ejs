@@ -77,6 +77,10 @@
 
     <script>
         $(document).ready(function(){
+            // Initiate select2 dropdown
+            $('select.currency').select2();
+            $('select.salaryType').select2();
+        
 
             $('.page-activation').fadeOut('fast').fadeIn('slow');
             /// disable previous btn func
@@ -109,8 +113,8 @@
             });
 
             $('#companyName').change(function(){
-                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#12806D');
-                $('#step2-text').removeClass().css('color', '#12806D').hide().show('slow');
+                $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#52D5BE');
+                $('#step2-text').removeClass().css('color', '#52D5BE').hide().show('slow');
             });
 
             // Validate the form
