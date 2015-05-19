@@ -791,10 +791,13 @@
                 success: function(result) {
                     swal({
                         title: "Logged out!",
+                        timer: 2000,
+                        showConfirmButton: false,
                         text: result.msg
-                    }, function() {
-                        window.location.href = '/';
                     });
+                    setTimeout(function() {
+                        window.location.href = '/';
+                    }, 2100);
                 }
             });
         });

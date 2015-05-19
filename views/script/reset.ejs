@@ -17,20 +17,19 @@
 
 <!-- BEGIN PAGE LEVEL JS -->
 <script>
-$(document).on('load', function() {
-    $('#form-reset').formValidation({
-        framework: 'bootstrap',
-        fields: {
-            email: {
+$(document).ready(function() {
+    // FORM FORGOT PASS
+        $('#form-reset').formValidation({
+                framework: 'bootstrap',
                 fields: {
                     newPass: {
                         validators: {
                             notEmpty: {
-                                message: 'The password is required'
+                                message: 'The new password is required'
                             },
                             stringLength: {
                                 min: 4,
-                                message: 'The password must be more than 3 characters long'
+                                message: 'The new password must be more than 3 characters long'
                             }
                         }
                     },
@@ -43,47 +42,85 @@ $(document).on('load', function() {
                         }
                     }
                 }
-            }
-        }
-    }).on('success.form.fv', function(e) {
-        // Prevent form submission
-        e.preventDefault();
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
 
-                    swal({
-                        type: 'error',
-                        title: "Sorry..",
-                        text: "bla bla bla"
-                    });
+                // Reset the message element when the form is valid
+                $('#status_reset').html('');
 
-        /*var $form = $(e.target),
-            fv = $form.data('formValidation');
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
 
-        // Use Ajax to submit form data
-        $.ajax({
-            url: $form.attr('action'),
-            type: 'POST',
-            data: $form.serialize(),
-            success: function(result) {
-                if (result.type == 'success') {
-                    swal({
-                        type: 'success',
-                        title: "Sent!",
-                        text: result.msg
-                    }, function() {
-                        $('#modalAuth').modal({ // Open sign in modal
-                            show: true
-                        });
-                    });
-                } else {
-                    swal({
-                        type: 'error',
-                        title: "Sorry..",
-                        text: result.msg
-                    });
+                // Use Ajax to submit form data
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function(result) {
+                        if (result.type == 'success') {
+                            swal({
+                                type: 'success',
+                                title: "Changed!",
+                                text: result.msg
+                            }, function() {
+                                window.location.href = '/dash';
+                            });
+                        } else {
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_reset');
+                        }
+                    }
+                });
+            })
+            .on('err.field.fv', function(e, data) {
+                // Get the messages of field
+                var messages = data.fv.getMessages(data.element);
+
+                // Reset the message element when the form is valid
+                $('#status_reset').html('');
+
+                // Remove the field messages if they're already available
+                $('#errors_reset').find('li[data-field="' + data.field + '"]').remove();
+
+                // Loop over the messages
+                for (var i in messages) {
+                    // Create new 'li' element to show the message
+                    $('<li/>')
+                        .attr('data-field', data.field)
+                        .wrapInner(
+                            $('<a/>')
+                            .attr('href', 'javascript: void(0);')
+                            .html(messages[i])
+                            .on('click', function(e) {
+                                // Focus on the invalid field
+                                data.element.focus();
+                            })
+                        )
+                        .appendTo('#errors_reset');
                 }
-            }
-        });*/
-    });
+
+                // Hide the default message
+                // $field.data('fv.messages') returns the default element containing the messages
+                data.element
+                    .data('fv.messages')
+                    .find('.help-block[data-fv-for="' + data.field + '"]')
+                    .hide();
+            })
+            .on('success.field.fv', function(e, data) {
+                // Remove the field messages
+                $('#errors_reset').find('li[data-field="' + data.field + '"]').remove();
+
+                // Reset the message element when the form is valid
+                $('#status_reset').html('');
+            });
+        // EOF
 })
 </script>
 <!-- END PAGE LEVEL JS -->

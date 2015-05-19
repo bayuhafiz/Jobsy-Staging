@@ -91,6 +91,31 @@
     font-size: 13px;
 }
 
+#errors_reset {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#errors_reset li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#errors_reset li:before {
+    content: '\F105';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 10px;
+    display: inline-block;
+}
+
+#errors_reset a {
+    color: #4A4A4A;
+    font-size: 13px;
+}
+
+
+
 /* For AJAX errors only! */
 #status_signin {
     border-left: 5px solid #a94442;
@@ -183,6 +208,30 @@
 }
 
 #status_apply span {
+    color: #4A4A4A;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#status_reset {
+    border-left: 5px solid #a94442;
+    background-color: #fddddd;
+}
+
+#status_reset li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#status_reset li:before {
+    content: '\f057';
+    font-family: FontAwesome;
+    font-size: 13px;
+    width: 15px;
+    display: inline-block;
+}
+
+#status_reset span {
     color: #4A4A4A;
     font-size: 13px;
     font-weight: 600;
