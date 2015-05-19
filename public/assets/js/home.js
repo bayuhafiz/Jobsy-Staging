@@ -725,7 +725,7 @@
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
 
-            $('.email-replay').hide();
+            $('.job-apply').hide();
 
             $(this).find('.apply-btn').animate({
                     'right': '0px'
@@ -1241,7 +1241,7 @@
         });
 
         $('.discard-replay').click(function() {
-            $('.email-replay').slideUp();
+            $('.job-apply').slideUp();
             $('body .email-wrapper .email-opened .email-content-wrapper').animate({
                 scrollTop: 0
             }, 'slow');
