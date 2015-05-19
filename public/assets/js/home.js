@@ -738,15 +738,24 @@
                     'right': '-240px'
                 });
 
-            $(this).find('.datetime').animate({
+
+            if($(this).children('.apply-btn').children('p').text() == 'Logout to apply'){
+                $(this).find('.datetime').animate({
+                    'right': '190px'
+                }).end().siblings()
+                .find('.datetime').animate({
+                    'right': '20px'
+                });
+            } else {
+                $(this).find('.datetime').animate({
                     'right': '160px'
                 }).end().siblings()
                 .find('.datetime').animate({
                     'right': '20px'
                 });
+            }
 
-
-
+            
             $('.details-list-box').css({
                 'position': 'relative'
             })
