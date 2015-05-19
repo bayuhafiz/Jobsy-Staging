@@ -637,31 +637,6 @@ a:hover {
     line-height: normal;
 }
 
-
-@-moz-document url-prefix() {
-
-    #searchJob,
-    .searchJob {
-        border: none;
-        opacity: 1;
-        color: #626262;
-        font-size: 20px;
-        width: 335px;
-        font-family: avenir_book;
-    }
-
-    #searchJob {
-        position: relative;
-        top: 0px;
-    }
-
-    .pg-search {
-        position: relative;
-        top: -1px!important;
-    }
-}
-
-
 .pg-search {
     position: relative;
     top: -1px;
@@ -917,14 +892,17 @@ span.searchJob_tag span i {
     display: none;
 }
 
-.job-apply .header-box {
-    padding-left: 30px;
-}
 
 .job-apply .header-box .title {
     font-size: 17px;
-    padding: 8px 0;
     color: #000;
+    padding-top: 5px;
+}
+
+
+
+.job-apply .header-box .colon {
+    padding-top: 8px;
 }
 
 .job-apply .header-box .input-text .form-control {
@@ -934,7 +912,6 @@ span.searchJob_tag span i {
 
 .job-apply .content-box {
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 .job-apply .content-box .form-group {

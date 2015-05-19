@@ -157,14 +157,6 @@ window.loadJobList = function(apiUrl) {
                                         'right': '-240px'
                                     });
 
-
-                                /*li.find('.datetime').animate({
-                                        'right': '160px'
-                                    }).end().siblings()
-                                    .find('.datetime').animate({
-                                        'right': '20px'
-                                    });*/
-
                                 if(li.children('.apply-btn').children('p').text() == 'Logout to apply'){
                                     li.find('.datetime').animate({
                                         'right': '190px'
