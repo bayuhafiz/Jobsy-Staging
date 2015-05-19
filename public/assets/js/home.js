@@ -4,6 +4,62 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
+        //////// Image processing /////////
+        var options = {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png',
+            resizeToWidth: 180,
+            resizeToHeight: 180
+        }
+        var cropper;
+
+        $('.logoBox').on('click', function() {
+            $('#file').trigger('click');
+        });
+
+        $('#file').on('change', function() {
+            $('#modal_cropper').modal({
+                show: true
+            });
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+
+                // Attach image to canvas
+                cropper = $('.imageBox').cropbox(options);
+            }
+
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+
+            $('.action').fadeIn('slow');
+        });
+
+        // Tool buttons:
+        $('#btn-cropper-choose').on('click', function() {
+            $('#file').trigger('click');
+        });
+
+        $('#btn-cropper-done').on('click', function() {
+            var img = cropper.getDataURL()
+            $('#image-source').val(img);
+            $('#logo-preview').attr('src', img);
+            $('#modal_cropper').modal('hide');
+        });
+
+        $('#btn-cropper-zoomin').on('click', function() {
+            cropper.zoomIn();
+        });
+
+        $('#btn-cropper-zoomout').on('click', function() {
+            cropper.zoomOut();
+        });
+        ///// End of Image processing ///////
+
+
+
         // Custom form inputs /////////
         if ($('.floating-labels').length > 0) floatLabels();
 
@@ -735,23 +791,23 @@
                 });
 
 
-            if($(this).children('.apply-btn').children('p').text() == 'Logout to apply'){
+            if ($(this).children('.apply-btn').children('p').text() == 'Logout to apply') {
                 $(this).find('.datetime').animate({
-                    'right': '190px'
-                }).end().siblings()
-                .find('.datetime').animate({
-                    'right': '20px'
-                });
+                        'right': '190px'
+                    }).end().siblings()
+                    .find('.datetime').animate({
+                        'right': '20px'
+                    });
             } else {
                 $(this).find('.datetime').animate({
-                    'right': '160px'
-                }).end().siblings()
-                .find('.datetime').animate({
-                    'right': '20px'
-                });
+                        'right': '160px'
+                    }).end().siblings()
+                    .find('.datetime').animate({
+                        'right': '20px'
+                    });
             }
 
-            
+
             $('.details-list-box').css({
                 'position': 'relative'
             })
