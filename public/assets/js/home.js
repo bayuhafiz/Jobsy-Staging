@@ -184,11 +184,11 @@
                                 title: "Logged in!",
                                 timer: 3000,
                                 showConfirmButton: false,
-                                closeOnConfirm: true,
                                 text: result.msg
-                            }, function(isConfirm) {
-                                window.location.href = '/dash';
                             });
+                            setTimeout(function() {
+                                window.location.href = '/';
+                            }, 3200);
                         } else {
                             $('<li/>')
                                 .wrapInner(
@@ -635,10 +635,6 @@
                 });
             })
             .on('err.field.fv', function(e, data) {
-                // data.fv      --> The FormValidation instance
-                // data.field   --> The field name
-                // data.element --> The field element
-
                 // Get the messages of field
                 var messages = data.fv.getMessages(data.element);
 
@@ -828,6 +824,7 @@
             });
         });
 
+
         // =============  EDIT JOB HANDLER ===============
         $('body').on('click', '#btn-edit-job', function(e) {
             e.preventDefault();
@@ -926,6 +923,11 @@
             return false;
 
             e.stopPropagation();
+        });
+
+        $('body').on('click', '#btn-discard', function() { // Dismiss apply form
+            $('body').find('.job-apply').hide();
+            $('#applyForm').data('formValidation').resetForm();
         });
 
 
@@ -1121,11 +1123,10 @@
                         timer: 2000,
                         showConfirmButton: false,
                         text: result.msg
-                    }, function() {
-                        setTimeout(function() {
-                            window.location.href = '/';
-                        }, 2000);
                     });
+                    setTimeout(function() {
+                        window.location.href = '/';
+                    }, 2100);
                 }
             });
         });
