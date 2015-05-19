@@ -1,0 +1,40 @@
+<div class="modal fade" id="modal_cropper" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+                    </button>
+                </div>
+                <div class="modal-body center">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form role="form">
+                                <div class="imageBox">
+                                    <div class="thumbBox"></div>
+                                    <div class="spinner" style="display: none">Loading...</div>
+                                </div>
+                                <img id="image-file" style="display:none;" src="#" data-adaptive-background='1'>
+                                <input id="image-result" type="hidden" name="cropped_image">
+                                <label class="text-hint small pull-right">Hint: You can use your mouse scroll to zoom in and zoom out</label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" style="padding-top:20px;">
+                            <div class="col-sm-3 btn-group zoom">
+                                <button class="btn btn-sm" id="btnZoomOut" style="float: left"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-sm" id="btnZoomIn" style="float: left"><i class="fa fa-plus"></i></button>
+                            </div>
+                            <div class="col-sm-9 action pull-right" style="width:auto!important;">
+                                <button class="btn btn-sm btn-default" id="btnChoose"><i class="fa fa-upload"></i> Upload another image</button>
+                                <button class="btn btn-sm btn-success" id="btnDone"><i class="fa fa-check"></i> DONE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

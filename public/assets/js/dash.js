@@ -129,8 +129,6 @@
 
     // ===================== INITIATE WIZARD FORM ============================
     var formWizard1 = function() {
-        console.log('setting up CREATE JOB wizard...');
-
         $('#createWizard').bootstrapWizard({
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
@@ -188,8 +186,6 @@
     };
 
     var formWizard2 = function() {
-        console.log('setting up EDIT JOB wizard...');
-
         $('#editWizard').bootstrapWizard({
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
@@ -268,7 +264,9 @@
 
 
 
-    // ######################################### BEGIN DOCUMENT ON READY FN ##############################################
+    // +++++++++++++++++++++++ BEGIN DOCUMENT ON READY FN +++++++++++++++++++++++
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     $(document).ready(function() {
 
         //////// Image processing /////////
@@ -281,10 +279,19 @@
         }
         var cropper;
 
+        $('.logoBox').on('click', function() {
+            $('#file').trigger('click');
+        });
+
         $('#file').on('change', function() {
+            $('#modal_cropper').modal({
+                show: true
+            });
+
             var reader = new FileReader();
             reader.onload = function(e) {
                 options.imgSrc = e.target.result;
+
                 // Attach image to canvas
                 cropper = $('.imageBox').cropbox(options);
             }
@@ -293,26 +300,30 @@
             this.files = [];
 
             $('.action').fadeIn('slow');
-        })
+        });
 
-        $('.thumbBox').on('dblclick', function() {
-            $('#file').click();
-        })
+        // Tool buttons:
+        $('#btnChoose').on('click', function(e) {
+            $('#file').trigger('click');
+        });
+
         $('#btnDone').on('click', function(e) {
             var img = cropper.getDataURL()
             $('#image-result').val(img);
             $('.action').fadeOut('slow');
             e.preventDefault();
-        })
+        });
+
         $('#btnZoomIn').on('click', function(e) {
             cropper.zoomIn();
             e.preventDefault();
-        })
+        });
+        
         $('#btnZoomOut').on('click', function(e) {
             cropper.zoomOut();
             e.preventDefault();
-        })
-
+        });
+        ///// End of Image processing ///////
 
 
         // Salary input group events
@@ -569,8 +580,7 @@
 
 
 
-        /* ============== DETAILS APP BUTTON ==========================
-                                ==============================================================*/
+        // ============== DETAILS APP BUTTON ========================== 
         $('body').on('click', '#appDetailsButton', function() {
             $('#appDetailsCloseBtn').removeAttr('onClick'); // dummy clean button's onClick attribute
             $('#seeDetailApplicant div.modal-body form').html();
@@ -624,8 +634,7 @@
         });
 
 
-        /* ============= JOB MANIPULATION BUTTONs =====================
-                                ==============================================================*/
+        // ============= JOB MANIPULATION BUTTONs =====================
 
         // CREATE JOB POST [SUBMIT] HANDLER ///////////
         $('#form-create-job').submit(function() {

@@ -59,19 +59,8 @@
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-3 text-right">
-                    <div class="imageBox">
-                      <div class="thumbBox"></div>
-                      <div class="spinner" style="display: none">Loading...</div>
-                      <input type="file" id="file" style="float:left; width: 250px">
-                    </div>
-                    <div class="btn-group action">
-                      <button class="btn btn-sm btn-success" id="btnDone" style="float: right"><i class="fa fa-check"></i> DONE</button>
-                      <button class="btn btn-sm" id="btnZoomOut" style="float: left"><i class="fa fa-minus"></i></button>
-                      <button class="btn btn-sm" id="btnZoomIn" style="float: left"><i class="fa fa-plus"></i></button>
-                    </div>
-                    <img id="image-file" style="display:none;" src="#" data-adaptive-background='1'>
-                    <input id="image-result" type="hidden" name="cropped_image">
-      
+                    <div class="logoBox"></div>
+                    <input type="file" id="file" style="float:left; width: 250px">
                 </div>
               </div>
               
@@ -139,7 +128,7 @@
               <br>
               <br>
               <br>
-              <button class="btn btn-primary btn-cons" type="submit" style="margin-left: 10px;">
+              <button class="btn btn-primary btn-cons" id="btn-submit-post" style="margin-left: 10px;">
               <span>Post Job</span>
               </button>
               <div id="createWizard">
