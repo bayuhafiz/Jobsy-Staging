@@ -84,6 +84,12 @@ Author: bayu@colorblindlabs.com
     margin-right: 10px;
 }
 
+#logo-preview {
+    width: 190px;
+    height: 190px;
+    background: #fff;
+}
+
 
 /* EDIT */
 .logoBox_edit {
@@ -163,4 +169,10 @@ Author: bayu@colorblindlabs.com
 
 .cropped_edit>img {
     margin-right: 10px;
+}
+
+#logo-preview_edit {
+    width: 190px;
+    height: 190px;
+    background: #fff;
 }

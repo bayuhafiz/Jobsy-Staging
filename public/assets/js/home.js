@@ -57,7 +57,6 @@
             $('#image-source').val(img);
             $('#logo-preview').attr('src', img);
             $('#modal_cropper').modal('hide');
-            cropper.
         });
 
         $('#btn-cropper-zoomin').on('click', function() {
