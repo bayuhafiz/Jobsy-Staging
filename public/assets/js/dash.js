@@ -632,7 +632,8 @@
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                window.location.reload();
+                                $('#PostNewJob').modal('hide');
+                                loadJobList('/api/jobs');
                             });
                         } else {
                             $('<li/>')
@@ -842,7 +843,8 @@
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                window.location.reload();
+                                $('#EditJob').modal('hide');
+                                loadJobList('/api/jobs');
                             });
                         } else {
                             $('<li/>')

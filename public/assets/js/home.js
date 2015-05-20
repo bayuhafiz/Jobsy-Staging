@@ -164,56 +164,9 @@
             $(this).css('background-color', '#f9f9fb');
         });
 
-        // Load job list
+
+        // Load job list ++++++
         loadJobList('/api/jobs');
-
-
-        //////// Image processing /////////
-        var options = {
-            thumbBox: '.thumbBox',
-            spinner: '.spinner',
-            imgSrc: 'avatar.png',
-            resizeToWidth: 180,
-            resizeToHeight: 180
-        }
-        var cropper;
-
-        $('#file').on('change', function() {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                options.imgSrc = e.target.result;
-                // Upload image for temporary use
-                /*tempUpload(e.target.result);
-                $.adaptiveBackground.run({
-                    parent: '.imageBox'
-                });*/
-                // Attach image to canvas
-                cropper = $('.imageBox').cropbox(options);
-            }
-
-            reader.readAsDataURL(this.files[0]);
-            this.files = [];
-
-            $('.action').fadeIn('slow');
-        })
-
-        $('.thumbBox').on('dblclick', function() {
-            $('#file').click();
-        })
-        $('#btnDone').on('click', function(e) {
-            var img = cropper.getDataURL()
-            $('#image-result').val(img);
-            $('.action').fadeOut('slow');
-            e.preventDefault();
-        })
-        $('#btnZoomIn').on('click', function(e) {
-            cropper.zoomIn();
-            e.preventDefault();
-        })
-        $('#btnZoomOut').on('click', function(e) {
-            cropper.zoomOut();
-            e.preventDefault();
-        })
 
 
 
@@ -985,7 +938,8 @@
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                window.location.reload();
+                                $('#PostNewJob').modal('hide');
+                                loadJobList('/api/jobs');
                             });
                         } else {
                             $('<li/>')
@@ -1195,7 +1149,8 @@
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                window.location.reload();
+                                $('#EditJob').modal('hide');
+                                loadJobList('/api/jobs');
                             });
                         } else {
                             $('<li/>')
