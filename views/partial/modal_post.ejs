@@ -6,7 +6,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
 				<div class="panel panel-transparent middle">
 					<div class="panel-body panel-body-custom">
-						<form action="#" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+						<form action="/api/job/post" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
 							<div class="row">
 								<div class="col-sm-8">
 									<div class="row">
@@ -29,8 +29,8 @@
 												<div class="col-sm-12">
 													<div class="row">
 														<div class="col-sm-3 col-xs-3 p-r-0">
-															<select name="currency" class="currency" data-placeholder="Currency">
-																<option selected="">Currency</option>
+															<select name="currency" class="currency" data-placeholder="Currency" required>
+																<option></option>
 																<option value="USD">USD</option>
 																<option value="IDR">IDR</option>
 															</select>
@@ -44,8 +44,8 @@
 														</div>
 														<div class="col-sm-4 salary-type-box">
 															<div class="form-group salary-type">
-																<select name="salaryType" class="salaryType" data-placeholder="Salary Type">
-																	<option selected="">Salary Type</option>
+																<select name="salaryType" class="salaryType" data-placeholder="Salary Type" required>
+																	<option></option>
 																	<option value="Monthly">Monthly</option>
 																	<option value="Annually">Annually</option>
 																	<option value="Daily">Daily</option>
@@ -64,7 +64,7 @@
 									<div class="logoBox">
 										<img id="logo-preview" src="assets/img/logohere.png" />
 									</div>
-									<input type="file" id="logo_file" style="float:left; width: 250px">
+									<input type="file" id="logo_file" name="logo_file" style="float:left; width: 250px">
 									<input id="image-source" type="hidden" name="cropped_image">
 								</div>
 							</div>
@@ -88,8 +88,8 @@
 								<div class="col-sm-4">
 									<div class="form-group required">
 										<label class="drop-down custom-label">Job Type</label>
-										<select class="full-width job-dropdown" name="jobType" data-init-plugin="select2" required>
-											<option value="Full Time" selected="">Full Time</option>
+										<select class="full-width job-dropdown" name="jobType" data-placeholder="Choose job type" required>
+											<option value="Full Time">Full Time</option>
 											<option value="Contract">Contract</option>
 											<option value="Part Time">Part Time</option>
 										</select>
@@ -130,17 +130,18 @@
 							</div>
 							<br>
 							<br>
-							<br>
-							<button class="btn btn-primary btn-cons" id="btn-submit-post" style="margin-left: 10px;">
-							<span>Post Job</span>
-							</button>
-							<div id="createWizard">
+							<div class="form-group">
+								<div>
+								<ul id="status_post"></ul>
 							</div>
-						</form>
-					</div>
+						</div>
+						<br>
+						<button class="btn btn-primary btn-cons" id="btn-submit-post" type="submit" style="margin-left: 10px;">Post Job</button>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 <!-- BEGIN POST JOB POSTING -->
