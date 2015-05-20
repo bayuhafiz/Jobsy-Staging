@@ -730,29 +730,6 @@ module.exports = function(app, passport) {
 
 
     // =========================== JOB MANIPULATIONS APIs ==========================
-    // Temporary image upload
-    app.post('/api/upload/image', isLoggedIn, function(req, res) {
-        var image_data = req.body.image;
-        var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
-        var random_id = crypto.randomBytes(6).toString('hex');
-        var logo = 'TEMP_' + random_id + '.png';
-        // Writing file to disk
-        fs.writeFile('./public/uploads/temp/' + logo, base64Data, 'base64', function(err, file) {
-            if (err) {
-                var msg = {
-                    'type': 'error',
-                    'msg': 'Failed to save logo...'
-                };
-                res.json(msg);
-                return;
-            }
-            var msg = {
-                'type': 'success',
-                'msg': logo
-            };
-            res.json(msg);
-        });
-    });
     // Create a job post
     app.post('/api/job/post', isLoggedIn, function(req, res) {
         async.waterfall([
@@ -895,60 +872,7 @@ module.exports = function(app, passport) {
     });
     // Edit job post ---------------------------------
     app.post('/api/job/edit/:id', isLoggedIn, function(req, res, next) {
-        console.log(JSON.stringify(req.body));
-        /*var logo = '';
-        // Doing image replacement
-        if (req.body.changed == 'yes') {
-            var random_id = crypto.randomBytes(10).toString('hex');
-            var filePath = './public/uploads/logo/' + random_id + '.png';
-            var database_filepath = random_id + '.png';
-            if (req.files.logo) {
-                var tmpPath = req.files.logo.path;
-                var targetPath = path.resolve(filePath);
-                if (req.body.oldLogo === req.files.logo.name) {
-                    logo = req.body.oldLogo;
-                } else {
-                    if (path.extname(req.files.logo.name).toLowerCase() == '.png' || path.extname(req.files.logo.name).toLowerCase() == '.jpg') {
-                        if (req.body.oldLogo != 'dummy.png') {
-                            fs.unlink('./public/uploads/logo/' + req.body.oldLogo, function(err) {
-                                if (err) {
-                                    var msg = {
-                                        'type': 'error',
-                                        'msg': err
-                                    };
-                                    res.json(msg);
-                                    return;
-                                }
-                            });
-                        }
-                        fs.rename(tmpPath, targetPath, function(err) {
-                            if (err) {
-                                var msg = {
-                                    'type': 'error',
-                                    'msg': err
-                                };
-                                res.json(msg);
-                                return;
-                            }
-                        });
-                        // Success uploading new logo
-                        logo = database_filepath;
-                        var status = 1;
-                    } else {
-                        fs.unlink(tmpPath, function(err) {
-                            var msg = {
-                                'type': 'error',
-                                'msg': 'Only *.png or *.jpg file allowed!'
-                            };
-                            res.json(msg);
-                            return;
-                        });
-                    }
-                }
-            }
-        } else {
-            var status = 0;
-        }
+        var changed = req.body.changed;
 
         Job.findById(req.params.id, function(err, job) {
             if (err) {
@@ -960,10 +884,33 @@ module.exports = function(app, passport) {
                 return;
             }
 
-            if (status == 1) {
-                job.profile.logo = logo;
+            // Doing image replacement
+            if (changed == 'yes') { // if there is image renewal
+                var image_data = req.body.cropped_image;
+                var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
+                var random_id = crypto.randomBytes(10).toString('hex');
+                var logo = random_id + '.png';
+                console.log('to be uploaded: ' + logo);
+                // Writing file to disk
+                fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err) {
+                    if (err) {
+                        var msg = {
+                            'type': 'error',
+                            'msg': 'Failed to save logo...'
+                        };
+                        res.json(msg);
+                        return;
+                    }
+                });
+                // assign to database
+                var newLogo = logo;
+            } else {
+                var newLogo = job.profile.logo;
             }
 
+            console.log('newLogo >>> ' + newLogo);
+
+            job.profile.logo = newLogo;
             job.profile.name = req.body.companyName;
             job.profile.location = req.body.location;
             job.profile.description = req.body.description;
@@ -1022,7 +969,7 @@ module.exports = function(app, passport) {
                     res.json(msg);
                 });
             });
-        });*/
+        });
     });
     // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {

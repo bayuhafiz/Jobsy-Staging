@@ -445,7 +445,7 @@
 
 
         // Create job form logic ////
-        var initLogin = $('#init-login').val();
+        /*var initLogin = $('#init-login').val();
         if (initLogin == 'false') {
             formWizard1();
 
@@ -456,12 +456,7 @@
             $('#create-job-location-dropdown').select2('val', location);
 
             $('#createWizard').bootstrapWizard('show', 1);
-        }
-
-
-        // Initiate select2 dropdown
-        $('select.currency').select2();
-        $('select.salaryType').select2();
+        }*/
 
 
         // CKEditor configuration /////
@@ -470,11 +465,404 @@
         CKEDITOR.inline('editor3');
 
 
-        // Forms validation /////
-        $('#form-create-job').validate();
-        $('#form-edit').validate();
-        $('#form-register').validate();
-        $('#applyForm').validate();
+        /////////////// FORM VALIDATION HANDLER //////////////
+        // FORM CREATE JOB POST
+        $('#form-create-job')
+            .find('[name="currency"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'currency');
+            })
+            .end()
+            .find('[name="salaryType"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'salaryType');
+            })
+            .end()
+            .find('[name="location"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'location');
+            })
+            .end()
+            .find('[name="category"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'category');
+            })
+            .end()
+            .find('[name="jobType"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'jobType');
+            })
+            .end()
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    logo_file: {
+                        validators: {
+                            file: {
+                                extension: 'jpeg,png',
+                                type: 'image/jpeg,image/png',
+                                maxSize: 2097152, // 2048 * 1024
+                                message: 'The selected file is not valid'
+                            }
+                        }
+                    },
+                    companyName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The company name required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    },
+                    jobTitle: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The job position is required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    },
+                    currency: {
+                        validators: {
+                            message: 'Please select currency',
+                            callback: function(value, validator, $field) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('currency').val();
+                                return (options != null);
+                            }
+                        }
+                    },
+                    salaryFrom: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The minimum salary is required'
+                            }
+                        }
+                    },
+                    salaryTo: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The maximum salary is required'
+                            }
+                        }
+                    },
+                    salaryType: {
+                        validators: {
+                            message: 'Please select salary type',
+                            callback: function(value, validator, $field) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('salaryType').val();
+                                return (options != null);
+                            }
+                        }
+                    },
+                    location: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job location'
+                            }
+                        }
+                    },
+                    category: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job category'
+                            }
+                        }
+                    },
+                    jobType: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job type'
+                            }
+                        }
+                    },
+                    description: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide company description',
+                            }
+                        }
+                    },
+                    jobScope: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide job scopes'
+                            }
+                        }
+                    },
+                    requirements: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide job requirements'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Reset the message element when the form is valid
+                $('#status_post').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    type: 'POST',
+                    success: function(result) {
+                        if (result.type == 'success') {
+                            swal({
+                                type: 'success',
+                                title: "Success!",
+                                text: result.msg
+                            }, function() {
+                                window.location.reload();
+                            });
+                        } else {
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_post');
+                        }
+                    }
+                });
+            })
+            .on('success.field.fv', function(e, data) {
+                // Reset the message element when the form is valid
+                $('#status_post').html('');
+            });
+        // EOF
+
+        // EDIT JOB POST
+        $('#form-edit')
+            .find('[name="currency"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'currency');
+            })
+            .end()
+            .find('[name="salaryType"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'salaryType');
+            })
+            .end()
+            .find('[name="location"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'location');
+            })
+            .end()
+            .find('[name="category"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'category');
+            })
+            .end()
+            .find('[name="jobType"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'jobType');
+            })
+            .end()
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    logo_file: {
+                        validators: {
+                            file: {
+                                extension: 'jpeg,png',
+                                type: 'image/jpeg,image/png',
+                                maxSize: 2097152, // 2048 * 1024
+                                message: 'The selected file is not valid'
+                            }
+                        }
+                    },
+                    companyName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The company name required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    },
+                    jobTitle: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The job position is required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    },
+                    currency: {
+                        validators: {
+                            message: 'Please select currency',
+                            callback: function(value, validator, $field) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('currency').val();
+                                return (options != null);
+                            }
+                        }
+                    },
+                    salaryFrom: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The minimum salary is required'
+                            }
+                        }
+                    },
+                    salaryTo: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The maximum salary is required'
+                            }
+                        }
+                    },
+                    salaryType: {
+                        validators: {
+                            message: 'Please select salary type',
+                            callback: function(value, validator, $field) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('salaryType').val();
+                                return (options != null);
+                            }
+                        }
+                    },
+                    location: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job location'
+                            }
+                        }
+                    },
+                    category: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job category'
+                            }
+                        }
+                    },
+                    jobType: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job type'
+                            }
+                        }
+                    },
+                    description: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide company description'
+                            }
+                        }
+                    },
+                    jobScope: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide job scopes'
+                            }
+                        }
+                    },
+                    requirements: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide job requirements'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Reset the message element when the form is valid
+                $('#status_edit').html('');
+
+                var $form = $(e.target),
+                    formData = new FormData(),
+                    fv = $form.data('formValidation'),
+                    params = $form.serializeArray(),
+                    editors = new Array();
+
+                // Get CKEditor values
+                params.push({
+                    name: 'description',
+                    value: CKEDITOR.instances['editor1-edit'].getData()
+                });
+                params.push({
+                    name: 'jobScope',
+                    value: CKEDITOR.instances['editor2-edit'].getData()
+                });
+                params.push({
+                    name: 'requirements',
+                    value: CKEDITOR.instances['editor3-edit'].getData()
+                });
+
+                $.each(params, function(i, val) {
+                    formData.append(val.name, val.value);
+                });
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: formData,
+                    type: 'POST',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(result) {
+                        if (result.type == 'success') {
+                            swal({
+                                type: 'success',
+                                title: "Success!",
+                                text: result.msg
+                            }, function() {
+                                window.location.reload();
+                            });
+                        } else {
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_edit');
+                        }
+                    }
+                });
+            })
+            .on('success.field.fv', function(e, data) {
+                // Reset the message element when the form is valid
+                $('#status_edit').html('');
+            });
+        // EOF
+
+        // END FORM VALIDATION HANDLER ////////////
 
 
         // create user avatar based on name initial ////

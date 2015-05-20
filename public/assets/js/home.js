@@ -976,7 +976,7 @@
 
                 $.ajax({
                     url: $form.attr('action'),
-                    data: $form.serialize(),    
+                    data: $form.serialize(),
                     type: 'POST',
                     success: function(result) {
                         if (result.type == 'success') {
@@ -1158,14 +1158,36 @@
                 $('#status_edit').html('');
 
                 var $form = $(e.target),
-                    fv = $form.data('formValidation');
+                    formData = new FormData(),
+                    fv = $form.data('formValidation'),
+                    params = $form.serializeArray(),
+                    editors = new Array();
 
-                console.log($form.serialize());
+                // Get CKEditor values
+                params.push({
+                    name: 'description',
+                    value: CKEDITOR.instances['editor1-edit'].getData()
+                });
+                params.push({
+                    name: 'jobScope',
+                    value: CKEDITOR.instances['editor2-edit'].getData()
+                });
+                params.push({
+                    name: 'requirements',
+                    value: CKEDITOR.instances['editor3-edit'].getData()
+                });
+
+                $.each(params, function(i, val) {
+                    formData.append(val.name, val.value);
+                });
 
                 $.ajax({
                     url: $form.attr('action'),
-                    data: $form.serialize(),    
+                    data: formData,
                     type: 'POST',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success: function(result) {
                         if (result.type == 'success') {
                             swal({
