@@ -397,6 +397,11 @@ ol > li {
     }
 }
 
+
+#modal_cropper .modal-header{
+    padding: 0 5px 0px 25px!important;
+}
+
 .close {
     padding: 10px!important;
 }

@@ -4,21 +4,7 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-
-        //////// Image processing /////////
-        // Create Post Modal //
-        var options = {
-            thumbBox: '.thumbBox',
-            spinner: '.spinner',
-            imgSrc: 'avatar.png',
-            resizeToWidth: 190,
-            resizeToHeight: 190
-        }
-        var cropper;
-
-        $('.logoBox').on('click', function() {
-            $('#logo_file').trigger('click');
-        });
+        ///// Close button function of modal image cropper //////
 
         $('#btn-cropper-done,#btn-cropper-close').click(function () {
             $('#PostNewJob').css({'overflow-x':'hidden','overflow-y':'auto','z-index':'1041'});
@@ -29,7 +15,23 @@
             $('body').css('overflow','auto');
         });
 
-        $('#logo_file').on('change', function() {
+
+
+        //////// Image processing /////////
+        var options = {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: 'avatar.png',
+            resizeToWidth: 180,
+            resizeToHeight: 180
+        }
+        var cropper;
+
+        $('.logoBox').on('click', function() {
+            $('#file').trigger('click');
+        });
+
+        $('#file').on('change', function() {
             $('#modal_cropper').modal({
                 show: true
             });
@@ -48,6 +50,7 @@
             $('.action').fadeIn('slow');
         });
 
+        // Tool buttons:
         $('#btn-cropper-choose').on('click', function() {
             $('#file').trigger('click');
         });
@@ -66,70 +69,8 @@
         $('#btn-cropper-zoomout').on('click', function() {
             cropper.zoomOut();
         });
-
-        // Edit Modal //
-        var options_edit = {
-            thumbBox: '.thumbBox_edit',
-            spinner: '.spinner_edit',
-            imgSrc: 'avatar.png',
-            resizeToWidth: 190,
-            resizeToHeight: 190
-        }
-        var cropper_edit;
-
-        $('.logoBox_edit').on('click', function() {
-            $('#logo_file_edit').click();
-        });
-
-        $('#btn-cropper-done_edit,#btn-cropper-close_edit').click(function () {
-            $('#EditJob').css({'overflow-x':'hidden','overflow-y':'auto','z-index':'1041'});
-            $('body').css('overflow','hidden');
-        });
-
-        $('#EditJob .close').click(function () {
-            $('body').css('overflow','auto');
-        });
-
-        $('#logo_file_edit').on('change', function() {
-            $('#modal_cropper_edit').modal({
-                show: true
-            });
-
-            var reader_edit = new FileReader();
-            reader_edit.onload = function(e) {
-                options_edit.imgSrc = e.target.result;
-
-                // Attach image to canvas
-                cropper_edit = $('.imageBox_edit').cropbox(options_edit);
-            }
-
-            reader_edit.readAsDataURL(this.files[0]);
-            this.files = [];
-
-            $('.action_edit').fadeIn('slow');
-        });
-
-        // Tool buttons:
-        $('#btn-cropper-choose_edit').on('click', function() {
-            $('#logo_file_edit').trigger('click');
-        });
-
-        $('#btn-cropper-done_edit').on('click', function() {
-            var img_edit = cropper_edit.getDataURL()
-            $('#image-source_edit').val(img_edit);
-            $('#logo-preview_edit').attr('src', img_edit);
-            $('#changed').val('yes');
-            $('#modal_cropper_edit').modal('hide');
-        });
-
-        $('#btn-cropper-zoomin_edit').on('click', function() {
-            cropper_edit.zoomIn();
-        });
-
-        $('#btn-cropper-zoomout_edit').on('click', function() {
-            cropper_edit.zoomOut();
-        });
         ///// End of Image processing ///////
+
 
 
         // Custom form inputs /////////
@@ -1000,10 +941,10 @@
                     var jobType = capitalize(data.details.jobType);
                     var jobScopeText = nl2br(data.details.jobScope);
                     var requirementsText = nl2br(data.details.requirements);
+
                     var img = 'uploads/logo/' + data.profile.logo;
-                    // Assign the values
                     $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
-                    $('#EditJob div.panel form#form-edit div.logoBox_edit').html('<img class="img-list" id="logo-preview_edit" alt="" data-src-retina="' + img + '" data-src="' + img + '" src="' + img + '">');
+                    $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
                     $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
                     var loc = data.profile.location;
