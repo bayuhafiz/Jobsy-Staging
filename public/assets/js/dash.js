@@ -303,25 +303,23 @@
         });
 
         // Tool buttons:
-        $('#btnChoose').on('click', function(e) {
+        $('#btn-cropper-choose').on('click', function() {
             $('#file').trigger('click');
         });
 
-        $('#btnDone').on('click', function(e) {
+        $('#btn-cropper-done').on('click', function() {
             var img = cropper.getDataURL()
-            $('#image-result').val(img);
-            $('.action').fadeOut('slow');
-            e.preventDefault();
+            $('#image-source').val(img);
+            $('#logo-preview').attr('src', img);
+            $('#modal_cropper').modal('hide');
         });
 
-        $('#btnZoomIn').on('click', function(e) {
+        $('#btn-cropper-zoomin').on('click', function() {
             cropper.zoomIn();
-            e.preventDefault();
         });
-        
-        $('#btnZoomOut').on('click', function(e) {
+
+        $('#btn-cropper-zoomout').on('click', function() {
             cropper.zoomOut();
-            e.preventDefault();
         });
         ///// End of Image processing ///////
 
