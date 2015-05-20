@@ -21,7 +21,7 @@
         });
 
         $('#btn-cropper-done,#btn-cropper-close').click(function() {
-            $('#PostNewJob').css({
+            $('#PostNewJob, #EditJob').css({
                 'overflow-x': 'hidden',
                 'overflow-y': 'auto',
                 'z-index': '1041'
@@ -29,7 +29,7 @@
             $('body').css('overflow', 'hidden');
         });
 
-        $('#PostNewJob .close').click(function() {
+        $('#PostNewJob .close, #EditJob .close').click(function() {
             $('body').css('overflow', 'auto');
         });
 
