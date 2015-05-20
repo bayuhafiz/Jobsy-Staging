@@ -47,8 +47,6 @@ window.loadJobList = function(apiUrl) {
                 "class": "list-view-group-container"
             });
 
-            /*listViewGroupCont.html('<h2 class="list-view-group-header">JOB BOARD</h2>');*/
-
             clearJobList(); // clear the list before we do the magic
 
             if (data.length == 0) { // If there is no job to display
@@ -77,19 +75,10 @@ window.loadJobList = function(apiUrl) {
                         var logo = 'uploads/logo/' + data[i].profile.logo;
                     }
                     var name = data[i].profile.name.toUpperCase();
-                    //var smLocation = data[i].profile.location;
                     var location = capitalize(data[i].profile.location);
-                    //var description = data[i].profile.description;
                     var jobTitle = data[i].details.jobTitle;
                     var category = data[i].details.category;
-                    //var smJobType = data[i].details.jobType;
                     var jobType = capitalize(data[i].details.jobType);
-                    //var jobScope = data[i].details.jobScope;
-                    //var requirements = data[i].details.requirements;
-                    //var currency = data[i].details.currency.toUpperCase();
-                    //var salaryFrom = data[i].details.salaryFrom;
-                    //var salaryTo = data[i].details.salaryTo;
-                    //var salaryType = data[i].details.salaryType;
 
                     // Time manipulation
                     var now = moment(Date.now());

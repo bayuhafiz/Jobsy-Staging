@@ -57,20 +57,13 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-4 text-right">
-                    <div class="imageBox">
-                      <div class="thumbBox"></div>
-                      <div class="spinner" style="display: none">Loading...</div>
-                      <input type="file" id="file" style="float:left; width: 250px">
-                    </div>
-                    <div class="btn-group action">
-                      <button class="btn btn-sm btn-success" id="btnDone" style="float: right"><i class="fa fa-check"></i> DONE</button>
-                      <button class="btn btn-sm" id="btnZoomOut" style="float: left"><i class="fa fa-minus"></i></button>
-                      <button class="btn btn-sm" id="btnZoomIn" style="float: left"><i class="fa fa-plus"></i></button>
-                    </div>
-                    <img id="image-file" style="display:none;" src="#" data-adaptive-background='1'>
-                    <input id="image-result" type="hidden" name="cropped_image">
-             
+                <div class="col-sm-3 text-right" style="width:190px;height:190px;">
+                  <div class="logoBox_edit">
+                    <!-- Company logo here -->
+                  </div>
+                  <input type="file" id="logo_file_edit" style="float:left; width: 250px">
+                  <input id="image-source_edit" type="hidden" name="cropped_image">
+                  <input id="changed" type="hidden" name="changed" value="no">
                 </div>
               </div>
               <br>
