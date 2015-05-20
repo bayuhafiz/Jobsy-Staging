@@ -207,8 +207,8 @@ window.loadJobList = function(apiUrl) {
 
 
                                 emailOpened.find('#opened-thumbnail').html('<img class="img-list" alt="" data-src-retina="' + logo + '" data-src="' + logo + '" src="' + logo + '">').attr('class', 'thumbnail-wrapper d48b-danger circular pull-right').css({
-                                    'width': '129px',
-                                    'height': '129px'
+                                    'width': '160px',
+                                    'height': '160px'
                                 });
 
                                 $('.no-email').hide();

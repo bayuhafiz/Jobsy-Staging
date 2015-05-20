@@ -611,6 +611,8 @@ module.exports = function(app, passport) {
 
     // =============================================================================
     // ============================================================ BEGIN API ROUTES
+    
+    // =========================== USER MANIPULATIONS APIs ==========================
     // User sign in handlers
     app.post('/api/account/signin', passport.authenticate('local-login', {
         successRedirect: '/signinSuccess',
@@ -821,6 +823,8 @@ module.exports = function(app, passport) {
             if (err) return next(err);
         });
     });
+
+
     // =========================== JOB MANIPULATIONS APIs ==========================
     // Temporary image upload
     app.post('/api/upload/image', isLoggedIn, function(req, res) {
@@ -984,6 +988,15 @@ module.exports = function(app, passport) {
                     return;
                 }
             });
+    });
+    // Edit job post API based on job ID
+    app.get('/api/job/edit/:id', function(req, res) {
+        var id = req.params.id;
+        Job.findOne({
+            _id: id
+        }, function(err, job) {
+            res.json(job);
+        });
     });
     // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
@@ -1289,6 +1302,8 @@ module.exports = function(app, passport) {
                 }
             });
     });
+
+
     // Fetch all activated users
     app.get('/api/users', function(req, res) {
         User.find({
@@ -1509,15 +1524,6 @@ module.exports = function(app, passport) {
     });
     // Fetch spesific job based on job ID
     app.get('/api/job/:id', function(req, res) {
-        var id = req.params.id;
-        Job.findOne({
-            _id: id
-        }, function(err, job) {
-            res.json(job);
-        });
-    });
-    // Edit job post API based on job ID
-    app.get('/api/job/edit/:id', function(req, res) {
         var id = req.params.id;
         Job.findOne({
             _id: id
