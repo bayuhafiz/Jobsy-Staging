@@ -963,7 +963,6 @@ span.searchJob_tag span i {
     margin-right: auto;
 }
 
-
 @media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
