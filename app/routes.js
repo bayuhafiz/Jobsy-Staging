@@ -43,6 +43,7 @@ var keepaliveAgent = new HttpsAgent({
 var client = new Algolia('SQX1HWFCVJ', 'c0fa958b479a53e6b7cdf980ea7bf35b', keepaliveAgent);
 // Here are our precious module
 module.exports = function(app, passport) {
+
     // =============================================================================
     // =========================================================== MAIN PAGES ROUTES
     // show the home page ===========================
@@ -112,8 +113,8 @@ module.exports = function(app, passport) {
         }
     });
     // END OF MAIN PAGES ROUTES ====================================================
-    // =============================================================================
-    // =============================================================================
+
+
     // ================================================== AUTHENTICATE (FIRST LOGIN)
     // Get activate account
     app.get('/activate/:token', function(req, res) {
@@ -201,9 +202,10 @@ module.exports = function(app, passport) {
                 }
             });
     });
+
+
     // =============================================================================
     // ================================================ AUTHORIZE (ALREADY LOGGED IN
-    // =============================================================================
     // update account settings --------------------------------
     app.post('/account/profile', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
@@ -230,9 +232,10 @@ module.exports = function(app, passport) {
             res.redirect('/');
         });
     });
+
+
     // =============================================================================
     // JOB MANIPULATION ROUTES =====================================================
-    // =============================================================================
     // Upload temp Logo ---------------------------------
     app.post('/logo/temp', function(req, res) {
         console.log("Uploading: \n" + JSON.stringify(req.files.img));
@@ -415,9 +418,10 @@ module.exports = function(app, passport) {
             res.redirect('/dash');
         });
     });
+
+
     // =============================================================================
     // ======================================================= BEGIN PAYMENT SYSTEMS
-    // =============================================================================
     // Buy Credits /////
     app.get('/buy/:amount', isLoggedIn, function(req, res) {
         var userId = req.user._id; // Get logged user id
@@ -585,31 +589,29 @@ module.exports = function(app, passport) {
     });
     // TESTING ONLY!!!!
     app.get('/bt/:amount', isLoggedIn, function(req, res) {
-            var userId = req.user._id; // Get logged user id
-            var amount = parseInt(req.params.amount) * 50000;
-            gateway.transaction.sale({
-                amount: amount,
-                creditCard: {
-                    number: '4111111111111111',
-                    expirationDate: '05/18'
-                }
-            }, function(err, result) {
-                if (err) throw err;
-                if (result.success) {
-                    util.log('Transaction ID: ' + result.transaction.id);
-                } else {
-                    util.log(result.message);
-                }
-            });
-        })
-        // =============================================================================
-        // ====================================================== END OF PAYMENT SYSTEMS
-        // =============================================================================
-        // =============================================================================
-        // ============================================================ BEGIN API ROUTES
-        // =============================================================================
-        // ============================== USER ACCOUNT APIs ============================
-        // User sign in handlers
+        var userId = req.user._id; // Get logged user id
+        var amount = parseInt(req.params.amount) * 50000;
+        gateway.transaction.sale({
+            amount: amount,
+            creditCard: {
+                number: '4111111111111111',
+                expirationDate: '05/18'
+            }
+        }, function(err, result) {
+            if (err) throw err;
+            if (result.success) {
+                util.log('Transaction ID: ' + result.transaction.id);
+            } else {
+                util.log(result.message);
+            }
+        });
+    });
+    // ====================================================== END OF PAYMENT SYSTEMS
+    // =============================================================================
+
+    // =============================================================================
+    // ============================================================ BEGIN API ROUTES
+    // User sign in handlers
     app.post('/api/account/signin', passport.authenticate('local-login', {
         successRedirect: '/signinSuccess',
         failureRedirect: '/signinFailure',
@@ -982,8 +984,8 @@ module.exports = function(app, passport) {
                     return;
                 }
             });
-        })
-        // Pause / Publish job post
+    });
+    // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
             if (err) {
@@ -1543,6 +1545,8 @@ module.exports = function(app, passport) {
             res.json(app);
         });
     });
+
+
     // ============================ ALGOLIA SEARCH APIs ============================
     app.get('/alg', function(req, res) {
         res.render('notif', {
@@ -1656,10 +1660,12 @@ module.exports = function(app, passport) {
         });
     });
     // ======================== END of ALGOLIA SEARCH APIs =========================
-    // =============================================================================
+
+
     // END OF API ROUTES ===========================================================
     // =============================================================================
 };
+
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
