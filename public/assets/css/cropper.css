@@ -6,15 +6,14 @@ Author: bayu@colorblindlabs.com
 
 .logoBox {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 190px;
+    height: 190px;
+    min-width: 100%;
+    min-height: 100%;
     border-radius: 50%;
-    background: #fff;
     overflow: hidden;
     background-repeat: no-repeat;
     cursor: pointer;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 .imageBox
@@ -73,7 +72,7 @@ Author: bayu@colorblindlabs.com
 }
 
 
-#file {
+#logo_file {
     display: none;
 }
 
@@ -83,3 +82,85 @@ Author: bayu@colorblindlabs.com
 
 .cropped>img {
     margin-right: 10px;
+}
+
+
+/* EDIT */
+.logoBox_edit {
+    position: relative;
+    width: 190px;
+    height: 190px;
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.imageBox_edit
+{
+    position: relative;
+    height: 320px;
+    width: 550px;
+    border:1px solid #aaa;
+    background: #fff;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    cursor:move;
+}
+
+.imageBox_edit .thumbBox_edit
+{
+    position: absolute;
+    top: 34.1%;
+    left: 40.8%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+    box-sizing: border-box;
+    border: 1px solid rgb(102, 102, 102);
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+    background: none repeat scroll 0% 0% transparent;
+}
+
+.imageBox_edit .spinner_edit
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    line-height: 400px;
+    background: rgba(0,0,0,0.7);
+}
+
+.container_edit {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 0;
+    bottom: 0;
+}
+
+.action_edit .zoom_edit {
+    margin: 40px auto;
+    display: none;
+    margin-left: auto;
+    margin-right: auto
+}
+
+#logo_file_edit {
+    display: none;
+}
+
+#image-file_edit {
+    display: none;
+}
+
+.cropped_edit>img {
+    margin-right: 10px;
+}

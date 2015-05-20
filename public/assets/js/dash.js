@@ -269,18 +269,6 @@
 
     $(document).ready(function() {
 
-
-        $('#btn-cropper-done,#btn-cropper-close').click(function () {
-            $('#PostNewJob').css({'overflow-x':'hidden','overflow-y':'auto','z-index':'1041'});
-            $('body').css('overflow','hidden');
-        });
-
-        $('#PostNewJob .close').click(function () {
-            $('body').css('overflow','auto');
-        });
-
-        
-
         //////// Image processing /////////
         var options = {
             thumbBox: '.thumbBox',
@@ -293,6 +281,15 @@
 
         $('.logoBox').on('click', function() {
             $('#file').trigger('click');
+        });
+
+        $('#btn-cropper-done,#btn-cropper-close').click(function () {
+            $('#PostNewJob').css({'overflow-x':'hidden','overflow-y':'auto','z-index':'1041'});
+            $('body').css('overflow','hidden');
+        });
+
+        $('#PostNewJob .close').click(function () {
+            $('body').css('overflow','auto');
         });
 
         $('#file').on('change', function() {
