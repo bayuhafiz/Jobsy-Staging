@@ -959,8 +959,6 @@ span.searchJob_tag span i {
 .box-cropper{
     width: 190px;
     height: 190px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 @media(max-width: 568px) {
