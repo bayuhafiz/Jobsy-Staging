@@ -240,19 +240,8 @@
         });
 
 
-        // CKEditor configuration ////
-        var user = $('#user_email').val();
-        if (user == 'none') {
-            CKEDITOR.inline('editor4');
-        } else {
-            CKEDITOR.inline('editor1');
-            CKEDITOR.inline('editor2');
-            CKEDITOR.inline('editor3');
-        }
-
-
         // Create job form logic for each user ////
-        var initLogin = $('#init-login').val();
+        /*var initLogin = $('#init-login').val();
         if (initLogin) {
             // Init create form wizard
             formWizard1();
@@ -266,7 +255,19 @@
 
                 $('#createWizard').bootstrapWizard('show', 1);
             }
+        }*/
+
+
+        // CKEditor configuration ////
+        var user = $('#user_email').val();
+        if (user == 'none') {
+            CKEDITOR.inline('editor4');
+        } else {
+            CKEDITOR.inline('editor1');
+            CKEDITOR.inline('editor2');
+            CKEDITOR.inline('editor3');
         }
+
 
 
         /////////////// FORM VALIDATION HANDLER //////////////
@@ -652,6 +653,11 @@
                             stringLength: {
                                 min: 5,
                                 message: 'The ful name must be more than 4 characters long'
+                            },
+                            regexp: {
+                                enabled: false,
+                                regexp: /^[a-zA-Z\s]+$/,
+                                message: 'The full name can only consist of alphabetical, number, and space'
                             }
                         }
                     },
@@ -848,6 +854,202 @@
             .formValidation({
                 framework: 'bootstrap',
                 fields: {
+                    logo_file: {
+                        validators: {
+                            file: {
+                                extension: 'jpeg,png',
+                                type: 'image/jpeg,image/png',
+                                maxSize: 2097152, // 2048 * 1024
+                                message: 'The selected file is not valid'
+                            }
+                        }
+                    },
+                    companyName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The company name required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    },
+                    jobTitle: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The job position is required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    },
+                    currency: {
+                        validators: {
+                            message: 'Please select currency',
+                            callback: function(value, validator, $field) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('currency').val();
+                                return (options != null);
+                            }
+                        }
+                    },
+                    salaryFrom: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The minimum salary is required'
+                            }
+                        }
+                    },
+                    salaryTo: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The maximum salary is required'
+                            }
+                        }
+                    },
+                    salaryType: {
+                        validators: {
+                            message: 'Please select salary type',
+                            callback: function(value, validator, $field) {
+                                // Get the selected options
+                                var options = validator.getFieldElements('salaryType').val();
+                                return (options != null);
+                            }
+                        }
+                    },
+                    location: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job location'
+                            }
+                        }
+                    },
+                    category: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job category'
+                            }
+                        }
+                    },
+                    jobType: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please choose job type'
+                            }
+                        }
+                    },
+                    description: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide company description',
+                            }
+                        }
+                    },
+                    jobScope: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide job scopes'
+                            }
+                        }
+                    },
+                    requirements: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please provide job requirements'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Reset the message element when the form is valid
+                $('#status_post').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),    
+                    type: 'POST',
+                    success: function(result) {
+                        if (result.type == 'success') {
+                            swal({
+                                type: 'success',
+                                title: "Success!",
+                                text: result.msg
+                            }, function() {
+                                window.location.reload();
+                            });
+                        } else {
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_post');
+                        }
+                    }
+                });
+            })
+            .on('success.field.fv', function(e, data) {
+                // Reset the message element when the form is valid
+                $('#status_post').html('');
+            });
+        // EOF
+
+        // EDIT JOB POST
+        $('#form-edit')
+            .find('[name="currency"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'currency');
+            })
+            .end()
+            .find('[name="salaryType"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'salaryType');
+            })
+            .end()
+            .find('[name="location"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'location');
+            })
+            .end()
+            .find('[name="category"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'category');
+            })
+            .end()
+            .find('[name="jobType"]')
+            .select2()
+            .change(function(e) {
+                $('#form-create-job').formValidation('revalidateField', 'jobType');
+            })
+            .end()
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    logo_file: {
+                        validators: {
+                            file: {
+                                extension: 'jpeg,png',
+                                type: 'image/jpeg,image/png',
+                                maxSize: 2097152, // 2048 * 1024
+                                message: 'The selected file is not valid'
+                            }
+                        }
+                    },
                     companyName: {
                         validators: {
                             notEmpty: {
@@ -929,10 +1131,6 @@
                         validators: {
                             notEmpty: {
                                 message: 'Please provide company description'
-                            },
-                            stringLength: {
-                                min: 4,
-                                message: 'The company description must be more than 3 characters long'
                             }
                         }
                     },
@@ -940,10 +1138,6 @@
                         validators: {
                             notEmpty: {
                                 message: 'Please provide job scopes'
-                            },
-                            stringLength: {
-                                min: 4,
-                                message: 'The password must be more than 3 characters long'
                             }
                         }
                     },
@@ -951,22 +1145,52 @@
                         validators: {
                             notEmpty: {
                                 message: 'Please provide job requirements'
-                            },
-                            stringLength: {
-                                min: 4,
-                                message: 'The password must be more than 3 characters long'
                             }
                         }
                     }
                 }
-            });
-        // EOF
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
 
-        // EDIT JOB POST
-        $('#form-edit').formValidation({
-            message: 'This value is not valid',
-            excluded: [':disabled']
-        });
+                // Reset the message element when the form is valid
+                $('#status_edit').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                console.log($form.serialize());
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),    
+                    type: 'POST',
+                    success: function(result) {
+                        if (result.type == 'success') {
+                            swal({
+                                type: 'success',
+                                title: "Success!",
+                                text: result.msg
+                            }, function() {
+                                window.location.reload();
+                            });
+                        } else {
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_edit');
+                        }
+                    }
+                });
+            })
+            .on('success.field.fv', function(e, data) {
+                // Reset the message element when the form is valid
+                $('#status_edit').html('');
+            });
         // EOF
 
         // END FORM VALIDATION HANDLER ////////////
@@ -985,23 +1209,6 @@
         // ========================
         // START EVENT HANDLERS ===
         // ========================
-
-        // CREATE JOB POST [SUBMIT] HANDLER ///////////
-        $('#form-create-job').submit(function() {
-            // Print HTTP request params
-            var result = $(this).serializeObject();
-            // Save to server
-            $.ajax({
-                method: "POST",
-                type: "POST",
-                data: result,
-                dataType: "json",
-                url: "/api/job/post",
-                success: function(data) {
-                    location.reload();
-                }
-            });
-        });
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
@@ -1186,7 +1393,7 @@
 
                     $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                    $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
+                    $('#EditJob div.panel form#form-edit').attr('action', '/api/job/edit/' + data._id);
 
                 }
             });
