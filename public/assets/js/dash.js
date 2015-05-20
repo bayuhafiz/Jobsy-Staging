@@ -269,6 +269,7 @@
 
     $(document).ready(function() {
 
+        ///// Close button function of modal image cropper //////
 
         $('#btn-cropper-done,#btn-cropper-close').click(function () {
             $('#PostNewJob').css({'overflow-x':'hidden','overflow-y':'auto','z-index':'1041'});
@@ -279,7 +280,7 @@
             $('body').css('overflow','auto');
         });
 
-        
+
 
         //////// Image processing /////////
         var options = {
