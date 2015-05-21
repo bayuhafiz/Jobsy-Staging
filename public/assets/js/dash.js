@@ -444,21 +444,6 @@
 
 
 
-        // Create job form logic ////
-        /*var initLogin = $('#init-login').val();
-        if (initLogin == 'false') {
-            formWizard1();
-
-            var logo = $('#hidden-logo').val();
-            $('#savedLogo').val(logo);
-
-            var location = $('#hidden-location').val();
-            $('#create-job-location-dropdown').select2('val', location);
-
-            $('#createWizard').bootstrapWizard('show', 1);
-        }*/
-
-
         // CKEditor configuration /////
         CKEDITOR.inline('editor1');
         CKEDITOR.inline('editor2');
@@ -615,6 +600,11 @@
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-post'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_post').html('');
 
@@ -627,15 +617,22 @@
                     type: 'POST',
                     success: function(result) {
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                $('#PostNewJob').modal('hide');
-                                loadJobList('/api/jobs');
+                                location.reload(true);
                             });
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -647,7 +644,14 @@
                     }
                 });
             })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-post').removeClass('disable');
+            })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-post').removeClass('disable');
+
                 // Reset the message element when the form is valid
                 $('#status_post').html('');
             });
@@ -802,6 +806,11 @@
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-edit'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_edit').html('');
 
@@ -838,15 +847,22 @@
                     processData: false,
                     success: function(result) {
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                $('#EditJob').modal('hide');
-                                loadJobList('/api/jobs');
+                                location.reload(true);
                             });
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -858,7 +874,14 @@
                     }
                 });
             })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-edit').removeClass('disable');
+            })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-edit').removeClass('disable');
+
                 // Reset the message element when the form is valid
                 $('#status_edit').html('');
             });
