@@ -751,8 +751,8 @@
                                 title: "Applied!",
                                 text: result.msg
                             }, function() {
-                                $('.job-apply').hide();
                                 $('#applyForm').data('formValidation').resetForm();
+                                $('#btn-discard').click();
                             });
                         } else {
                             // Stop loading
@@ -810,7 +810,7 @@
             .on('success.field.fv', function(e, data) {
                 // Remove button's disable class
                 $('#btn-submit-apply').removeClass('disable');
-                
+
                 // Remove the field messages
                 $('#errors_apply').find('li[data-field="' + data.field + '"]').remove();
 
