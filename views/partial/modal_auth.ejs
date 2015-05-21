@@ -42,9 +42,11 @@
                             <ul id="status_signin"></ul>
                         </div>
                     </div>
-                    <a href="#" class="pull-right forgotPassword-btn small">Forgot your password?</a>
+                    <a href="#forgot" class="pull-right forgotPassword-btn small">Forgot your password?</a>
                     <div class="clearfix"></div>
-                    <button type="submit" class="btn btn-primary btn-cons">Sign in</button>
+                    <div style="padding-top:20px;">
+                      <button type="submit" id="btn-submit-signin" class="btn btn-primary btn-cons ladda-button" data-style="expand-right"><span class="ladda-label">SIGN ME IN</span></button>
+                    </div>
                   </form>
                   <br>
                   <div class="row">
@@ -56,7 +58,7 @@
               </div>
             </div>
             <!-- END SIGN-IN FORM -->
-            
+
             <!-- START SIGN-UP FORM -->
             <div class="signUp-panel">
               <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0;">
@@ -109,7 +111,7 @@
                     </div>
                     <div class="row m-t-10">
                       <div class="col-md-12">
-                        <p class="small" style="font-weight: bold;">By clicking the button below, you are agree to our <a href="http://jobsy.io/termsofservice.html" target="_blank" class="text-info small">Service Terms</a> and <a href="http://jobsy.io/privacypolicy.html" target="_blank" class="text-info small">Privacy</a>.</p>
+                        <p class="small" style="font-weight: bold;float:right;">By clicking the button below, you are agree to our <a href="http://jobsy.io/termsofservice.html" target="_blank" class="text-info small">Service Terms</a> and <a href="http://jobsy.io/privacypolicy.html" target="_blank" class="text-info small">Privacy</a>.</p>
                       </div>
                     </div>
                     <!-- Show the messages in #errors -->
@@ -125,12 +127,12 @@
                     </div>
                     <div class="clearfix"></div>
                   <br>
-                    <button type="submit" class="btn btn-primary btn-cons">Create a new account</button>
+                    <button type="submit" id="btn-submit-signup" class="btn btn-primary btn-cons ladda-button" data-style="expand-right"><span class="ladda-label">CREATE MY ACCOUNT</span></button>
                   </form>
                   <br>
                   <div class="row">
                     <div class="col-sm-12">
-                      <p>If you already have an account, <a href="#" class="bold login-btn" style="color:#F55753;text-decoration:underline">login</a> here!</p>
+                      <p>If you already have an account, <a href="#signin" class="bold login-btn" style="color:#F55753;text-decoration:underline">login</a> here!</p>
                     </div>
                   </div>
                 </div>
@@ -139,7 +141,7 @@
             <!-- END SIGN-UP FORM -->
 
             <!-- START FORGET-PASS FORM -->
-            <div class="forgetPass-panel">
+            <div class="forgot-panel" style="display: table-cell;vertical-align: middle;">
               <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0">
                 <div class="panel-heading">
                   <div class="panel-title">
@@ -167,12 +169,12 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <button type="submit" class="btn btn-primary btn-cons">Send Link</button>
+                    <button id="btn-submit-forgot" type="submit" class="btn btn-primary btn-cons ladda-button" data-style="expand-right"><span class="ladda-label">SEND LINK</span></button>
                   </form>
                   <br>
                   <div class="row">
                     <div class="col-sm-12">
-                      <p>If you don't have an account, <a href="#" class="bold signUp-btn" style="color:#F55753;text-decoration:underline">register</a> here!</p>
+                      <p>If you don't have an account, <a href="#signup" class="bold signUp-btn" style="color:#F55753;text-decoration:underline">register</a> here!</p>
                     </div>
                   </div>
                 </div>

@@ -4,7 +4,6 @@
     // BEGIN DOCUMENT ON READY FN ##############################################
     $(document).ready(function() {
 
-
         //////// Image processing /////////
         // Create Post Modal //
         var options = {
@@ -193,24 +192,6 @@
         });
 
 
-        // Create job form logic for each user ////
-        /*var initLogin = $('#init-login').val();
-        if (initLogin) {
-            // Init create form wizard
-            formWizard1();
-
-            if (initLogin == 'false') {
-                var logo = $('#hidden-logo').val();
-                $('#savedLogo').val(logo);
-
-                var location = $('#hidden-location').val();
-                $('#create-job-location-dropdown').select2('val', location);
-
-                $('#createWizard').bootstrapWizard('show', 1);
-            }
-        }*/
-
-
         // CKEditor configuration ////
         var user = $('#user_email').val();
         if (user == 'none') {
@@ -255,6 +236,11 @@
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-signin'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_signin').html('');
 
@@ -269,6 +255,10 @@
                     success: function(result) {
                         // ... Process the result ...
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Logged in!",
@@ -280,6 +270,10 @@
                                 window.location.href = '/dash';
                             }, 3200);
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -292,12 +286,11 @@
                 });
             })
             .on('err.field.fv', function(e, data) {
-                // data.fv      --> The FormValidation instance
-                // data.field   --> The field name
-                // data.element --> The field element
-
                 // Get the messages of field
                 var messages = data.fv.getMessages(data.element);
+
+                // Remove button's disable class
+                $('#btn-submit-signin').removeClass('disable');
 
                 // Remove the field messages if they're already available
                 $('#errors_signin').find('li[data-field="' + data.field + '"]').remove();
@@ -330,6 +323,9 @@
                     .hide();
             })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-signin').removeClass('disable');
+
                 // Remove the field messages
                 $('#errors_signin').find('li[data-field="' + data.field + '"]').remove();
 
@@ -413,6 +409,11 @@
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-signup'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_signup').html('');
 
@@ -425,8 +426,12 @@
                     type: 'POST',
                     data: $form.serialize(),
                     success: function(result) {
-                        // ... Process the result ...
+
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Success!",
@@ -435,6 +440,10 @@
                                 window.location.href = '/dash';
                             });
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -447,12 +456,11 @@
                 });
             })
             .on('err.field.fv', function(e, data) {
-                // data.fv      --> The FormValidation instance
-                // data.field   --> The field name
-                // data.element --> The field element
-
                 // Get the messages of field
                 var messages = data.fv.getMessages(data.element);
+
+                // Remove button's disable class
+                $('#btn-submit-signup').removeClass('disable');
 
                 // Remove the field messages if they're already available
                 $('#errors_signup').find('li[data-field="' + data.field + '"]').remove();
@@ -485,6 +493,9 @@
                     .hide();
             })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-signup').removeClass('disable');
+
                 // Remove the field messages
                 $('#errors_signup').find('li[data-field="' + data.field + '"]').remove();
 
@@ -516,6 +527,11 @@
                 // Reset the message element when the form is valid
                 $('#status_forgot').html('');
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-forgot'));
+                // Start loading
+                loader.start();
+
                 var $form = $(e.target),
                     fv = $form.data('formValidation');
 
@@ -526,16 +542,22 @@
                     data: $form.serialize(),
                     success: function(result) {
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Sent!",
                                 text: result.msg
                             }, function() {
-                                $('#modalAuth').modal({ // Open sign in modal
-                                    show: true
-                                });
+                                $("a[href='#signin']").click();
                             });
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -554,6 +576,9 @@
 
                 // Get the messages of field
                 var messages = data.fv.getMessages(data.element);
+
+                // Remove button's disable class
+                $('#btn-submit-forgot').removeClass('disable');
 
                 // Reset the message element when the form is valid
                 $('#status_forgot').html('');
@@ -586,6 +611,9 @@
                     .hide();
             })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-forgot').removeClass('disable');
+
                 // Remove the field messages
                 $('#errors_forgot').find('li[data-field="' + data.field + '"]').remove();
 
@@ -683,6 +711,11 @@
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-apply'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_apply').html('');
 
@@ -709,6 +742,10 @@
                     success: function(result) {
                         // ... Process the result ...
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Applied!",
@@ -718,6 +755,10 @@
                                 $('#applyForm').data('formValidation').resetForm();
                             });
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -732,6 +773,9 @@
             .on('err.field.fv', function(e, data) {
                 // Get the messages of field
                 var messages = data.fv.getMessages(data.element);
+
+                // Remove button's disable class
+                $('#btn-submit-apply').removeClass('disable');
 
                 // Remove the field messages if they're already available
                 $('#errors_apply').find('li[data-field="' + data.field + '"]').remove();
@@ -764,6 +808,9 @@
                     .hide();
             })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-apply').removeClass('disable');
+                
                 // Remove the field messages
                 $('#errors_apply').find('li[data-field="' + data.field + '"]').remove();
 
@@ -1381,6 +1428,7 @@
 
 
         // =============  APPLY EVENT HANDLER ===============
+        // Apply button handler
         $('body').on('click', '#btn-apply-job,.apply-job-btn.apply', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
@@ -1399,6 +1447,7 @@
             e.stopPropagation();
         });
 
+        // Form apply discard button
         $('body').on('click', '#btn-discard', function() { // Dismiss apply form
             $('body').find('.job-apply').hide();
             $('#applyForm').data('formValidation').resetForm();
@@ -1576,15 +1625,30 @@
 
 
         // BASIC BUTTONS HANDLER ////
-        $("a[href='#signin']").click(function() {
-            $('#modalAuth').modal({
-                show: true
-            });
-
+        $("a[href='#usignin']").click(function() {
+            $('#modalAuth').modal('show');
             $('.signUp-panel').hide();
-            $('.password1').hide();
-            $('.forgetPass-panel').hide();
+            $('.forgot-panel').hide();
             $('.signIn-panel').show();
+        });
+
+        $("a[href='#signin']").click(function() {
+            //$('#modalAuth').modal('show');
+            $('.signUp-panel').hide();
+            $('.forgot-panel').hide();
+            $('.signIn-panel').fadeIn();
+        });
+
+        $("a[href='#signup']").click(function() {
+            $('.signUp-panel').fadeIn();
+            $('.forgot-panel').hide();
+            $('.signIn-panel').hide();
+        });
+
+        $("a[href='#forgot']").click(function() {
+            $('.signUp-panel').hide();
+            $('.forgot-panel').fadeIn();
+            $('.signIn-panel').hide();
         });
 
         $("a[href='#signout']").click(function() {
