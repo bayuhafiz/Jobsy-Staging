@@ -752,7 +752,7 @@
                                 text: result.msg
                             }, function() {
                                 $('#applyForm').data('formValidation').resetForm();
-                                $('#btn-discard').click();
+                                $('#btn-discard-apply').click();
                             });
                         } else {
                             // Stop loading
@@ -968,6 +968,11 @@
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-post'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_post').html('');
 
@@ -980,15 +985,22 @@
                     type: 'POST',
                     success: function(result) {
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                $('#PostNewJob').modal('hide');
-                                loadJobList('/api/jobs');
+                                location.reload(true);
                             });
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -1000,7 +1012,14 @@
                     }
                 });
             })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-post').removeClass('disable');
+            })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-post').removeClass('disable');
+
                 // Reset the message element when the form is valid
                 $('#status_post').html('');
             });
@@ -1155,6 +1174,11 @@
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-edit'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_edit').html('');
 
@@ -1191,15 +1215,22 @@
                     processData: false,
                     success: function(result) {
                         if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             swal({
                                 type: 'success',
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                $('#EditJob').modal('hide');
-                                loadJobList('/api/jobs');
+                                location.reload(true);
                             });
                         } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -1211,7 +1242,14 @@
                     }
                 });
             })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-edit').removeClass('disable');
+            })
             .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-edit').removeClass('disable');
+
                 // Reset the message element when the form is valid
                 $('#status_edit').html('');
             });
@@ -1428,7 +1466,6 @@
 
 
         // =============  APPLY EVENT HANDLER ===============
-        // Apply button handler
         $('body').on('click', '#btn-apply-job,.apply-job-btn.apply', function(e) {
 
             var jobTitle = $('.profile .job-title').text();
@@ -1448,10 +1485,14 @@
         });
 
         // Form apply discard button
-        $('body').on('click', '#btn-discard', function() { // Dismiss apply form
+        $('body').on('click', '#btn-discard-apply', function() { // Dismiss apply form
             $('body').find('.job-apply').hide();
             $('#applyForm').data('formValidation').resetForm();
         });
+
+        // ========================
+        // END EVENT HANDLERS =====
+        // ========================
 
 
 
@@ -1626,6 +1667,7 @@
 
         // BASIC BUTTONS HANDLER ////
         $("a[href='#usignin']").click(function() {
+            $('#form-login').trigger("reset");
             $('#modalAuth').modal('show');
             $('.signUp-panel').hide();
             $('.forgot-panel').hide();
@@ -1633,19 +1675,21 @@
         });
 
         $("a[href='#signin']").click(function() {
-            //$('#modalAuth').modal('show');
+            $('#form-login').trigger("reset");
             $('.signUp-panel').hide();
             $('.forgot-panel').hide();
             $('.signIn-panel').fadeIn();
         });
 
         $("a[href='#signup']").click(function() {
+            $('#form-register').trigger("reset");
             $('.signUp-panel').fadeIn();
             $('.forgot-panel').hide();
             $('.signIn-panel').hide();
         });
 
         $("a[href='#forgot']").click(function() {
+            $('#form-forgot').trigger("reset");
             $('.signUp-panel').hide();
             $('.forgot-panel').fadeIn();
             $('.signIn-panel').hide();

@@ -744,8 +744,9 @@ module.exports = function(app, passport) {
                 var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
                 var random_id = crypto.randomBytes(10).toString('hex');
                 var logo = random_id + '.png';
+                console.log('to be uploaded: ' + logo);
                 // Writing file to disk
-                fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err, file) {
+                fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err) {
                     if (err) {
                         var msg = {
                             'type': 'error',
