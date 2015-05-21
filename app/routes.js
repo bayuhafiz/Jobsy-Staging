@@ -732,135 +732,29 @@ module.exports = function(app, passport) {
     // =========================== JOB MANIPULATIONS APIs ==========================
     // Create a job post
     app.post('/api/job/post', isLoggedIn, function(req, res) {
-        async.waterfall([
-            function(done) {
-                crypto.randomBytes(20, function(err, buf) {
-                    var token = buf.toString('hex');
-                    done(err, token);
-                });
-            },
-            function(token, done) {
-                var image_data = req.body.cropped_image;
-                var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
-                var random_id = crypto.randomBytes(10).toString('hex');
-                var logo = random_id + '.png';
-                console.log('to be uploaded: ' + logo);
-                // Writing file to disk
-                fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err) {
-                    if (err) {
-                        var msg = {
-                            'type': 'error',
-                            'msg': 'Failed to save logo...'
-                        };
-                        res.json(msg);
-                        return;
-                    }
-                    done(false, logo, token);
-                });
-            },
-            function(src, token, done) {
-                User.findById(req.user.id, function(err, user) {
-                    if (err) {
-                        var msg = {
-                            'type': 'error',
-                            'msg': err
-                        };
-                        res.json(msg);
-                        return;
-                    }
-                    var init_status = req.user.initLogin;
-                    if (init_status == true) {
-                        init_status = false;
-                    }
-                    user.initLogin = init_status;
-                    user.initPost = false;
-                    user.initCompany = {
-                        logo: src,
-                        name: req.body.companyName,
-                        location: req.body.location,
-                        description: req.body.description
-                    };
-                    user.save(function(err) {
-                        if (err) {
-                            var msg = {
-                                'type': 'error',
-                                'msg': err
-                            };
-                            res.json(msg);
-                            return;
-                        }
-                        var job = new Job({
-                            profile: {
-                                logo: src,
-                                name: req.body.companyName,
-                                location: req.body.location,
-                                description: req.body.description
-                            },
-                            details: {
-                                jobTitle: req.body.jobTitle,
-                                category: req.body.category,
-                                jobType: req.body.jobType,
-                                jobScope: req.body.jobScope,
-                                requirements: req.body.requirements,
-                                currency: req.body.currency,
-                                salaryFrom: req.body.salaryFrom,
-                                salaryTo: req.body.salaryTo,
-                                salaryType: req.body.salaryType,
-                            },
-                            token: token,
-                            status: 'published',
-                            createdAt: Date.now(),
-                            updatedAt: Date.now(),
-                            email: req.user.email
-                        });
-                        job.save(function(err, job) {
-                            if (err) {
-                                var msg = {
-                                    'type': 'error',
-                                    'msg': err
-                                };
-                                res.json(msg);
-                                return;
-                            }
-                            var host = req.host; // checking host to determine index
-                            if (host == 'localhost') {
-                                var index = client.initIndex('Jobs-local');
-                            } else {
-                                var index = client.initIndex('Jobs');
-                            }
-                            var arr = {
-                                "details": {
-                                    "jobType": job.details.jobType,
-                                    "category": job.details.category,
-                                    "jobTitle": job.details.jobTitle
-                                },
-                                "profile": {
-                                    "location": job.profile.location,
-                                    "name": job.profile.name
-                                },
-                                "objectID": job._id
-                            };
-                            index.saveObject(arr, function(err) {
-                                if (err) {
-                                    var msg = {
-                                        'type': 'error',
-                                        'msg': err
-                                    };
-                                    res.json(msg);
-                                    return;
-                                }
-                                var msg = {
-                                    'type': 'success',
-                                    'msg': 'Job post successfully created!'
-                                };
-                                res.json(msg);
-                                done(err, 'done');
-                            });
-                        });
-                    });
-                });
-            },
-        ], function(err) {
+
+        crypto.randomBytes(20, function(err, buf) {
+            var token = buf.toString('hex');
+        });
+
+        var image_data = req.body.cropped_image;
+        var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
+        var random_id = crypto.randomBytes(10).toString('hex');
+        var logo = random_id + '.png';
+        console.log('to be uploaded: ' + logo);
+        // Writing file to disk
+        fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err) {
+            if (err) {
+                var msg = {
+                    'type': 'error',
+                    'msg': 'Failed to save logo...'
+                };
+                res.json(msg);
+                return;
+            }
+        });
+
+        User.findById(req.user.id, function(err, user) {
             if (err) {
                 var msg = {
                     'type': 'error',
@@ -869,8 +763,98 @@ module.exports = function(app, passport) {
                 res.json(msg);
                 return;
             }
+            var init_status = req.user.initLogin;
+            if (init_status == true) {
+                init_status = false;
+            }
+            user.initLogin = init_status;
+            user.initPost = false;
+            user.initCompany = {
+                logo: logo,
+                name: req.body.companyName,
+                location: req.body.location,
+                description: req.body.description
+            };
+            user.save(function(err) {
+                if (err) {
+                    var msg = {
+                        'type': 'error',
+                        'msg': err
+                    };
+                    res.json(msg);
+                    return;
+                }
+                var job = new Job({
+                    profile: {
+                        logo: logo,
+                        name: req.body.companyName,
+                        location: req.body.location,
+                        description: req.body.description
+                    },
+                    details: {
+                        jobTitle: req.body.jobTitle,
+                        category: req.body.category,
+                        jobType: req.body.jobType,
+                        jobScope: req.body.jobScope,
+                        requirements: req.body.requirements,
+                        currency: req.body.currency,
+                        salaryFrom: req.body.salaryFrom,
+                        salaryTo: req.body.salaryTo,
+                        salaryType: req.body.salaryType,
+                    },
+                    token: token,
+                    status: 'published',
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                    email: req.user.email
+                });
+                job.save(function(err, job) {
+                    if (err) {
+                        var msg = {
+                            'type': 'error',
+                            'msg': err
+                        };
+                        res.json(msg);
+                        return;
+                    }
+                    var host = req.host; // checking host to determine index
+                    if (host == 'localhost') {
+                        var index = client.initIndex('Jobs-local');
+                    } else {
+                        var index = client.initIndex('Jobs');
+                    }
+                    var arr = {
+                        "details": {
+                            "jobType": job.details.jobType,
+                            "category": job.details.category,
+                            "jobTitle": job.details.jobTitle
+                        },
+                        "profile": {
+                            "location": job.profile.location,
+                            "name": job.profile.name
+                        },
+                        "objectID": job._id
+                    };
+                    index.saveObject(arr, function(err) {
+                        if (err) {
+                            var msg = {
+                                'type': 'error',
+                                'msg': err
+                            };
+                            res.json(msg);
+                            return;
+                        }
+                        var msg = {
+                            'type': 'success',
+                            'msg': 'Job post successfully created!'
+                        };
+                        res.json(msg);
+                    });
+                });
+            });
         });
     });
+
     // Edit job post ---------------------------------
     app.post('/api/job/edit/:id', isLoggedIn, function(req, res, next) {
         var changed = req.body.changed;
