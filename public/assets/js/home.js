@@ -964,6 +964,8 @@
                     }
                 }
             })
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -1170,6 +1172,8 @@
                     }
                 }
             })
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -1846,7 +1850,6 @@
             });
         });
         // end of Overlay trigger button /////
-
 
 
         // Input masking
