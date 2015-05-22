@@ -962,6 +962,11 @@ span.searchJob_tag span i {
 }
 
 
+.fuelux .wizard>.steps{
+    width: 100%!important;
+}
+
+
 @media(max-width: 568px) {
     .deletedJob-btn {
         float: none!important;
@@ -1056,6 +1061,11 @@ span.searchJob_tag span i {
     .job-apply .content-box {
         padding-left: 15px!important;
         padding-right: 15px!important;
+    }
+
+    .fuelux .wizard>.actions{
+        position: relative!important;
+        float: left!important;
     }
 }
 
