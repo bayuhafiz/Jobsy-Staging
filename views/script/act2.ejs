@@ -24,11 +24,11 @@
     <script src="assets/plugins/fuelux.wizard.js"></script>
     <script src="assets/plugins/initial.min.js"></script>
     <script src="assets/plugins/jquery.cropper.js"></script>
-    <script src="assets/plugins/formvalidation/dist/js/formValidation.min.js"></script>
-    <script src="assets/plugins/formvalidation/dist/js/framework/bootstrap.min.js"></script>
     <script src="assets/plugins/sweetalert.min.js"></script>
     <script src="assets/plugins/ladda.spin.min.js"></script>
     <script src="assets/plugins/ladda.min.js"></script>
+    <script src="assets/plugins/formvalidation/dist/js/formValidation.min.js"></script>
+    <script src="assets/plugins/formvalidation/dist/js/framework/bootstrap.min.js"></script>
     <!-- END VENDOR JS -->
 
     <!-- BEGIN CORE TEMPLATE JS -->
@@ -298,7 +298,7 @@
                 // Triggered when clicking the Next/Prev buttons
                 .on('actionclicked.fu.wizard', function(e, data) {
                     var fv         = $('#postForm').data('formValidation'), // FormValidation instance
-                        step       = data.step,                              // Current step
+                        step       = data.step,                             // Current step
                         // The current step container
                         $container = $('#postForm').find('.step-pane[data-step="' + step +'"]');
 

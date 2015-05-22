@@ -39,6 +39,7 @@
         $('#no-job-post').hide();
 
         $.ajax({
+            async: false,
             dataType: "json",
             url: url,
             success: function(data) {
@@ -73,9 +74,10 @@
 
                         // Load application list
                         $.ajax({
+                            async: false,
                             dataType: "json",
                             url: "/api/job/apps/" + data[i]._id,
-                            success: function(app) {
+                            success: function(app, dataHtml) {
                                 if (app.length > 0) {
                                     $.each(app, function(i) {
                                         if (app[i].read == false) {
@@ -87,13 +89,11 @@
                                         }
 
                                         dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5>' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).format('minute').fromNow() + '</span></h5>' +
+                                            '<h5>' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + app[i].applyDate + '</span></h5>' +
                                             '</li>';
                                     });
                                 } else {
-                                    dataHtml += '<div class="cbp-ntcontent">' +
-                                        '<p class="small hint-text">No applications yet..</p>' +
-                                        '<ul class="cbp-ntsubaccordion">';
+                                    dataHtml += '<li><p class="hint-text">No applications yet..</p></li>';
                                 }
                             }
                         });
@@ -132,6 +132,8 @@
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     $(document).ready(function() {
+        // Get logged user email
+        var uEmail = $('#user-email').val(); // Get logged user email
 
         //////// Image processing /////////
         // Create Post Modal //
@@ -276,10 +278,6 @@
         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').blur(function() {
             $(this).css('background-color', '#f9f9fb');
         });
-
-
-        // Then show the jobs
-        showJobs('/api/jobs/' + uEmail + '/' + stat);
 
 
 
@@ -435,8 +433,12 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -643,8 +645,12 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -746,31 +752,52 @@
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
 
-        
-        // Switchery Handler
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-        elems.forEach(function(html) {
-            var switchery = new Switchery(html, {
-                color: '#b2050d'
-            });
-        });
-
-        var uEmail = $('#user-email').val(); // Get logged user email
-        var switch_checked = localStorage['switch_checked']; // Get switchery status from session
-        if (switch_checked == 'yes') {
-            var stat = 'show';
-            $('p.switch-label').html('Click to view<br>live job posts');
-            if ($('.switchery').attr('checked')) {
-                console.log('nothing to change...');
-            }
-        } else {
-            var stat = 'hide';
-            $('p.switch-label').html('Click to view<br>deleted job posts');
-            if ($('.switchery').attr('checked')) {
-                $(this).removeAttr('checked');
-                console.log('state changed!');
+        // SWITCHERY //////////////////////////
+        function onChange(el) {
+            if (typeof Event === 'function' || !document.fireEvent) {
+                var event = document.createEvent('HTMLEvents');
+                event.initEvent('change', true, true);
+                el.dispatchEvent(event);
+            } else {
+                el.fireEvent('onchange');
             }
         }
+
+        // Switchery Handler
+        var elem = document.querySelector('#job-switch');
+        var switchery = new Switchery(elem, {
+            color: '#52D5BE',
+            secondaryColor: '#CD5F64',
+            speed: '0.2s'
+        });
+
+        // If switch clicked event handler
+        elem.onchange = function() {
+            if (elem.checked == true) {
+                showJobs('/api/jobs/' + uEmail + '/hide');
+                localStorage['switch_checked'] = 'hide'; // save to session
+                console.log('changed to: ' + localStorage['switch_checked']);
+            } else if (elem.checked == false) {
+                showJobs('/api/jobs/' + uEmail + '/show');
+                localStorage['switch_checked'] = 'show'; // save to session
+                console.log('changed to: ' + localStorage['switch_checked']);
+            }
+        };
+
+        // Check session for switching
+        var stat = localStorage['switch_checked'];
+        console.log(stat);
+        if (stat == 'hide') {
+            showJobs('/api/jobs/' + uEmail + '/' + stat);
+        } else {
+            showJobs('/api/jobs/' + uEmail + '/' + stat);
+            if (elem.checked) {
+                elem.checked = false;
+                onChange(elem);
+            }
+        }
+        // END OF SWITCHERY //////////////////////////
+
 
 
         // Buy Credits buttons action (EXPERIMENTAL ONLY!!!)
