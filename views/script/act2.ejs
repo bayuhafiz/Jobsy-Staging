@@ -1,29 +1,29 @@
 <!-- BEGIN VENDOR JS -->
-    <script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery/jquery-2.1.4.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery/jquery.autosize.js" type="text/javascript"></script>
-    <script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/pace/pace.min.js"></script>
+    <script src="assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+    <script src="assets/plugins/jquery/jquery.autosize.js"></script>
+    <script src="assets/plugins/modernizr.custom.js"></script>
+    <script src="assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="assets/plugins/boostrapv3/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/jquery/jquery-easy.js"></script>
+    <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js"></script>
     <script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
-    <script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js"></script>
     <script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
     <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
-    <script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="assets/plugins/bootstrap-select2/select2.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
-    <script src="assets/plugins/jquery-inputmask/jquery.inputmask.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="assets/plugins/dropzone/dropzone.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
-    <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js"></script>
-    <script src="assets/plugins/initial.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/classie/classie.js"></script>
+    <script src="assets/plugins/switchery/js/switchery.min.js"></script>
+    <script src="assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js"></script>
+    <script src="assets/plugins/bootstrap-select2/select2.min.js"></script>
+    <script src="assets/plugins/jquery.mask.min.js"></script>
+    <script src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
+    <script src="assets/plugins/dropzone/dropzone.min.js"></script>
+    <script src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
+    <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="assets/plugins/moment/moment.min.js"></script>
+    <script src="assets/plugins/wizard.js"></script>
+    <script src="assets/plugins/initial.min.js"></script>
+    <script src="assets/plugins/jquery.cropper.js"></script>
     <script src="assets/plugins/formvalidation/dist/js/formValidation.min.js"></script>
     <script src="assets/plugins/formvalidation/dist/js/framework/bootstrap.min.js"></script>
     <script src="assets/plugins/sweetalert.min.js"></script>
@@ -36,9 +36,9 @@
     <!-- END CORE TEMPLATE JS -->
 
     <!-- BEGIN PAGE LEVEL JS -->
-    <script src="assets/plugins/form_elements.js" type="text/javascript"></script>
-    <script src="assets/plugins/scripts.js" type="text/javascript"></script>
-    <script src="assets/plugins/words-counter.js" type="text/javascript"></script>
+    <script src="assets/plugins/form_elements.js"></script>
+    <script src="assets/plugins/scripts.js"></script>
+    <script src="assets/plugins/words-counter.js"></script>
     <script src="assets/plugins/ckeditor/ckeditor.js"></script>
     <script src="assets/plugins/ckeditor/adapters/jquery.js"></script>
 
@@ -123,20 +123,9 @@
                 show: true,
                 backdrop: false,
                 keyboard: false,
+                resizeToWidth: '100%'
             });
 
-            // Input masking
-            $("#salary-from").autoNumeric('init', {
-                aSep: '.',
-                aDec: ',',
-                mDec: '0'
-            });
-            $("#salary-to").autoNumeric('init', {
-                aSep: '.',
-                aDec: ',',
-                mDec: '0'
-            });
-           
 
             // Read user first signup status
             $('#createJobImg').change(function(){
@@ -148,60 +137,8 @@
                 $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#52D5BE');
                 $('#step2-text').removeClass().css('color', '#52D5BE').hide().show('slow');
             });
-
-            
-            $('#myFormWizard3').bootstrapWizard({
-                onTabShow: function(tab, navigation, index) {
-                    var $total = navigation.find('li').length;
-                    var $current = index + 1;
-
-                    // If it's the last tab then hide the last button and show the finish instead
-                    if ($current >= $total) {
-                        $('#myFormWizard3').find('.pager .next').hide();
-                        $('#myFormWizard3').find('.pager .finish').show();
-                        $('#myFormWizard3').find('.pager .finish').removeClass('disabled');
-                    } else {
-                        $('#myFormWizard3').find('.pager .next').show();
-                        $('#myFormWizard3').find('.pager .finish').hide();
-                    }
-
-                    var li = navigation.find('li.active');
-
-                    var btnNext = $('#myFormWizard3').find('.pager .next').find('button');
-                    var btnPrev = $('#myFormWizard3').find('.pager .previous').find('button');
-
-                    // remove fontAwesome icon classes
-                    function removeIcons(btn) {
-                        btn.removeClass(function(index, css) {
-                            return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                        });
-                    }
-
-                    if ($current > 1 && $current < $total) {
-
-                        var nextIcon = li.next().find('.fa');
-                        var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                        removeIcons(btnNext);
-                        btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                        var prevIcon = li.prev().find('.fa');
-                        var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                        removeIcons(btnPrev);
-                        btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                    } else if ($current == 1) {
-                        // remove classes needed for button animations from previous button
-                        btnPrev.removeClass('btn-animated from-left fa');
-                        removeIcons(btnPrev);
-                    } else {
-                        // remove classes needed for button animations from next button
-                        btnNext.removeClass('btn-animated from-left fa');
-                        removeIcons(btnNext);
-                    }
-                }
-            });
-
+    
+            // Wizard pager's configurations
             /*if ($('.firstTab').hasClass('active')) {
                 $('.btn-previous').hide();
             };
@@ -212,53 +149,47 @@
             $('.secondTab,.btn-next').click(function () {
                $('.btn-previous').show();
             });*/
+            // End of wizard pager's configurations
 
             CKEDITOR.inline('editorAct1');
             CKEDITOR.inline('editorAct2');
             CKEDITOR.inline('editorAct3');
             
 
-            // FORM CREATE JOB POST
-            function adjustIframeHeight() {
-                var $body   = $('body'),
-                        $iframe = $body.data('iframe.fv');
-                if ($iframe) {
-                    // Adjust the height of iframe
-                    $iframe.height($body.height());
-                }
-            };
-
+            // FORM VALIDATION
             $('#form-create-post')
                 .find('[name="currency"]')
                 .select2()
                 .change(function(e) {
-                    $('#form-create-job').formValidation('revalidateField', 'currency');
+                    $('#postForm').formValidation('revalidateField', 'currency');
                 })
                 .end()
                 .find('[name="salaryType"]')
                 .select2()
                 .change(function(e) {
-                    $('#form-create-job').formValidation('revalidateField', 'salaryType');
+                    $('#postForm').formValidation('revalidateField', 'salaryType');
                 })
                 .end()
                 .find('[name="location"]')
                 .select2()
                 .change(function(e) {
-                    $('#form-create-job').formValidation('revalidateField', 'location');
+                    $('#postForm').formValidation('revalidateField', 'location');
                 })
                 .end()
                 .find('[name="category"]')
                 .select2()
                 .change(function(e) {
-                    $('#form-create-job').formValidation('revalidateField', 'category');
+                    $('#postForm').formValidation('revalidateField', 'category');
                 })
                 .end()
                 .find('[name="jobType"]')
                 .select2()
                 .change(function(e) {
-                    $('#form-create-job').formValidation('revalidateField', 'jobType');
+                    $('#postForm').formValidation('revalidateField', 'jobType');
                 })
                 .end()
+                .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
+                .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
                 .formValidation({
                     framework: 'bootstrap',
                     excluded: ':disabled',
@@ -373,47 +304,6 @@
                         }
                     }
                 })
-                .bootstrapWizard({
-                    tabClass: 'nav nav-tabs nav-tabs-linetriangle nav-tabs-separator',
-                    onTabClick: function(tab, navigation, index) {
-                        return validateTab(index);
-                    },
-                    onNext: function(tab, navigation, index) {
-                        var numTabs    = $('#form-create-post').find('.tab-pane').length,
-                            isValidTab = validateTab(index - 1);
-                        if (!isValidTab) {
-                            return false;
-                        }
-
-                        if (index === numTabs) {
-                            // We are at the last tab
-
-                            // Uncomment the following line to submit the form using the defaultSubmit() method
-                            // $('#installationForm').formValidation('defaultSubmit');
-
-                            // For testing purpose
-                            $('#completeModal').modal();
-                        }
-
-                        return true;
-                    },
-                    onPrevious: function(tab, navigation, index) {
-                        return validateTab(index + 1);
-                    },
-                    onTabShow: function(tab, navigation, index) {
-                        // Update the label of Next button when we are at the last tab
-                        var numTabs = $('#form-create-post').find('.tab-pane').length;
-                        $('#form-create-post')
-                            .find('.next')
-                                .removeClass('disabled')    // Enable the Next button
-                                .find('a')
-                                .html(index === numTabs - 1 ? 'Install' : 'Next');
-
-                        // You don't need to care about it
-                        // It is for the specific demo
-                        adjustIframeHeight();
-                    }
-                })
                 .on('success.form.fv', function(e) {
                     // Prevent form submission
                     e.preventDefault();
@@ -464,7 +354,7 @@
                 })
                 .on('err.field.fv', function(e, data) {
                     // Remove button's disable class
-                    $('#btn-submit-post').removeClass('disable');
+                    $('#btn-submit-post').removeClass('disable');   
                 })
                 .on('success.field.fv', function(e, data) {
                     // Remove button's disable class
@@ -474,22 +364,45 @@
                     $('#status_post').html('');
                 });
 
-            function validateTab(index) {
-                var fv   = $('#form-create-post').data('formValidation'), // FormValidation instance
-                    // The current tab
-                    $tab = $('#form-create-post').find('.tab-pane').eq(index);
+            $('#postWizard')
+                // Call the wizard plugin
+                .wizard()
 
-                // Validate the container
-                fv.validateContainer($tab);
+                // Triggered when clicking the Next/Prev buttons
+                .on('actionclicked.fu.wizard', function(e, data) {
+                    var fv         = $('#postForm').data('formValidation'), // FormValidation instance
+                        step       = data.step,                              // Current step
+                        // The current step container
+                        $container = $('#postForm').find('.step-pane[data-step="' + step +'"]');
 
-                var isValidStep = fv.isValidContainer($tab);
-                if (isValidStep === false || isValidStep === null) {
-                    // Do not jump to the target tab
-                    return false;
-                }
+                    // Validate the container
+                    fv.validateContainer($container);
 
-                return true;
-            }
+                    var isValidStep = fv.isValidContainer($container);
+                    if (isValidStep === false || isValidStep === null) {
+                        // Do not jump to the target panel
+                        e.preventDefault();
+                    }
+                })
+
+                // Triggered when clicking the Complete button
+                .on('finished.fu.wizard', function(e) {
+                    var fv         = $('#postForm').data('formValidation'),
+                        step       = $('#postWizard').wizard('selectedItem').step,
+                        $container = $('#postForm').find('.step-pane[data-step="' + step +'"]');
+
+                    // Validate the last step container
+                    fv.validateContainer($container);
+
+                    var isValidStep = fv.isValidContainer($container);
+                    if (isValidStep === true) {
+                        // Uncomment the following line to submit the form using the defaultSubmit() method
+                        // fv.defaultSubmit();
+
+                        // For testing purpose
+                        $('#thankModal').modal();
+                    }
+                });
             // EOF
 
 
@@ -511,6 +424,18 @@
                         }
                     });
                 });
+            });
+
+            // Input masking
+            $("#salary-from").autoNumeric('init', {
+                aSep: '.',
+                aDec: ',',
+                mDec: '0'
+            });
+            $("#salary-to").autoNumeric('init', {
+                aSep: '.',
+                aDec: ',',
+                mDec: '0'
             });
 
         });

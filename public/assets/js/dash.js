@@ -127,142 +127,6 @@
     };
 
 
-    // ===================== INITIATE WIZARD FORM ============================
-    var formWizard1 = function() {
-        $('#createWizard').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#createWizard').find('.pager .next').hide();
-                    $('#createWizard').find('.pager .previous').show();
-                    $('#createWizard').find('.pager .finish').show();
-                    $('#createWizard').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#createWizard').find('.pager .next').show();
-                    $('#editWizard').find('.pager .finish').hide();
-                    $('#createWizard').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#createWizard').find('.pager .next').find('button');
-                var btnPrev = $('#createWizard').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    $('#createWizard').find('.pager .previous').hide();
-                    removeIcons(btnPrev);
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    $('#createWizard').find('.pager .previous').show();
-                    removeIcons(btnNext);
-                }
-            }
-        });
-    };
-
-    var formWizard2 = function() {
-        $('#editWizard').bootstrapWizard({
-            onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-
-                // If it's the last tab then hide the last button and show the finish instead
-                if ($current >= $total) {
-                    $('#editWizard').find('.pager .next').hide();
-                    $('#editWizard').find('.pager .previous').show();
-                    $('#editWizard').find('.pager .finish').show();
-                    $('#editWizard').find('.pager .finish').removeClass('disabled');
-                } else {
-                    $('#editWizard').find('.pager .next').show();
-                    $('#editWizard').find('.pager .previous').hide();
-                    $('#editWizard').find('.pager .finish').hide();
-                }
-
-                var li = navigation.find('li.active');
-
-                var btnNext = $('#editWizard').find('.pager .next').find('button');
-                var btnPrev = $('#editWizard').find('.pager .previous').find('button');
-
-                // remove fontAwesome icon classes
-                function removeIcons(btn) {
-                    btn.removeClass(function(index, css) {
-                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
-                    });
-                }
-
-                if ($current > 1 && $current < $total) {
-
-                    var nextIcon = li.next().find('.fa');
-                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnNext);
-                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
-
-                    var prevIcon = li.prev().find('.fa');
-                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
-
-                    removeIcons(btnPrev);
-                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
-                    $('#createWizard').find('.pager .previous').hide();
-                } else if ($current == 1) {
-                    // remove classes needed for button animations from previous button
-                    btnPrev.removeClass('btn-animated from-left fa');
-                    removeIcons(btnPrev);
-                    $('#createWizard').find('.pager .previous').hide();
-                } else {
-                    // remove classes needed for button animations from next button
-                    btnNext.removeClass('btn-animated from-left fa');
-                    removeIcons(btnNext);
-                    $('#createWizard').find('.pager .previous').show();
-                }
-            }
-        });
-    };
-
-
-    // For image processing purpose
-    function tempUpload(img) {
-        var data = {
-            'image': img
-        };
-        $.ajax({
-            type: 'post',
-            url: '/api/upload/image',
-            data: data,
-            dataType: "json",
-            success: function(data) {
-                var temp_img = data.msg;
-                $('#image-file').attr('src', 'uploads/temp/' + temp_img);
-            }
-        });
-    };
-
-
 
     // +++++++++++++++++++++++ BEGIN DOCUMENT ON READY FN +++++++++++++++++++++++
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -414,30 +278,6 @@
             $(this).css('background-color', '#f9f9fb');
         });
 
-
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-        elems.forEach(function(html) {
-            var switchery = new Switchery(html, {
-                color: '#b2050d'
-            });
-        });
-
-        var uEmail = $('#user-email').val(); // Get logged user email
-        var switch_checked = localStorage['switch_checked']; // Get switchery status from session
-        if (switch_checked == 'yes') {
-            var stat = 'show';
-            $('p.switch-label').html('Click to view<br>live job posts');
-            if ($('.switchery').attr('checked')) {
-                console.log('nothing to change...');
-            }
-        } else {
-            var stat = 'hide';
-            $('p.switch-label').html('Click to view<br>deleted job posts');
-            if ($('.switchery').attr('checked')) {
-                $(this).removeAttr('checked');
-                console.log('state changed!');
-            }
-        }
 
         // Then show the jobs
         showJobs('/api/jobs/' + uEmail + '/' + stat);
@@ -596,6 +436,8 @@
                     }
                 }
             })
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -802,6 +644,8 @@
                     }
                 }
             })
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -899,66 +743,38 @@
         });
 
 
-
-        // NOTIFICATIONS HANDLER /////
-        var msg = $('.msg-container').text();
-        var type = $('.msg-container').attr('data-type');
-        if (msg) {
-            if (type == 'success') {
-                $('body').pgNotification({
-                    'message': msg,
-                    'type': type,
-                    'style': 'circle',
-                    'position': 'top-left',
-                    'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
-                }).show();
-            }
-        }
-
-
-        // ////////////  Input masking ////////////////
-        $("#salary-from").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-
-        $("#salary-from-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-
-
         // ================================================================================================
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
 
-        // Switchery Handler >>> 'show deleted job'
-        $('.switchery').change(function() {
-            if ($(this).attr('checked')) {
-                localStorage['switch_checked'] = "yes";
-                showJobs('/api/jobs/' + uEmail + '/show');
-                $('p.switch-label').html('Click to view<br>live job posts');
-            } else {
-                localStorage['switch_checked'] = "no";
-                showJobs('/api/jobs/' + uEmail + '/hide');
-                $('p.switch-label').html('Click to view<br>deleted job posts');
-            }
+        
+        // Switchery Handler
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+        elems.forEach(function(html) {
+            var switchery = new Switchery(html, {
+                color: '#b2050d'
+            });
         });
 
+        var uEmail = $('#user-email').val(); // Get logged user email
+        var switch_checked = localStorage['switch_checked']; // Get switchery status from session
+        if (switch_checked == 'yes') {
+            var stat = 'show';
+            $('p.switch-label').html('Click to view<br>live job posts');
+            if ($('.switchery').attr('checked')) {
+                console.log('nothing to change...');
+            }
+        } else {
+            var stat = 'hide';
+            $('p.switch-label').html('Click to view<br>deleted job posts');
+            if ($('.switchery').attr('checked')) {
+                $(this).removeAttr('checked');
+                console.log('state changed!');
+            }
+        }
 
-        // Buy Credits buttons action
+
+        // Buy Credits buttons action (EXPERIMENTAL ONLY!!!)
         $('#btnBuy1').click(function() {
             var url = '/buy/1';
             window.location.href = url;
@@ -1301,6 +1117,30 @@
                     }, 2100);
                 }
             });
+        });
+
+
+
+        // Input masking
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
         });
 
     });
