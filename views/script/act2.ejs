@@ -21,7 +21,7 @@
     <script src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
     <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="assets/plugins/moment/moment.min.js"></script>
-    <script src="assets/plugins/wizard.js"></script>
+    <script src="assets/plugins/fuelux.wizard.js"></script>
     <script src="assets/plugins/initial.min.js"></script>
     <script src="assets/plugins/jquery.cropper.js"></script>
     <script src="assets/plugins/formvalidation/dist/js/formValidation.min.js"></script>
@@ -113,7 +113,6 @@
             ///// End of Image processing ///////
 
 
-
             $('.page-activation').fadeOut('fast').fadeIn('slow');
             /// disable previous btn func
             
@@ -127,7 +126,7 @@
             });
 
 
-            // Read user first signup status
+            // Change STEP 2 status based on user's filling form
             $('#createJobImg').change(function(){
                 $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#12806D');
                 $('#step2-text').removeClass().css('color', '#12806D').hide().show('slow');
@@ -137,27 +136,16 @@
                 $('#step2-icon').removeClass().addClass('fa fa-check-circle-o fa-3x').css('color', '#52D5BE');
                 $('#step2-text').removeClass().css('color', '#52D5BE').hide().show('slow');
             });
-    
-            // Wizard pager's configurations
-            /*if ($('.firstTab').hasClass('active')) {
-                $('.btn-previous').hide();
-            };
 
-            $('.firstTab,.btn-previous').click(function () {
-               $('.btn-previous').hide();
-            });
-            $('.secondTab,.btn-next').click(function () {
-               $('.btn-previous').show();
-            });*/
-            // End of wizard pager's configurations
 
+            // CKEditor initiation
             CKEDITOR.inline('editorAct1');
             CKEDITOR.inline('editorAct2');
             CKEDITOR.inline('editorAct3');
             
 
             // FORM VALIDATION
-            $('#form-create-post')
+            $('#postForm')
                 .find('[name="currency"]')
                 .select2()
                 .change(function(e) {
@@ -303,71 +291,10 @@
                             }
                         }
                     }
-                })
-                .on('success.form.fv', function(e) {
-                    // Prevent form submission
-                    e.preventDefault();
-
-                    // Create button loader instance
-                    var loader = Ladda.create(document.querySelector('#btn-submit-post'));
-                    // Start loading
-                    loader.start();
-
-                    // Reset the message element when the form is valid
-                    $('#status_post').html('');
-
-                    var $form = $(e.target),
-                        fv = $form.data('formValidation');
-
-                    $.ajax({
-                        url: $form.attr('action'),
-                        data: $form.serialize(),
-                        type: 'POST',
-                        success: function(result) {
-                            if (result.type == 'success') {
-                                // Stop loading
-                                loader.stop();
-                                loader.remove();
-
-                                swal({
-                                    type: 'success',
-                                    title: "Success!",
-                                    text: result.msg
-                                }, function() {
-                                    location.reload(true);
-                                });
-                            } else {
-                                // Stop loading
-                                loader.stop();
-                                loader.remove();
-
-                                $('<li/>')
-                                    .wrapInner(
-                                        $('<span/>')
-                                        .attr('class', 'ajax_error')
-                                        .html(result.msg)
-                                    )
-                                    .appendTo('#status_post');
-                            }
-                        }
-                    });
-                })
-                .on('err.field.fv', function(e, data) {
-                    // Remove button's disable class
-                    $('#btn-submit-post').removeClass('disable');   
-                })
-                .on('success.field.fv', function(e, data) {
-                    // Remove button's disable class
-                    $('#btn-submit-post').removeClass('disable');
-
-                    // Reset the message element when the form is valid
-                    $('#status_post').html('');
                 });
 
             $('#postWizard')
-                // Call the wizard plugin
                 .wizard()
-
                 // Triggered when clicking the Next/Prev buttons
                 .on('actionclicked.fu.wizard', function(e, data) {
                     var fv         = $('#postForm').data('formValidation'), // FormValidation instance
@@ -384,23 +311,18 @@
                         e.preventDefault();
                     }
                 })
-
                 // Triggered when clicking the Complete button
                 .on('finished.fu.wizard', function(e) {
                     var fv         = $('#postForm').data('formValidation'),
                         step       = $('#postWizard').wizard('selectedItem').step,
                         $container = $('#postForm').find('.step-pane[data-step="' + step +'"]');
 
-                    // Validate the last step container
+                    // Validate the last step validateContainerner
                     fv.validateContainer($container);
 
                     var isValidStep = fv.isValidContainer($container);
                     if (isValidStep === true) {
-                        // Uncomment the following line to submit the form using the defaultSubmit() method
-                        // fv.defaultSubmit();
-
-                        // For testing purpose
-                        $('#thankModal').modal();
+                        swal('success', 'form is completed!');
                     }
                 });
             // EOF

@@ -2847,7 +2847,7 @@ hr.dotted {
 [Buttons Base Styles]
 */
 .btn {
-  font-family: Arial, sans-serif;
+  font-family: Avenir_book, Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0.01em;
@@ -6297,7 +6297,7 @@ form legend {
   background-color: #ffffff;
   background-image: none;
   border: 1px solid rgba(0, 0, 0, 0.07);
-  font-family: Arial, sans-serif;
+  font-family: avenir_book, Arial, sans-serif;
   -webkit-appearance: none;
   color: #2c2c2c;
   outline: 0;

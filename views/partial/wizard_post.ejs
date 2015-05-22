@@ -15,96 +15,127 @@
                         </div>
                         <div class="panel-body" style="padding-left:50px;padding-right:50px;width:100%;">
                             <div class="fuelux">
-                                <div class="wizard" id="orderWizard">
+                                <div class="wizard" id="postWizard">
+                                    <!-- Steps -->
                                     <ul class="steps">
-                                        <li data-step="1" class="active"><span class="badge">1</span> Add to cart<span class="chevron"></span></li>
-                                        <li data-step="2"><span class="badge">2</span> Shipping address<span class="chevron"></span></li>
+                                        <li data-step="1" class="active"><i class="fa fa-building-o tab-icon"></i> <span>COMPANY PROFILE</span></li>
+                                        <li data-step="2"><i class="fa fa-envelope-o tab-icon"></i> <span>JOB DETAILS</span></li>
                                     </ul>
+                                    <!-- Actions -->
                                     <div class="actions">
-                                        <button type="button" class="btn btn-default btn-prev"><span class="glyphicon glyphicon-arrow-left"></span>Prev</button>
-                                        <button type="button" class="btn btn-default btn-next" data-last="Order">Next<span class="glyphicon glyphicon-arrow-right"></span></button>
+                                        <button type="button" class="btn btn-default btn-prev"><i class="pg-arrow_left"></i> Prev</button>
+                                        <button type="button" class="btn btn-default btn-next" data-last="Order">Next<i class="pg-arrow_right" style="padding-left:5px;"></i></button>
                                     </div>
-                                    <form id="orderForm" method="post" class="form-horizontal">
-                                        <div class="step-content">
-                                            <!-- The first panel -->
+                                    <!-- Content -->
+                                    <form id="postForm" method="post" enctype="multipart/form-data">
+                                        <div class="step-content" style="padding: 20px 20px 10px 20px;">
+                                            <!-- First tab -->
                                             <div class="step-pane active" data-step="1">
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">Quantity</label>
-                                                    <div class="col-xs-3">
-                                                        <input type="text" class="form-control" name="quantity" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">Size</label>
-                                                    <div class="col-xs-6">
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="size[]" value="s" /> S</label>
+                                                <div class="row" style="padding-bottom:20px;">
+                                                    <div class="col-sm-7">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Company Name</label>
+                                                            <input type="text" name="companyName" placeholder="" class="form-control" id="companyName" required>
                                                         </div>
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="size[]" value="m" /> M</label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="size[]" value="l" /> L</label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="size[]" value="xl" /> XL</label>
+                                                        <div class="form-group form-group-default">
+                                                            <label>Location</label>
+                                                            <% include ../dropdown/location_create %>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="box-cropper pull-right">
+                                                            <div class="logoBox">
+                                                                <img id="logo-preview" src="assets/img/logohere.png" />
+                                                            </div>
+                                                            <input type="file" id="logo_file" style="float:left; width: 250px">
+                                                            <input id="image-source" type="hidden" name="cropped_image">
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">Color</label>
-                                                    <div class="col-xs-6">
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="color[]" value="white" /> White</label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="color[]" value="black" /> Black</label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="color[]" value="red" /> Red</label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="color[]" value="yellow" /> Yellow</label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" name="color[]" value="green" /> Green</label>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Description</label>
+                                                            <textarea id="editorAct1" name="description" class="description-text"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- The second panel -->
+                                            <!-- Second tab -->
                                             <div class="step-pane" data-step="2">
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">Full name</label>
-                                                    <div class="col-xs-4">
-                                                        <input type="text" class="form-control" name="firstName" placeholder="First name" />
-                                                    </div>
-                                                    <div class="col-xs-4">
-                                                        <input type="text" class="form-control" name="lastName" placeholder="Last name" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">Phone number</label>
-                                                    <div class="col-xs-3">
-                                                        <input type="text" class="form-control" name="cellPhone" />
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Job Title</label>
+                                                            <input type="text" class="form-control" name="jobTitle">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">Street</label>
-                                                    <div class="col-xs-9">
-                                                        <input type="text" class="form-control" name="street" placeholder="" />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group form-group-default form-group-default-select2">
+                                                            <label>Category</label>
+                                                            <% include ../dropdown/category_create %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group form-group-default form-group-default-select2">
+                                                            <label>Job Type</label>
+                                                            <select class="full-width" name="jobType" data-placeholder="Choose job type" required>
+                                                                <option></option>
+                                                                <option value="full-time">Full Time</option>
+                                                                <option value="contract">Contract</option>
+                                                                <option value="part-time">Part Time</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">City</label>
-                                                    <div class="col-xs-4">
-                                                        <input type="text" class="form-control" name="city" />
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Job Scope <span class="hint-text small"></label>
+                                                            <textarea id="editorAct2" name="jobScope" placeholder="Type or copy/paste here to fill job scopes"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-xs-3 control-label">Zipcode</label>
-                                                    <div class="col-xs-3">
-                                                        <input type="text" class="form-control" name="zipCode" />
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Requirements  <span class="hint-text small"></label>
+                                                            <textarea id="editorAct3" name="requirements" placeholder="Type or copy/paste here to fill requirements"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <p>Salary : </p>
+                                                <div class="row">
+                                                    <div class="col-sm-7">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-xs-3">
+                                                                <select name="currency" class="currency">
+                                                                    <option value="USD">USD</option>
+                                                                    <option value="IDR">IDR</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-9 col-xs-9">
+                                                                <div class="input-daterange input-group">
+                                                                    <input name="salaryFrom" id="salary-from" type="text" placeholder="2.000.000" class="input-sm form-control"/>
+                                                                    <span class="input-group-addon">to</span>
+                                                                    <input name="salaryTo" id="salary-to" type="text" placeholder="4.000.000" class="input-sm form-control" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group salary-type">
+                                                            <select name="salaryType" class="salaryType">
+                                                                <option value="Monthly">Monthly</option>
+                                                                <option value="Annually">Annually</option>
+                                                                <option value="Daily">Daily</option>
+                                                                <option value="Hourly">Hourly</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
