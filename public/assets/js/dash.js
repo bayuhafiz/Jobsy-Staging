@@ -132,7 +132,7 @@
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     $(document).ready(function() {
-
+   
         //////// Image processing /////////
         // Create Post Modal //
         var options = {
