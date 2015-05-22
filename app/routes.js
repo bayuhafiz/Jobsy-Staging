@@ -1103,8 +1103,7 @@ module.exports = function(app, passport) {
                                 // Save the values into database
                                 var app = new App({
                                     jobId: job._id,
-                                    firstName: req.body.firstName,
-                                    lastName: req.body.lastName,
+                                    fullName: req.body.fullName,
                                     phone: req.body.phone,
                                     email: req.body.email,
                                     location: req.body.location,

@@ -35,74 +35,81 @@
         var pubCounter = 0;
 
         // Dummy clear the job table
-        $('#accordion').html('');
+        $('.jobs-panel').html('');
         $('#no-job-post').hide();
 
         $.ajax({
-            async: false,
             dataType: "json",
             url: url,
             success: function(data) {
                 if (data.length > 0) {
-
                     $.each(data, function(i) {
+
+                        dataHtml += '<div class="collapse-card" data-id="' + data[i]._id + '">';
 
                         if (data[i].status == 'deleted') {
                             delCounter = delCounter + 1; // Count deleted job
-                            badge = '<i class="fa fa-times-circle" style="color:rgb(205, 95, 100);"></i>';
+                            badge = '<i class="fa fa-times-circle fa-2x" style="color:rgb(205, 95, 100);"></i>';
                             toolbox = '<div class="btn-group"><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-reply"></i></button></div>';
                         } else if (data[i].status == 'paused') {
                             pauCounter = pauCounter + 1; // Count paused job
-                            badge = '<i class="fa fa-minus-circle" style="color:#f8d053"></i>';
+                            badge = '<i class="fa fa-minus-circle fa-2x" style="color:#f8d053"></i>';
                             toolbox = '<div class="btn-group"><button id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></button><button data-id="' + data[i]._id + '" class="btn btn-sm btn-white" id="pauseButton"><i class="fa fa-refresh"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></button></div>';
                         } else if (data[i].status == 'published') {
                             pubCounter = pubCounter + 1; // Count published job
-                            badge = '<i class="fa fa-check-circle" style="color:#52D5BE"></i>';
+                            badge = '<i class="fa fa-check-circle fa-2x" style="color:#52D5BE"></i>';
                             toolbox = '<button href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></button><button data-id="' + data[i]._id + '" id="pauseButton" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></button>';
                         }
 
                         if (data[i].newApp > 0) {
-                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + ' unreviewed</font></span>';
+                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + '</font></span>';
                         } else {
                             var newApp = '';
                         }
 
                         // Generate datas
-                        dataHtml += '<li data-id="' + data[i]._id + '">' +
-                            '<div class="link">' + badge + '<h4 style="margin-top:auto;">' + data[i].details.jobTitle + '</h4><i class="fa fa-chevron-down"></i></div>' +
-                            '<ul class="submenu">';
+                        dataHtml += '<div class="collapse-card__heading">' +
+                            '<div class="collapse-card__title">' +
+                            badge + '&nbsp;&nbsp;<span style="font-size:16px!important;">' + data[i].details.jobTitle + '</span>&nbsp;&nbsp;' + newApp +
+                            '<span class="jobs-toolbox pull-right ' + data[i]._id + '">' + toolbox + '</span>' +
+                            '</div>' +
+                            '</div>';
 
                         // Load application list
                         $.ajax({
                             async: false,
                             dataType: "json",
                             url: "/api/job/apps/" + data[i]._id,
-                            success: function(app, dataHtml) {
+                            success: function(app) {
+
+                                dataHtml += '<div class="collapse-card__body">';
+
                                 if (app.length > 0) {
+
                                     $.each(app, function(i) {
                                         if (app[i].read == false) {
-                                            var appBadge = '<span class="badge badge-danger"><i class="fa fa-eye"></i> </span>';
-                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-eye"></i> Set as reviewed</span></a>';
+                                            var appBadge = '<span class="badge badge-danger"><i class="fa fa-eye"></i>&nbsp;Unreviewed</span>';
+                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-eye"></i> </span></a>';
                                         } else {
-                                            var appBadge = '<span class="badge badge-success"><i class="fa fa-eye"></i> </span>';
+                                            var appBadge = '<span class="badge badge-success"><i class="fa fa-eye"></i>&nbsp;Reviewed</span>';
                                             var status = '';
                                         }
 
-                                        dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5>' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + app[i].applyDate + '</span></h5>' +
-                                            '</li>';
+                                        dataHtml += '<p app-id="' + data[i]._id + '" class="app-item">' + appBadge + ' ' + app[i].fullName.toUpperCase() + ' (' + app[i].location + ')' + '<span class="pull-right small"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('hour').fromNow() + '</span></p>';
                                     });
                                 } else {
-                                    dataHtml += '<li><p class="hint-text">No applications yet..</p></li>';
+                                    dataHtml += '<p class="text-center" style="color:#9E9E9E"><i class="fa fa-exclamation-circle" style="color:#9E9E9E"></i> No applications yet..</p>';
                                 }
+
+                                dataHtml += '</div>';
                             }
                         });
 
-                        dataHtml += '</ul>' +
-                            '</li>';
+                        dataHtml += '</div>';
 
                         // FINALLY, SHOW THE WHOLE RESULTS...
-                        $('#accordion').html(dataHtml);
+                        $('.jobs-panel').html(dataHtml).hide().fadeIn();
+                        $('.collapse-card').paperCollapse(); // Call the plugin
 
                     });
 
@@ -122,6 +129,123 @@
                     $('#no-job-post').show();
                 }
 
+            }
+        });
+    };
+
+    // ===================== INITIATE WIZARD FORM ============================
+    window.formWizard1 = function() {
+        $('#createWizard').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#createWizard').find('.pager .next').hide();
+                    $('#createWizard').find('.pager .previous').show();
+                    $('#createWizard').find('.pager .finish').show();
+                    $('#createWizard').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#createWizard').find('.pager .next').show();
+                    $('#editWizard').find('.pager .finish').hide();
+                    $('#createWizard').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#createWizard').find('.pager .next').find('button');
+                var btnPrev = $('#createWizard').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').hide();
+                    removeIcons(btnPrev);
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').show();
+                    removeIcons(btnNext);
+                }
+            }
+        });
+    };
+
+    window.formWizard2 = function() {
+        $('#editWizard').bootstrapWizard({
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index + 1;
+
+                // If it's the last tab then hide the last button and show the finish instead
+                if ($current >= $total) {
+                    $('#editWizard').find('.pager .next').hide();
+                    $('#editWizard').find('.pager .previous').show();
+                    $('#editWizard').find('.pager .finish').show();
+                    $('#editWizard').find('.pager .finish').removeClass('disabled');
+                } else {
+                    $('#editWizard').find('.pager .next').show();
+                    $('#editWizard').find('.pager .previous').hide();
+                    $('#editWizard').find('.pager .finish').hide();
+                }
+
+                var li = navigation.find('li.active');
+
+                var btnNext = $('#editWizard').find('.pager .next').find('button');
+                var btnPrev = $('#editWizard').find('.pager .previous').find('button');
+
+                // remove fontAwesome icon classes
+                function removeIcons(btn) {
+                    btn.removeClass(function(index, css) {
+                        return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+                    });
+                }
+
+                if ($current > 1 && $current < $total) {
+
+                    var nextIcon = li.next().find('.fa');
+                    var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnNext);
+                    btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+                    var prevIcon = li.prev().find('.fa');
+                    var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+                    removeIcons(btnPrev);
+                    btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+                    $('#createWizard').find('.pager .previous').hide();
+                } else if ($current == 1) {
+                    // remove classes needed for button animations from previous button
+                    btnPrev.removeClass('btn-animated from-left fa');
+                    removeIcons(btnPrev);
+                    $('#createWizard').find('.pager .previous').hide();
+                } else {
+                    // remove classes needed for button animations from next button
+                    btnNext.removeClass('btn-animated from-left fa');
+                    removeIcons(btnNext);
+                    $('#createWizard').find('.pager .previous').show();
+                }
             }
         });
     };
@@ -776,17 +900,14 @@
             if (elem.checked == true) {
                 showJobs('/api/jobs/' + uEmail + '/hide');
                 localStorage['switch_checked'] = 'hide'; // save to session
-                console.log('changed to: ' + localStorage['switch_checked']);
             } else if (elem.checked == false) {
                 showJobs('/api/jobs/' + uEmail + '/show');
                 localStorage['switch_checked'] = 'show'; // save to session
-                console.log('changed to: ' + localStorage['switch_checked']);
             }
         };
 
-        // Check session for switching
+        // Check session to init switch state
         var stat = localStorage['switch_checked'];
-        console.log(stat);
         if (stat == 'hide') {
             showJobs('/api/jobs/' + uEmail + '/' + stat);
         } else {
@@ -797,7 +918,6 @@
             }
         }
         // END OF SWITCHERY //////////////////////////
-
 
 
         // Buy Credits buttons action (EXPERIMENTAL ONLY!!!)

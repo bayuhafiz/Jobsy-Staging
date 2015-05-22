@@ -30,16 +30,13 @@
                   <div class="msg-container" data-type="error" style="display:none;"><%= error %></div>
                   <% } %>
                   <input type="hidden" id="user-email" value="<%= user.email %>" />
-                  <div class="panel-heading" id="user-job-counter">
-                    <span class="panel-title" id="job-counter">
-                    </span>
-                    <div class="pull-right deletedJob-btn">
-                      <div class="m-t-5 inline" style="position: relative;top: -9px;">
-                        <input id="job-switch" type="checkbox" class="switchery" checked/>
-                      </div>
-                      <div class="inline m-l-10">
-                        <p class="small hint-text m-t-5 switch-label">Click to view deleted job posts</p>
-                      </div>
+                  <div class="panel-heading row" id="user-job-counter">
+                    <div class="col-md-11">
+                      <span class="panel-title" id="job-counter">
+                      </span>
+                    </div>
+                    <div class="col-md-1 pull-right">
+                      <input id="job-switch" type="checkbox" class="switchery" checked />
                     </div>
                   </div>
                   <br>
@@ -49,8 +46,7 @@
                     <p><a href="#" data-target="#PostNewJob" data-toggle="modal">click here</a> to create a new job post or click on grren button above.</p>
                   </div>
                   <div class="jobs-panel">
-                    <ul id="accordion" class="accordion">
-                    </ul>
+                    
                   </div>
                   <!-- END JOBS PANEL -->
                 </div>
@@ -76,7 +72,6 @@
       <% include ./partial/modal_cropper %>
       <% } else { %>
       <% include ./partial/modal_auth %>
-      <% include ./partial/modal_apply %>
       <% } %>
       <!-- END MODAL OVERLAY -->
       <% if (user) { %>

@@ -5,11 +5,7 @@ module.exports = mongoose.model('App', {
         type: String,
         default: ''
     },
-    firstName: {
-        type: String,
-        default: ''
-    },
-    lastName: {
+    fullName: {
         type: String,
         default: ''
     },
