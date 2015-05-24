@@ -116,6 +116,7 @@ module.exports = function(passport) {
                             newUser.actTokenCreated = Date.now();
                             newUser.actTokenExpired = Date.now() + 3600000; // 1 hour
                             newUser.actStatus = 'inactive';
+                            newUser.credits = 2;
 
                             newUser.save(function(err) {
                                 if (err)
