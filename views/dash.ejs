@@ -13,8 +13,6 @@
       <div class="page-content-wrapper">
         <!-- START PAGE CONTENT -->
         <div class="content">
-          <div id="message"></div>
-          
           <% include ./partial/jumbotron %>
           <!-- START CONTAINER FLUID -->
           <div class="container-fluid container-fixed-lg">
@@ -22,15 +20,8 @@
               <div class="col-md-12">
                 <!-- START PANEL -->
                 <div class="panel panel-transparent">
-                  <% if (info.length > 0) { %>
-                  <div class="msg-container" data-type="info" style="display:none;"><%= info %></div>
-                  <% } else if (success.length > 0) { %>
-                  <div class="msg-container" data-type="success" style="display:none;"><%= success %></div>
-                  <% } else if (error.length > 0) { %>
-                  <div class="msg-container" data-type="error" style="display:none;"><%= error %></div>
-                  <% } %>
                   <input type="hidden" id="user-email" value="<%= user.email %>" />
-                  <div class="panel-heading row" id="user-job-counter">
+                  <div class="row" id="user-job-counter">
                     <div class="col-md-11">
                       <span class="panel-title" id="job-counter">
                       </span>
@@ -43,7 +34,7 @@
                   <!-- START JOBS PANEL -->
                   <div id="no-job-post" class="text-center">
                     <h1>Oops, no job posts to display...</h1>
-                    <p><a href="#" data-target="#PostNewJob" data-toggle="modal">click here</a> to create a new job post or click on grren button above.</p>
+                    <p><a href="#" data-target="#PostNewJob" data-toggle="modal">click here</a> to create a new job post or click on green button above.</p>
                   </div>
                   <div class="jobs-panel">
                     
@@ -70,6 +61,7 @@
       <% include ./partial/modal_edit %>
       <% include ./partial/modal_post %>
       <% include ./partial/modal_cropper %>
+      <% include ./partial/modal_app %>
       <% } else { %>
       <% include ./partial/modal_auth %>
       <% } %>
@@ -81,32 +73,32 @@
       <input type="hidden" id="hidden-name" value="<%= user.initCompany.name %>" />
       <input type="hidden" id="hidden-location" value="<%= user.initCompany.location %>" />
       <input type="hidden" id="hidden-description" value="<%= user.initCompany.description %>" />
+      <input type="hidden" id="hidden-credits" value="<%= user.credits %>" />
       <% } %>
       <!-- BEGIN VENDOR JS -->
       <% include ./script/dash %>
-
       <script type="text/javascript">
-      $(document)  
-        .on('show.bs.modal', '.modal', function(event) {
-          $(this).appendTo($('body'));
-        })
-        .on('shown.bs.modal', '.modal.in', function(event) {
-          setModalsAndBackdropsOrder();
-        })
-        .on('hidden.bs.modal', '.modal', function(event) {
-          setModalsAndBackdropsOrder();
-        });
+      $(document)
+          .on('show.bs.modal', '.modal', function(event) {
+              $(this).appendTo($('body'));
+          })
+          .on('shown.bs.modal', '.modal.in', function(event) {
+              setModalsAndBackdropsOrder();
+          })
+          .on('hidden.bs.modal', '.modal', function(event) {
+              setModalsAndBackdropsOrder();
+          });
 
-      function setModalsAndBackdropsOrder() {  
-        var modalZIndex = 1040;
-        $('.modal.in').each(function(index) {
-          var $modal = $(this);
-          modalZIndex++;
-          $modal.css('zIndex', modalZIndex);
-          $modal.next('.modal-backdrop.in').addClass('hidden').css('zIndex', modalZIndex - 1);
-        });
-        
-        $('.modal.in:visible:last').focus().next('.modal-backdrop.in').removeClass('hidden');
+      function setModalsAndBackdropsOrder() {
+          var modalZIndex = 1040;
+          $('.modal.in').each(function(index) {
+              var $modal = $(this);
+              modalZIndex++;
+              $modal.css('zIndex', modalZIndex);
+              $modal.next('.modal-backdrop.in').addClass('hidden').css('zIndex', modalZIndex - 1);
+          });
+
+          $('.modal.in:visible:last').focus().next('.modal-backdrop.in').removeClass('hidden');
       }
       </script>
       <!-- END PAGE LEVEL JS -->

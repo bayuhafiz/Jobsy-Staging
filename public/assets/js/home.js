@@ -1228,7 +1228,7 @@
                                 title: "Success!",
                                 text: result.msg
                             }, function() {
-                                location.reload(true);
+                                location.reload(true);  
                             });
                         } else {
                             // Stop loading
