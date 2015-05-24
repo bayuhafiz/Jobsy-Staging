@@ -36,7 +36,7 @@
                             </div>
                             <div class="col-md-8 col-sm-8 col-xs-8">
                                 <h4 style="font-weight:bold"><span class="hint-text bold">Step 1:</span> <span class="text-danger">Verify your account</span></h4>
-                                <span class="hint-text">Please click on the link provided in the verification email sent to you. If you have not received it, <a href="/resend/<%= userid %>" class="link">click here</a> to get a new one.</span>
+                                <span class="hint-text">Please click on the link provided in the verification email sent to you. If you have not received it, check your junk/spam folder, or <a href="#resend" class="link">click here</a> to get a new one.</span>
                             </div>
                         </div>
                         <% } else { %>
@@ -70,7 +70,7 @@
             </div>
             <% include ./partial/wizard_post %>
         </div>
-
+        <input type="hidden" id="user-id" value="<%= userid %>" />
         <% include ./partial/modal_cropper %>
 
         <!-- BEGIN VENDOR JS -->

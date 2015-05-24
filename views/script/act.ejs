@@ -70,6 +70,22 @@
 
 <script>
 $(document).ready(function() {
+    $("a[href='#resend']").click(function() {
+        var id = $('#user-id').val();
+        $.ajax({
+                url: '/api/account/resend/' + id,
+                type: 'GET',
+                success: function(result) {
+                    swal({
+                        title: "Sent!",
+                        text: result.msg,
+                        confirmButtonText: "OK",
+                        confirmButtonColor: "#52D5BE"
+                    });
+                }
+            });
+    });
+
     $("a[href='#signout']").click(function() {
         swal({
             title: "Are you sure?",

@@ -137,60 +137,6 @@ module.exports = function(app, passport) {
                 }
             });
     });
-    // Resend activate account
-    app.get('/resend/:id', isLoggedIn, function(req, res) {
-        User
-            .findOne({
-                _id: req.params.id
-            })
-            .exec(function(err, user) {
-                if (user.actStatus == 'activated') {
-                    return next(err);
-                } else {
-                    emailTemplates(templatesDir, function(err, template) {
-                        // Send activation mail to user
-                        var transport = nodemailer.createTransport({
-                            service: 'Mailgun',
-                            auth: {
-                                user: secrets.mailgun.user,
-                                pass: secrets.mailgun.password
-                            }
-                        });
-                        // An users object with formatted email function
-                        var locals = {
-                            email: user.email,
-                            button: {
-                                link: 'http://' + req.headers.host + '/activate/' + user.actToken,
-                                text: 'activate your account'
-                            },
-                            header: 'Hi ' + user.firstName,
-                            body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
-                        };
-                        // Send a single email
-                        template('email', locals, function(err, html, text) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                transport.sendMail({
-                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                    to: locals.email,
-                                    subject: 'Jobsy Account Activation!',
-                                    html: html,
-                                    text: text
-                                }, function(err, responseStatus) {
-                                    if (err) {
-                                        console.log(err);
-                                    } else {
-                                        req.flash('info', 'We have resent your activation email, please kindly check your junk/trash if you cannot find it in your inbox.');
-                                        res.redirect('/dash');
-                                    }
-                                });
-                            }
-                        });
-                    });
-                }
-            });
-    });
     // update account settings --------------------------------
     app.post('/account/profile', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
@@ -647,6 +593,62 @@ module.exports = function(app, passport) {
         ], function(err) {
             if (err) return next(err);
         });
+    });
+    // Resend activate account
+    app.get('/api/account/resend/:id', isLoggedIn, function(req, res) {
+        User
+            .findOne({
+                _id: req.params.id
+            })
+            .exec(function(err, user) {
+                if (user.actStatus == 'activated') {
+                    return next(err);
+                } else {
+                    emailTemplates(templatesDir, function(err, template) {
+                        // Send activation mail to user
+                        var transport = nodemailer.createTransport({
+                            service: 'Mailgun',
+                            auth: {
+                                user: secrets.mailgun.user,
+                                pass: secrets.mailgun.password
+                            }
+                        });
+                        // An users object with formatted email function
+                        var locals = {
+                            email: user.email,
+                            button: {
+                                link: 'http://' + req.headers.host + '/activate/' + user.actToken,
+                                text: 'activate your account'
+                            },
+                            header: 'Hi ' + user.firstName,
+                            body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
+                        };
+                        // Send a single email
+                        template('email', locals, function(err, html, text) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                transport.sendMail({
+                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                    to: locals.email,
+                                    subject: 'Jobsy Account Activation!',
+                                    html: html,
+                                    text: text
+                                }, function(err, responseStatus) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        res.json({
+                                            'type': 'success',
+                                            'msg': 'We have resent your activation email, please kindly check your junk/trash if you cannot find it in your inbox.'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            });
     });
 
 
