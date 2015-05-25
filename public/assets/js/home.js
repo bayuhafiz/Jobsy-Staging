@@ -316,7 +316,8 @@
         // EOF
 
         // FORM SIGN UP
-        $('#form-register').formValidation({
+        $('#form-register')
+            .formValidation({
                 framework: 'bootstrap',
                 fields: {
                     firstName: {
@@ -939,6 +940,19 @@
                         validators: {
                             notEmpty: {
                                 message: 'Please provide company description'
+                            },
+                            callback: {
+                                message: 'The company description must be more than 200 characters long',
+                                callback: function(value, validator, $field) {
+                                    if (value === '') {
+                                        return true;
+                                    }
+                                    // Get the plain text without HTML
+                                    var div = $('<div/>').html(value).get(0),
+                                        text = div.textContent || div.innerText;
+
+                                    return text.length > 200;
+                                }
                             }
                         }
                     },
@@ -963,12 +977,6 @@
             })
             .find('[name="salaryTo"]').mask('000.000.000.000.000', {
                 reverse: true
-            })
-            .find('[name="description"]')
-            .ckeditor()
-            .editor
-            .on('change', function() {
-                $('#form-create-job').formValidation('revalidateField', 'description');
             })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
@@ -1020,8 +1028,25 @@
                 });
             })
             .on('err.field.fv', function(e, data) {
+                // Get the messages of field
+                var messages = data.fv.getMessages(data.element);
+
                 // Remove button's disable class
                 $('#btn-submit-post').removeClass('disable');
+
+                // Dummy clear notification
+                $('body').pgNotification().hide();
+
+                // Loop over the messages
+                for (var i in messages) {
+                    // Show siple error notification
+                    $('body').pgNotification({
+                        position: 'top-left',
+                        style: 'simple',
+                        type: 'danger',
+                        message: messages[i]
+                    }).show();
+                }
             })
             .on('success.field.fv', function(e, data) {
                 // Remove button's disable class
@@ -1393,7 +1418,6 @@
         $('body').on('click', '#btn-edit-job', function(e) {
             e.preventDefault();
 
-
             var id = $(this).parent('li').attr('data-id');
             var email = null;
             var thumbnailWrapper = $(this).find('.thumbnail-wrapper');
@@ -1421,7 +1445,6 @@
                 dataType: "json",
                 url: "/api/job/" + id,
                 success: function(data) {
-
                     //if (data != null) return;
                     var loc = capitalize(data.profile.location);
                     var jobType = capitalize(data.details.jobType);
@@ -1461,7 +1484,6 @@
                     $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
                     $('#EditJob div.panel form#form-edit').attr('action', '/api/job/edit/' + data._id);
-
                 }
             });
 
@@ -1853,6 +1875,28 @@
         });
         // end of Overlay trigger button /////
 
+
+        // Input masking
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
 
     });
 

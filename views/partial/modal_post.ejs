@@ -6,7 +6,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
 				<div class="panel panel-transparent middle">
 					<div class="panel-body panel-body-custom">
-						<form action="/api/job/post" id="form-create-job" autocomplete="off">
+						<form action="/api/job/post" id="form-create-job" method="post" enctype="multipart/form-data" autocomplete="off">
 							<div class="row">
 								<div class="col-sm-8">
 									<div class="row">
@@ -29,7 +29,7 @@
 												<div class="col-sm-12">
 													<div class="row">
 														<div class="col-sm-3 col-xs-3 p-r-0">
-															<select name="currency" class="currency" data-placeholder="Currency">
+															<select name="currency" class="currency" data-placeholder="Currency" required>
 																<option></option>
 																<option value="USD">USD</option>
 																<option value="IDR">IDR</option>
@@ -44,7 +44,7 @@
 														</div>
 														<div class="col-sm-4 salary-type-box">
 															<div class="form-group salary-type">
-																<select name="salaryType" class="salaryType" data-placeholder="Salary Type">
+																<select name="salaryType" class="salaryType" data-placeholder="Salary Type" required>
 																	<option></option>
 																	<option value="Monthly">Monthly</option>
 																	<option value="Annually">Annually</option>

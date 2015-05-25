@@ -109,12 +109,12 @@
 
   <!-- BEGIN MODAL OVERLAY -->
   <% if (user) { %>
+  <% include ./partial/modal_cropper %>
+  <% include ./partial/modal_cropper_edit %>
   <% include ./partial/modal_account %>
   <% include ./partial/modal_credits %>
   <% include ./partial/modal_edit %>
   <% include ./partial/modal_post %>
-  <% include ./partial/modal_cropper %>
-  <% include ./partial/modal_cropper_edit %>
   <% } else { %>
   <% include ./partial/modal_auth %>
   <% } %>
@@ -133,31 +133,6 @@
   <% } %>
 
   <% include ./script/home %>
-
-    <script type="text/javascript">
-      $(document)  
-        .on('show.bs.modal', '.modal', function(event) {
-          $(this).appendTo($('body'));
-        })
-        .on('shown.bs.modal', '.modal.in', function(event) {
-          setModalsAndBackdropsOrder();
-        })
-        .on('hidden.bs.modal', '.modal', function(event) {
-          setModalsAndBackdropsOrder();
-        });
-
-      function setModalsAndBackdropsOrder() {  
-        var modalZIndex = 1040;
-        $('.modal.in').each(function(index) {
-          var $modal = $(this);
-          modalZIndex++;
-          $modal.css('zIndex', modalZIndex);
-          $modal.next('.modal-backdrop.in').addClass('hidden').css('zIndex', modalZIndex - 1);
-        });
-        
-        $('.modal.in:visible:last').focus().next('.modal-backdrop.in').removeClass('hidden');
-      }
-    </script>
 
 </body>
 </html>

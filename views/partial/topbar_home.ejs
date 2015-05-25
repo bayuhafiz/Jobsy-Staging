@@ -85,7 +85,7 @@
             <div class="dropdown-default theeee">
                 <div class="visible-lg visible-md m-t-10" id="btnGroupVerticalDrop1" data-target="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                     <div class="pull-left p-r-10 p-t-10 fs-16 font-heading" style="cursor:pointer;">
-                        <span class="semi-bold"><%= user.firstName %> <%= user.lastName %></span>
+                        <span class="semi-bold"><%= user.firstName.toUpperCase() %> <%= user.lastName.toUpperCase() %></span>
                     </div>
                     <div class="thumbnail-wrapper d32 circular inline m-t-5" style="cursor:pointer">
                         <img id="user-avatar" data-name="<%= user.firstName.charAt(0) %><%= user.lastName.charAt(0) %>" alt="" width="32" height="32" class="user-info-pict">
