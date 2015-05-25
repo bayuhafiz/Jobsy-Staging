@@ -35,14 +35,38 @@
 <script src="assets/plugins/ladda.spin.min.js"></script>
 <script src="assets/plugins/ladda.min.js"></script>
 <script src="assets/plugins/pages.min.js"></script>
+<script src="assets/plugins/paper-collapse.min.js"></script>
+<script src="assets/plugins/moment/moment.min.js"></script>
 <!-- END VENDOR JS -->
 
 <!-- BEGIN PAGE LEVEL JS -->
-<script src="assets/js/dash.js"></script>
 <script src="assets/js/lib/wizard.fn.js"></script>
 <script src="assets/js/lib/localDate.fn.js"></script>
 <script src="assets/js/lib/serialize.fn.js"></script>
 <script src="assets/js/lib/userJob.fn.js"></script>
-<script src="assets/plugins/paper-collapse.min.js"></script>
-<script src="assets/plugins/moment/moment.min.js"></script>
+<script src="assets/js/dash.js"></script>
+<script>
+$(document) // Auto backdrop fn
+    .on('show.bs.modal', '.modal', function(event) {
+        $(this).appendTo($('body'));
+    })
+    .on('shown.bs.modal', '.modal.in', function(event) {
+        setModalsAndBackdropsOrder();
+    })
+    .on('hidden.bs.modal', '.modal', function(event) {
+        setModalsAndBackdropsOrder();
+    });
+
+function setModalsAndBackdropsOrder() {
+    var modalZIndex = 2000;
+    $('.modal.in').each(function(index) {
+        var $modal = $(this);
+        modalZIndex++;
+        $modal.css('zIndex', modalZIndex);
+        $modal.next('.modal-backdrop.in').addClass('hidden').css('zIndex', modalZIndex - 1);
+    });
+
+    $('.modal.in:visible:last').focus().next('.modal-backdrop.in').removeClass('hidden');
+};
+</script>
 <!-- END PAGE LEVEL JS -->
