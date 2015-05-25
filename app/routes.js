@@ -925,7 +925,7 @@ module.exports = function(app, passport) {
                         if (err) {
                             res.json({
                                 type: 'error',
-                                msg: 'Error saving to serach engine server. Please contact administrator.'
+                                msg: 'Error saving to search engine server. Please contact administrator.'
                             });
                             return;
                         }

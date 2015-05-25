@@ -187,7 +187,8 @@ window.showJobs = function(url) {
                                     if (data.type == 'error') {
                                         swal({
                                             type: data.type,
-                                            title: data.msg,
+                                            title: 'Oops..',
+                                            text: data.msg,
                                             showCancelButton: false,
                                             confirmButtonColor: "#52D5BE",
                                             confirmButtonText: "OK",
@@ -197,15 +198,16 @@ window.showJobs = function(url) {
                                             type: data.type,
                                             title: data.title,
                                             html: data.msg,
+                                            timer: 3000,
                                             showCancelButton: false,
-                                            confirmButtonColor: "#52D5BE",
-                                            confirmButtonText: "OK",
-                                        }, function() {
+                                            showConfirmButton: false
+                                        });
+                                        setTimeout(function() {
                                             // Get logged user email
                                             var uEmail = $('#user-email').val();
                                             // Refresh the job list
                                             showJobs('/api/jobs/' + uEmail + '/hide');
-                                        });
+                                        }, 3500);
                                     }
                                 }
                             });
@@ -234,7 +236,8 @@ window.showJobs = function(url) {
                                     if (data.type == 'error') {
                                         swal({
                                             type: data.type,
-                                            title: data.msg,
+                                            title: 'Oops..',
+                                            text: data.msg,
                                             showCancelButton: false,
                                             confirmButtonColor: "#52D5BE",
                                             confirmButtonText: "OK",
@@ -244,15 +247,16 @@ window.showJobs = function(url) {
                                             type: data.type,
                                             title: data.title,
                                             html: data.msg,
+                                            timer: 3000,
                                             showCancelButton: false,
-                                            confirmButtonColor: "#52D5BE",
-                                            confirmButtonText: "OK",
-                                        }, function() {
+                                            showConfirmButton: false
+                                        });
+                                        setTimeout(function() {
                                             // Get logged user email
                                             var uEmail = $('#user-email').val();
                                             // Refresh the job list
                                             showJobs('/api/jobs/' + uEmail + '/hide');
-                                        });
+                                        }, 3500);
                                     }
                                 }
                             });
@@ -282,7 +286,8 @@ window.showJobs = function(url) {
                                     if (data.type == 'error') {
                                         swal({
                                             type: data.type,
-                                            title: data.msg,
+                                            title: 'Oops..',
+                                            text: data.msg,
                                             showCancelButton: false,
                                             confirmButtonColor: "#52D5BE",
                                             confirmButtonText: "OK",
@@ -330,7 +335,8 @@ window.showJobs = function(url) {
                                     if (data.type == 'error') {
                                         swal({
                                             type: data.type,
-                                            title: data.msg,
+                                            title: 'Oops..',
+                                            text: data.msg,
                                             showCancelButton: false,
                                             confirmButtonColor: "#52D5BE",
                                             confirmButtonText: "OK",
@@ -367,7 +373,8 @@ window.showJobs = function(url) {
                 else var pau = "";
                 if (pubCounter > 0) var pub = '<span class="h5 font-montserrat bold text-success">' + pubCounter + " published</span>";
                 else var pub = "";
-                "" != pub ? "" != pau ? "" != del ? (pub += ", ", pau += " & ") : pub += " & " : pub += "" != del ? " & " : "" : "" != pau ? pau += "" != del ? " & " : "" : "" != del ? pau += "" : pub += "no", $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
+                "" != pub ? "" != pau ? "" != del ? (pub += ", ", pau += " & ") : pub += " & " : pub += "" != del ? " & " : "" : "" != pau ? pau += "" != del ? " & " : "" : "" != del ? pau += "" : pub += "no",
+                    $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
 
             } else { // if no job post at all
                 //$('#user-job-counter').hide();

@@ -6,7 +6,7 @@
   top: 0;
   bottom: 0;
   display: none;
-  z-index: 1000; }
+  z-index: 10000; }
 
 .sweet-alert {
   background-color: #fff;
@@ -20,7 +20,7 @@
   margin-top: -200px;
   overflow: hidden;
   display: none;
-  z-index: 2000; }
+  z-index: 99999; }
   .sweet-alert h2 {
     color: #575757;
     font-size: 30px;
@@ -205,7 +205,7 @@
                 transform: rotate(-45deg); }
       .sweet-alert .icon.success .line {
         height: 5px;
-        background-color: #52D5BE;
+        background-color: #a5dc86;
         display: block;
         border-radius: 2px;
         position: absolute;
