@@ -655,16 +655,12 @@ module.exports = function(app, passport) {
     // =========================== JOB MANIPULATIONS APIs ==========================
     // Create a job post
     app.post('/api/job/post', isLoggedIn, function(req, res) {
-
-        crypto.randomBytes(20, function(err, buf) {
-            var token = buf.toString('hex');
-        });
-
+        var token = crypto.randomBytes(20).toString('hex');
         var image_data = req.body.cropped_image;
         var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
         var random_id = crypto.randomBytes(10).toString('hex');
         var logo = random_id + '.png';
-        console.log('to be uploaded: ' + logo);
+
         // Writing file to disk
         fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err) {
             if (err) {
@@ -815,8 +811,6 @@ module.exports = function(app, passport) {
                 var newLogo = job.profile.logo;
             }
 
-            console.log('newLogo >>> ' + newLogo);
-
             job.profile.logo = newLogo;
             job.profile.name = req.body.companyName;
             job.profile.location = req.body.location;
@@ -878,6 +872,7 @@ module.exports = function(app, passport) {
             });
         });
     });
+
     // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {

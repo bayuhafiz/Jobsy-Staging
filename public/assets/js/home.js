@@ -52,7 +52,7 @@
         });
 
         $('#btn-cropper-choose').on('click', function() {
-            $('#logo_filelogo_file').trigger('click');
+            $('#logo_file').trigger('click');
         });
 
         $('#btn-cropper-done').on('click', function() {
@@ -136,23 +136,10 @@
         $('#btn-cropper-zoomout_edit').on('click', function() {
             cropper_edit.zoomOut();
         });
+
         ///// End of Image processing ///////
+        /////////////////////////////////////
 
-
-        // Custom form inputs /////////
-        if ($('.floating-labels').length > 0) floatLabels();
-
-        function floatLabels() {
-            var inputFields = $('.floating-labels .cd-label').next();
-
-            inputFields.each(function() {
-                var singleInput = $(this);
-
-                singleInput.keyup(function() {
-                    checkVal(singleInput);
-                });
-            });
-        }
 
 
         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').focus(function() {
@@ -179,17 +166,6 @@
         $('#s2id_location-filter div.select2-drop').addClass('location_filter_dropdown');
         $('#s2id_jobType-filter div.select2-drop').addClass('jobType_filter_dropdown');
 
-        // Initiate select2 dropdown
-        $('select.currency').select2();
-        $('select.salaryType').select2();
-
-
-        // Infinite scroll trigger /////
-        $('#item-list').jscroll({
-            loadingHtml: '<img src="loading.gif" alt="Loading" /> Loading...',
-            padding: 20,
-            contentSelector: 'li'
-        });
 
 
         // CKEditor configuration ////
@@ -206,7 +182,8 @@
 
         /////////////// FORM VALIDATION HANDLER //////////////
         // FORM SIGN IN
-        $('#form-login').formValidation({
+        $('#form-login')
+            .formValidation({
                 framework: 'bootstrap',
                 fields: {
                     email: {
@@ -514,7 +491,8 @@
         // EOF
 
         // FORM FORGOT PASS
-        $('#form-forgot').formValidation({
+        $('#form-forgot')
+            .formValidation({
                 framework: 'bootstrap',
                 fields: {
                     email: {
@@ -637,7 +615,8 @@
         // EOF
 
         // FORM APPLY
-        $('#applyForm').formValidation({
+        $('#applyForm')
+            .formValidation({
                 framework: 'bootstrap',
                 fields: {
                     fullName: {
@@ -959,7 +938,7 @@
                     description: {
                         validators: {
                             notEmpty: {
-                                message: 'Please provide company description',
+                                message: 'Please provide company description'
                             }
                         }
                     },
@@ -984,6 +963,12 @@
             })
             .find('[name="salaryTo"]').mask('000.000.000.000.000', {
                 reverse: true
+            })
+            .find('[name="description"]')
+            .ckeditor()
+            .editor
+            .on('change', function() {
+                $('#form-create-job').formValidation('revalidateField', 'description');
             })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
@@ -1234,32 +1219,24 @@
                     formData.append(val.name, val.value);
                 });
 
-                $.ajax({
+                $.ajax({ // Send the datas
                     url: $form.attr('action'),
                     data: formData,
                     type: 'POST',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
                     success: function(result) {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
                         if (result.type == 'success') {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
-
                             swal({
-                                type: 'success',
-                                title: "Success!",
+                                type: result.type,
+                                title: "Saved!",
                                 text: result.msg,
                                 confirmButtonColor: '#52D5BE'
                             }, function() {
                                 location.reload(true);
                             });
                         } else {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
-
                             $('<li/>')
                                 .wrapInner(
                                     $('<span/>')
@@ -1294,7 +1271,6 @@
             charCount: 2,
             fontSize: 45
         });
-
 
 
         // ========================
@@ -1490,12 +1466,13 @@
             });
 
             //formWizard2();
-            $('#EditJob').modal('show', true);
+            $('#EditJob').modal('show');
         });
 
 
         // =============  APPLY EVENT HANDLER ===============
         $('body').on('click', '#btn-apply-job,.apply-job-btn.apply', function(e) {
+            $('#applyForm').formValidation('resetForm', true);
 
             var jobTitle = $('.profile .job-title').text();
             var companyName = $('.profile .name').text();
@@ -1876,28 +1853,6 @@
         });
         // end of Overlay trigger button /////
 
-
-        // Input masking
-        $("#salary-from").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-from-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
 
     });
 

@@ -6,18 +6,18 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
 				<div class="panel panel-transparent middle">
 					<div class="panel-body panel-body-custom">
-						<form action="/api/job/post" id="form-create-job" role="form" autocomplete="off" method="POST" enctype="multipart/form-data">
+						<form action="/api/job/post" id="form-create-job" autocomplete="off">
 							<div class="row">
 								<div class="col-sm-8">
 									<div class="row">
 										<div class="col-sm-12 p-l-0">
 											<div class="form-group form-group-default b-0">
-												<input type="text" name="companyName" placeholder="Company Name" class="form-control" required style="font-family:avenir_book;color: #4a4a4a;font-size: 1.12rem;font-weight: bold;">
+												<input type="text" name="companyName" placeholder="Company Name" class="form-control" style="font-family:avenir_book;color: #4a4a4a;font-size: 1.12rem;font-weight: bold;">
 											</div>
 										</div>
 										<div class="col-sm-12 p-l-0">
 											<div class="form-group form-group-default b-0">
-												<input type="text" class="form-control" name="jobTitle" placeholder="Position Title" required style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
+												<input type="text" class="form-control" name="jobTitle" placeholder="Position Title" style="font-family:avenir_book;  font-size: 36px;font-weight: 600;height:auto;color: #4a4a4a;">
 											</div>
 										</div>
 										<br>
@@ -29,7 +29,7 @@
 												<div class="col-sm-12">
 													<div class="row">
 														<div class="col-sm-3 col-xs-3 p-r-0">
-															<select name="currency" class="currency" data-placeholder="Currency" required>
+															<select name="currency" class="currency" data-placeholder="Currency">
 																<option></option>
 																<option value="USD">USD</option>
 																<option value="IDR">IDR</option>
@@ -37,14 +37,14 @@
 														</div>
 														<div class="col-sm-5 col-xs-9 p-l-0">
 															<div class="input-daterange input-group">
-																<input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" placeholder="2.000.000" required/>
-																<span class="input-group-addon" style="  background:#F5F4F4;">-</span>
-																<input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" placeholder="4.000.000" required/>
+																<input name="salaryFrom" id="salary-from" type="text" class="input-sm form-control" placeholder="2.000.000"/>
+																<span class="input-group-addon" style="background:#F5F4F4;">-</span>
+																<input name="salaryTo" id="salary-to" type="text" class="input-sm form-control" placeholder="4.000.000"/>
 															</div>
 														</div>
 														<div class="col-sm-4 salary-type-box">
 															<div class="form-group salary-type">
-																<select name="salaryType" class="salaryType" data-placeholder="Salary Type" required>
+																<select name="salaryType" class="salaryType" data-placeholder="Salary Type">
 																	<option></option>
 																	<option value="Monthly">Monthly</option>
 																	<option value="Annually">Annually</option>
@@ -72,27 +72,26 @@
 									<input id="image-source" type="hidden" name="cropped_image">
 								</div>
 							</div>
-							
 							<br>
 							<br>
 							<br>
 							<div class="row">
 								<div class="col-sm-4">
-									<div class="form-group required">
+									<div class="form-group">
 										<label class="drop-down custom-label">Location</label>
 										<% include ../dropdown/location_create %>
 									</div>
 								</div>
 								<div class="col-sm-4">
-									<div class="form-group required">
+									<div class="form-group">
 										<label class="drop-down custom-label">Category</label>
 										<% include ../dropdown/category_create %>
 									</div>
 								</div>
 								<div class="col-sm-4">
-									<div class="form-group required">
+									<div class="form-group">
 										<label class="drop-down custom-label">Job Type</label>
-										<select class="full-width job-dropdown" name="jobType" data-placeholder="Choose job type" required>
+										<select class="full-width job-dropdown" name="jobType" data-placeholder="Choose job type">
 											<option></option>
 											<option value="Full Time">Full Time</option>
 											<option value="Contract">Contract</option>
@@ -139,14 +138,13 @@
 								<div>
 								<ul id="status_post"></ul>
 							</div>
-						</div>
-						<br>
-						<button class="btn btn-primary ladda-button" data-style="expand-right" id="btn-submit-post" type="submit" style="margin-left: 10px;"><span class="ladda-label">POST JOB</span></button>
-					</form>
+							<br>
+							<button class="btn btn-primary pull-right ladda-button" data-style="expand-right" id="btn-submit-post" type="submit" style="margin-left: 10px;"><span class="ladda-label">POST JOB</span></button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 <!-- BEGIN POST JOB POSTING -->
