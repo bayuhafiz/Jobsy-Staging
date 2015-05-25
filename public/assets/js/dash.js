@@ -3,13 +3,10 @@
     'use strict';
 
     $(document).ready(function() {
-<<<<<<< HEAD
-   
-=======
+
         // Get logged user email
         var uEmail = $('#user-email').val();
 
->>>>>>> b92c6d24a06f730833c0fa6a5c0ef63cb83607a0
         //////// Image processing /////////
         // Create Post Modal //
         var options = {

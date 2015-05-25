@@ -73,14 +73,14 @@ window.showJobs = function(url) {
 
                                 $.each(app, function(i) {
                                     if (app[i].read == false) {
-                                        var appBadge = '<span class="badge badge-danger"><i class="fa fa-eye"></i> </span>';
+                                        var appBadge = '<span class="badge badge-danger appBadge"><i class="fa fa-eye"></i> </span>';
                                         var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-eye"></i> </span></a>';
                                     } else {
                                         var appBadge = '<span class="badge badge-default"><i class="fa fa-eye"></i></span>';
                                         var status = '';
                                     }
 
-                                    dataHtml += '<p app-id="' + data[i]._id + '" class="app-item">' + appBadge + '  <span>' + app[i].fullName.toUpperCase() + ' (' + app[i].location + ')' + '</span><span class="pull-right small"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('hour').fromNow() + '</span></p>';
+                                    dataHtml += '<p app-id="' + data[i]._id + '" class="app-item">' + appBadge + '  <span class="location">' + app[i].fullName.toUpperCase() + ' (' + app[i].location + ')' + '</span><span class="pull-right small time-apply"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('hour').fromNow() + '</span></p>';
                                 });
                             } else {
                                 dataHtml += '<p class="text-center" style="color:#9E9E9E"><i class="fa fa-exclamation-circle" style="color:#9E9E9E"></i> No applications yet..</p>';
