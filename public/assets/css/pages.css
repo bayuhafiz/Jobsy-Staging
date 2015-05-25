@@ -2581,7 +2581,12 @@ hr.dotted {
 }
 
 .label-success {
-  background-color: #12806D;
+  background-color: #52D5BE;
+  color: #fff;
+}
+
+.label-danger {
+  background-color: rgb(205, 95, 100);
   color: #fff;
 }
 

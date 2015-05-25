@@ -2,137 +2,14 @@
 
     'use strict';
 
-    // Function to serialize form-datas to JSON
-    $.fn.serializeObject = function() {
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function() {
-            if (o[this.name] !== undefined) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
-
-    // Date formatter function
-    function localDate(date) {
-        var result = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-        return result;
-    };
-
-    // ===================== SHOW USER JOBS FUNCTION ============================
-    var showJobs = function(url) {
-        var dataHtml = '';
-        var badge = '';
-        var toolbox = '';
-        var delCounter = 0;
-        var pauCounter = 0;
-        var pubCounter = 0;
-
-        // Dummy clear the job table
-        $('#accordion').html('');
-        $('#no-job-post').hide();
-
-        $.ajax({
-            dataType: "json",
-            url: url,
-            success: function(data) {
-                if (data.length > 0) {
-
-                    $.each(data, function(i) {
-
-                        if (data[i].status == 'deleted') {
-                            delCounter = delCounter + 1; // Count deleted job
-                            badge = '<i class="fa fa-times-circle" style="color:rgb(205, 95, 100);"></i>';
-                            toolbox = '<div class="btn-group"><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-reply"></i></button></div>';
-                        } else if (data[i].status == 'paused') {
-                            pauCounter = pauCounter + 1; // Count paused job
-                            badge = '<i class="fa fa-minus-circle" style="color:#f8d053"></i>';
-                            toolbox = '<div class="btn-group"><button id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil"></i></button><button data-id="' + data[i]._id + '" class="btn btn-sm btn-white" id="pauseButton"><i class="fa fa-refresh"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></button></div>';
-                        } else if (data[i].status == 'published') {
-                            pubCounter = pubCounter + 1; // Count published job
-                            badge = '<i class="fa fa-check-circle" style="color:#52D5BE"></i>';
-                            toolbox = '<button href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-sm btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></button><button data-id="' + data[i]._id + '" id="pauseButton" class="btn btn-sm btn-white"><i class="fa fa-power-off"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-sm btn-white"><i class="fa fa-trash-o"></i></button>';
-                        }
-
-                        if (data[i].newApp > 0) {
-                            var newApp = ' <span class="badge badge-danger"><font style="color:#FFF;">' + data[i].newApp + ' unreviewed</font></span>';
-                        } else {
-                            var newApp = '';
-                        }
-
-                        // Generate datas
-                        dataHtml += '<li data-id="' + data[i]._id + '">' +
-                            '<div class="link">' + badge + '<h4 style="margin-top:auto;">' + data[i].details.jobTitle + '</h4><i class="fa fa-chevron-down"></i></div>' +
-                            '<ul class="submenu">';
-
-                        // Load application list
-                        $.ajax({
-                            dataType: "json",
-                            url: "/api/job/apps/" + data[i]._id,
-                            success: function(app) {
-                                if (app.length > 0) {
-                                    $.each(app, function(i) {
-                                        if (app[i].read == false) {
-                                            var appBadge = '<span class="badge badge-danger"><i class="fa fa-eye"></i> </span>';
-                                            var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-eye"></i> Set as reviewed</span></a>';
-                                        } else {
-                                            var appBadge = '<span class="badge badge-success"><i class="fa fa-eye"></i> </span>';
-                                            var status = '';
-                                        }
-
-                                        dataHtml += '<li app-id="' + data[i]._id + '">' +
-                                            '<h5>' + appBadge + ' ' + app[i].firstName + ' ' + app[i].lastName + '<span class="pull-right"><i class="pg-clock"></i> ' + moment(app[i].applyDate).format('minute').fromNow() + '</span></h5>' +
-                                            '</li>';
-                                    });
-                                } else {
-                                    dataHtml += '<div class="cbp-ntcontent">' +
-                                        '<p class="small hint-text">No applications yet..</p>' +
-                                        '<ul class="cbp-ntsubaccordion">';
-                                }
-                            }
-                        });
-
-                        dataHtml += '</ul>' +
-                            '</li>';
-
-                        // FINALLY, SHOW THE WHOLE RESULTS...
-                        $('#accordion').html(dataHtml);
-
-                    });
-
-                    // Set the job post counter
-                    if (data.length > 1) var s = "s";
-                    else var s = "";
-                    if (delCounter > 0) var del = '<span class="h5 font-montserrat bold text-danger">' + delCounter + " deleted</span>";
-                    else var del = "";
-                    if (pauCounter > 0) var pau = '<span class="h5 font-montserrat bold text-warning">' + pauCounter + " paused</span>";
-                    else var pau = "";
-                    if (pubCounter > 0) var pub = '<span class="h5 font-montserrat bold text-success">' + pubCounter + " published</span>";
-                    else var pub = "";
-                    "" != pub ? "" != pau ? "" != del ? (pub += ", ", pau += " & ") : pub += " & " : pub += "" != del ? " & " : "" : "" != pau ? pau += "" != del ? " & " : "" : "" != del ? pau += "" : pub += "no", $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
-
-                } else { // if no job post at all
-                    //$('#user-job-counter').hide();
-                    $('#no-job-post').show();
-                }
-
-            }
-        });
-    };
-
-
-
-    // +++++++++++++++++++++++ BEGIN DOCUMENT ON READY FN +++++++++++++++++++++++
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     $(document).ready(function() {
+<<<<<<< HEAD
    
+=======
+        // Get logged user email
+        var uEmail = $('#user-email').val();
+
+>>>>>>> b92c6d24a06f730833c0fa6a5c0ef63cb83607a0
         //////// Image processing /////////
         // Create Post Modal //
         var options = {
@@ -276,10 +153,6 @@
         $('#salary-from,#salary-to,#salary-from-edit,#salary-to-edit').blur(function() {
             $(this).css('background-color', '#f9f9fb');
         });
-
-
-        // Then show the jobs
-        showJobs('/api/jobs/' + uEmail + '/' + stat);
 
 
 
@@ -435,8 +308,12 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -643,8 +520,12 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -746,31 +627,48 @@
         // START EVENT HANDLERS ===========================================================================
         // ================================================================================================
 
-        
-        // Switchery Handler
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-        elems.forEach(function(html) {
-            var switchery = new Switchery(html, {
-                color: '#b2050d'
-            });
-        });
-
-        var uEmail = $('#user-email').val(); // Get logged user email
-        var switch_checked = localStorage['switch_checked']; // Get switchery status from session
-        if (switch_checked == 'yes') {
-            var stat = 'show';
-            $('p.switch-label').html('Click to view<br>live job posts');
-            if ($('.switchery').attr('checked')) {
-                console.log('nothing to change...');
-            }
-        } else {
-            var stat = 'hide';
-            $('p.switch-label').html('Click to view<br>deleted job posts');
-            if ($('.switchery').attr('checked')) {
-                $(this).removeAttr('checked');
-                console.log('state changed!');
+        // SWITCHERY //////////////////////////
+        function onChange(el) {
+            if (typeof Event === 'function' || !document.fireEvent) {
+                var event = document.createEvent('HTMLEvents');
+                event.initEvent('change', true, true);
+                el.dispatchEvent(event);
+            } else {
+                el.fireEvent('onchange');
             }
         }
+
+        // Switchery Handler
+        var elem = document.querySelector('#job-switch');
+        var switchery = new Switchery(elem, {
+            color: '#52D5BE',
+            secondaryColor: '#CD5F64',
+            speed: '0.2s'
+        });
+
+        // If switch clicked event handler
+        elem.onchange = function() {
+            if (elem.checked == true) {
+                showJobs('/api/jobs/' + uEmail + '/hide');
+                localStorage['switch_checked'] = 'hide'; // save to session
+            } else if (elem.checked == false) {
+                showJobs('/api/jobs/' + uEmail + '/show');
+                localStorage['switch_checked'] = 'show'; // save to session
+            }
+        };
+
+        // Check session to init switch state
+        var stat = localStorage['switch_checked'];
+        if (stat == 'hide') {
+            showJobs('/api/jobs/' + uEmail + '/' + stat);
+        } else {
+            showJobs('/api/jobs/' + uEmail + '/' + stat);
+            if (elem.checked) {
+                elem.checked = false;
+                onChange(elem);
+            }
+        }
+        // END OF SWITCHERY //////////////////////////
 
 
         // Buy Credits buttons action (EXPERIMENTAL ONLY!!!)
@@ -875,15 +773,6 @@
             });
         });
 
-        $("#pauseButton").click(function() {
-            var $row = $(this).closest("tr"),
-                $tds = $row.find("td:nth-child(1)");
-
-            $.each($tds, function() {
-                console.log($(this).text());
-            });
-        });
-
 
 
 
@@ -942,25 +831,7 @@
 
 
         // ============= JOB MANIPULATION BUTTONs =====================
-
-        // CREATE JOB POST [SUBMIT] HANDLER ///////////
-        $('#form-create-job').submit(function() {
-            // Print HTTP request params
-            var result = $(this).serializeObject();
-            // Save to server
-            $.ajax({
-                method: "POST",
-                type: "POST",
-                data: result,
-                dataType: "json",
-                url: "/api/job/post",
-                success: function(data) {
-                    location.reload();
-                }
-            });
-        });
-
-
+        // Edit a job post
         $('body').on('click', '#editButton', function(e) {
             e.preventDefault();
 
@@ -1037,68 +908,6 @@
         });
 
 
-        $('body').on('click', '#pauseButton', function(e) {
-            e.preventDefault();
-
-            var id = $(this).attr('data-id');
-
-            $.ajax({
-                dataType: "json",
-                url: "/api/job/stat/" + id,
-                success: function(data) {
-                    $('body').pgNotification({
-                        'message': data.msg,
-                        'type': data.type,
-                        'style': 'circle',
-                        'position': 'top-left',
-                        'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
-                    }).show();
-
-                    // Get switch status
-                    var switch_checked = localStorage['switch_checked'];
-                    if (switch_checked == 'yes') {
-                        var stat = 'show';
-                    } else {
-                        var stat = 'hide';
-                    }
-
-                    // Refresh the job list
-                    showJobs('/api/jobs/' + uEmail + '/' + stat);
-                }
-            });
-        });
-
-        $('body').on('click', '#deleteButton', function(e) {
-            e.preventDefault();
-
-            var id = $(this).attr('data-id');
-
-            $.ajax({
-                dataType: "json",
-                url: "/api/job/del/" + id,
-                success: function(data) {
-                    $('body').pgNotification({
-                        'message': data.msg,
-                        'type': data.type,
-                        'style': 'circle',
-                        'position': 'top-left',
-                        'thumbnail': '<img width="80" height="80" style="display: inline-block;" src="assets/img/success.png" data-src="assets/img/success.png" data-src-retina="assets/img/success.png" alt="">'
-                    }).show();
-
-                    // Get switch status
-                    var switch_checked = localStorage['switch_checked'];
-                    if (switch_checked == 'yes') {
-                        var stat = 'show';
-                    } else {
-                        var stat = 'hide';
-                    }
-
-                    // Refresh the job list
-                    showJobs('/api/jobs/' + uEmail + '/' + stat);
-                }
-            });
-        });
-
         // Sign out button handler
         $("a[href='#signout']").click(function() {
             $.ajax({
@@ -1117,7 +926,6 @@
                 }
             });
         });
-
 
 
         // Input masking

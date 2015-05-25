@@ -216,6 +216,10 @@
                             },
                             emailAddress: {
                                 message: 'The email address is not valid'
+                            },
+                            stringCase: {
+                                message: 'The email address must be in lowercase',
+                                'case': 'lower'
                             }
                         }
                     },
@@ -376,6 +380,10 @@
                             notEmpty: {
                                 message: 'The email address is required'
                             },
+                            stringCase: {
+                                message: 'The email address must be in lowercase',
+                                'case': 'lower'
+                            },
                             remote: {
                                 type: 'GET',
                                 url: 'https://api.mailgun.net/v2/address/validate?callback=?',
@@ -435,7 +443,8 @@
                             swal({
                                 type: 'success',
                                 title: "Success!",
-                                text: result.msg
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 window.location.href = '/dash';
                             });
@@ -515,6 +524,10 @@
                             },
                             emailAddress: {
                                 message: 'The email address is not valid'
+                            },
+                            stringCase: {
+                                message: 'The email address must be in lowercase',
+                                'case': 'lower'
                             }
                         }
                     }
@@ -549,7 +562,8 @@
                             swal({
                                 type: 'success',
                                 title: "Sent!",
-                                text: result.msg
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 $("a[href='#signin']").click();
                             });
@@ -749,7 +763,8 @@
                             swal({
                                 type: 'success',
                                 title: "Applied!",
-                                text: result.msg
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 $('#applyForm').data('formValidation').resetForm();
                                 $('#btn-discard-apply').click();
@@ -964,8 +979,12 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -994,7 +1013,8 @@
                             swal({
                                 type: 'success',
                                 title: "Success!",
-                                text: result.msg
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 location.reload(true);
                             });
@@ -1172,8 +1192,12 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
+            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
+            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
+                reverse: true
+            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -1226,7 +1250,8 @@
                             swal({
                                 type: 'success',
                                 title: "Success!",
-                                text: result.msg
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 location.reload(true);
                             });

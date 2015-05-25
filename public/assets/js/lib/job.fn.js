@@ -232,8 +232,7 @@ window.loadJobList = function(apiUrl) {
                 });
 
                 listViewGroupCont.append(ul);
-                $('#emailList').append(listViewGroupCont).hide().show('medium'); // give it a little effect :P
-                //$("#emailList").ioslist();
+                $('#emailList').append(listViewGroupCont).fadeIn(); // give it a little effect :P
 
             }
 

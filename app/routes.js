@@ -40,7 +40,7 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
-var client = new Algolia('SQX1HWFCVJ', 'c0fa958b479a53e6b7cdf980ea7bf35b', keepaliveAgent);
+var client = new Algolia('20UKM519YF', 'bb40991e62859047d5ee6ce436f0ee59', keepaliveAgent);
 // Here are our precious module
 module.exports = function(app, passport) {
 
@@ -55,8 +55,7 @@ module.exports = function(app, passport) {
                     title: 'Activation',
                     actStatus: user.actStatus,
                     initLogin: user.initLogin,
-                    userid: user.id,
-                    info: req.flash('info')
+                    userid: user.id
                 });
             } else {
                 res.render('home.ejs', {
@@ -64,19 +63,13 @@ module.exports = function(app, passport) {
                     user: user,
                     initLogin: user.initLogin,
                     initCompany: user.initCompany,
-                    credit: user.credits,
-                    success: req.flash('success'),
-                    error: req.flash('error'),
-                    info: req.flash('info')
+                    credits: user.credits
                 });
             }
         } else {
             res.render('home.ejs', {
                 title: 'Homepage',
-                user: null,
-                success: req.flash('success'),
-                error: req.flash('error'),
-                info: req.flash('info')
+                user: null
             });
         }
     });
@@ -88,8 +81,7 @@ module.exports = function(app, passport) {
                 title: 'Activation',
                 actStatus: user.actStatus,
                 initLogin: user.initLogin,
-                userid: user.id,
-                info: req.flash('info')
+                userid: user.id
             });
         } else {
             Job.find({
@@ -104,10 +96,7 @@ module.exports = function(app, passport) {
                     user: user,
                     initLogin: user.initLogin,
                     initCompany: user.initCompany,
-                    credit: user.credits,
-                    success: req.flash('success'),
-                    error: req.flash('error'),
-                    info: req.flash('info')
+                    credits: user.credits
                 });
             });
         }
@@ -148,64 +137,6 @@ module.exports = function(app, passport) {
                 }
             });
     });
-    // Resend activate account
-    app.get('/resend/:id', isLoggedIn, function(req, res) {
-        User
-            .findOne({
-                _id: req.params.id
-            })
-            .exec(function(err, user) {
-                if (user.actStatus == 'activated') {
-                    return next(err);
-                } else {
-                    emailTemplates(templatesDir, function(err, template) {
-                        // Send activation mail to user
-                        var transport = nodemailer.createTransport({
-                            service: 'Mailgun',
-                            auth: {
-                                user: secrets.mailgun.user,
-                                pass: secrets.mailgun.password
-                            }
-                        });
-                        // An users object with formatted email function
-                        var locals = {
-                            email: user.email,
-                            button: {
-                                link: 'http://' + req.headers.host + '/activate/' + user.actToken,
-                                text: 'activate your account'
-                            },
-                            header: 'Hi ' + user.firstName,
-                            body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
-                        };
-                        // Send a single email
-                        template('email', locals, function(err, html, text) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                transport.sendMail({
-                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                    to: locals.email,
-                                    subject: 'Jobsy Account Activation!',
-                                    html: html,
-                                    text: text
-                                }, function(err, responseStatus) {
-                                    if (err) {
-                                        console.log(err);
-                                    } else {
-                                        req.flash('info', 'We have resent your activation email, please kindly check your junk/trash if you cannot find it in your inbox.');
-                                        res.redirect('/dash');
-                                    }
-                                });
-                            }
-                        });
-                    });
-                }
-            });
-    });
-
-
-    // =============================================================================
-    // ================================================ AUTHORIZE (ALREADY LOGGED IN
     // update account settings --------------------------------
     app.post('/account/profile', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
@@ -235,7 +166,7 @@ module.exports = function(app, passport) {
 
 
     // =============================================================================
-    // JOB MANIPULATION ROUTES =====================================================
+    // IMAGE MANIPULATION ROUTES =====================================================
     // Upload temp Logo ---------------------------------
     app.post('/logo/temp', function(req, res) {
         console.log("Uploading: \n" + JSON.stringify(req.files.img));
@@ -256,71 +187,6 @@ module.exports = function(app, passport) {
             depth: null
         }));
         //console.log("Saving: \n" + req.imgUrl);
-    });
-    // Set app status as reviewed -------------------------------------
-    app.get('/app/set/:id', isLoggedIn, function(req, res, next) {
-        App.findById(req.params.id, function(err, app) {
-            if (err) {
-                req.flash('error', err);
-                res.redirect('/dash');
-            }
-            if (app.read == false) {
-                app.read = true;
-            } else {
-                app.read = false;
-            }
-            app.save(function(err) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('/dash');
-                }
-                Job.findById(app.jobId, function(err, job) {
-                    job.newApp = job.newApp - 1;
-                    job.save(function(err) {
-                        if (err) {
-                            req.flash('error', err);
-                            res.redirect('/dash');
-                        }
-                        req.flash('success', 'Application is reviewed!');
-                        res.redirect('/dash');
-                    });
-                });
-            });
-        });
-    });
-    // Get application on job post read ---------------------------------
-    app.get('/job/app/:id', isLoggedIn, function(req, res, next) {
-        App.findById(req.params.id, function(err, app) {
-            if (err) {
-                req.flash('error', err);
-                res.redirect('/dash');
-            }
-            if (app.read == false) { // Remove the 'new' label
-                app.read = true;
-                Job.findById(app.jobId, function(err, job) {
-                    if (err) {
-                        req.flash('error', err);
-                        res.redirect('/dash');
-                    }
-                    job.newApp = job.newApp - 1; // Minus 1 of new app
-                    job.save(function(err) {
-                        if (err) {
-                            req.flash('error', err);
-                            res.redirect('/dash');
-                        }
-                    });
-                });
-            } else {
-                app.read = true;
-            }
-            app.save(function(err) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('/dash');
-                }
-            });
-            res.redirect('/dash');
-        });
     });
 
 
@@ -512,6 +378,7 @@ module.exports = function(app, passport) {
     });
     // ====================================================== END OF PAYMENT SYSTEMS
     // =============================================================================
+
 
     // =============================================================================
     // ============================================================ BEGIN API ROUTES
@@ -727,6 +594,62 @@ module.exports = function(app, passport) {
             if (err) return next(err);
         });
     });
+    // Resend activate account
+    app.get('/api/account/resend/:id', isLoggedIn, function(req, res) {
+        User
+            .findOne({
+                _id: req.params.id
+            })
+            .exec(function(err, user) {
+                if (user.actStatus == 'activated') {
+                    return next(err);
+                } else {
+                    emailTemplates(templatesDir, function(err, template) {
+                        // Send activation mail to user
+                        var transport = nodemailer.createTransport({
+                            service: 'Mailgun',
+                            auth: {
+                                user: secrets.mailgun.user,
+                                pass: secrets.mailgun.password
+                            }
+                        });
+                        // An users object with formatted email function
+                        var locals = {
+                            email: user.email,
+                            button: {
+                                link: 'http://' + req.headers.host + '/activate/' + user.actToken,
+                                text: 'activate your account'
+                            },
+                            header: 'Hi ' + user.firstName,
+                            body: 'Thanks for creating a Jobsy Account. To continue, please confirm your email address by clicking the button below'
+                        };
+                        // Send a single email
+                        template('email', locals, function(err, html, text) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                transport.sendMail({
+                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                    to: locals.email,
+                                    subject: 'Jobsy Account Activation!',
+                                    html: html,
+                                    text: text
+                                }, function(err, responseStatus) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        res.json({
+                                            'type': 'success',
+                                            'msg': 'We have resent your activation email, please kindly check your junk/trash if you cannot find it in your inbox.'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+    });
 
 
     // =========================== JOB MANIPULATIONS APIs ==========================
@@ -854,7 +777,6 @@ module.exports = function(app, passport) {
             });
         });
     });
-
     // Edit job post ---------------------------------
     app.post('/api/job/edit/:id', isLoggedIn, function(req, res, next) {
         var changed = req.body.changed;
@@ -960,8 +882,11 @@ module.exports = function(app, passport) {
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
             if (err) {
-                req.flash('error', err);
-                res.redirect('/dash');
+                res.json({
+                    type: 'error',
+                    msg: 'Error finding related job post'
+                });
+                return;
             }
             if (job.status == 'published') {
                 job.status = 'paused';
@@ -970,11 +895,10 @@ module.exports = function(app, passport) {
             }
             job.save(function(err, job) {
                 if (err) {
-                    var msg = {
-                        'type': 'error',
-                        'msg': 'Failed to change job post\'s state'
-                    };
-                    res.json(msg);
+                    res.json({
+                        type: 'error',
+                        msg: 'Error saving to database'
+                    });
                     return;
                 }
                 // Saving to search engine server
@@ -984,7 +908,7 @@ module.exports = function(app, passport) {
                 } else {
                     var index = client.initIndex('Jobs');
                 }
-                if (job.status == 'published') {
+                if (job.status == 'published') { // For re-publishing action
                     var arr = {
                         "details": {
                             "jobType": job.details.jobType,
@@ -998,19 +922,33 @@ module.exports = function(app, passport) {
                         "objectID": job._id
                     };
                     index.saveObject(arr, function(err) {
-                        if (err) return next(err);
+                        if (err) {
+                            res.json({
+                                type: 'error',
+                                msg: 'Error saving to serach engine server. Please contact administrator.'
+                            });
+                            return;
+                        }
                         var msg = {
                             'type': 'success',
-                            'msg': 'Job post published'
+                            'title': 'Published!',
+                            'msg': 'Job post <strong>' + job.details.jobTitle.toUpperCase() + '</strong> is now published'
                         };
                         res.json(msg);
                     });
-                } else {
+                } else { // For pausing action
                     index.deleteObject(job._id, function(err) {
-                        if (err) return next(err);
+                        if (err) {
+                            res.json({
+                                type: 'error',
+                                msg: 'Error deleting from search engine server. Please contact administrator.'
+                            });
+                            return;
+                        }
                         var msg = {
                             'type': 'success',
-                            'msg': 'Job post paused'
+                            'title': 'Paused!',
+                            'msg': 'Job post <strong>' + job.details.jobTitle.toUpperCase() + '</strong> is now paused'
                         };
                         res.json(msg);
                     });
@@ -1022,8 +960,11 @@ module.exports = function(app, passport) {
     app.get('/api/job/del/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
             if (err) {
-                req.flash('error', err);
-                res.redirect('back');
+                res.json({
+                    type: 'error',
+                    msg: err
+                });
+                return;
             }
             var status = '';
             if ((job.status == 'published') || (job.status == 'paused')) {
@@ -1036,8 +977,11 @@ module.exports = function(app, passport) {
             job.updatedAt = Date.now();
             job.save(function(err, job) {
                 if (err) {
-                    req.flash('error', err);
-                    res.redirect('back');
+                    res.json({
+                        type: 'error',
+                        msg: err
+                    });
+                    return;
                 }
                 // Saving to search engine server
                 var host = req.host; // checking host to determine index
@@ -1046,16 +990,23 @@ module.exports = function(app, passport) {
                 } else {
                     var index = client.initIndex('Jobs');
                 }
-                if (status == 0) {
-                    index.deleteObject(job._id, function(err) { // Delete from search engine server
-                        if (err) return next(err);
+                if (status == 0) { // For deleting action
+                    index.deleteObject(job._id, function(err) { // Delete from search engine server 
+                        if (err) {
+                            res.json({
+                                type: 'error',
+                                msg: err
+                            });
+                            return;
+                        }
                         var msg = {
                             'type': 'success',
-                            'msg': 'Job post has been deleted'
+                            'title': 'Deleted!',
+                            'msg': 'Job post <strong>' + job.details.jobTitle.toUpperCase() + '</strong> has been successfully deleted'
                         };
                         res.json(msg);
                     });
-                } else if (status == 1) {
+                } else if (status == 1) { // For restoring action
                     var arr = {
                         "details": {
                             "jobType": job.details.jobType,
@@ -1069,10 +1020,17 @@ module.exports = function(app, passport) {
                         "objectID": job._id
                     };
                     index.saveObject(arr, function(err) { // Add to search engine server
-                        if (err) return next(err);
+                        if (err) {
+                            res.json({
+                                type: 'error',
+                                msg: err
+                            });
+                            return;
+                        }
                         var msg = {
                             'type': 'success',
-                            'msg': 'Job post has been restored'
+                            'title': 'Restored!',
+                            'msg': 'Job post <strong>' + job.details.jobTitle.toUpperCase() + '</strong> has been successfully restored'
                         };
                         res.json(msg);
                     });
@@ -1103,8 +1061,7 @@ module.exports = function(app, passport) {
                                 // Save the values into database
                                 var app = new App({
                                     jobId: job._id,
-                                    firstName: req.body.firstName,
-                                    lastName: req.body.lastName,
+                                    fullName: req.body.fullName,
                                     phone: req.body.phone,
                                     email: req.body.email,
                                     location: req.body.location,
@@ -1259,6 +1216,84 @@ module.exports = function(app, passport) {
                     }
                 }
             });
+    });
+    // Get application on job post read ---------------------------------
+    app.get('/api/job/app/:id', isLoggedIn, function(req, res, next) {
+        App.findById(req.params.id, function(err, app) {
+            if (err) {
+                res.json({
+                    type: 'error',
+                    msg: 'Failed finding application!'
+                });
+                return;
+            }
+            if (app.read == false) { // Remove the 'new' label
+                app.read = true;
+                Job.findById(app.jobId, function(err, job) {
+                    if (err) {
+                        res.json({
+                            type: 'error',
+                            msg: err
+                        });
+                        return;
+                    }
+                    job.newApp = job.newApp - 1; // Minus 1 of new app
+                    job.save(function(err) {
+                        if (err) {
+                            res.json({
+                                type: 'error',
+                                msg: err
+                            });
+                            return;
+                        }
+                    });
+                });
+            } else {
+                app.read = true;
+            }
+            app.save(function(err, app) {
+                if (err) {
+                    res.json({
+                        type: 'error',
+                        msg: err
+                    });
+                    return;
+                }
+                // Send the result
+                res.json(app);
+            });
+        });
+    });
+    // Set app status as reviewed -------------------------------------
+    app.get('/api/job/app/set/:id', isLoggedIn, function(req, res, next) {
+        App.findById(req.params.id, function(err, app) {
+            if (err) {
+                req.flash('error', err);
+                res.redirect('/dash');
+            }
+            if (app.read == false) {
+                app.read = true;
+            } else {
+                app.read = false;
+            }
+            app.save(function(err) {
+                if (err) {
+                    req.flash('error', err);
+                    res.redirect('/dash');
+                }
+                Job.findById(app.jobId, function(err, job) {
+                    job.newApp = job.newApp - 1;
+                    job.save(function(err) {
+                        if (err) {
+                            req.flash('error', err);
+                            res.redirect('/dash');
+                        }
+                        req.flash('success', 'Application is reviewed!');
+                        res.redirect('/dash');
+                    });
+                });
+            });
+        });
     });
 
 
@@ -1513,7 +1548,7 @@ module.exports = function(app, passport) {
 
     // ============================ ALGOLIA SEARCH APIs ============================
     app.get('/alg', function(req, res) {
-        res.render('notif', {
+        res.render('alg', {
             msg: 'Select action by clicking buttons below',
             datas: 'none',
             title: 'Algolia Control Center'
@@ -1570,7 +1605,7 @@ module.exports = function(app, passport) {
                             console.error(err);
                             return;
                         }
-                        res.render('notif', {
+                        res.render('alg', {
                             msg: 'Pushing database.. Done!',
                             datas: JSON.stringify(content),
                             title: 'Initial Import'
@@ -1592,7 +1627,7 @@ module.exports = function(app, passport) {
                 console.error(err);
                 return;
             }
-            res.render('notif', {
+            res.render('alg', {
                 msg: 'Clearing index.. Done!',
                 datas: JSON.stringify(content),
                 title: 'Clear Index'
