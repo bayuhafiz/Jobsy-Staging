@@ -1736,13 +1736,14 @@
         // handler for deleting tags
         $('body').on('click', '.tags_filter_close', function() {
             var tag_type = $(this).parent('span').attr('class');
-            if (tag_type == 'category_tag') {
+
+            /*if (tag_type == 'category_tag') {
                 $("select#category-filter").select2("val", "");
             } else if (tag_type == 'location_tag') {
                 $("select#location-filter").select2("val", "");
             } else if (tag_type == 'jobType_tag') {
                 $("select#jobType-filter").select2("val", "");
-            }
+            }*/
             $(this).siblings('span').html('').parent('span').css('display', 'none');
 
             // Apply the filters
