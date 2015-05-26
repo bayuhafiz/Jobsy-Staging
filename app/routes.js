@@ -809,11 +809,22 @@ module.exports = function(app, passport) {
 
             // Doing image replacement
             if (changed == 'yes') { // if there is image renewal
+                // Deleting previous logo from disk
+                var old_logo = './public/uploads/logo/' + job.profile.logo;
+                fs.stat(old_logo, function(err, stat) {
+                    if (err == null) {
+                        console.log('File exists. Now begin deleting...');
+                        fs.unlinkSync(old_logo);
+                    } else if (err.code == 'ENOENT') {
+                        console.log('File doesn\'t exist. Going next round...');
+                    }
+                });
+
+                // Then let's save the new logo
                 var image_data = req.body.cropped_image;
                 var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
                 var random_id = crypto.randomBytes(10).toString('hex');
                 var logo = random_id + '.png';
-                console.log('to be uploaded: ' + logo);
                 // Writing file to disk
                 fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err) {
                     if (err) {

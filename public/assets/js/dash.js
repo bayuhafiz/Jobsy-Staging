@@ -543,45 +543,37 @@
                     name: 'requirements',
                     value: CKEDITOR.instances['editor3-edit'].getData()
                 });
-
+                // Then push the values
                 $.each(params, function(i, val) {
                     formData.append(val.name, val.value);
                 });
 
-                $.ajax({
-                    url: $form.attr('action'),
-                    data: formData,
-                    type: 'POST',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(result) {
-                        if (result.type == 'success') {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                $.post($form.attr('action'), params, function(result) {
+                    if (result.type == 'success') {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
 
-                            swal({
-                                type: 'success',
-                                title: "Success!",
-                                confirmButtonColor: '#52D5BE',
-                                text: result.msg
-                            }, function() {
-                                location.reload(true);
-                            });
-                        } else {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                        swal({
+                            type: 'success',
+                            title: "Saved!",
+                            confirmButtonColor: '#52D5BE',
+                            text: result.msg
+                        }, function() {
+                            location.reload(true);
+                        });
+                    } else {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
 
-                            $('<li/>')
-                                .wrapInner(
-                                    $('<span/>')
-                                    .attr('class', 'ajax_error')
-                                    .html(result.msg)
-                                )
-                                .appendTo('#status_edit');
-                        }
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                .attr('class', 'ajax_error')
+                                .html(result.msg)
+                            )
+                            .appendTo('#status_edit');
                     }
                 });
             })
