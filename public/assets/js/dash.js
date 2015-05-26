@@ -318,39 +318,55 @@
                 $('#status_post').html('');
 
                 var $form = $(e.target),
-                    fv = $form.data('formValidation');
+                    formData = new FormData(),
+                    fv = $form.data('formValidation'),
+                    params = $form.serializeArray(),
+                    editors = new Array();
 
-                $.ajax({
-                    url: $form.attr('action'),
-                    data: $form.serialize(),
-                    type: 'POST',
-                    success: function(result) {
-                        if (result.type == 'success') {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                // Get CKEditor values
+                params.push({
+                    name: 'description',
+                    value: CKEDITOR.instances['editor1'].getData()
+                });
+                params.push({
+                    name: 'jobScope',
+                    value: CKEDITOR.instances['editor2'].getData()
+                });
+                params.push({
+                    name: 'requirements',
+                    value: CKEDITOR.instances['editor3'].getData()
+                });
+                // Then push the values
+                $.each(params, function(i, val) {
+                    formData.append(val.name, val.value);
+                });
 
-                            swal({
-                                type: 'success',
-                                title: "Success!",
-                                confirmButtonColor: '#52D5BE',
-                                text: result.msg
-                            }, function() {
-                                location.reload(true);
-                            });
-                        } else {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                $.post($form.attr('action'), params, function(result) {
+                    if (result.type == 'success') {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
 
-                            $('<li/>')
-                                .wrapInner(
-                                    $('<span/>')
-                                    .attr('class', 'ajax_error')
-                                    .html(result.msg)
-                                )
-                                .appendTo('#status_post');
-                        }
+                        swal({
+                            type: 'success',
+                            title: "Created!",
+                            confirmButtonColor: '#52D5BE',
+                            text: result.msg
+                        }, function() {
+                            location.reload(true);
+                        });
+                    } else {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
+
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                .attr('class', 'ajax_error')
+                                .html(result.msg)
+                            )
+                            .appendTo('#status_edit');
                     }
                 });
             })
