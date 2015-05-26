@@ -305,12 +305,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -339,6 +333,7 @@
                             swal({
                                 type: 'success',
                                 title: "Success!",
+                                confirmButtonColor: '#52D5BE',
                                 text: result.msg
                             }, function() {
                                 location.reload(true);
@@ -517,12 +512,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -575,6 +564,7 @@
                             swal({
                                 type: 'success',
                                 title: "Success!",
+                                confirmButtonColor: '#52D5BE',
                                 text: result.msg
                             }, function() {
                                 location.reload(true);
@@ -1016,7 +1006,7 @@
 
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
+                        $('#EditJob div.panel form#form-edit').attr('action', '/api/job/edit/' + data._id);
 
                     }
 

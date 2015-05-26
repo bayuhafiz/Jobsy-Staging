@@ -1079,12 +1079,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -1113,8 +1107,8 @@
                             swal({
                                 type: 'success',
                                 title: "Success!",
+                                confirmButtonColor: '#52D5BE',
                                 text: result.msg,
-                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 location.reload(true);
                             });
@@ -1309,12 +1303,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -1363,8 +1351,8 @@
                             swal({
                                 type: result.type,
                                 title: "Saved!",
+                                confirmButtonColor: '#52D5BE',
                                 text: result.msg,
-                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 location.reload(true);
                             });
