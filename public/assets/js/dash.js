@@ -608,6 +608,112 @@
             });
         // EOF
 
+        // EDIT ACCOUNT
+        $('#form-account')
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    firstName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The first name required'
+                            },
+                            stringLength: {
+                                min: 3,
+                                message: 'Must be more than 2 characters long'
+                            }
+                        }
+                    },
+                    lastName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The last name is required'
+                            },
+                            stringLength: {
+                                min: 3,
+                                message: 'Must be more than 2 characters long'
+                            }
+                        }
+                    },
+                    companyName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The company name required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-account'));
+                // Start loading
+                loader.start();
+
+                // Reset the message element when the form is valid
+                $('#status_account').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                // Use Ajax to submit form data
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function(result) {
+                        // ... Process the result ...
+                        if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            swal({
+                                type: 'success',
+                                title: "Updated!",
+                                timer: 3000,
+                                showConfirmButton: false,
+                                text: result.msg
+                            });
+                            setTimeout(function() {
+                                location.reload();
+                            }, 3200);
+                        } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_account');
+                        }
+                    }
+                });
+            })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+            })
+            .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+
+                // Reset the message element when the form is valid
+                $('#status_account').html('');
+            });
+        // EOF
+
         // END FORM VALIDATION HANDLER ////////////
 
 
@@ -754,13 +860,27 @@
             });
         });
 
-        $('.updatePassword-btn').click(function() {
-            $('.password1').hide();
-            $('.password2').fadeIn('3000').css({
-                'display': 'table-cell',
-                'vertical-align': 'middle'
+
+        $('a[href=#account]').click(function() {
+            $('#accountModal').modal('show');
+        });
+
+        $('a[href=#pass]').click(function() {
+            swal({
+                title: 'Change password',
+                html: 'Type your new password below:<br/><br/><p><input id="input-field"/></p>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonColor: '#52D5BE'
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    swal({
+                        html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
+                    });
+                }
             });
         });
+
 
         $('.btn-cancel-reset').click(function() {
             $('.password2').hide();
@@ -828,7 +948,7 @@
 
 
         // ============= JOB MANIPULATION BUTTONs =====================
-        // Edit a job post
+        // Edit job post
         $('body').on('click', '#editButton', function(e) {
             e.preventDefault();
 
@@ -864,8 +984,9 @@
                 success: function(data) {
                     if (data) {
                         var img = 'uploads/logo/' + data.profile.logo;
+                        // Assign the values
                         $('#EditJob div.panel form#form-edit input#oldJobImg').attr('value', data.profile.logo);
-                        $('#EditJob div.panel form#form-edit img#editJobImg-preview').attr('src', img);
+                        $('#EditJob div.panel form#form-edit img#logo-preview_edit').attr('src', img);
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
                         var loc = data.profile.location;
@@ -918,6 +1039,7 @@
                         text: result.msg
                     });
                     setTimeout(function() {
+                        localStorage['switch_checked'] = 'hide';
                         window.location.href = '/';
                     }, 2100);
                 }

@@ -13,6 +13,8 @@
 <script src="../assets/plugins/formvalidation/dist/js/formValidation.min.js"></script>
 <script src="../assets/plugins/formvalidation/dist/js/framework/bootstrap.min.js"></script>
 <script src="../assets/plugins/sweetalert.min.js"></script>
+<script src="../assets/plugins/ladda.spin.min.js"></script>
+<script src="../assets/plugins/ladda.min.js"></script>
 <!-- END VENDOR JS -->
 
 <!-- BEGIN PAGE LEVEL JS -->
@@ -47,6 +49,11 @@ $(document).ready(function() {
                 // Prevent form submission
                 e.preventDefault();
 
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-reset'));
+                // Start loading
+                loader.start();
+
                 // Reset the message element when the form is valid
                 $('#status_reset').html('');
 
@@ -59,11 +66,16 @@ $(document).ready(function() {
                     type: 'POST',
                     data: $form.serialize(),
                     success: function(result) {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
+
                         if (result.type == 'success') {
                             swal({
                                 type: 'success',
                                 title: "Changed!",
-                                text: result.msg
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE'
                             }, function() {
                                 window.location.href = '/dash';
                             });

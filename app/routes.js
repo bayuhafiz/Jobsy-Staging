@@ -137,21 +137,6 @@ module.exports = function(app, passport) {
                 }
             });
     });
-    // update account settings --------------------------------
-    app.post('/account/profile', isLoggedIn, function(req, res) {
-        User.findById(req.user.id, function(err, user) {
-            if (err) return next(err);
-            user.firstName = req.body.firstName;
-            user.lastName = req.body.lastName;
-            user.companyName = req.body.companyName;
-            user.save(function(err) {
-                if (err)
-                    return next(err);
-                req.flash('success', 'Your account has been updated.');
-                res.redirect('/dash');
-            });
-        });
-    });
     // Deactivate account -----------------------------------
     app.get('/unlink', isLoggedIn, function(req, res) {
         var user = req.user;
@@ -404,6 +389,7 @@ module.exports = function(app, passport) {
             'msg': msg
         });
     });
+
     // User log out
     app.get('/api/account/signout', isLoggedIn, function(req, res) {
         req.session.destroy(function(err) {
@@ -412,6 +398,7 @@ module.exports = function(app, passport) {
             });
         });
     });
+
     // User sign up / register
     app.post('/api/account/signup', passport.authenticate('local-signup', {
         successRedirect: '/signupSuccess',
@@ -432,6 +419,7 @@ module.exports = function(app, passport) {
             'msg': msg
         });
     });
+
     // forgot password -------------------------------------------------------------
     app.post('/api/account/forgot', function(req, res) {
         async.waterfall([
@@ -511,6 +499,7 @@ module.exports = function(app, passport) {
             if (err) return next(err);
         });
     });
+
     // resetting password ----------------------------------------------------------
     app.get('/reset/:token', function(req, res) {
         User
@@ -529,7 +518,7 @@ module.exports = function(app, passport) {
                 });
             });
     });
-    app.post('/reset/:id', function(req, res) {
+    app.post('/api/account/reset/:id', function(req, res) {
         async.waterfall([
             function(done) {
                 User
@@ -594,6 +583,7 @@ module.exports = function(app, passport) {
             if (err) return next(err);
         });
     });
+
     // Resend activate account
     app.get('/api/account/resend/:id', isLoggedIn, function(req, res) {
         User
@@ -649,6 +639,36 @@ module.exports = function(app, passport) {
                     });
                 }
             });
+    });
+
+
+    // update account settings --------------------------------
+    app.post('/api/account/update', isLoggedIn, function(req, res) {
+        User.findById(req.user.id, function(err, user) {
+            if (err) {
+                res.json({
+                    'type': 'error',
+                    'msg': 'No such account exists'
+                });
+                return;
+            }
+            user.firstName = req.body.firstName;
+            user.lastName = req.body.lastName;
+            user.companyName = req.body.companyName;
+            user.save(function(err) {
+                if (err) {
+                    res.json({
+                        'type': 'error',
+                        'msg': err
+                    });
+                    return;
+                }
+                res.json({
+                    'type': 'success',
+                    'msg': 'Your account has been updated'
+                });
+            });
+        });
     });
 
 

@@ -8,9 +8,9 @@
       <div class="container-sm-height full-height">
         <div class="row row-sm-height">
           <div class="col-sm-12 col-sm-height col-middle">
-            <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="78" height="22" style="height: auto;">
+            <img src="../assets/img/jobsy_logo_black.png" alt="logo" data-src="../assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" width="160" style="height: auto;">
             <h3>Password Reset</h3>
-            <form id="form-reset" class="p-t-15" role="form" method="POST" action="/reset/<%= user._id %>">
+            <form id="form-reset" class="p-t-15" role="form" method="POST" action="/api/account/reset/<%= user._id %>">
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group form-group-default">
@@ -22,7 +22,7 @@
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group form-group-default">
-                    <label>Confirm New Password</label>
+                    <label>Type it again</label>
                     <input type="password" name="confirmPass" placeholder="" class="form-control" required>
                   </div>
                 </div>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
               </div>
-              <button class="btn btn-primary btn-cons m-t-10" type="submit">Reset my password</button>
+              <button id="btn-submit-reset" class="btn btn-primary btn-cons m-t-10 ladda-button" data-style="expand-right" type="submit">RESET MY PASSWORD</button>
             </form>
           </div>
         </div>

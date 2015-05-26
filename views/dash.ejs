@@ -34,7 +34,6 @@
                   <!-- START JOBS PANEL -->
                   <div id="no-job-post" class="text-center">
                     <h1>Oops, no job posts to display...</h1>
-                    <p><a href="#" data-target="#PostNewJob" data-toggle="modal">click here</a> to create a new job post or click on green button above.</p>
                   </div>
                   <div class="jobs-panel">
                     
@@ -56,11 +55,12 @@
       
       <!-- BEGIN MODAL OVERLAY -->
       <% if (user) { %>
+      <% include ./partial/modal_cropper %>
+      <% include ./partial/modal_cropper_edit %>
       <% include ./partial/modal_account %>
       <% include ./partial/modal_credits %>
       <% include ./partial/modal_edit %>
       <% include ./partial/modal_post %>
-      <% include ./partial/modal_cropper %>
       <% include ./partial/modal_app %>
       <% } else { %>
       <% include ./partial/modal_auth %>
