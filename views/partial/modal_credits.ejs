@@ -22,13 +22,17 @@
               <div class="row">
                 <div class="well">
                   <center>
-                  <h3>You have  <%= credits %> credits</h3>
-                  <h5 class="hint-text">Click on buttons below to buy more credits</h5>
+                  <% if (credits > 1 ) { %>
+                    <h3 class="title">YOU HAVE <span class="bold"><%= credits %></span> CREDITS</h3>
+                  <% } else { %>
+                    <h3 class="title">YOU HAVE <span class="bold"><%= credits %></span> CREDIT</h3>
+                  <% } %>
+                  <h5 class="hint-text" style="padding-top:20px;">Click on buttons below to buy more credits</h5>
                   <div class="clearfix"></div>
                   <div class="clearfix"></div>
-                  <button id="btnBuy1" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">1</h1> <p style="padding-top:15px;">CREDIT</p><br/><span class="bold text-success">RP 50.000</span></button>
-                  <button id="btnBuy5" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">5</h1> <p style="padding-top:15px;">CREDITS</p><br/><span class="bold text-success">RP 250.000</span></button>
-                  <button  id="btnBuy10" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">10</h1> <p style="padding-top:15px;">CREDITS</p><br/><span class="bold text-success">RP 500.000</span></button>
+                  <button id="btnBuy1" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">1</h1> <p style="padding-top:10px;">CREDIT</p><br/><span class="bold text-success">RP 50.000</span></button>
+                  <button id="btnBuy5" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">5</h1> <p style="padding-top:10px;">CREDITS</p><br/><span class="bold text-success">RP 250.000</span></button>
+                  <button  id="btnBuy10" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">10</h1> <p style="padding-top:10px;">CREDITS</p><br/><span class="bold text-success">RP 500.000</span></button>
                 </div>
               </div>
             </form>

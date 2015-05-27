@@ -19,6 +19,7 @@
         </style>
     </head>
     <body class="fixed-header menu-behind">
+        <% include ./partial/modal_cropper %>
         <div class="row page-activation" style="height:100%;overflow: hidden;margin-right:0">
             <div class="col-md-5" style="height:100%;padding:0 0">
                 <div style="display: table;height: 100%;width: 75%;position: relative;margin-left: auto;margin-right: auto;">
@@ -71,7 +72,6 @@
             <% include ./partial/wizard_post %>
         </div>
         <input type="hidden" id="user-id" value="<%= userid %>" />
-        <% include ./partial/modal_cropper %>
 
         <!-- BEGIN VENDOR JS -->
         <% if (actStatus == 'inactive') { %>
