@@ -583,7 +583,6 @@ module.exports = function(app, passport) {
             if (err) return next(err);
         });
     });
-
     // Resend activate account
     app.get('/api/account/resend/:id', isLoggedIn, function(req, res) {
         User
@@ -640,8 +639,6 @@ module.exports = function(app, passport) {
                 }
             });
     });
-
-
     // update account settings --------------------------------
     app.post('/api/account/update', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
@@ -903,7 +900,6 @@ module.exports = function(app, passport) {
             });
         });
     });
-
     // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
@@ -1253,8 +1249,8 @@ module.exports = function(app, passport) {
                 });
                 return;
             }
-            if (app.read == false) { // Remove the 'new' label
-                app.read = true;
+            if (app.read == false) { // if app hasn't been reviewed
+                app.read = true; // Remove the 'new' label
                 Job.findById(app.jobId, function(err, job) {
                     if (err) {
                         res.json({
@@ -1272,6 +1268,22 @@ module.exports = function(app, passport) {
                             });
                             return;
                         }
+
+                        // Let's reduce user credit
+                        User.findOne({
+                            email: req.user.email
+                        }, function(err, user) {
+                            user.credits = user.credits - 1; // Minus 1 user credit
+                            user.save(function(err) {
+                                if (err) {
+                                    res.json({
+                                        type: 'error',
+                                        msg: err
+                                    });
+                                    return;
+                                }
+                            })
+                        })
                     });
                 });
             } else {
@@ -1290,35 +1302,13 @@ module.exports = function(app, passport) {
             });
         });
     });
-    // Set app status as reviewed -------------------------------------
-    app.get('/api/job/app/set/:id', isLoggedIn, function(req, res, next) {
+    // Handler for downloading resume file ----------------------------------
+    app.get('/download/:id', isLoggedIn, function(req, res) {
         App.findById(req.params.id, function(err, app) {
-            if (err) {
-                req.flash('error', err);
-                res.redirect('/dash');
-            }
-            if (app.read == false) {
-                app.read = true;
-            } else {
-                app.read = false;
-            }
-            app.save(function(err) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('/dash');
-                }
-                Job.findById(app.jobId, function(err, job) {
-                    job.newApp = job.newApp - 1;
-                    job.save(function(err) {
-                        if (err) {
-                            req.flash('error', err);
-                            res.redirect('/dash');
-                        }
-                        req.flash('success', 'Application is reviewed!');
-                        res.redirect('/dash');
-                    });
-                });
-            });
+            var file = './public/uploads/resume/' + app.resumeFile;
+            var time = Math.floor(Date.now() / 1000);
+            var newName = app.fullName + '_' + time + '.pdf';
+            res.download(file, newName.replace(/ /g, "_"));
         });
     });
 
