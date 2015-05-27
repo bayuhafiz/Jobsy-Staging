@@ -865,8 +865,18 @@
 
         $('a[href=#pass]').click(function() {
             swal({
+                title: 'Input something',
+                html: '<p><input type="text" id="input-field">',
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function() {
+                swal({
+                    html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
+                });
+            });
+            /*swal({
                 title: 'Change password',
-                html: 'Type your new password below:<br/><br/><p><input id="input-field"/></p>',
+                html: '<span>Type your new password below:<br/><input type="password" id="input-field"/></span>',
                 showCancelButton: true,
                 closeOnConfirm: false,
                 confirmButtonColor: '#52D5BE'
@@ -876,7 +886,7 @@
                         html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
                     });
                 }
-            });
+            }); */
         });
 
 
