@@ -1128,9 +1128,7 @@ module.exports = function(app, passport) {
                                             header: 'New Application Received!',
                                             body: 'You got new application for job posting ' + position + ' at ' + company + ':',
                                             app: {
-                                                fullName: 'Full Name: ' + req.body.firstName + ' ' + req.body.lastName,
-                                                phone: 'Phone: ' + req.body.phone,
-                                                email: 'Email: ' + req.body.email,
+                                                fullName: 'Full Name: ' + req.body.fullName,
                                                 location: 'Location: ' + req.body.location,
                                                 applyDate: 'Date Applied: ' + now
                                             },
