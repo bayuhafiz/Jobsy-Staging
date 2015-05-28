@@ -813,12 +813,13 @@
             $('.job-dropdown.open').removeClass('open');
         });
 
+
         // APPLICATION SEARCH HANDLER ////
         $(".searchApplicant").on("keyup", function() {
             var g = $(this).val().toLowerCase();
-            $("li h3.cbp-nttrigger").each(function() {
+            $("div.collapse-card").each(function() {
                 var s = $(this).text().toLowerCase();
-                $(this).closest('li')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+                $(this).closest('div')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
             });
         });
 
@@ -828,6 +829,7 @@
             $('textarea#editor1,textarea#editor2,textarea#editor3').parent().children('.note-editor').children('.note-editable').text('');
             $('#Crd option:selected').text();
         });
+
 
 
         // BASIC BUTTONS HANDLER ////
@@ -859,45 +861,62 @@
         });
 
 
+        // Account settings modal event handler
         $('a[href=#account]').click(function() {
             $('#accountModal').modal('show');
+            $('div.account-panel').show();
+            $('div.updatePass-panel').hide();
         });
 
         $('a[href=#pass]').click(function() {
-            swal({
-                title: 'Input something',
-                html: '<p><input type="text" id="input-field">',
-                showCancelButton: true,
-                closeOnConfirm: false
-            }, function() {
-                swal({
-                    html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
-                });
-            });
-            /*swal({
-                title: 'Change password',
-                html: '<span>Type your new password below:<br/><input type="password" id="input-field"/></span>',
-                showCancelButton: true,
-                closeOnConfirm: false,
-                confirmButtonColor: '#52D5BE'
-            }, function(isConfirm) {
-                if (isConfirm) {
+            $('div.account-panel').hide();
+            $('div.updatePass-panel').show();
+        });
+
+
+        // Sign out button handler
+        $("a[href='#signout']").click(function() {
+            $.ajax({
+                url: '/api/account/signout',
+                type: 'GET',
+                success: function(result) {
                     swal({
-                        html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
+                        title: "Logged out!",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        text: result.msg
                     });
+                    setTimeout(function() {
+                        localStorage['switch_checked'] = 'hide';
+                        window.location.href = '/';
+                    }, 2100);
                 }
-            }); */
-        });
-
-
-        $('.btn-cancel-reset').click(function() {
-            $('.password2').hide();
-            $('.password1').fadeIn('3000').css({
-                'display': 'table-cell',
-                'vertical-align': 'middle'
             });
         });
 
+
+
+        // Input masking
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
 
 
 
@@ -1031,50 +1050,6 @@
                     //$('#appDetailsCloseBtn').attr('onClick', 'location.href=\'/job/app/' + dataId + '\'');
                 }
             });
-        });
-
-
-        // Sign out button handler
-        $("a[href='#signout']").click(function() {
-            $.ajax({
-                url: '/api/account/signout',
-                type: 'GET',
-                success: function(result) {
-                    swal({
-                        title: "Logged out!",
-                        timer: 2000,
-                        showConfirmButton: false,
-                        text: result.msg
-                    });
-                    setTimeout(function() {
-                        localStorage['switch_checked'] = 'hide';
-                        window.location.href = '/';
-                    }, 2100);
-                }
-            });
-        });
-
-
-        // Input masking
-        $("#salary-from").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-from-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
         });
 
     });
