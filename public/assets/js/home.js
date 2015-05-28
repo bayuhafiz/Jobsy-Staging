@@ -1817,7 +1817,7 @@
                         text: result.msg
                     });
                     setTimeout(function() {
-                        localStorage['switch_checked'] = 'hide';
+                        localStorage['switch_checked'] = undefined;
                         window.location.href = '/';
                     }, 2100);
                 }

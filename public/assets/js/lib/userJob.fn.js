@@ -427,7 +427,6 @@ window.showJobs = function(url) {
                     });
                 });
 
-
                 // END OF EVENT HANDLERS
 
                 // Set the job post counter
@@ -443,10 +442,8 @@ window.showJobs = function(url) {
                     $("#job-counter").html("You have " + pub + pau + del + " job post" + s);
 
             } else { // if no job post at all
-                //$('#user-job-counter').hide();
                 $('#no-job-post').show();
             }
-
         }
     });
 };

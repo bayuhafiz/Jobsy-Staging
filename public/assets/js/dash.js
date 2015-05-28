@@ -4,7 +4,7 @@
 
     $(document).ready(function() {
 
-     
+
         // Get logged user email
         var uEmail = $('#user-email').val();
 
@@ -761,14 +761,18 @@
 
         // Check session to init switch state
         var stat = localStorage['switch_checked'];
-        if (stat == 'hide') {
-            showJobs('/api/jobs/' + uEmail + '/' + stat);
-        } else {
-            showJobs('/api/jobs/' + uEmail + '/' + stat);
-            if (elem.checked) {
-                elem.checked = false;
-                onChange(elem);
+        if (stat) {
+            if (stat == 'hide') {
+                showJobs('/api/jobs/' + uEmail + '/hide');
+            } else if (stat == 'show') {
+                showJobs('/api/jobs/' + uEmail + '/show');
+                if (elem.checked) {
+                    elem.checked = false;
+                    onChange(elem);
+                }
             }
+        } else {
+            showJobs('/api/jobs/' + uEmail + '/hide');
         }
         // END OF SWITCHERY //////////////////////////
 
@@ -873,7 +877,7 @@
         $('a[href=#pass]').click(function() {
             $('div.account-panel').hide();
             $('div.updatePass-panel').fadeIn();
-            
+
         });
 
 
@@ -890,7 +894,7 @@
                         text: result.msg
                     });
                     setTimeout(function() {
-                        localStorage['switch_checked'] = 'hide';
+                        localStorage['switch_checked'] = undefined;
                         window.location.href = '/';
                     }, 2100);
                 }
