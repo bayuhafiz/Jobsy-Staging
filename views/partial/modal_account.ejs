@@ -1,69 +1,110 @@
 <!-- ACCOUNT SETTINGS MODAL -->
 <div class="modal fade slide-right" id="accountModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-userdashboard">
-    <div class="modal-content-wrapper">
-      <div class="modal-content outer" style="background: #FAFAFA;">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
-        </button>
-        <div class="panel panel-transparent middle">
-          <div class="panel-body">
-            <div class="panel-heading" style="padding:0">
-              <div class="panel-title" style="text-transform: none;">
-                <div class="col-sm-12" style="padding-left: 0;">
-                  <img src="assets/img/jobsy_logo_black.png" alt="Jobsy" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" style="max-width:20%; display: inline-block;">
-                  <p class="bold" style="display: inline-block;padding-left: 20px;font-size: 19px;  position: relative;top: 19px;">ACCOUNT SETTINGS</p>
-                  <br>
-                  <p>Edit the form below to change your profile</p>
-                </div>
-              </div>
-            </div>
-            <br>
-            <form id="form-account" action="/api/account/update" class="" method="POST" enctype="multipart/form-data" role="form">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group form-group-default">
-                    <label>First Name</label>
-                    <input type="text" name="firstName" value="<%= user.firstName %>" class="form-control" required>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group form-group-default">
-                    <label>Last Names</label>
-                    <input type="text" name="lastName" value="<%= user.lastName %>" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="form-group form-group-default">
-                    <label>Company Name</label>
-                    <input type="text" name="companyName" value="<%= user.companyName %>" class="form-control" required>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="form-group form-group-default">
-                    <label for="password">Password:</label>
-                    <a href="#pass"><span class="link">Click here to change your password</span></a>
-                  </div>
-                </div>
-              </div>
-              <br>
-              <br>
-              <div class="form-group">
-                <div>
-                <ul id="status_edit"></ul>
-              </div>
-              <div class="clearfix"></div>
-              <div class="clearfix"></div>
-              <div class="clearfix"></div>
-              <button class="btn btn-primary btn-cons ladda-button" data-style="expand-right" type="submit" id="btn-submit-account">SAVE MY CHANGES</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content-wrapper">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+				</button>
+				<div class="container-xs-height full-height">
+					<div class="row-xs-height outer">
+						<!-- START ACCOUNT SETTINGS FORM -->
+						<div class="account-panel middle">
+							<div class="panel panel-transparent" style="padding-left: 25px;padding-right: 25px;border:0">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<h3>Account Settings</h3>
+									</div>
+								</div>
+								<div class="panel-body" style="height:auto">
+									<form id="form-account" action="/api/account/update" class="" method="POST" enctype="multipart/form-data" role="form">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group form-group-default">
+													<label>First Name</label>
+													<input type="text" name="firstName" value="<%= user.firstName %>" class="form-control" required>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group form-group-default">
+													<label>Last Names</label>
+													<input type="text" name="lastName" value="<%= user.lastName %>" class="form-control">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group form-group-default">
+													<label>Company Name</label>
+													<input type="text" name="companyName" value="<%= user.companyName %>" class="form-control" required>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group form-group-default">
+													<label for="password">Password:</label>
+													<a href="#pass"><span class="link">Click here to change your password</span></a>
+												</div>
+											</div>
+										</div>
+										<br>
+										<br>
+										<div class="form-group">
+											<div>
+											<ul id="status_account"></ul>
+										</div>
+										<div class="clearfix"></div>
+										<div class="clearfix"></div>
+										<div class="clearfix"></div>
+										<button class="btn btn-primary btn-cons ladda-button" data-style="expand-right" type="submit" id="btn-submit-account">SAVE MY CHANGES</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!-- END ACCOUNT SETTINGS FORM -->
+						<!-- START UPDATE-PASS FORM -->
+						<div class="modal updatePass-panel middle" style="display: table-cell;">
+							<div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<h3>Update Password</h3>
+									</div>
+								</div>
+								<div class="panel-body" style="height:auto">
+									<form id="form-update-pass" action="/api/account/pass" class="" method="POST" enctype="multipart/form-data" role="form">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group form-group-default">
+													<label>New Password</label>
+													<input type="password" name="newPass" class="form-control" required>
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<div class="form-group form-group-default">
+													<label>Type Again</label>
+													<input type="password" name="confirmPass" class="form-control" required>
+												</div>
+											</div>
+										</div>
+										<br>
+										<br>
+										<div class="form-group">
+											<div>
+											<ul id="status_pass"></ul>
+										</div>
+										<div class="clearfix"></div>
+										<div class="clearfix"></div>
+										<div class="clearfix"></div>
+										<button class="btn btn-primary btn-cons ladda-button" data-style="expand-right" type="submit" id="btn-submit-account">UPDATE MY PASSWORD</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END UPDATE-PASS FORM -->
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- END ACCOUNT SETTINGS MODAL -->

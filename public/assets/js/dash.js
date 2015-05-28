@@ -306,12 +306,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -325,38 +319,55 @@
                 $('#status_post').html('');
 
                 var $form = $(e.target),
-                    fv = $form.data('formValidation');
+                    formData = new FormData(),
+                    fv = $form.data('formValidation'),
+                    params = $form.serializeArray(),
+                    editors = new Array();
 
-                $.ajax({
-                    url: $form.attr('action'),
-                    data: $form.serialize(),
-                    type: 'POST',
-                    success: function(result) {
-                        if (result.type == 'success') {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                // Get CKEditor values
+                params.push({
+                    name: 'description',
+                    value: CKEDITOR.instances['editor1'].getData()
+                });
+                params.push({
+                    name: 'jobScope',
+                    value: CKEDITOR.instances['editor2'].getData()
+                });
+                params.push({
+                    name: 'requirements',
+                    value: CKEDITOR.instances['editor3'].getData()
+                });
+                // Then push the values
+                $.each(params, function(i, val) {
+                    formData.append(val.name, val.value);
+                });
 
-                            swal({
-                                type: 'success',
-                                title: "Success!",
-                                text: result.msg
-                            }, function() {
-                                location.reload(true);
-                            });
-                        } else {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                $.post($form.attr('action'), params, function(result) {
+                    if (result.type == 'success') {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
 
-                            $('<li/>')
-                                .wrapInner(
-                                    $('<span/>')
-                                    .attr('class', 'ajax_error')
-                                    .html(result.msg)
-                                )
-                                .appendTo('#status_post');
-                        }
+                        swal({
+                            type: 'success',
+                            title: "Created!",
+                            confirmButtonColor: '#52D5BE',
+                            text: result.msg
+                        }, function() {
+                            location.reload(true);
+                        });
+                    } else {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
+
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                .attr('class', 'ajax_error')
+                                .html(result.msg)
+                            )
+                            .appendTo('#status_edit');
                     }
                 });
             })
@@ -518,12 +529,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -555,44 +560,37 @@
                     name: 'requirements',
                     value: CKEDITOR.instances['editor3-edit'].getData()
                 });
-
+                // Then push the values
                 $.each(params, function(i, val) {
                     formData.append(val.name, val.value);
                 });
 
-                $.ajax({
-                    url: $form.attr('action'),
-                    data: formData,
-                    type: 'POST',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(result) {
-                        if (result.type == 'success') {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                $.post($form.attr('action'), params, function(result) {
+                    if (result.type == 'success') {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
 
-                            swal({
-                                type: 'success',
-                                title: "Success!",
-                                text: result.msg
-                            }, function() {
-                                location.reload(true);
-                            });
-                        } else {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                        swal({
+                            type: 'success',
+                            title: "Saved!",
+                            confirmButtonColor: '#52D5BE',
+                            text: result.msg
+                        }, function() {
+                            location.reload(true);
+                        });
+                    } else {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
 
-                            $('<li/>')
-                                .wrapInner(
-                                    $('<span/>')
-                                    .attr('class', 'ajax_error')
-                                    .html(result.msg)
-                                )
-                                .appendTo('#status_edit');
-                        }
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                .attr('class', 'ajax_error')
+                                .html(result.msg)
+                            )
+                            .appendTo('#status_edit');
                     }
                 });
             })
@@ -816,12 +814,13 @@
             $('.job-dropdown.open').removeClass('open');
         });
 
+
         // APPLICATION SEARCH HANDLER ////
         $(".searchApplicant").on("keyup", function() {
             var g = $(this).val().toLowerCase();
-            $("li h3.cbp-nttrigger").each(function() {
+            $("div.collapse-card").each(function() {
                 var s = $(this).text().toLowerCase();
-                $(this).closest('li')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+                $(this).closest('div')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
             });
         });
 
@@ -833,7 +832,9 @@
         });
 
 
-        // BASIC BUTTONS HANDLER ////
+
+        // ******* BASIC BUTTONS HANDLER ********
+        // Authentication modal buttons handler
         $('.login-btn').click(function() {
             $('.signUp-panel').hide();
             $('.forgetPass-panel').hide();
@@ -862,35 +863,72 @@
         });
 
 
+        // Account settings buttons handler
         $('a[href=#account]').click(function() {
             $('#accountModal').modal('show');
+            $('div.account-panel').show();
+            $('div.updatePass-panel').hide();
         });
 
         $('a[href=#pass]').click(function() {
+            /*$('div.account-panel').hide();
+            $('div.updatePass-panel').show();*/
             swal({
-                title: 'Change password',
-                html: 'Type your new password below:<br/><br/><p><input id="input-field"/></p>',
+                title: 'Input something',
+                html: '<input id="input-field">',
                 showCancelButton: true,
-                closeOnConfirm: false,
-                confirmButtonColor: '#52D5BE'
-            }, function(isConfirm) {
-                if (isConfirm) {
+                closeOnConfirm: false
+            }, function() {
+                swal({
+                    html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
+                });
+            });
+        });
+
+
+        // Sign out button handler
+        $("a[href='#signout']").click(function() {
+            $.ajax({
+                url: '/api/account/signout',
+                type: 'GET',
+                success: function(result) {
                     swal({
-                        html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
+                        title: "Logged out!",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        text: result.msg
                     });
+                    setTimeout(function() {
+                        localStorage['switch_checked'] = 'hide';
+                        window.location.href = '/';
+                    }, 2100);
                 }
             });
         });
+        // ******* End of BASIC BUTTONS HANDLER ********
 
 
-        $('.btn-cancel-reset').click(function() {
-            $('.password2').hide();
-            $('.password1').fadeIn('3000').css({
-                'display': 'table-cell',
-                'vertical-align': 'middle'
-            });
+        // Input masking
+        $("#salary-from").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
         });
-
+        $("#salary-to").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-from-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
+        $("#salary-to-edit").autoNumeric('init', {
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
+        });
 
 
 
@@ -1017,57 +1055,13 @@
 
                         $('#EditJob div.panel form#form-edit input.companyName').attr('value', data.profile.name);
 
-                        $('#EditJob div.panel form#form-edit').attr('action', '/update/' + data._id);
+                        $('#EditJob div.panel form#form-edit').attr('action', '/api/job/edit/' + data._id);
 
                     }
 
                     //$('#appDetailsCloseBtn').attr('onClick', 'location.href=\'/job/app/' + dataId + '\'');
                 }
             });
-        });
-
-
-        // Sign out button handler
-        $("a[href='#signout']").click(function() {
-            $.ajax({
-                url: '/api/account/signout',
-                type: 'GET',
-                success: function(result) {
-                    swal({
-                        title: "Logged out!",
-                        timer: 2000,
-                        showConfirmButton: false,
-                        text: result.msg
-                    });
-                    setTimeout(function() {
-                        localStorage['switch_checked'] = 'hide';
-                        window.location.href = '/';
-                    }, 2100);
-                }
-            });
-        });
-
-
-        // Input masking
-        $("#salary-from").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-from-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
-        });
-        $("#salary-to-edit").autoNumeric('init', {
-            aSep: '.',
-            aDec: ',',
-            mDec: '0'
         });
 
     });

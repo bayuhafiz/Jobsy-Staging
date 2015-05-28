@@ -583,7 +583,6 @@ module.exports = function(app, passport) {
             if (err) return next(err);
         });
     });
-
     // Resend activate account
     app.get('/api/account/resend/:id', isLoggedIn, function(req, res) {
         User
@@ -640,8 +639,6 @@ module.exports = function(app, passport) {
                 }
             });
     });
-
-
     // update account settings --------------------------------
     app.post('/api/account/update', isLoggedIn, function(req, res) {
         User.findById(req.user.id, function(err, user) {
@@ -809,11 +806,22 @@ module.exports = function(app, passport) {
 
             // Doing image replacement
             if (changed == 'yes') { // if there is image renewal
+                // Deleting previous logo from disk
+                var old_logo = './public/uploads/logo/' + job.profile.logo;
+                fs.stat(old_logo, function(err, stat) {
+                    if (err == null) {
+                        console.log('File exists. Now begin deleting...');
+                        fs.unlinkSync(old_logo);
+                    } else if (err.code == 'ENOENT') {
+                        console.log('File doesn\'t exist. Going next round...');
+                    }
+                });
+
+                // Then let's save the new logo
                 var image_data = req.body.cropped_image;
                 var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
                 var random_id = crypto.randomBytes(10).toString('hex');
                 var logo = random_id + '.png';
-                console.log('to be uploaded: ' + logo);
                 // Writing file to disk
                 fs.writeFile('./public/uploads/logo/' + logo, base64Data, 'base64', function(err) {
                     if (err) {
@@ -892,7 +900,6 @@ module.exports = function(app, passport) {
             });
         });
     });
-
     // Pause / Publish job post
     app.get('/api/job/stat/:id', isLoggedIn, function(req, res, next) {
         Job.findById(req.params.id, function(err, job) {
@@ -1121,9 +1128,7 @@ module.exports = function(app, passport) {
                                             header: 'New Application Received!',
                                             body: 'You got new application for job posting ' + position + ' at ' + company + ':',
                                             app: {
-                                                fullName: 'Full Name: ' + req.body.firstName + ' ' + req.body.lastName,
-                                                phone: 'Phone: ' + req.body.phone,
-                                                email: 'Email: ' + req.body.email,
+                                                fullName: 'Full Name: ' + req.body.fullName,
                                                 location: 'Location: ' + req.body.location,
                                                 applyDate: 'Date Applied: ' + now
                                             },
@@ -1242,8 +1247,8 @@ module.exports = function(app, passport) {
                 });
                 return;
             }
-            if (app.read == false) { // Remove the 'new' label
-                app.read = true;
+            if (app.read == false) { // if app hasn't been reviewed
+                app.read = true; // Remove the 'new' label
                 Job.findById(app.jobId, function(err, job) {
                     if (err) {
                         res.json({
@@ -1261,6 +1266,22 @@ module.exports = function(app, passport) {
                             });
                             return;
                         }
+
+                        // Let's reduce user credit
+                        User.findOne({
+                            email: req.user.email
+                        }, function(err, user) {
+                            user.credits = user.credits - 1; // Minus 1 user credit
+                            user.save(function(err) {
+                                if (err) {
+                                    res.json({
+                                        type: 'error',
+                                        msg: err
+                                    });
+                                    return;
+                                }
+                            })
+                        })
                     });
                 });
             } else {
@@ -1279,35 +1300,13 @@ module.exports = function(app, passport) {
             });
         });
     });
-    // Set app status as reviewed -------------------------------------
-    app.get('/api/job/app/set/:id', isLoggedIn, function(req, res, next) {
+    // Handler for downloading resume file ----------------------------------
+    app.get('/download/:id', isLoggedIn, function(req, res) {
         App.findById(req.params.id, function(err, app) {
-            if (err) {
-                req.flash('error', err);
-                res.redirect('/dash');
-            }
-            if (app.read == false) {
-                app.read = true;
-            } else {
-                app.read = false;
-            }
-            app.save(function(err) {
-                if (err) {
-                    req.flash('error', err);
-                    res.redirect('/dash');
-                }
-                Job.findById(app.jobId, function(err, job) {
-                    job.newApp = job.newApp - 1;
-                    job.save(function(err) {
-                        if (err) {
-                            req.flash('error', err);
-                            res.redirect('/dash');
-                        }
-                        req.flash('success', 'Application is reviewed!');
-                        res.redirect('/dash');
-                    });
-                });
-            });
+            var file = './public/uploads/resume/' + app.resumeFile;
+            var time = Math.floor(Date.now() / 1000);
+            var newName = app.fullName + '_' + time + '.pdf';
+            res.download(file, newName.replace(/ /g, "_"));
         });
     });
 

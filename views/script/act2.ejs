@@ -55,7 +55,7 @@
             });
 
         function setModalsAndBackdropsOrder() {
-            var modalZIndex = 1040;
+            var modalZIndex = 2000;
             $('.modal.in').each(function(index) {
                 var $modal = $(this);
                 modalZIndex++;
@@ -159,12 +159,10 @@
                 $('#step2-text').removeClass().css('color', '#52D5BE').hide().show('slow');
             });
 
-
             // CKEditor initiation
             CKEDITOR.inline('editorAct1');
             CKEDITOR.inline('editorAct2');
             CKEDITOR.inline('editorAct3');
-            
 
             // FORM VALIDATION
             $('#postForm')
@@ -198,8 +196,6 @@
                     $('#postForm').formValidation('revalidateField', 'jobType');
                 })
                 .end()
-                .find('[name="salaryFrom"]').mask('000.000.000.000.000', {reverse: true})
-                .find('[name="salaryTo"]').mask('000.000.000.000.000', {reverse: true})
                 .formValidation({
                     framework: 'bootstrap',
                     excluded: ':disabled',
@@ -335,6 +331,9 @@
                 })
                 // Triggered when clicking the Complete button
                 .on('finished.fu.wizard', function(e) {
+                    // Prevent form submission
+                    e.preventDefault();
+
                     var fv         = $('#postForm').data('formValidation'),
                         step       = $('#postWizard').wizard('selectedItem').step,
                         $container = $('#postForm').find('.step-pane[data-step="' + step +'"]');
@@ -344,7 +343,51 @@
 
                     var isValidStep = fv.isValidContainer($container);
                     if (isValidStep === true) {
-                        swal('success', 'form is completed!');
+                        // Form completed!
+                        var $form = $('#postForm'),
+                            formData = new FormData(),
+                            fv = $form.data('formValidation'),
+                            params = $form.serializeArray(),
+                            editors = new Array();
+
+                        // Get CKEditor values
+                        params.push({
+                            name: 'description',
+                            value: CKEDITOR.instances['editorAct1'].getData()
+                        });
+                        params.push({
+                            name: 'jobScope',
+                            value: CKEDITOR.instances['editorAct2'].getData()
+                        });
+                        params.push({
+                            name: 'requirements',
+                            value: CKEDITOR.instances['editorAct3'].getData()
+                        });
+                        // Then push the values
+                        $.each(params, function(i, val) {
+                            formData.append(val.name, val.value);
+                        });
+
+                        $.post('/api/job/post', params, function(result) {
+                            if (result.type == 'success') {
+                                swal({
+                                    type: 'success',
+                                    title: "Created!",
+                                    confirmButtonColor: '#52D5BE',
+                                    html: "Your first job post has been created and now it\'s live!<br/><br/>You will be redirected to your dashboard now..."
+                                }, function() {
+                                    location.reload(true);
+                                });
+                            } else {
+                                $('<li/>')
+                                    .wrapInner(
+                                        $('<span/>')
+                                        .attr('class', 'ajax_error')
+                                        .html(result.msg)
+                                    )
+                                    .appendTo('#status_post');
+                            }
+                        });
                     }
                 });
             // EOF

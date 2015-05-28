@@ -1046,20 +1046,7 @@
                     description: {
                         validators: {
                             notEmpty: {
-                                message: 'Please provide company description'
-                            },
-                            callback: {
-                                message: 'The company description must be more than 200 characters long',
-                                callback: function(value, validator, $field) {
-                                    if (value === '') {
-                                        return true;
-                                    }
-                                    // Get the plain text without HTML
-                                    var div = $('<div/>').html(value).get(0),
-                                        text = div.textContent || div.innerText;
-
-                                    return text.length > 200;
-                                }
+                                message: 'Please provide company description',
                             }
                         }
                     },
@@ -1079,12 +1066,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -1098,62 +1079,61 @@
                 $('#status_post').html('');
 
                 var $form = $(e.target),
-                    fv = $form.data('formValidation');
+                    formData = new FormData(),
+                    fv = $form.data('formValidation'),
+                    params = $form.serializeArray(),
+                    editors = new Array();
 
-                $.ajax({
-                    url: $form.attr('action'),
-                    data: $form.serialize(),
-                    type: 'POST',
-                    success: function(result) {
-                        if (result.type == 'success') {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                // Get CKEditor values
+                params.push({
+                    name: 'description',
+                    value: CKEDITOR.instances['editor1'].getData()
+                });
+                params.push({
+                    name: 'jobScope',
+                    value: CKEDITOR.instances['editor2'].getData()
+                });
+                params.push({
+                    name: 'requirements',
+                    value: CKEDITOR.instances['editor3'].getData()
+                });
+                // Then push the values
+                $.each(params, function(i, val) {
+                    formData.append(val.name, val.value);
+                });
 
-                            swal({
-                                type: 'success',
-                                title: "Success!",
-                                text: result.msg,
-                                confirmButtonColor: '#52D5BE'
-                            }, function() {
-                                location.reload(true);
-                            });
-                        } else {
-                            // Stop loading
-                            loader.stop();
-                            loader.remove();
+                $.post($form.attr('action'), params, function(result) {
+                    if (result.type == 'success') {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
 
-                            $('<li/>')
-                                .wrapInner(
-                                    $('<span/>')
-                                    .attr('class', 'ajax_error')
-                                    .html(result.msg)
-                                )
-                                .appendTo('#status_post');
-                        }
+                        swal({
+                            type: 'success',
+                            title: "Created!",
+                            confirmButtonColor: '#52D5BE',
+                            text: result.msg
+                        }, function() {
+                            location.reload(true);
+                        });
+                    } else {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
+
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                .attr('class', 'ajax_error')
+                                .html(result.msg)
+                            )
+                            .appendTo('#status_edit');
                     }
                 });
             })
             .on('err.field.fv', function(e, data) {
-                // Get the messages of field
-                var messages = data.fv.getMessages(data.element);
-
                 // Remove button's disable class
                 $('#btn-submit-post').removeClass('disable');
-
-                // Dummy clear notification
-                $('body').pgNotification().hide();
-
-                // Loop over the messages
-                for (var i in messages) {
-                    // Show siple error notification
-                    $('body').pgNotification({
-                        position: 'top-left',
-                        style: 'simple',
-                        type: 'danger',
-                        message: messages[i]
-                    }).show();
-                }
             })
             .on('success.field.fv', function(e, data) {
                 // Remove button's disable class
@@ -1309,12 +1289,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
-            .find('[name="salaryTo"]').mask('000.000.000.000.000', {
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -1346,37 +1320,37 @@
                     name: 'requirements',
                     value: CKEDITOR.instances['editor3-edit'].getData()
                 });
-
+                // Then push the values
                 $.each(params, function(i, val) {
                     formData.append(val.name, val.value);
                 });
 
-                $.ajax({ // Send the datas
-                    url: $form.attr('action'),
-                    data: formData,
-                    type: 'POST',
-                    success: function(result) {
+                $.post($form.attr('action'), params, function(result) {
+                    if (result.type == 'success') {
                         // Stop loading
                         loader.stop();
                         loader.remove();
-                        if (result.type == 'success') {
-                            swal({
-                                type: result.type,
-                                title: "Saved!",
-                                text: result.msg,
-                                confirmButtonColor: '#52D5BE'
-                            }, function() {
-                                location.reload(true);
-                            });
-                        } else {
-                            $('<li/>')
-                                .wrapInner(
-                                    $('<span/>')
-                                    .attr('class', 'ajax_error')
-                                    .html(result.msg)
-                                )
-                                .appendTo('#status_edit');
-                        }
+
+                        swal({
+                            type: 'success',
+                            title: "Saved!",
+                            confirmButtonColor: '#52D5BE',
+                            text: result.msg
+                        }, function() {
+                            location.reload(true);
+                        });
+                    } else {
+                        // Stop loading
+                        loader.stop();
+                        loader.remove();
+
+                        $('<li/>')
+                            .wrapInner(
+                                $('<span/>')
+                                .attr('class', 'ajax_error')
+                                .html(result.msg)
+                            )
+                            .appendTo('#status_edit');
                     }
                 });
             })

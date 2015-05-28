@@ -1,37 +1,42 @@
 <!-- CREDITS MODAL -->
 <div class="modal fade slide-right" id="billingForm" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-userdashboard">
+  <div class="modal-dialog modal-sm">
     <div class="modal-content-wrapper">
-      <div class="modal-content outer" style="background: #FAFAFA;">
+      <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
         </button>
-        <div class="panel panel-transparent middle password1">
-          <div class="panel-body">
-            <div class="panel-heading" style="padding:0">
-              <div class="panel-title" style="text-transform: none;">
-                <div class="col-sm-12" style="padding-left: 0;">
-                  <img src="assets/img/jobsy_logo_black.png" alt="Jobsy" data-src="assets/img/jobsy_logo_black.png" data-src-retina="assets/img/jobsy_logo_black.png" style="max-width:20%; display: inline-block;">
-                  <p class="bold" style="display: inline-block;padding-left: 20px;font-size: 19px;  position: relative;top: 19px;">MY CREDITS</p>
+        <div class="container-xs-height full-height">
+          <div class="row-xs-height outer">
+            <!-- START ACCOUNT SETTINGS FORM -->
+            <div class="credits-panel middle">
+              <div class="panel panel-default" style="padding-left: 25px;padding-right: 25px;border:0">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <h3>My Credits</h3>
+                  </div>
+                </div>
+                <div class="panel-body text-center" style="height:auto">
+                  <form id="form-credits" role="form">
+                    <div class="row">
+                      <div class="well">
+                        <% if (credits > 1 ) { %>
+                        <h3 class="title">You have <span class="bold"><%= credits %></span> credits</h3>
+                        <% } else { %>
+                        <h3 class="title">You have <span class="bold"><%= credits %></span> credit</h3>
+                        <% } %>
+                        <h5 class="hint-text" style="padding-top:20px;">Click on buttons below to buy more credits</h5>
+                        <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                        <button id="btnBuy1" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">1</h1> <p style="padding-top:10px;">CREDIT</p><span class="bold text-success">RP 50.000</span></button>
+                        <button id="btnBuy5" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">5</h1> <p style="padding-top:10px;">CREDITS</p><span class="bold text-success">RP 250.000</span></button>
+                        <button  id="btnBuy10" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">10</h1> <p style="padding-top:10px;">CREDITS</p><span class="bold text-success">RP 500.000</span></button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-            <br>
-            <br>
-            <br>
-            <form id="form-credits" role="form">
-              <div class="row">
-                <div class="well">
-                  <center>
-                  <h3>You have  <%= credits %> credits</h3>
-                  <h5 class="hint-text">Click on buttons below to buy more credits</h5>
-                  <div class="clearfix"></div>
-                  <div class="clearfix"></div>
-                  <button id="btnBuy1" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">1</h1> <p style="padding-top:15px;">CREDIT</p><br/><span class="bold text-success">RP 50.000</span></button>
-                  <button id="btnBuy5" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">5</h1> <p style="padding-top:15px;">CREDITS</p><br/><span class="bold text-success">RP 250.000</span></button>
-                  <button  id="btnBuy10" class="btn btn-default btn-lg semi-bold"><p style="padding-bottom:15px;">BUY</p> <h1 class="bold" style="line-height:0px;">10</h1> <p style="padding-top:15px;">CREDITS</p><br/><span class="bold text-success">RP 500.000</span></button>
-                </div>
-              </div>
-            </form>
+            <!-- END ACCOUNT SETTINGS FORM -->
           </div>
         </div>
       </div>

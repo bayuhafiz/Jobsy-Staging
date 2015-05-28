@@ -23,19 +23,16 @@ window.showJobs = function(url) {
                     if (data[i].status == 'deleted') {
                         delCounter = delCounter + 1; // Count deleted job
                         timeBadge = '<span class="label label-danger">Deleted on ' + moment(data[i].updatedAt).format('D MMMM YYYY') + '</span>';
-                        timeStamp = '<span class="hint-text pull-right time-stamp">' + moment(data[i].createdAt).startOf('minute').fromNow() + '</span>';
                         badge = '<i status="deleted" class="fa fa-trash-o fa-2x" style="color:#D2D2D2;"></i>';
                         toolbox = '<div class="btn-group"><button data-id="' + data[i]._id + '" id="restoreButton" class="btn btn-white"><i class="fa fa-reply"></i></button></div>';
                     } else if (data[i].status == 'paused') {
                         pauCounter = pauCounter + 1; // Count paused job
                         timeBadge = '<span class="label label-warning">Paused on ' + moment(data[i].updatedAt).format('D MMMM YYYY') + '</span>';
-                        timeStamp = '<span class="hint-text pull-right time-stamp">' + moment(data[i].createdAt).startOf('minute').fromNow() + '</span>';
                         badge = '<i status="paused" class="fa fa-times-circle fa-2x" style="color:#D2D2D2"></i>';
                         toolbox = '<div class="btn-group"><button id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-white"><i class="fa fa-pencil"></i></button><button data-id="' + data[i]._id + '" class="btn btn-white" id="publishButton"><i class="fa fa-refresh"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-white"><i class="fa fa-trash-o"></i></button></div>';
                     } else if (data[i].status == 'published') {
                         pubCounter = pubCounter + 1; // Count published job
                         timeBadge = '<span class="label label-success">Last update on ' + moment(data[i].updatedAt).format('D MMMM YYYY') + '</span>';
-                        timeStamp = '<span class="hint-text pull-right time-stamp">' + moment(data[i].createdAt).startOf('minute').fromNow() + '</span>';
                         badge = '<i status="published" class="fa fa-check-circle fa-2x" style="color:#D2D2D2"></i>';
                         toolbox = '<button href="#" id="editButton" data-target="#EditJob" data-id="' + data[i]._id + '" data-toggle="modal" class="btn btn-white"><i class="fa fa-pencil" data-toggle="" data-original-title="Up here!"></i></button><button data-id="' + data[i]._id + '" id="pauseButton" class="btn btn-white"><i class="fa fa-power-off"></i></button><button data-id="' + data[i]._id + '" id="deleteButton" class="btn btn-white"><i class="fa fa-trash-o"></i></button>';
                     }
@@ -46,11 +43,23 @@ window.showJobs = function(url) {
                         var newApp = '';
                     }
 
+                    if (data[i].app > 1) {
+                        var pl = 's';
+                    } else {
+                        if (data[i].app == 0) {
+                            data[i].app = 'No';
+                            var pl = ' yet';
+                        } else {
+                            var pl = '';
+                        }
+                    }
+
                     // Generate datas
                     dataHtml += '<div class="collapse-card__heading">' +
                         '<div class="collapse-card__title">' +
                         badge + '&nbsp;&nbsp;<span style="font-size:16px!important;">' + data[i].details.jobTitle + '</span>&nbsp;&nbsp;<span class="new-app">' + newApp + '</span>' +
-                        '<span class="time-badge" style="display:none;padding-left:10px;">' + timeBadge + '</span>' + timeStamp +
+                        '<span class="time-badge" style="display:none;padding-left:10px;">' + timeBadge + '</span>' +
+                        '<span class="hint-text pull-right apps">' + data[i].app + ' application' + pl + '</span>' +
                         '<span class="jobs-toolbox pull-right ' + data[i]._id + '" style="display:none;">' + toolbox + '</span>' +
                         '</div>' +
                         '</div>';
@@ -72,18 +81,16 @@ window.showJobs = function(url) {
                                 }
 
                                 $.each(app, function(i) {
-                                    if (app[i].read == false) {
+                                    if (app[i].read == false) { // if it's a new application
                                         var appBadge = '<span class="badge badge-danger appBadge"><i class="fa fa-eye"></i> </span>';
-                                        var status = ' <a href="/app/set/' + app[i]._id + '"><span class="link pull-right"><i class="fa fa-eye"></i> </span></a>';
                                     } else {
                                         var appBadge = '<span class="badge badge-default"><i class="fa fa-eye"></i></span>';
-                                        var status = '';
                                     }
 
-                                    dataHtml += '<p app-id="' + data[i]._id + '" class="app-item">' + appBadge + '  <span class="location">' + app[i].fullName.toUpperCase() + ' (' + app[i].location + ')' + '</span><span class="pull-right small time-apply"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('hour').fromNow() + '</span></p>';
+                                    dataHtml += '<p app-id="' + app[i]._id + '" status="' + app[i].read + '" class="app-item">' + appBadge + '  <span class="location">' + app[i].fullName.toUpperCase() + ' (' + app[i].location + ')' + '</span><span class="pull-right small time-apply"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('hour').fromNow() + '</span></p>';
                                 });
                             } else {
-                                dataHtml += '<p class="text-center" style="color:#9E9E9E"><i class="fa fa-exclamation-circle" style="color:#9E9E9E"></i> No applications yet..</p>';
+                                dataHtml += '<p class="text-center" style="color:#9E9E9E"><i class="fa fa-exclamation-circle" style="color:#9E9E9E"></i> No application yet</p>';
                             }
 
                             dataHtml += '</div>';
@@ -107,63 +114,121 @@ window.showJobs = function(url) {
                     $(this).siblings().find('.jobs-toolbox').css('display', 'none');
                     $(this).siblings().find('.time-badge').hide();
                     $(this).siblings().find('.new-app').show();
-                    $(this).siblings().find('.time-stamp').show();
+                    $(this).siblings().find('.apps').show();
 
                     if ($(this).hasClass('active') == true) {
                         $(this).find('.jobs-toolbox').css('display', 'block');
                         $(this).find('.time-badge').show();
                         $(this).find('.new-app').hide();
-                        $(this).find('.time-stamp').hide();
+                        $(this).find('.apps').hide();
                     } else {
                         $(this).find('.jobs-toolbox').css('display', 'none');
                         $(this).find('.time-badge').hide();
                         $(this).find('.new-app').show();
-                        $(this).find('.time-stamp').show();
+                        $(this).find('.apps').show();
                     }
                     e.preventDefault();
                 });
 
                 // View application details
-                $('.app-item').on('click', function() {
-                    var userCredit = $('#hidden-credits').val();
-                    if (userCredit == '0') {
-                        swal({
-                            type: "error",
-                            title: "Not enough credit",
-                            text: "This action costs you 1 credit and you have 0 credit remaining. Buy more credits?",
-                            showCancelButton: true,
-                            closeOnConfirm: true,
-                            confirmButtonText: "Yes, buy more credits",
-                            confirmButtonColor: "#52D5BE"
-                        }, function() {
-                            $('#billingForm').modal('show');
-                        });
-                    } else {
-                        if (userCredit == '1') {
-                            var s = '';
-                        } else {
-                            var s = 's';
-                        }
-                        swal({
-                            title: "View Application",
-                            text: "This action will cost you 1 credit (you have " + userCredit + " credit" + s + " remaining). Continue?",
-                            showCancelButton: true,
-                            closeOnConfirm: false,
-                            confirmButtonText: "Yes, proceed",
-                            confirmButtonColor: "#52D5BE"
-                        }, function() {
-                            var appId = $(this).attr('app-id');
-                            $.ajax({
-                                url: '/api/job/app' + appId,
-                                type: 'GET',
-                                dataType: 'json',
-                                success: function(result) {
-                                    console.log(result);
-                                }
+                $('.app-item').on('click', function(e) {
+                    var status = $(this).attr('status');
+                    var appId = $(this).attr('app-id');
+                    if (status == 'false') { // If application hasn't been reviewed
+                        var userCredit = $('#hidden-credits').val();
+                        if (userCredit == '0') { // if user doesn't have enough credits
+                            swal({
+                                type: "error",
+                                title: "Not enough credit",
+                                text: "This action costs you 1 credit and you have 0 credit remaining. Buy more credits?",
+                                showCancelButton: true,
+                                closeOnConfirm: true,
+                                confirmButtonText: "Yes, buy more credits",
+                                confirmButtonColor: "#52D5BE"
+                            }, function() {
+                                $('#billingForm').modal('show');
                             });
+                        } else { // if user has enough credits
+                            if (userCredit == '1') {
+                                var s = '';
+                            } else {
+                                var s = 's';
+                            }
+                            swal({
+                                title: "View Application",
+                                text: "This action will cost you 1 credit (you have " + userCredit + " credit" + s + " remaining). Continue?",
+                                showCancelButton: true,
+                                closeOnConfirm: false,
+                                confirmButtonText: "Yes, proceed",
+                                confirmButtonColor: "#52D5BE"
+                            }, function() {
+                                swal.disableButtons();
+                                setTimeout(function() {
+                                    $.ajax({
+                                        method: "GET",
+                                        dataType: "json",
+                                        url: "/api/job/app/" + appId,
+                                        success: function(data) {
+                                            if (data.type == 'error') {
+                                                swal({
+                                                    type: data.type,
+                                                    title: 'Oops..',
+                                                    text: data.msg,
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: "#52D5BE",
+                                                    confirmButtonText: "OK",
+                                                });
+                                            } else {
+                                                swal({
+                                                    title: data.fullName.toUpperCase(),
+                                                    html: '<div class="well"><p>Phone: <strong>' + data.phone + '</strong></p>' +
+                                                        '<p>Email: <strong>' + data.email + '</strong></p>' +
+                                                        '<p>Location: <strong>' + data.location + '</strong></p>' +
+                                                        '<p>Last Job: <strong>' + data.lastJob + '</strong></p><br/>' +
+                                                        '<p>Apply Date: <strong>' + moment(data.applyDate).format('dddd, DD MMMM YYYY') + '</strong></p></div>' +
+                                                        '<div class="well"><p>Cover Letter: <strong>' + data.coverLetter + '</strong></p></div><br/>' +
+                                                        '<p><a href="/download/' + data._id + '" target="_blank">Clik here to download resume file</a></p>',
+                                                    showConfirmButton: true,
+                                                    showCancelButton: false,
+                                                    confirmButtonText: "Close",
+                                                    confirmButtonColor: "#52D5BE",
+                                                    allowOutsideClick: false,
+                                                    allowEscapeKey: false
+                                                }, function() {
+                                                    location.reload();
+                                                });
+                                            }
+                                        }
+                                    });
+                                }, 2000);
+                            });
+                        }
+                    } else { // If application has been reviewed
+                        $.ajax({
+                            url: '/api/job/app/' + appId,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                swal({
+                                    title: data.fullName.toUpperCase(),
+                                    html: '<div class="well"><p>Phone: <strong>' + data.phone + '</strong></p>' +
+                                        '<p>Email: <strong>' + data.email + '</strong></p>' +
+                                        '<p>Location: <strong>' + data.location + '</strong></p>' +
+                                        '<p>Last Job: <strong>' + data.lastJob + '</strong></p><br/>' +
+                                        '<p>Apply Date: <strong>' + moment(data.applyDate).format('dddd, DD MMMM YYYY') + '</strong></p></div>' +
+                                        '<div class="well"><p>Cover Letter: <strong>' + data.coverLetter + '</strong></p></div><br/>' +
+                                        '<p><a href="/download/' + data._id + '" target="_blank">Clik here to download resume file</a></p>',
+                                    showConfirmButton: false,
+                                    showCancelButton: true,
+                                    cancelButtonText: "Close",
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false
+                                });
+                            }
                         });
                     }
 
+                    e.preventDefault();
                 });
 
                 // Pause a job post
@@ -274,7 +339,7 @@ window.showJobs = function(url) {
                         showCancelButton: true,
                         closeOnConfirm: false,
                         confirmButtonText: "Yes, delete it",
-                        confirmButtonColor: "#b2050d"
+                        confirmButtonColor: "#CD5F64"
                     }, function() {
                         swal.disableButtons();
                         setTimeout(function() {
@@ -323,7 +388,7 @@ window.showJobs = function(url) {
                         showCancelButton: true,
                         closeOnConfirm: false,
                         confirmButtonText: "Yes, restore it",
-                        confirmButtonColor: "#b2050d"
+                        confirmButtonColor: "#CD5F64"
                     }, function() {
                         swal.disableButtons();
                         setTimeout(function() {
