@@ -4,6 +4,7 @@
 
     $(document).ready(function() {
 
+     
         // Get logged user email
         var uEmail = $('#user-email').val();
 

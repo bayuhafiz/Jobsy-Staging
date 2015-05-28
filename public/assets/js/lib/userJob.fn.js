@@ -362,6 +362,7 @@ window.showJobs = function(url) {
                     });
                 });
 
+
                 // END OF EVENT HANDLERS
 
                 // Set the job post counter
