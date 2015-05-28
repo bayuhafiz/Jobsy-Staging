@@ -339,7 +339,7 @@ window.showJobs = function(url) {
                         showCancelButton: true,
                         closeOnConfirm: false,
                         confirmButtonText: "Yes, delete it",
-                        confirmButtonColor: "#b2050d"
+                        confirmButtonColor: "#CD5F64"
                     }, function() {
                         swal.disableButtons();
                         setTimeout(function() {
@@ -388,7 +388,7 @@ window.showJobs = function(url) {
                         showCancelButton: true,
                         closeOnConfirm: false,
                         confirmButtonText: "Yes, restore it",
-                        confirmButtonColor: "#b2050d"
+                        confirmButtonColor: "#CD5F64"
                     }, function() {
                         swal.disableButtons();
                         setTimeout(function() {

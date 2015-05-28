@@ -832,7 +832,8 @@
 
 
 
-        // BASIC BUTTONS HANDLER ////
+        // ******* BASIC BUTTONS HANDLER ********
+        // Authentication modal buttons handler
         $('.login-btn').click(function() {
             $('.signUp-panel').hide();
             $('.forgetPass-panel').hide();
@@ -861,7 +862,7 @@
         });
 
 
-        // Account settings modal event handler
+        // Account settings buttons handler
         $('a[href=#account]').click(function() {
             $('#accountModal').modal('show');
             $('div.account-panel').show();
@@ -869,8 +870,18 @@
         });
 
         $('a[href=#pass]').click(function() {
-            $('div.account-panel').hide();
-            $('div.updatePass-panel').show();
+            /*$('div.account-panel').hide();
+            $('div.updatePass-panel').show();*/
+            swal({
+                title: 'Input something',
+                html: '<input id="input-field">',
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function() {
+                swal({
+                    html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
+                });
+            });
         });
 
 
@@ -893,7 +904,7 @@
                 }
             });
         });
-
+        // ******* End of BASIC BUTTONS HANDLER ********
 
 
         // Input masking
