@@ -1367,6 +1367,202 @@
             });
         // EOF
 
+        // EDIT ACCOUNT
+        $('#form-account')
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    firstName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The first name required'
+                            },
+                            stringLength: {
+                                min: 3,
+                                message: 'Must be more than 2 characters long'
+                            }
+                        }
+                    },
+                    lastName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The last name is required'
+                            },
+                            stringLength: {
+                                min: 3,
+                                message: 'Must be more than 2 characters long'
+                            }
+                        }
+                    },
+                    companyName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The company name required'
+                            },
+                            stringLength: {
+                                min: 5,
+                                message: 'Must be more than 4 characters long'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-account'));
+                // Start loading
+                loader.start();
+
+                // Reset the message element when the form is valid
+                $('#status_account').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                // Use Ajax to submit form data
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function(result) {
+                        // ... Process the result ...
+                        if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            swal({
+                                type: 'success',
+                                title: "Updated!",
+                                timer: 3000,
+                                showConfirmButton: false,
+                                text: result.msg
+                            });
+                            setTimeout(function() {
+                                location.reload();
+                            }, 3200);
+                        } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_account');
+                        }
+                    }
+                });
+            })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+            })
+            .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+
+                // Reset the message element when the form is valid
+                $('#status_account').html('');
+            });
+        // EOF
+
+        // UPDATE PASSWORD
+        $('#form-update-pass')
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    newPass: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The new password is required'
+                            },
+                            stringLength: {
+                                min: 4,
+                                message: 'The new password must be more than 3 characters long'
+                            }
+                        }
+                    },
+                    confirmPass: {
+                        validators: {
+                            identical: {
+                                field: 'newPass',
+                                message: 'The password and its confirm are not the same'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-pass'));
+                // Start loading
+                loader.start();
+
+                // Reset the message element when the form is valid
+                $('#status_pass').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                // Use Ajax to submit form data
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function(result) {
+                        // ... Process the result ...
+                        if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+                            swal({
+                                type: 'success',
+                                title: "Your password is updated!",
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE',
+                                confirmButtonText: 'Ok, sign me out...'
+                            }, function() {
+                                $("a[href='#signout']").trigger('click');
+                            });
+                        } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_pass');
+                        }
+                    }
+                });
+            })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+            })
+            .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+
+                // Reset the message element when the form is valid
+                $('#status_pass').html('');
+            });
+        // EOF
+
         // END FORM VALIDATION HANDLER ////////////
 
 
@@ -1825,12 +2021,16 @@
         });
 
 
+        // Account settings buttons handler
         $('a[href=#account]').click(function() {
             $('#accountModal').modal('show');
+            $('div.account-panel').show();
+            $('div.updatePass-panel').hide();
         });
 
         $('a[href=#pass]').click(function() {
-            swal('Hi!')
+            $('div.account-panel').hide();
+            $('div.updatePass-panel').fadeIn();
         });
 
 
@@ -1937,22 +2137,6 @@
             $('.signUp-panel').hide();
             $('.signIn-panel').hide();
             $('.forgetPass-panel').fadeIn('3000').css({
-                'display': 'table-cell',
-                'vertical-align': 'middle'
-            });
-        });
-
-        $('.updatePassword-btn').click(function() {
-            $('.password1').hide();
-            $('.password2').fadeIn('3000').css({
-                'display': 'table-cell',
-                'vertical-align': 'middle'
-            });
-        });
-
-        $('.btn-cancel-reset').click(function() {
-            $('.password2').hide();
-            $('.password1').fadeIn('3000').css({
                 'display': 'table-cell',
                 'vertical-align': 'middle'
             });

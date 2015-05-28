@@ -713,6 +713,96 @@
             });
         // EOF
 
+        // UPDATE PASSWORD
+        $('#form-update-pass')
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    newPass: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The new password is required'
+                            },
+                            stringLength: {
+                                min: 4,
+                                message: 'The new password must be more than 3 characters long'
+                            }
+                        }
+                    },
+                    confirmPass: {
+                        validators: {
+                            identical: {
+                                field: 'newPass',
+                                message: 'The password and its confirm are not the same'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-pass'));
+                // Start loading
+                loader.start();
+
+                // Reset the message element when the form is valid
+                $('#status_pass').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                // Use Ajax to submit form data
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function(result) {
+                        // ... Process the result ...
+                        if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+                            swal({
+                                type: 'success',
+                                title: "Your password is updated!",
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE',
+                                confirmButtonText: 'Ok, sign me out...'
+                            }, function() {
+                                $("a[href='#signout']").trigger('click');
+                            });
+                        } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_pass');
+                        }
+                    }
+                });
+            })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+            })
+            .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-account').removeClass('disable');
+
+                // Reset the message element when the form is valid
+                $('#status_pass').html('');
+            });
+        // EOF
+
         // END FORM VALIDATION HANDLER ////////////
 
 
@@ -761,7 +851,13 @@
 
         // Check session to init switch state
         var stat = localStorage['switch_checked'];
-        if (stat) {
+        console.log(stat);
+        if ((stat == undefined) || (!stat)) {
+            console.log('1st if entered');
+            showJobs('/api/jobs/' + uEmail + '/hide');
+            localStorage['switch_checked'] = 'hide'; // save to session
+        } else {
+            console.log('2nd if entered');
             if (stat == 'hide') {
                 showJobs('/api/jobs/' + uEmail + '/hide');
             } else if (stat == 'show') {
@@ -771,8 +867,6 @@
                     onChange(elem);
                 }
             }
-        } else {
-            showJobs('/api/jobs/' + uEmail + '/hide');
         }
         // END OF SWITCHERY //////////////////////////
 
@@ -877,7 +971,6 @@
         $('a[href=#pass]').click(function() {
             $('div.account-panel').hide();
             $('div.updatePass-panel').fadeIn();
-
         });
 
 

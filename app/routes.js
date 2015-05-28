@@ -667,6 +667,32 @@ module.exports = function(app, passport) {
             });
         });
     });
+    // update user password -----------------------------------
+    app.post('/api/account/pass', isLoggedIn, function(req, res) {
+        User.findById(req.user.id, function(err, user) {
+            if (err) {
+                res.json({
+                    'type': 'error',
+                    'msg': 'No such account exists'
+                });
+                return;
+            }
+            user.password = user.generateHash(req.body.newPass);
+            user.save(function(err) {
+                if (err) {
+                    res.json({
+                        'type': 'error',
+                        'msg': err
+                    });
+                    return;
+                }
+                res.json({
+                    'type': 'success',
+                    'msg': 'You will be automatically signed out. And you will be able to re-signin later using your new password.'
+                });
+            });
+        });
+    });
 
 
     // =========================== JOB MANIPULATIONS APIs ==========================
