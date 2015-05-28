@@ -871,18 +871,9 @@
         });
 
         $('a[href=#pass]').click(function() {
-            /*$('div.account-panel').hide();
-            $('div.updatePass-panel').show();*/
-            swal({
-                title: 'Input something',
-                html: '<input id="input-field">',
-                showCancelButton: true,
-                closeOnConfirm: false
-            }, function() {
-                swal({
-                    html: 'You entered: <strong>' + $('#input-field').val() + '</strong>'
-                });
-            });
+            $('div.account-panel').hide();
+            $('div.updatePass-panel').fadeIn();
+            
         });
 
 
