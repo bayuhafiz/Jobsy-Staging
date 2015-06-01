@@ -90,7 +90,7 @@ window.showJobs = function(url) {
                                     dataHtml += '<p app-id="' + app[i]._id + '" status="' + app[i].read + '" class="app-item">' + appBadge + '  <span class="location">' + app[i].fullName.toUpperCase() + ' (' + app[i].location + ')' + '</span><span class="pull-right small time-apply"><i class="pg-clock"></i> ' + moment(app[i].applyDate).startOf('hour').fromNow() + '</span></p>';
                                 });
                             } else {
-                                dataHtml += '<p class="text-center" style="color:#9E9E9E"><i class="fa fa-exclamation-circle" style="color:#9E9E9E"></i> No application yet</p>';
+                                dataHtml += '<p class="text-center" style="color:#9E9E9E"><i class="fa fa-exclamation-circle" style="color:#9E9E9E"></i> No applicants yet</p>';
                             }
 
                             dataHtml += '</div>';
