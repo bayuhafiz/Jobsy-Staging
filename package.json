@@ -3,7 +3,7 @@
   "main": "server.js",
   "dependencies": {
     "agentkeepalive": "^2.0.2",
-    "algolia-search": "^1.8.3",
+    "algoliasearch": "^3.4.0",
     "async": "^0.9.0",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",

@@ -74,6 +74,12 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 //require('./app/seeding/job.js'); // loads sample job
 require('./app/seeding/user.js'); // loads sample user
 
+// 404 error handler ===========================================================
+app.use(function(req, res, next){
+  res.status(404);
+  res.redirect('/');
+});
+
 // PMX Monitoring setting ======================================================
 app.use(pmx.expressErrorHandler());
 

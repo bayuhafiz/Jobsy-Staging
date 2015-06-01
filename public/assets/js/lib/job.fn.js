@@ -146,23 +146,23 @@ window.loadJobList = function(apiUrl) {
                                         'right': '-240px'
                                     });
 
-                                if(li.children('.apply-btn').children('p').text() == 'Logout to apply'){
+                                if (li.children('.apply-btn').children('p').text() == 'Logout to apply') {
                                     li.find('.datetime').animate({
-                                        'right': '190px'
-                                    }).end().siblings()
-                                    .find('.datetime').animate({
-                                        'right': '20px'
-                                    });
+                                            'right': '190px'
+                                        }).end().siblings()
+                                        .find('.datetime').animate({
+                                            'right': '20px'
+                                        });
                                 } else {
                                     li.find('.datetime').animate({
-                                        'right': '160px'
-                                    }).end().siblings()
-                                    .find('.datetime').animate({
-                                        'right': '20px'
-                                    });
+                                            'right': '160px'
+                                        }).end().siblings()
+                                        .find('.datetime').animate({
+                                            'right': '20px'
+                                        });
                                 }
 
-                                    
+
 
                                 $('.details-list-box').css({
                                     'position': 'relative'
@@ -351,9 +351,17 @@ window.loadJobListMobile = function(apiUrl) {
 // APPLY FILTERS FUNCTION ===============================================
 window.applyFilters = function() {
     var filters = $.map($("select.job-filter-dropdown").toArray(), function(e) {
+        if ($(e).val() == 'all') {
+            return 'all'
+        }
         return $(e).val();
     }).join("/");
 
+    var keyword = $('.searchJob').val();
+    if (keyword == '') {
+        keyword = null;
+    }
+    var combination = filters + '/' + keyword;
     // run the load job list function
-    loadJobList('/api/jobs/' + filters);
+    loadJobList('/api/search/' + combination);
 };

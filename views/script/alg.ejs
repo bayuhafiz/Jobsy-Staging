@@ -1,23 +1,84 @@
 <!-- BEGIN VENDOR JS -->
 <script src="../assets/plugins/pace/pace.min.js"></script>
-<script src="../assets/plugins/jquery/jquery-1.8.3.min.js"></script>
+<script src="../assets/plugins/jquery/jquery-2.1.4.min.js"></script>
 <script src="../assets/plugins/modernizr.custom.js"></script>
 <script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="../assets/plugins/boostrapv3/js/bootstrap.min.js"></script>
 <script src="../assets/plugins/jquery/jquery-easy.js"></script>
-<script src="../assets/plugins/jquery-unveil/jquery.unveil.min.js"></script>
-<script src="../assets/plugins/jquery-bez/jquery.bez.min.js"></script>
-<script src="../assets/plugins/jquery-ios-list/jquery.ioslist.min.js"></script>
-<script src="../assets/plugins/jquery-actual/jquery.actual.min.js"></script>
-<script src="../assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="../assets/plugins/bootstrap-select2/select2.min.js"></script>
 <script src="../assets/plugins/classie/classie.js"></script>
-<script src="../assets/plugins/switchery/js/switchery.min.js"></script>
-<script src="../assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="../assets/plugins/sweetalert.min.js"></script>
+<script src="../assets/plugins/pages.min.js"></script>
 <!-- END VENDOR JS -->
 <!-- BEGIN CORE TEMPLATE JS -->
-<script src="../assets/plugins/pages.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.jquery.min.js"></script>
+<script>
+$(function() {
+	var host = window.location.hostname;
+	var header = '<a href="http://' + host + '"><img src="../assets/img/jobsy_logo_black.png" style="max-width:280px;margin-bottom:40px;"><span class="bold hint-text" style="font-size:16px;">Search Engine Control Center</span></a>';
+	$('.header-container').html(header);
+
+	// Algolia configs
+	var client = $.algolia.Client('20UKM519YF', 'bb40991e62859047d5ee6ce436f0ee59');
+  	var index_jobs = client.initIndex('Jobs');
+  	var index_ujobs = client.initIndex('User-jobs');
+
+	// initial import button
+	$('#init').click(function() {
+		$.get('/alg/init', function(data) {
+			swal({
+				type: data.type,
+				title: data.title,
+				html: '<div class="well">' + 
+							'<p>Status codes: ' + data.msg.httpCode + '</p>' +
+							'<p>Task ID: ' + data.msg.taskID + '</p>' +
+							'<p>Updated at: ' + data.msg.updatedAt + '</p>' +
+						'</div>'
+			})
+		});
+	})
+
+	// clear index button
+	$('#clear').click(function() {
+		$.get('/alg/clear', function(data) {
+			swal({
+				type: data.type,
+				title: data.title,
+				html: '<div class="well">' + 
+							'<p>Status codes: ' + data.msg.httpCode + '</p>' +
+							'<p>Task ID: ' + data.msg.taskID + '</p>' +
+							'<p>Updated at: ' + data.msg.updatedAt + '</p>' +
+						'</div>'
+			})
+		});
+	})
+
+	// init button
+	$('#display').click(function() {
+		// Get first page
+		index_jobs.browse(0, function(err, content) {
+		  	$.each(content, function(i, item) {
+				console.log(JSON.stringify(item));
+			})
+		});
+	})
+
+	// init button
+	$('#show_logs').click(function() {
+		// Get last 100 log entries
+		client.getLogs(0, 10, function(err, content) {
+			$.each(content, function(i, item) {
+				console.log(JSON.stringify(item));
+			})
+		  	/*swal({
+				title: 'Showing logs..',
+				html: '<div class="panel panel-default">' + 
+							JSON.stringify(content) +
+						'</div>'
+			})*/
+		});
+	})
+    
+
+});
+</script>
 <!-- END CORE TEMPLATE JS -->
-<!-- BEGIN PAGE LEVEL JS -->
-<script src="../assets/plugins/scripts.js"></script>
-<!-- END PAGE LEVEL JS -->

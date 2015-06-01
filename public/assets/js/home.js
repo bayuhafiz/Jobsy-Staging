@@ -1827,20 +1827,10 @@
 
 
         //////////////// SEARCH INPUT HANDLER //////////////
-        $(".searchJob").on("keyup", function(e) {
-            var keyword = $(this).val();
-            // clear job list
-            clearJobList();
-            // call search function
-            loadJobList('/api/search/' + keyword);
-
-            e.preventDefault;
+        $(".searchJob").on("keyup", function() {
+            // Apply the filters
+            applyFilters();
         });
-
-        /*$('.searchJob').blur(function () {
-             $('.filter-box').css('display','none');
-        });*/
-
 
         $('body').on("click", '.clear-search', function() {
             if ($(".searchJob").val() != '') {
@@ -1874,8 +1864,6 @@
             }
         });
         ///////////// END OF SEARCH INPUT HANDLER //////////////
-
-
 
 
         ////////////////// DROPDOWN FILTERS HANDLER //////////////////
@@ -1919,13 +1907,13 @@
         $('body').on('click', '.tags_filter_close', function() {
             var tag_type = $(this).parent('span').attr('class');
 
-            /*if (tag_type == 'category_tag') {
-                $("select#category-filter").select2("val", "");
+            if (tag_type == 'category_tag') {
+                $("select#category-filter").select2("val", "all");
             } else if (tag_type == 'location_tag') {
-                $("select#location-filter").select2("val", "");
+                $("select#location-filter").select2("val", "all");
             } else if (tag_type == 'jobType_tag') {
-                $("select#jobType-filter").select2("val", "");
-            }*/
+                $("select#jobType-filter").select2("val", "all");
+            }
             $(this).siblings('span').html('').parent('span').css('display', 'none');
 
             // Apply the filters
@@ -1944,9 +1932,11 @@
         });
 
         // Handler for reset button
-        $("#btn-clear-filters").click(function(e) {
+        $("#btn-clear-filters").click(function() {
             // Reset all filters' value
             $("select.job-filter-dropdown").select2('val', 'all');
+            $(".searchJob").val() = '';
+            $(".searchJob").attr('placeholder', 'Search here..');
             // Hide all tags
             $('span.searchJob_tag span.category_tag').hide();
             $('span.searchJob_tag span.category_tag span').text('');
@@ -1954,12 +1944,9 @@
             $('span.searchJob_tag span.location_tag span').text('');
             $('span.searchJob_tag span.jobType_tag').hide();
             $('span.searchJob_tag span.jobType_tag span').text('');
+
             // Apply the filters
             applyFilters();
-
-            $(".searchJob").val('').attr('placeholder', 'Search here..');
-
-            e.preventDefault();
         });
 
         //////////////// END OF FILTERS HANDLER //////////////

@@ -34,13 +34,13 @@ var App = require('./models/app');
 var Pay = require('./models/pay');
 // Algolia-search configuration ================================================
 var HttpsAgent = require('agentkeepalive').HttpsAgent;
-var Algolia = require('algolia-search');
+var Algolia = require('algoliasearch');
 var keepaliveAgent = new HttpsAgent({
     maxSockets: 1,
     maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
-var client = new Algolia('20UKM519YF', 'bb40991e62859047d5ee6ce436f0ee59', keepaliveAgent);
+var client = new Algolia('LQIQTYPQLJ', 'c0680524196d5901138dced4e533f46b', keepaliveAgent);
 // Here are our precious module
 module.exports = function(app, passport) {
 
@@ -1388,19 +1388,89 @@ module.exports = function(app, passport) {
         });
     });
     // Search all published jobs based on keywords :: AlgoliaSearch powered ::
-    app.get('/api/search/:keyword', function(req, res) {
+    app.get('/api/search/:category/:location/:jobType/:keyword', function(req, res) {
         var host = req.host; // checking host to determine index
         if (host == 'localhost') {
             var index = client.initIndex('Jobs-local');
         } else {
             var index = client.initIndex('Jobs');
         }
-        var keyword = req.params.keyword;
-        index.search(keyword, function(err, content) {
+
+        // Declare the filters vars
+        var key = req.params.keyword,
+            cat = req.params.category,
+            loc = req.params.location,
+            typ = req.params.jobType;
+
+        // Setting up keywords
+        if (key == 'null') {
+            var keySet = ''
+        } else {
+            var keySet = key;
+        }
+
+        // Setting up filters logic
+        if ((cat != 'all') && (loc != 'all') && (typ != 'all')) {
+            var filters = [
+                'details.category:' + cat,
+                'profile.location:' + loc,
+                'details.jobType:' + typ
+            ];
+        } else if ((cat == 'all') && (loc != 'all') && (typ != 'all')) {
+            var filters = [
+                'profile.location:' + loc,
+                'details.jobType:' + typ
+            ];
+        } else if ((cat != 'all') && (loc == 'all') && (typ != 'all')) {
+            var filters = [
+                'details.category:' + cat,
+                'details.jobType:' + typ
+            ];
+        } else if ((cat != 'all') && (loc != 'all') && (typ == 'all')) {
+            var filters = [
+                'details.category:' + cat,
+                'profile.location:' + loc
+            ];
+        } else if ((cat != 'all') && (loc == 'all') && (typ == 'all')) {
+            var filters = [
+                'details.category:' + cat
+            ];
+        } else if ((cat == 'all') && (loc != 'all') && (typ == 'all')) {
+            var filters = [
+                'profile.location:' + loc
+            ];
+        } else if ((cat == 'all') && (loc == 'all') && (typ != 'all')) {
+            var filters = [
+                'details.jobType:' + typ
+            ];
+        } else if ((cat == 'all') && (loc == 'all') && (typ == 'all')) {
+            var filters = '';
+        }
+        // building up the sentence
+        if (filters == '') {
+            var facetSet = {
+                facets: '*'
+            }
+        } else {
+            var facetSet = {
+                facets: '*',
+                facetFilters: filters
+            }
+        }
+
+        // faceting setting
+        index.setSettings({attributesForFaceting: ['details.category', 'profile.location', 'details.jobType']});
+
+        // begin the search
+        index.search(keySet, facetSet, function(err, content) {
             if (err) {
-                console.error(err);
+                res.json({
+                    error: "error",
+                    msg: err
+                });
                 return;
             }
+
             // Begin processing the results
             var arr = [];
             var ids = [];
@@ -1434,96 +1504,6 @@ module.exports = function(app, passport) {
         }, function(err, jobs) {
             res.json(jobs);
         });
-    });
-    // Fetch all published jobs based on filters
-    app.get('/api/jobs/:category/:location/:jobType', function(req, res) {
-        // ----------------------------- Filters w/ one 'all' -----------------------------
-        if ((req.params.category == 'all') && (req.params.location != 'all') && (req.params.jobType != 'all')) {
-            var filter = {
-                $and: [{
-                    'status': "published"
-                }, {
-                    'profile.location': req.params.location
-                }, {
-                    'details.jobType': req.params.jobType
-                }]
-            };
-        } else if ((req.params.category != 'all') && (req.params.location == 'all') && (req.params.jobType != 'all')) {
-            var filter = {
-                $and: [{
-                    'status': "published"
-                }, {
-                    'details.category': req.params.category
-                }, {
-                    'details.jobType': req.params.jobType
-                }]
-            };
-        } else if ((req.params.category != 'all') && (req.params.location != 'all') && (req.params.jobType == 'all')) {
-            var filter = {
-                $and: [{
-                    'status': "published"
-                }, {
-                    'profile.location': req.params.location
-                }, {
-                    'details.category': req.params.category
-                }]
-            };
-        }
-        // -------------------------- Filters with 2 'all's ------------------------
-        if ((req.params.category == 'all') && (req.params.location == 'all') && (req.params.jobType != 'all')) {
-            var filter = {
-                $and: [{
-                    'status': "published"
-                }, {
-                    'details.jobType': req.params.jobType
-                }]
-            };
-        } else if ((req.params.category == 'all') && (req.params.location != 'all') && (req.params.jobType == 'all')) {
-            var filter = {
-                $and: [{
-                    'status': "published"
-                }, {
-                    'profile.location': req.params.location
-                }]
-            };
-        } else if ((req.params.category != 'all') && (req.params.location == 'all') && (req.params.jobType == 'all')) {
-            var filter = {
-                $and: [{
-                    'status': "published"
-                }, {
-                    'details.category': req.params.category
-                }]
-            };
-        }
-        // ---------------------------- Filters with 3 'all's ----------------------------
-        else if ((req.params.category == 'all') && (req.params.location == 'all') && (req.params.jobType == 'all')) {
-            var filter = {
-                'status': "published"
-            };
-        }
-        // ---------------------------- Filters with NO 'all' ----------------------------
-        else if ((req.params.category != 'all') && (req.params.location != 'all') && (req.params.jobType != 'all')) {
-            var filter = {
-                $and: [{
-                    'status': "published"
-                }, {
-                    'profile.location': req.params.location
-                }, {
-                    'details.jobType': req.params.jobType
-                }, {
-                    'details.category': req.params.category
-                }]
-            };
-        }
-        // ============================= Execute the filters ==============================
-        Job.find(filter, null, {
-                sort: {
-                    createdAt: -1
-                }
-            },
-            function(err, jobs) {
-                res.json(jobs);
-            });
     });
     // Fetch user related jobs
     app.get('/api/jobs/:email/:condition', function(req, res) {
@@ -1586,14 +1566,21 @@ module.exports = function(app, passport) {
     });
 
 
-    // ============================ ALGOLIA SEARCH APIs ============================
+    // ============================ ALGOLIA CC APIs ============================
+    // Redirect to secure http
     app.get('/alg', function(req, res) {
+        res.redirect('https://' + req.host + '/alg-cc');
+    });
+
+    app.get('/alg-cc', function(req, res) {
         res.render('alg', {
             msg: 'Select action by clicking buttons below',
             datas: 'none',
             title: 'Algolia Control Center'
         });
     });
+
+
     app.get('/alg/init', function(req, res) {
         var host = req.host; // checking host to determine index
         if (host == 'localhost') {
@@ -1642,13 +1629,16 @@ module.exports = function(app, passport) {
                     // Save the datas
                     index.saveObject(arr, function(err, content) {
                         if (err) {
-                            console.error(err);
+                            res.json({
+                                type: 'error',
+                                msg: err,
+                            });
                             return;
                         }
-                        res.render('alg', {
-                            msg: 'Pushing database.. Done!',
-                            datas: JSON.stringify(content),
-                            title: 'Initial Import'
+                        res.json({
+                            type: 'success',
+                            msg: content,
+                            title: 'Initial Import..'
                         });
                     });
                 }
@@ -1664,13 +1654,16 @@ module.exports = function(app, passport) {
         }
         index.clearIndex(function(err, content) {
             if (err) {
-                console.error(err);
+                res.json({
+                    type: 'error',
+                    msg: err,
+                });
                 return;
             }
-            res.render('alg', {
-                msg: 'Clearing index.. Done!',
-                datas: JSON.stringify(content),
-                title: 'Clear Index'
+            res.json({
+                type: 'success',
+                msg: content,
+                title: 'Clearing index..'
             });
         });
     });
@@ -1681,24 +1674,54 @@ module.exports = function(app, passport) {
             objectID: 'myID1'
         }, function(err, content) {
             if (err) {
-                console.error(err);
+                res.json({
+                    type: 'error',
+                    msg: err,
+                });
                 return;
             }
-            console.log(content);
+            res.json({
+                type: 'success',
+                msg: JSON.stringify(content),
+                title: 'Updating data..'
+            });
         });
     });
     app.get('/alg/delete/:id', function(req, res) {
         var id = req.params.id;
         index.deleteObject(id, function(err) {
             if (err) {
-                res.send(err);
+                res.json({
+                    type: 'error',
+                    msg: err,
+                });
                 return;
             } else {
-                res.send("Object has been successfully deleted..");
+                res.json({
+                    type: 'success',
+                    msg: JSON.stringify(content),
+                    title: 'Deleting data..'
+                });
             }
         });
     });
     // ======================== END of ALGOLIA SEARCH APIs =========================
+
+    // =========================== ADMINM PANEL ROUTES =============================
+    // Admin panel Routes
+    app.get('/admin/:token', function(req, res) {
+        if (req.params.token === 'hello123') {
+            res.redirect('https://' + req.host + '/cc');
+        } else {
+            res.redirect('/');
+        }
+    });
+    app.get('/cc', function(req, res) {
+        res.render('admin/index', {
+            title: 'Jobsy CC'
+        });
+    });
+    // End of admin panel
 
     // END OF API ROUTES ===========================================================
     // =============================================================================
