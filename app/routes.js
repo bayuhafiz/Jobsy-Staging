@@ -40,7 +40,7 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
-var client = new Algolia('LQIQTYPQLJ', 'c0680524196d5901138dced4e533f46b', keepaliveAgent);
+var client = new Algolia('1IXSQ1XCPL', 'b4ab77b5fc7aeb09011e8291599d90e4', keepaliveAgent);
 // Here are our precious module
 module.exports = function(app, passport) {
 
@@ -1571,7 +1571,6 @@ module.exports = function(app, passport) {
     app.get('/alg', function(req, res) {
         res.redirect('https://' + req.host + '/alg-cc');
     });
-
     app.get('/alg-cc', function(req, res) {
         res.render('alg', {
             msg: 'Select action by clicking buttons below',
@@ -1579,8 +1578,6 @@ module.exports = function(app, passport) {
             title: 'Algolia Control Center'
         });
     });
-
-
     app.get('/alg/init', function(req, res) {
         var host = req.host; // checking host to determine index
         if (host == 'localhost') {
@@ -1707,7 +1704,7 @@ module.exports = function(app, passport) {
     });
     // ======================== END of ALGOLIA SEARCH APIs =========================
 
-    // =========================== ADMINM PANEL ROUTES =============================
+    // =========================== ADMIN PANEL ROUTES =============================
     // Admin panel Routes
     app.get('/admin/:token', function(req, res) {
         if (req.params.token === 'hello123') {
