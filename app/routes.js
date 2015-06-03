@@ -1571,7 +1571,6 @@ module.exports = function(app, passport) {
     app.get('/alg', function(req, res) {
         res.redirect('https://' + req.host + '/alg-cc');
     });
-
     app.get('/alg-cc', function(req, res) {
         res.render('alg', {
             msg: 'Select action by clicking buttons below',
@@ -1579,8 +1578,6 @@ module.exports = function(app, passport) {
             title: 'Algolia Control Center'
         });
     });
-
-
     app.get('/alg/init', function(req, res) {
         var host = req.host; // checking host to determine index
         if (host == 'localhost') {
@@ -1707,7 +1704,7 @@ module.exports = function(app, passport) {
     });
     // ======================== END of ALGOLIA SEARCH APIs =========================
 
-    // =========================== ADMINM PANEL ROUTES =============================
+    // =========================== ADMIN PANEL ROUTES =============================
     // Admin panel Routes
     app.get('/admin/:token', function(req, res) {
         if (req.params.token === 'hello123') {

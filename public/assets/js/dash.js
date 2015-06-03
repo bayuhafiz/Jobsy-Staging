@@ -914,12 +914,16 @@
 
 
         // APPLICATION SEARCH HANDLER ////
-        $(".searchApplicant").on("keyup", function() {
+        /*$(".searchApplicant").on("keyup", function() {
             var g = $(this).val().toLowerCase();
             $("div.collapse-card").each(function() {
                 var s = $(this).text().toLowerCase();
                 $(this).closest('div')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
             });
+        });*/
+
+        $('#searchJob').hideseek({
+            highlight: true
         });
 
         // Reset/clear form function /////
