@@ -1584,6 +1584,7 @@
 
             $('.job-apply').hide();
 
+
             $(this).find('.apply-btn').animate({
                     'right': '0px'
                 }).end().siblings()
@@ -2088,12 +2089,12 @@
                 $('.email-list').removeClass('slideLeft');
                 $('.email-sidebar').show();
             }
+
         });
 
-        $("a[href='#list']").click(function() {
-            // show dropdown filter (mobile only)
-            $('.mobile-dropdown').show();
-        });
+
+
+        
 
 
         $('.attach-btn').click(function() {

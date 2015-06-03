@@ -992,6 +992,15 @@ span.searchJob_tag span i {
     }
 }
 
+@media(max-width: 672px){
+    .signIn-link{
+        display: none;
+    }
+    .mobile-dropdown{
+        display: block!important;
+    }
+}
+
 @media(max-width: 768px) {
     .applicant-icon {
         display: none!important;
@@ -1003,11 +1012,9 @@ span.searchJob_tag span i {
     .salary-type {
         margin-top: 10px;
     }
-    .modal.fade.slide-right .modal-dialog {
-        width: auto;
-    }
+    
     .notification-panel {
-        width: 100%!important;
+        width: 92%!important;
     }
     .header .search-link input {
         width: 90%!important;
@@ -1098,6 +1105,10 @@ span.searchJob_tag span i {
 }
 
 @media(max-width: 991px) {
+    .modal.fade.slide-right .modal-dialog {
+        width: auto;
+    }
+
     .apply-job-btn {
         width: 85%
     }
@@ -1130,12 +1141,10 @@ span.searchJob_tag span i {
         top: 30%;
     }
     .notification-toggle {
-        left: -300px!important;
+        left: -288%!important;
         z-index: 10000000!important
     }
-    .notification-panel {
-        width: 400px;
-    }
+
     .email-wrapper .email-opened .email-content-wrapper {
         height: 100%;
     }
