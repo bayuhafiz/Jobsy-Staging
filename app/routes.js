@@ -40,7 +40,7 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
-var client = new Algolia('LQIQTYPQLJ', 'c0680524196d5901138dced4e533f46b', keepaliveAgent);
+var client = new Algolia('1IXSQ1XCPL', 'b4ab77b5fc7aeb09011e8291599d90e4', keepaliveAgent);
 // Here are our precious module
 module.exports = function(app, passport) {
 
