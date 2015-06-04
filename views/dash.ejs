@@ -62,6 +62,10 @@
       <% include ./partial/modal_edit %>
       <% include ./partial/modal_post %>
       <% include ./partial/modal_app %>
+        <% if (user.type == 'admin') { %>
+          <% include ./partial/modal_custom_post %>
+          <% include ./partial/modal_invitation %>
+        <% } %>
       <% } else { %>
       <% include ./partial/modal_auth %>
       <% } %>

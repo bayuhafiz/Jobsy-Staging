@@ -1459,7 +1459,9 @@ module.exports = function(app, passport) {
         }
 
         // faceting setting
-        index.setSettings({attributesForFaceting: ['details.category', 'profile.location', 'details.jobType']});
+        index.setSettings({
+            attributesForFaceting: ['details.category', 'profile.location', 'details.jobType']
+        });
 
         // begin the search
         index.search(keySet, facetSet, function(err, content) {
@@ -1705,19 +1707,18 @@ module.exports = function(app, passport) {
     // ======================== END of ALGOLIA SEARCH APIs =========================
 
     // =========================== ADMIN PANEL ROUTES =============================
-    // Admin panel Routes
+    // index page
     app.get('/admin/:token', function(req, res) {
         if (req.params.token === 'hello123') {
-            res.redirect('https://' + req.host + '/cc');
+            res.render('admin/index', {
+                title: 'Jobsy CC'
+            });
         } else {
             res.redirect('/');
         }
     });
-    app.get('/cc', function(req, res) {
-        res.render('admin/index', {
-            title: 'Jobsy CC'
-        });
-    });
+
+    
     // End of admin panel
 
     // END OF API ROUTES ===========================================================
