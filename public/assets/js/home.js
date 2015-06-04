@@ -1578,11 +1578,42 @@
         // ========================
         // START EVENT HANDLERS ===
         // ========================
+    
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
 
             $('.job-apply').hide();
+
+            if ($(window).width() <= 991) {
+                console.log('kurang dari 991px');
+            } else if ($(window).width() >= 991) {
+                console.log('lebih dari 991px');
+
+
+                $('.details-list-box').css({
+                    'position': 'relative'
+                })
+                $(this).find('.details-list-box').animate({
+                    'left': '-110px'
+                }).end().siblings()
+                .find('.details-list-box').animate({
+                    'left': '0px'
+                });
+
+
+                $('.img-list-box').css({
+                    'position': 'relative'
+                })
+                $(this).find('.img-list-box').animate({
+                    'left': '-120px'
+                }).end().siblings()
+                .find('.img-list-box').animate({
+                    'left': '0px'
+                });
+
+
+            };
 
 
             $(this).find('.apply-btn').animate({
@@ -1609,26 +1640,6 @@
                     });
             }
 
-
-            $('.details-list-box').css({
-                'position': 'relative'
-            })
-            $(this).find('.details-list-box').animate({
-                    'left': '-110px'
-                }).end().siblings()
-                .find('.details-list-box').animate({
-                    'left': '0px'
-                });
-
-            $('.img-list-box').css({
-                'position': 'relative'
-            })
-            $(this).find('.img-list-box').animate({
-                    'left': '-120px'
-                }).end().siblings()
-                .find('.img-list-box').animate({
-                    'left': '0px'
-                });
 
 
             $('.list-view-group-container li').attr('data', '');

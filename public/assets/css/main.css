@@ -1130,7 +1130,9 @@ span.searchJob_tag span i {
 }
 
 @media(max-width: 991px) {
-
+    .img-list-box,.details-list-box{
+        left: 0!important
+    }
     .header .search-link{
         display: inline-block;
         position: absolute;
