@@ -999,9 +999,34 @@ span.searchJob_tag span i {
     .mobile-dropdown{
         display: block!important;
     }
+
+    .category_filter_dropdown,
+    .location_filter_dropdown,
+    .jobType_filter_dropdown {
+           width: 249px!important;
+    }
 }
 
 @media(max-width: 768px) {
+    div.category_filter_dropdown ul.select2-results li,
+    div.location_filter_dropdown ul.select2-results li,
+    div.jobType_filter_dropdown ul.select2-results li {
+        display: block;
+    }
+
+    .category_filter_dropdown,
+    .location_filter_dropdown,
+    .jobType_filter_dropdown {
+        background: #fff!important;
+    }
+
+    .filter-box {
+        display: none!important;
+    }
+
+    .header .search-link{
+        display: none!important;
+    }
     .applicant-icon {
         display: none!important;
     }
@@ -1105,6 +1130,12 @@ span.searchJob_tag span i {
 }
 
 @media(max-width: 991px) {
+
+    .header .search-link{
+        display: inline-block;
+        position: absolute;
+        left: 99px;
+    }
     .modal.fade.slide-right .modal-dialog {
         width: auto;
     }
@@ -1185,37 +1216,18 @@ span.searchJob_tag span i {
         position: initial;
         z-index: initial
     }
-    .filter-box {
-        display: none!important;
-    }
+    
     .modal-dialog-userdashboard .panel.panel-transparent .panel-body.panel-body-custom {
         width: 95%
     }
-    .category_filter_dropdown,
-    .location_filter_dropdown,
-    .jobType_filter_dropdown {
-        background: #fff!important;
-    }
+    
     div.category_filter_dropdown ul.select2-results .select2-highlighted,
     div.location_filter_dropdown ul.select2-results .select2-highlighted,
     div.jobType_filter_dropdown ul.select2-results .select2-highlighted {
         background: #f0f0f0!important;
     }
-    div.category_filter_dropdown ul.select2-results li,
-    div.location_filter_dropdown ul.select2-results li,
-    div.jobType_filter_dropdown ul.select2-results li {
-        display: block;
-    }
-    .category_filter_dropdown,
-    .location_filter_dropdown,
-    .jobType_filter_dropdown {
-        width: 326px!important
-    }
-    .category_filter_dropdown,
-    .location_filter_dropdown,
-    .jobType_filter_dropdown {
-        width: 326px!important
-    }
+    
+ 
     .email-wrapper .email-list {
         width: 100%;
     }
