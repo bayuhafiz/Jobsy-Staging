@@ -79,7 +79,7 @@
                 
             </div>
         </div>
-        <div class=" pull-right">
+        <div class=" pull-right" style="  position: absolute;right: 23px;top:-4px;">
             <!-- START User Info-->
             <% if (user) { %>
             <div class="dropdown-default theeee">
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <% } else { %>
-            <div class="visible-lg visible-md">
+            <div class="signIn-link">
                 <nav class="cl-effect-5" style="font-size:12px;padding-top:5px;  margin-right: -22px;">
                     <a href="#usignin"><span data-hover="Sign In to Post">Sign In to Post</span></a>
                 </nav>
@@ -120,17 +120,17 @@
     <div class="filter-box">
         <form role="form">
             <div class="row">
-                <div class="col-md-3" style="padding-right: 0;">
+                <div class="col-md-3 col-sm-3" style="padding-right: 0;">
                     <div class="form-group ">
                         <% include ../dropdown/category_filter %>
                     </div>
-                </div>
-                <div class="col-md-3" style="padding-left:0;padding-right:0">
+                </div> 
+                <div class="col-md-3 col-sm-3" style="padding-left:0;padding-right:0">
                     <div class="form-group ">
                         <% include ../dropdown/location_filter %>
                     </div>
                 </div>
-                <div class="col-md-3" style="padding-left:0;padding-right:0">
+                <div class="col-md-3 col-sm-3" style="padding-left:0;padding-right:0">
                     <div class="form-group ">
                         <select class="full-width job-filter-dropdown" id="jobType-filter">
                             <option selected="" value="all">Job Type</option>
@@ -140,7 +140,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3" style="padding-left:0;padding-right:0">
+                <div class="col-md-3 col-sm-3" style="padding-left:0;padding-right:0">
                     <div class="form-group ">
                         <button class="btn btn-clear-all btn-cons" id="btn-clear-filters">Clear All</button>
                     </div>
