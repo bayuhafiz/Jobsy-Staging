@@ -803,6 +803,131 @@
             });
         // EOF
 
+        // SEND INVITATION EMAIL
+        $('#form-send-invitation')
+            .on('init.field.fv', function(e, data) {
+                // data.fv      --> The FormValidation instance
+                // data.field   --> The field name
+                // data.element --> The field element
+
+                var $parent = data.element.parents('.form-group'),
+                    $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+
+                // You can retrieve the icon element by
+                // $icon = data.element.data('fv.icon');
+
+                data.fv.resetField(data.element);
+            })
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The email address is required'
+                            },
+                            stringCase: {
+                                message: 'The email address must be in lowercase',
+                                'case': 'lower'
+                            },
+                            remote: {
+                                type: 'GET',
+                                url: 'https://api.mailgun.net/v2/address/validate?callback=?',
+                                crossDomain: true,
+                                name: 'address',
+                                data: {
+                                    // Registry a Mailgun account and get a free API key
+                                    // at https://mailgun.com/signup
+                                    api_key: 'pubkey-83a6-sl6j2m3daneyobi87b3-ksx3q29'
+                                },
+                                dataType: 'jsonp',
+                                validKey: 'is_valid',
+                                message: 'The email address is not valid'
+                            }
+                        }
+                    },
+                    jobUrl: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The URL is required'
+                            },
+                            uri: {
+                                message: 'The URL is invalid'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-invitation'));
+                // Start loading
+                loader.start();
+
+                // Reset the message element when the form is valid
+                $('#status_invitation').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                // Use Ajax to submit form data
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function(result) {
+                        // ... Process the result ...
+                        if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+                            swal({
+                                title: "Sent!",
+                                text: result.msg,
+                                showCancelButton: true,
+                                confirmButtonColor: '#52D5BE',
+                                confirmButtonText: 'Send another invitation',
+                                cancelButtonText: 'Close'
+                            }, function(isConfirm) {
+                                $('#form-send-invitation').formValidation('resetForm', true);
+                                if (isConfirm) {
+                                    $("#SendInvitation").modal('show');
+                                } else {
+                                    $("#SendInvitation").modal('hide');
+                                }
+                            });
+                        } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            $('<li/>')
+                                .wrapInner(
+                                    $('<span/>')
+                                    .attr('class', 'ajax_error')
+                                    .html(result.msg)
+                                )
+                                .appendTo('#status_invitation');
+                        }
+                    }
+                });
+            })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-invitation').removeClass('disable');
+            })
+            .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-invitation').removeClass('disable');
+
+                // Reset the message element when the form is valid
+                $('#status_invitation').html('');
+            });
+        // EOF
+
         // END FORM VALIDATION HANDLER ////////////
 
 

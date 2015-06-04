@@ -32,6 +32,7 @@ var Job = require('./models/job');
 var User = require('./models/user');
 var App = require('./models/app');
 var Pay = require('./models/pay');
+var Invite = require('./models/invite');
 // Algolia-search configuration ================================================
 var HttpsAgent = require('agentkeepalive').HttpsAgent;
 var Algolia = require('algoliasearch');
@@ -1335,6 +1336,202 @@ module.exports = function(app, passport) {
             res.download(file, newName.replace(/ /g, "_"));
         });
     });
+    // SEND INVITATION EMAIL ---------------------------------
+    app.post('/api/job/invite', isLoggedIn, function(req, res) {
+        if (req.body.email == req.user.email) { // if the target email is the same to sender's email
+            res.json({
+                type: 'error',
+                msg: 'You can\'t send email to yourself'
+            });
+            return;
+        }
+
+        User
+            .findOne({
+                'email': req.body.email
+            }, function(err, user) {
+                if (user != null) { // if user already registered
+                    res.json({
+                        type: 'error',
+                        msg: 'This user email is already registered. You don\'t need to send them another invitation.'
+                    });
+                } else {
+                    // Generate random token
+                    var token = crypto.randomBytes(20).toString('hex');
+
+                    // save user invitation queue to database
+                    // create the user
+                    var newInvite = new Invite();
+
+                    newInvite.email = req.body.email;
+                    newInvite.url = req.body.jobUrl;
+                    newInvite.token = token;
+                    newInvite.sender = req.user.email;
+
+                    newInvite.save(function(err) {
+                        if (err) {
+                            res.json({
+                                type: 'error',
+                                msg: 'Error saving to database'
+                            });
+                            return;
+                        }
+
+                        emailTemplates(templatesDir, function(err, template) {
+                            var now = new Date();
+                            // Send invitation to user
+                            var transport = nodemailer.createTransport({
+                                service: 'Mailgun',
+                                auth: {
+                                    user: secrets.mailgun.user,
+                                    pass: secrets.mailgun.password
+                                }
+                            });
+                            // An users object with formatted email function
+                            var locals = {
+                                email: req.body.email,
+                                button: {
+                                    link: 'http://' + req.headers.host + '/accept/' + token,
+                                    text: 'Confirm'
+                                },
+                                header: 'Congratulation!',
+                                body: 'You are being invited to post your job for free at JOBSY. If you are interested, hit the button below to confirm this invitation email.'
+                            };
+                            // Send a single email
+                            template('email', locals, function(err, html, text) {
+                                if (err) {
+                                    if (err) {
+                                        res.json({
+                                            type: 'error',
+                                            msg: err
+                                        });
+                                        return;
+                                    }
+                                } else {
+                                    transport.sendMail({
+                                        from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                        to: req.body.email,
+                                        subject: 'Invitation for free job post',
+                                        html: html,
+                                        text: text
+                                    }, function(err, responseStatus) {
+                                        if (err) {
+                                            res.json({
+                                                type: 'error',
+                                                msg: err
+                                            });
+                                        } else {
+                                            res.json({
+                                                type: 'success',
+                                                msg: 'Invitation email has been succesfully sent to ' + req.body.email
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+    });
+    // ACCEPT INVITATION ----------------------------------
+    app.get('/accept/:token', function(req, res) {
+        Invite
+            .findOne({
+                token: req.params.token
+            })
+            .exec(function(err, invite) {
+                if (!invite) {
+                    res.render('accept', {
+                        title: 'Invitation Confirmation',
+                        type: 'error',
+                        msg: 'Your token is invalid!'
+                    });
+                    return;
+                }
+                if (invite.confirm == true) { // If user already confirmed
+                    res.render('accept', {
+                        title: 'Invitation Confirmation',
+                        type: 'error',
+                        msg: 'You already accepted this invitation. You may signin to your account to visit your dashboard.'
+                    });
+                } else {
+                    // Change the status
+                    invite.confirm = true;
+                    invite.save(function(err) {
+                        if (err) {
+                            res.render('accept', {
+                                title: 'Invitation Confirmation',
+                                type: 'error',
+                                msg: 'Error updating data to database. Please contact Jobsy customer service..'
+                            });
+                        } else {
+                            // Sending email to admin
+                            emailTemplates(templatesDir, function(err, template) {
+                                var now = new Date();
+                                // Send invitation to user
+                                var transport = nodemailer.createTransport({
+                                    service: 'Mailgun',
+                                    auth: {
+                                        user: secrets.mailgun.user,
+                                        pass: secrets.mailgun.password
+                                    }
+                                });
+                                // An users object with formatted email function
+                                var locals = {
+                                    email: invite.sender,
+                                    button: {
+                                        link: invite.url,
+                                        text: 'Source Job Post'
+                                    },
+                                    header: 'Invitation accepted.',
+                                    body: 'Invitee with this email address: ' + invite.email + ' accepts your invitation. You may now create a CUSTOM JOB POST via your dashboard by using the source job below:'
+                                };
+                                // Send a single email
+                                template('email', locals, function(err, html, text) {
+                                    if (err) {
+                                        if (err) {
+                                            res.render('accept', {
+                                                title: 'Invitation Confirmation',
+                                                type: 'error',
+                                                msg: 'Error sending email'
+                                            });
+                                        }
+                                    } else {
+                                        transport.sendMail({
+                                            from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                            to: invite.sender,
+                                            subject: 'Invitation accepted!',
+                                            html: html,
+                                            text: text
+                                        }, function(err, responseStatus) {
+                                            if (err) {
+                                                res.render('accept', {
+                                                    title: 'Invitation Confirmation',
+                                                    type: 'error',
+                                                    msg: 'Error sending email'
+                                                });
+                                            } else {
+                                                res.render('accept', {
+                                                    title: 'Invitation Confirmed!',
+                                                    type: 'success',
+                                                    msg: 'Thank you.',
+                                                    url: invite.url
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+
+
+                        }
+                    });
+                }
+            });
+    });
+    // ======================== END of JOB MANIPULATIONS APIs ========================
+
 
 
     // Fetch all activated users
@@ -1718,7 +1915,7 @@ module.exports = function(app, passport) {
         }
     });
 
-    
+
     // End of admin panel
 
     // END OF API ROUTES ===========================================================
