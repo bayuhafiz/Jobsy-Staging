@@ -1005,6 +1005,10 @@ span.searchJob_tag span i {
     .jobType_filter_dropdown {
            width: 249px!important;
     }
+    .theeee {
+        display: none;
+    }
+
 }
 
 @media(max-width: 768px) {
@@ -1127,9 +1131,18 @@ span.searchJob_tag span i {
         margin-left: 38px;
         margin-top: 11px;
     }
+
+    .theeee{
+        position: relative;
+        top: -8px;
+    }
 }
 
 @media(max-width: 991px) {
+    .dash-profile{
+        width: auto!important;
+    }
+    
     .img-list-box,.details-list-box{
         left: 0!important
     }
@@ -1197,9 +1210,7 @@ span.searchJob_tag span i {
     .user-name {
         display: none;
     }
-    .theeee {
-        display: none;
-    }
+    
     .dropdown-user {
         margin-top: 6px!important;
         right: -17px!important;
