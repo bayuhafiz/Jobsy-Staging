@@ -10,7 +10,8 @@ var async = require('async'),
     gm = require('gm'),
     util = require('util'),
     braintree = require('braintree'),
-    generatePassword = require('password-generator');
+    generatePassword = require('password-generator'),
+    less = require('less');
 
 // For development purpose ONLY!
 var util = require('util');
@@ -2007,9 +2008,16 @@ module.exports = function(app, passport) {
 
     // Email sending testing
     app.get('/test-email/:email', function(req, res) {
-            var email = req.params.email;
             // Sending testing email
             emailTemplates(templatesDir, function(err, template) {
+                if (err) {
+                    res.json({
+                        type: 'error',
+                        msg: err
+                    });
+                    return;
+                }
+
                 var now = new Date();
                 // Send invitation to user
                 var transport = nodemailer.createTransport({
@@ -2019,37 +2027,46 @@ module.exports = function(app, passport) {
                         pass: secrets.mailgun.password
                     }
                 });
+                // An users object with formatted email function
+                var locals = {
+                    email: req.params.email,
+                    button: {
+                        link: 'http://' + req.headers.host + '/',
+                        text: 'Confirm'
+                    },
+                    header: 'Just Testing!',
+                    body: 'You are being invited to post your job for free at JOBSY. If you are interested, hit the button below to confirm this invitation email.'
+                };
                 // Send a single email
-                template('email', function(err) {
+                template('email', locals, function(err, html, text) {
                     if (err) {
+                        res.json({
+                            type: 'error',
+                            msg: err
+                        });
+                        return;
+                    }
+
+                    transport.sendMail({
+                        from: 'Jobsy Mailer <mailer@jobsy.io>',
+                        to: req.params.email,
+                        subject: 'Testing Email',
+                        html: html,
+                        text: text
+                    }, function(err, responseStatus) {
                         if (err) {
-                            res.render('accept', {
-                                title: 'ERROR',
+                            res.json({
                                 type: 'error',
                                 msg: err
                             });
+                        } else {
+                            res.json({
+                                type: 'success',
+                                msg: 'Invitation email has been succesfully sent to ' + req.params.email
+                            });
                         }
-                    } else {
-                        transport.sendMail({
-                            from: 'Jobsy Mailer <mailer@jobsy.io>',
-                            to: email,
-                            subject: 'TEST EMAIL TEMPLATE!'
-                        }, function(err, responseStatus) {
-                            if (err) {
-                                res.render('accept', {
-                                    title: 'ERROR',
-                                    type: 'error',
-                                    msg: err
-                                });
-                            } else {
-                                res.render('accept', {
-                                    title: 'SENT!',
-                                    type: 'success',
-                                    msg: 'Email sent to ' + email + '...'
-                                });
-                            }
-                        });
-                    }
+                    });
+
                 });
             });
         })
