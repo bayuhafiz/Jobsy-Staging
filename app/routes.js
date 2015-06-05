@@ -2007,70 +2007,57 @@ module.exports = function(app, passport) {
 
     // Email sending testing
     app.get('/test-email/:email', function(req, res) {
-        var email = req.params.email;
-        // Sending testing email
-        emailTemplates(templatesDir, function(err, template) {
-            var now = new Date();
-            // Send invitation to user
-            var transport = nodemailer.createTransport({
-                service: 'Mailgun',
-                auth: {
-                    user: secrets.mailgun.user,
-                    pass: secrets.mailgun.password
-                }
-            });
-            // An users object with formatted email function
-            var locals = {
-                email: invite.sender,
-                button: {
-                    link: invite.url,
-                    text: 'Source Job Post'
-                },
-                header: 'Invitation accepted.',
-                body: 'Invitee with this email address: ' + invite.email + ' accepts your invitation. You may now create a CUSTOM JOB POST via your dashboard by using the source job below:'
-            };
-            // Send a single email
-            template('email', locals, function(err, html, text) {
-                if (err) {
-                    if (err) {
-                        res.render('accept', {
-                            title: 'Invitation Confirmation',
-                            type: 'error',
-                            msg: 'Error sending email'
-                        });
+            var email = req.params.email;
+            // Sending testing email
+            emailTemplates(templatesDir, function(err, template) {
+                var now = new Date();
+                // Send invitation to user
+                var transport = nodemailer.createTransport({
+                    service: 'Mailgun',
+                    auth: {
+                        user: secrets.mailgun.user,
+                        pass: secrets.mailgun.password
                     }
-                } else {
-                    transport.sendMail({
-                        from: 'Jobsy Mailer <mailer@jobsy.io>',
-                        to: invite.sender,
-                        subject: 'Invitation accepted!',
-                        html: html,
-                        text: text
-                    }, function(err, responseStatus) {
+                });
+                // Send a single email
+                template('email', function(err) {
+                    if (err) {
                         if (err) {
                             res.render('accept', {
-                                title: 'Invitation Confirmation',
+                                title: 'ERROR',
                                 type: 'error',
-                                msg: 'Error sending email'
-                            });
-                        } else {
-                            res.render('accept', {
-                                title: 'Invitation Confirmed!',
-                                type: 'success',
-                                msg: 'Thank you.',
-                                url: invite.url
+                                msg: err
                             });
                         }
-                    });
-                }
+                    } else {
+                        transport.sendMail({
+                            from: 'Jobsy Mailer <mailer@jobsy.io>',
+                            to: email,
+                            subject: 'TEST EMAIL TEMPLATE!'
+                        }, function(err, responseStatus) {
+                            if (err) {
+                                res.render('accept', {
+                                    title: 'ERROR',
+                                    type: 'error',
+                                    msg: err
+                                });
+                            } else {
+                                res.render('accept', {
+                                    title: 'SENT!',
+                                    type: 'success',
+                                    msg: 'Email sent to ' + email + '...'
+                                });
+                            }
+                        });
+                    }
+                });
             });
-        });
-    })
-    // View email template
+        })
+        // View email template
     app.get('/view-template', function(req, res) {
         res.render('email/html');
     })
-    
+
 };
 
 // route middleware to ensure user is logged in
