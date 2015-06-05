@@ -783,9 +783,6 @@ module.exports = function(app, passport) {
     // =========================== JOB MANIPULATIONS APIs ==========================
     // Create a job post
     app.post('/api/job/post', isLoggedIn, function(req, res) {
-        console.log(req.body.userEmail);
-        return;
-
         var token = crypto.randomBytes(20).toString('hex');
         var image_data = req.body.cropped_image;
         var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
@@ -804,28 +801,8 @@ module.exports = function(app, passport) {
             }
         });
 
-        User.findById(req.user.id, function(err, user) {
-            if (err) {
-                var msg = {
-                    'type': 'error',
-                    'msg': err
-                };
-                res.json(msg);
-                return;
-            }
-            var init_status = req.user.initLogin;
-            if (init_status == true) {
-                init_status = false;
-            }
-            user.initLogin = init_status;
-            user.initPost = false;
-            user.initCompany = {
-                logo: logo,
-                name: req.body.companyName,
-                location: req.body.location,
-                description: req.body.description
-            };
-            user.save(function(err) {
+        if (req.body.userEmail == undefined) { // create for own
+            User.findById(req.user.id, function(err, user) {
                 if (err) {
                     var msg = {
                         'type': 'error',
@@ -834,31 +811,19 @@ module.exports = function(app, passport) {
                     res.json(msg);
                     return;
                 }
-                var job = new Job({
-                    profile: {
-                        logo: logo,
-                        name: req.body.companyName,
-                        location: req.body.location,
-                        description: req.body.description
-                    },
-                    details: {
-                        jobTitle: req.body.jobTitle,
-                        category: req.body.category,
-                        jobType: req.body.jobType,
-                        jobScope: req.body.jobScope,
-                        requirements: req.body.requirements,
-                        currency: req.body.currency,
-                        salaryFrom: req.body.salaryFrom,
-                        salaryTo: req.body.salaryTo,
-                        salaryType: req.body.salaryType,
-                    },
-                    token: token,
-                    status: 'published',
-                    createdAt: Date.now(),
-                    updatedAt: Date.now(),
-                    email: req.user.email
-                });
-                job.save(function(err, job) {
+                var init_status = req.user.initLogin;
+                if (init_status == true) {
+                    init_status = false;
+                }
+                user.initLogin = init_status;
+                user.initPost = false;
+                user.initCompany = {
+                    logo: logo,
+                    name: req.body.companyName,
+                    location: req.body.location,
+                    description: req.body.description
+                };
+                user.save(function(err) {
                     if (err) {
                         var msg = {
                             'type': 'error',
@@ -867,25 +832,31 @@ module.exports = function(app, passport) {
                         res.json(msg);
                         return;
                     }
-                    var host = req.host; // checking host to determine index
-                    if (host == 'localhost') {
-                        var index = client.initIndex('Jobs-local');
-                    } else {
-                        var index = client.initIndex('Jobs');
-                    }
-                    var arr = {
-                        "details": {
-                            "jobType": job.details.jobType,
-                            "category": job.details.category,
-                            "jobTitle": job.details.jobTitle
+                    var job = new Job({
+                        profile: {
+                            logo: logo,
+                            name: req.body.companyName,
+                            location: req.body.location,
+                            description: req.body.description
                         },
-                        "profile": {
-                            "location": job.profile.location,
-                            "name": job.profile.name
+                        details: {
+                            jobTitle: req.body.jobTitle,
+                            category: req.body.category,
+                            jobType: req.body.jobType,
+                            jobScope: req.body.jobScope,
+                            requirements: req.body.requirements,
+                            currency: req.body.currency,
+                            salaryFrom: req.body.salaryFrom,
+                            salaryTo: req.body.salaryTo,
+                            salaryType: req.body.salaryType,
                         },
-                        "objectID": job._id
-                    };
-                    index.saveObject(arr, function(err) {
+                        token: token,
+                        status: 'published',
+                        createdAt: Date.now(),
+                        updatedAt: Date.now(),
+                        email: req.user.email
+                    });
+                    job.save(function(err, job) {
                         if (err) {
                             var msg = {
                                 'type': 'error',
@@ -894,15 +865,187 @@ module.exports = function(app, passport) {
                             res.json(msg);
                             return;
                         }
-                        var msg = {
-                            'type': 'success',
-                            'msg': 'Job post successfully created!'
+                        var host = req.host; // checking host to determine index
+                        if (host == 'localhost') {
+                            var index = client.initIndex('Jobs-local');
+                        } else {
+                            var index = client.initIndex('Jobs');
+                        }
+                        var arr = {
+                            "details": {
+                                "jobType": job.details.jobType,
+                                "category": job.details.category,
+                                "jobTitle": job.details.jobTitle
+                            },
+                            "profile": {
+                                "location": job.profile.location,
+                                "name": job.profile.name
+                            },
+                            "objectID": job._id
                         };
-                        res.json(msg);
+                        index.saveObject(arr, function(err) {
+                            if (err) {
+                                var msg = {
+                                    'type': 'error',
+                                    'msg': err
+                                };
+                                res.json(msg);
+                                return;
+                            }
+                            var msg = {
+                                'type': 'success',
+                                'msg': 'Job post successfully created!'
+                            };
+                            res.json(msg);
+                        });
                     });
                 });
             });
-        });
+        } else { // create for another account
+            User.findOne({
+                'email': req.body.userEmail
+            }, function(err, user) {
+                if (err) {
+                    var msg = {
+                        'type': 'error',
+                        'msg': err
+                    };
+                    res.json(msg);
+                    return;
+                }
+                user.initCompany = {
+                    logo: logo,
+                    name: req.body.companyName,
+                    location: req.body.location,
+                    description: req.body.description
+                };
+                user.save(function(err) {
+                    if (err) {
+                        var msg = {
+                            'type': 'error',
+                            'msg': err
+                        };
+                        res.json(msg);
+                        return;
+                    }
+                    var job = new Job({
+                        profile: {
+                            logo: logo,
+                            name: req.body.companyName,
+                            location: req.body.location,
+                            description: req.body.description
+                        },
+                        details: {
+                            jobTitle: req.body.jobTitle,
+                            category: req.body.category,
+                            jobType: req.body.jobType,
+                            jobScope: req.body.jobScope,
+                            requirements: req.body.requirements,
+                            currency: req.body.currency,
+                            salaryFrom: req.body.salaryFrom,
+                            salaryTo: req.body.salaryTo,
+                            salaryType: req.body.salaryType,
+                        },
+                        token: token,
+                        status: 'published',
+                        createdAt: Date.now(),
+                        updatedAt: Date.now(),
+                        email: req.body.userEmail
+                    });
+                    job.save(function(err, job) {
+                        if (err) {
+                            var msg = {
+                                'type': 'error',
+                                'msg': err
+                            };
+                            res.json(msg);
+                            return;
+                        }
+
+                        // Send the client an email
+                        var transport = nodemailer.createTransport({
+                            service: 'Mailgun',
+                            auth: {
+                                user: secrets.mailgun.user,
+                                pass: secrets.mailgun.password
+                            }
+                        });
+                        // An users object with formatted email function
+                        var locals = {
+                            header: 'Your first job post has been created!',
+                            body: 'Your very first job with the position ' + req.body.position + ' at ' + req.body.company + ' has been successfully created.',
+                            footer: 'You may sign into your Jobsy account using email and password sent before, and visit your dashboard to review it'
+                        };
+                        // Send a single email
+                        template('email', locals, function(err, html, text) {
+                            if (err) {
+                                res.json({
+                                    type: 'error',
+                                    msg: err
+                                });
+                                return;
+                            } else {
+                                transport.sendMail({
+                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                    to: req.body.userEmail,
+                                    subject: 'First Job Post',
+                                    html: html,
+                                    text: text
+                                }, function(err, responseStatus) {
+                                    if (err) {
+                                        res.json({
+                                            type: 'error',
+                                            msg: err
+                                        });
+                                        return;
+                                    }
+                                    res.json({
+                                        type: 'success',
+                                        msg: 'Job post for account: '+req.body.userEmail+' has been successfully created.'
+                                    });
+                                });
+                            }
+                        });
+
+                        // Saving to serach engine server
+                        var host = req.host; // checking host to determine index
+                        if (host == 'localhost') {
+                            var index = client.initIndex('Jobs-local');
+                        } else {
+                            var index = client.initIndex('Jobs');
+                        }
+                        var arr = {
+                            "details": {
+                                "jobType": job.details.jobType,
+                                "category": job.details.category,
+                                "jobTitle": job.details.jobTitle
+                            },
+                            "profile": {
+                                "location": job.profile.location,
+                                "name": job.profile.name
+                            },
+                            "objectID": job._id
+                        };
+                        index.saveObject(arr, function(err) {
+                            if (err) {
+                                var msg = {
+                                    'type': 'error',
+                                    'msg': err
+                                };
+                                res.json(msg);
+                                return;
+                            }
+                            var msg = {
+                                'type': 'success',
+                                'msg': 'Job post successfully created!'
+                            };
+                            res.json(msg);
+                        });
+                    });
+                });
+            });
+        }
+
     });
     // Edit job post ---------------------------------
     app.post('/api/job/edit/:id', isLoggedIn, function(req, res, next) {

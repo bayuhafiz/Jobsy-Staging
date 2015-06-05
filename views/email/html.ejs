@@ -1,24 +1,49 @@
-<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;height: 100%;width: 100%;min-height: 1000px;background-color: #ffffff;">
-	<div style="background: #52D5BE;width: 767px;padding: 40px;">
-		<div style="position: relative;display: table;width: 100%;height: 600px;background: url(http://s8.postimg.org/cxwht1nab/email_template.png) no-repeat;">
-			<div style="position: absolute;width: 88px;left: 640px;top: 50px;">
-				<img src="http://i61.tinypic.com/1zpimm8.png" style="width:80%;height:80%;padding-top:20px;padding-left:20px;">
-			</div>
-			<div style="position: relative;display: table-cell;vertical-align: middle;font-family: Avenir_book;color: #717171;margin: 20px;width: 50%;height: 50%;">
-				<h2><%= locals.header %></h2>
-				<p style="line-height: 1.6;padding-top: 5px;padding-bottom: 5px;">
-					<div class="first-text"><%= locals.body %></div>
-					<% if (locals.body2) { %>
-					<div class="second-text" style="padding-top:10px;"><%= locals.body2 %></div>
-					<% } %>
-				</p>
-				<% if (locals.button) { %>
-				<button style="width: 100%;height: 37px;border-radius: 5px;border: 0;color: #fff;background-color: #52D5BE;font-size: 13px;cursor:pointer"><%= locals.button.text %></button>
-				<% } %>
-			</div>
-			
+<div style="background: #52D5BE;padding: 5%;">
+	<div style="display: table;height: 600px;width:768px;background: url(http://s8.postimg.org/cxwht1nab/email_template.png) no-repeat;margin-left: auto;margin-right: auto;">
+		<div style="width: 88px;">
+			<img src="http://i60.tinypic.com/1zyd1fc.png" style="width:100%;padding-left: 670%;padding-top: 20%;">
 		</div>
-		<div style="position: absolute;font-size: 11px;opacity: 0.4;top: 588px;left: 96px;font-family: Avenir_book;">
-			<p>@copyright 2015 Colorblind Labs Pte. Ltd</p>
+		<div style="display: table-cell;vertical-align: middle;font-family: Avenir;color: #717171;margin: 20px;height: 50%;  padding-right: 50%;margin-top:80px">
+			<h2><%= locals.header %></h2>
+			<p style="line-height: 1.6;padding-top: 0px;padding-bottom: 5px;">
+				<div class="first-text"><%= locals.body %></div>
+				<% if (locals.body2) { %>
+				<div class="second-text" style="padding-top:10px;"><%= locals.body2 %></div>
+				<% } %>
+			</p>
+			<br>
+
+			<% if (locals.password) { %>
+			<p style="font-family: Avenir;">
+				<h3><%= locals.password %></h3>
+			</p>
+			<% } %>
+
+			<% if (locals.button) { %>
+			<table border="0" cellpadding="0" cellspacing="0" class="mainBtn" style="margin-top: 0;margin-left: 0;margin-right: auto;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;border-spacing: 0;">
+				<tr>
+					<td width="4" height="8" align="left" valign="top" class="btnLfTp" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 100%;width: 4px;height: 4px;text-align: left;vertical-align: top;font-size: 0 !important;"><img src="images/mainBtn_lftp.png" width="4" height="4" style="margin-top: 0;margin-left: 0;margin-right: auto;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;height: 4px;width: 4px;line-height: 0 !important;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;font-size: 0 !important;"></td>
+					<td class="emptyCell" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 0 !important;font-size: 0 !important;">&nbsp;</td>
+					<td width="4" height="8" align="right" valign="top" class="btnRgTp" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 100%;width: 4px;height: 4px;text-align: right;vertical-align: top;font-size: 0 !important;"><img src="images/mainBtn_rgtp.png" width="4" height="4" style="margin-top: 0;margin-left: auto;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;height: 4px;width: 4px;line-height: 0 !important;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;font-size: 0 !important;"></td>
+				</tr>
+				<tr>
+					<td class="emptyCell" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 0 !important;font-size: 0 !important;">&nbsp;</td>
+					<td align="center" valign="middle" class="btnMain" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 8px;padding-bottom: 8px;padding-left: 18px;padding-right: 18px;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;height: 20px;font-size: 18px;line-height: 20px;mso-line-height-rule: exactly;text-align: center;vertical-align: middle;">
+						<a href="<%= locals.button.link %>" style="padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;color: #ffffff;font-weight: bold;"><span style="text-decoration: none;color: #ffffff;"><%= locals.button.text %></span></a>
+					</td>
+					<td class="emptyCell" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 0 !important;font-size: 0 !important;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td align="left" valign="bottom" class="btnLfBt" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 100%;width: 4px;height: 4px;text-align: left;vertical-align: bottom;font-size: 0 !important;"><img src="images/mainBtn_lfbt.png" width="4" height="4" style="margin-top: 0;margin-left: 0;margin-right: auto;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;height: 4px;width: 4px;line-height: 0 !important;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;font-size: 0 !important;"></td>
+					<td class="emptyCell" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 0 !important;font-size: 0 !important;">&nbsp;</td>
+					<td align="right" valign="bottom" class="btnRgBt" style="margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;border-collapse: collapse;border-spacing: 0;-webkit-text-size-adjust: none;font-family: Arial, Helvetica, sans-serif;background-color: #52D5BE;line-height: 100%;width: 4px;height: 4px;text-align: right;vertical-align: bottom;font-size: 0 !important;"><img src="images/mainBtn_rgbt.png" width="4" height="4" style="margin-top: 0;margin-left: auto;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;height: 4px;width: 4px;line-height: 0 !important;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;font-size: 0 !important;"></td>
+				</tr>
+			</table>
+			<% } %>
+			<!--<button style="width: 100%;height: 37px;border-radius: 5px;border: 0;color: #fff;background-color: #52D5BE;font-size: 13px;cursor:pointer">CONFIRM</button>-->
+			<div style="font-size: 11px;opacity: 0.4;font-family: Avenir;margin-top:150px;">
+				<p>@Copyright 2015 Colorblind Labs Pte. Ltd</p>
+			</div>
 		</div>
 	</div>
+</div>
