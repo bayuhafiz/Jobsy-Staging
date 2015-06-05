@@ -1264,7 +1264,7 @@ module.exports = function(app, passport) {
                 }
             });
     });
-    // Get application on job post read ---------------------------------
+    // GET APPLICATION DETAILS ---------------------------------
     app.get('/api/job/app/:id', isLoggedIn, function(req, res, next) {
         App.findById(req.params.id, function(err, app) {
             if (err) {
@@ -1295,7 +1295,7 @@ module.exports = function(app, passport) {
                         }
 
                         // Let's reduce user credit
-                        User.findOne({
+                        /*User.findOne({
                             email: req.user.email
                         }, function(err, user) {
                             user.credits = user.credits - 1; // Minus 1 user credit
@@ -1308,7 +1308,7 @@ module.exports = function(app, passport) {
                                     return;
                                 }
                             })
-                        })
+                        })*/
                     });
                 });
             } else {

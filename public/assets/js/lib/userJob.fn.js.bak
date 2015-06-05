@@ -135,42 +135,74 @@ window.showJobs = function(url) {
                     var status = $(this).attr('status');
                     var appId = $(this).attr('app-id');
                     if (status == 'false') { // If application hasn't been reviewed
-                        $.ajax({
-                            method: "GET",
-                            dataType: "json",
-                            url: "/api/job/app/" + appId,
-                            success: function(data) {
-                                if (data.type == 'error') {
-                                    swal({
-                                        type: data.type,
-                                        title: 'Oops..',
-                                        text: data.msg,
-                                        showCancelButton: false,
-                                        confirmButtonColor: "#52D5BE",
-                                        confirmButtonText: "OK",
-                                    });
-                                } else {
-                                    swal({
-                                        title: data.fullName.toUpperCase(),
-                                        html: '<div class="well"><p>Phone: <strong>' + data.phone + '</strong></p>' +
-                                            '<p>Email: <strong>' + data.email + '</strong></p>' +
-                                            '<p>Location: <strong>' + data.location + '</strong></p>' +
-                                            '<p>Last Job: <strong>' + data.lastJob + '</strong></p><br/>' +
-                                            '<p>Apply Date: <strong>' + moment(data.applyDate).format('dddd, DD MMMM YYYY') + '</strong></p></div>' +
-                                            '<div class="well"><p>Cover Letter: <strong>' + data.coverLetter + '</strong></p></div><br/>' +
-                                            '<p><a href="/download/' + data._id + '" target="_blank">Clik here to download resume file</a></p>',
-                                        showConfirmButton: true,
-                                        showCancelButton: false,
-                                        confirmButtonText: "Close",
-                                        confirmButtonColor: "#52D5BE",
-                                        allowOutsideClick: false,
-                                        allowEscapeKey: false
-                                    }, function() {
-                                        location.reload();
-                                    });
-                                }
+                        var userCredit = $('#hidden-credits').val();
+                        if (userCredit == '0') { // if user doesn't have enough credits
+                            swal({
+                                type: "error",
+                                title: "Not enough credit",
+                                text: "This action costs you 1 credit and you have 0 credit remaining. Buy more credits?",
+                                showCancelButton: true,
+                                closeOnConfirm: true,
+                                confirmButtonText: "Yes, buy more credits",
+                                confirmButtonColor: "#52D5BE"
+                            }, function() {
+                                $('#billingForm').modal('show');
+                            });
+                        } else { // if user has enough credits
+                            if (userCredit == '1') {
+                                var s = '';
+                            } else {
+                                var s = 's';
                             }
-                        });
+                            swal({
+                                title: "View Application",
+                                text: "This action will cost you 1 credit (you have " + userCredit + " credit" + s + " remaining). Continue?",
+                                showCancelButton: true,
+                                closeOnConfirm: false,
+                                confirmButtonText: "Yes, proceed",
+                                confirmButtonColor: "#52D5BE"
+                            }, function() {
+                                swal.disableButtons();
+                                setTimeout(function() {
+                                    $.ajax({
+                                        method: "GET",
+                                        dataType: "json",
+                                        url: "/api/job/app/" + appId,
+                                        success: function(data) {
+                                            if (data.type == 'error') {
+                                                swal({
+                                                    type: data.type,
+                                                    title: 'Oops..',
+                                                    text: data.msg,
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: "#52D5BE",
+                                                    confirmButtonText: "OK",
+                                                });
+                                            } else {
+                                                swal({
+                                                    title: data.fullName.toUpperCase(),
+                                                    html: '<div class="well"><p>Phone: <strong>' + data.phone + '</strong></p>' +
+                                                        '<p>Email: <strong>' + data.email + '</strong></p>' +
+                                                        '<p>Location: <strong>' + data.location + '</strong></p>' +
+                                                        '<p>Last Job: <strong>' + data.lastJob + '</strong></p><br/>' +
+                                                        '<p>Apply Date: <strong>' + moment(data.applyDate).format('dddd, DD MMMM YYYY') + '</strong></p></div>' +
+                                                        '<div class="well"><p>Cover Letter: <strong>' + data.coverLetter + '</strong></p></div><br/>' +
+                                                        '<p><a href="/download/' + data._id + '" target="_blank">Clik here to download resume file</a></p>',
+                                                    showConfirmButton: true,
+                                                    showCancelButton: false,
+                                                    confirmButtonText: "Close",
+                                                    confirmButtonColor: "#52D5BE",
+                                                    allowOutsideClick: false,
+                                                    allowEscapeKey: false
+                                                }, function() {
+                                                    location.reload();
+                                                });
+                                            }
+                                        }
+                                    });
+                                }, 2000);
+                            });
+                        }
                     } else { // If application has been reviewed
                         $.ajax({
                             url: '/api/job/app/' + appId,
