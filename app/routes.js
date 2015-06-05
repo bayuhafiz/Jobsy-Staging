@@ -10,7 +10,8 @@ var async = require('async'),
     gm = require('gm'),
     util = require('util'),
     braintree = require('braintree'),
-    generatePassword = require('password-generator');
+    generatePassword = require('password-generator'),
+    less = require('less');
 
 // For development purpose ONLY!
 var util = require('util');
