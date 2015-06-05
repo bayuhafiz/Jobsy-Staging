@@ -2008,8 +2008,37 @@ module.exports = function(app, passport) {
 
     // Email sending testing
     app.get('/test-email/:email', function(req, res) {
-            // Sending testing email
-            emailTemplates(templatesDir, function(err, template) {
+        // Sending testing email
+        emailTemplates(templatesDir, function(err, template) {
+            if (err) {
+                res.json({
+                    type: 'error',
+                    msg: err
+                });
+                return;
+            }
+
+            var now = new Date();
+            // Send invitation to user
+            var transport = nodemailer.createTransport({
+                service: 'Mailgun',
+                auth: {
+                    user: secrets.mailgun.user,
+                    pass: secrets.mailgun.password
+                }
+            });
+            // An users object with formatted email function
+            var locals = {
+                email: req.params.email,
+                button: {
+                    link: 'http://' + req.headers.host + '/',
+                    text: 'Confirm'
+                },
+                header: 'Just Testing!',
+                body: 'You are being invited to post your job for free at JOBSY. If you are interested, hit the button below to confirm this invitation email.'
+            };
+            // Send a single email
+            template('email', locals, function(err, html, text) {
                 if (err) {
                     res.json({
                         type: 'error',
@@ -2018,59 +2047,30 @@ module.exports = function(app, passport) {
                     return;
                 }
 
-                var now = new Date();
-                // Send invitation to user
-                var transport = nodemailer.createTransport({
-                    service: 'Mailgun',
-                    auth: {
-                        user: secrets.mailgun.user,
-                        pass: secrets.mailgun.password
-                    }
-                });
-                // An users object with formatted email function
-                var locals = {
-                    email: req.params.email,
-                    button: {
-                        link: 'http://' + req.headers.host + '/',
-                        text: 'Confirm'
-                    },
-                    header: 'Just Testing!',
-                    body: 'You are being invited to post your job for free at JOBSY. If you are interested, hit the button below to confirm this invitation email.'
-                };
-                // Send a single email
-                template('email', locals, function(err, html, text) {
+                transport.sendMail({
+                    from: 'Jobsy Mailer <mailer@jobsy.io>',
+                    to: req.params.email,
+                    subject: 'Testing Email',
+                    html: html,
+                    text: text
+                }, function(err, responseStatus) {
                     if (err) {
                         res.json({
                             type: 'error',
                             msg: err
                         });
-                        return;
+                    } else {
+                        res.json({
+                            type: 'success',
+                            msg: 'Invitation email has been succesfully sent to ' + req.params.email
+                        });
                     }
-
-                    transport.sendMail({
-                        from: 'Jobsy Mailer <mailer@jobsy.io>',
-                        to: req.params.email,
-                        subject: 'Testing Email',
-                        html: html,
-                        text: text
-                    }, function(err, responseStatus) {
-                        if (err) {
-                            res.json({
-                                type: 'error',
-                                msg: err
-                            });
-                        } else {
-                            res.json({
-                                type: 'success',
-                                msg: 'Invitation email has been succesfully sent to ' + req.params.email
-                            });
-                        }
-                    });
-
                 });
+
             });
-        })
-        // View email template
+        });
+    });
+    // View email template
     app.get('/view-template', function(req, res) {
         res.render('email/html');
     })

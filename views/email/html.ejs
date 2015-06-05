@@ -1,23 +1,24 @@
-<div style="background: #52D5BE;width: 767px;padding: 40px;">
-	<div style="position: relative;display: table;width: 100%;height: 600px;background: url(http://s8.postimg.org/cxwht1nab/email_template.png) no-repeat;">
-		<div style="position: absolute;width: 88px;left: 640px;top: 50px;">
-			<img src="http://i61.tinypic.com/1zpimm8.png" style="width:100%;height:100%;">
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin-top: 0;margin-left: 0;margin-right: 0;margin-bottom: 0;padding-top: 0;padding-bottom: 0;padding-left: 0;padding-right: 0;height: 100%;width: 100%;min-height: 1000px;background-color: #ffffff;">
+	<div style="background: #52D5BE;width: 767px;padding: 40px;">
+		<div style="position: relative;display: table;width: 100%;height: 600px;background: url(http://s8.postimg.org/cxwht1nab/email_template.png) no-repeat;">
+			<div style="position: absolute;width: 88px;left: 640px;top: 50px;">
+				<img src="http://i61.tinypic.com/1zpimm8.png" style="width:80%;height:80%;padding-top:20px;padding-left:20px;">
+			</div>
+			<div style="position: relative;display: table-cell;vertical-align: middle;font-family: Avenir_book;color: #717171;margin: 20px;width: 50%;height: 50%;">
+				<h2><%= locals.header %></h2>
+				<p style="line-height: 1.6;padding-top: 5px;padding-bottom: 5px;">
+					<div class="first-text"><%= locals.body %></div>
+					<% if (locals.body2) { %>
+					<div class="second-text" style="padding-top:10px;"><%= locals.body2 %></div>
+					<% } %>
+				</p>
+				<% if (locals.button) { %>
+				<button style="width: 100%;height: 37px;border-radius: 5px;border: 0;color: #fff;background-color: #52D5BE;font-size: 13px;cursor:pointer"><%= locals.button.text %></button>
+				<% } %>
+			</div>
+			
 		</div>
-		<div style="position: relative;display: table-cell;vertical-align: middle;font-family: Avenir_book;color: #717171;left: -339px;margin: auto;width: 50%;height: 50%;">
-			<h2>CONGRATULATION!</h2>
-			<p style="line-height: 1.6;padding-top: 5px;padding-bottom: 5px;">
-				<div class="first-text">You are being invited to post your job for free at JOBSY. If you are interested, hit the button below to confirm this invitation email.</div>
-				<div class="second-text" style="padding-top:10px;">You are being invited to post your job for free at JOBSY. If you are interested, hit the button below to confirm this invitation email.</div>
-			</p>
-			<button style="width: 100%;height: 37px;border-radius: 5px;border: 0;color: #fff;background-color: #52D5BE;font-size: 13px;cursor:pointer">CONFIRM</button>
-			<!--<p style="line-height: 1.6;padding-top: 5px;padding-bottom: 5px;">
-					<span class="third-text">You are being invited to post your job for free <br>at JOBSY. If you are interested, hit the button<br> below to confirm this invitation email.</span>
-					<span class="fourth-text">You are being invited to post your job for free <br>at JOBSY. If you are interested, hit the button<br> below to confirm this invitation email.</span>
-			</p>-->
+		<div style="position: absolute;font-size: 11px;opacity: 0.4;top: 588px;left: 96px;font-family: Avenir_book;">
+			<p>@copyright 2015 Colorblind Labs Pte. Ltd</p>
 		</div>
-		
 	</div>
-	<div style="position: absolute;font-size: 11px;opacity: 0.4;top: 588px;left: 96px;font-family: Avenir_book;">
-		<p>@copyright 2015 Colorblind Labs Pte. Ltd</p>
-	</div>
-</div>
