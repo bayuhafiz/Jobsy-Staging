@@ -1,0 +1,59 @@
+<!-- START CUSTOM POST MODAL -->
+<div class="modal fade slide-right" id="CustomJobModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+        </button>
+        <div class="container-xs-height full-height">
+          <div class="row-xs-height outer">
+            <div class="updatePass-panel middle">
+              <div class="panel panel-transparent" style="padding-left: 25px;padding-right: 25px;border:0">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <h3>Custom Job Post</h3>
+                  </div>
+                </div>
+                <div class="panel-body" style="height:auto">
+                  <h5 class="hint-text">Fill in the fullname and email address of the user to be created for. Once you've done, the password will be generated and sent to filled email address.</h5>
+                  <form id="form-custom-post" action="/api/account/custom" class="" method="POST" role="form">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default required">
+                          <label>First Name</label>
+                          <input type="text" name="firstName" placeholder="John" class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default required">
+                          <label>Last Names</label>
+                          <input type="text" name="lastName" placeholder="Appleseed" class="form-control" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                          <label>Email</label>
+                          <input type="email" name="email" placeholder="User's email address" class="form-control" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                    <div id="status_custom_post"></div>
+                    <br>
+                    <br>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="clearfix"></div>
+                  <div class="clearfix"></div>
+                  <button class="btn btn-primary btn-cons ladda-button" data-style="expand-right" type="submit" id="btn-submit-custom-post">DONE</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END CUSTOM POST MODAL -->

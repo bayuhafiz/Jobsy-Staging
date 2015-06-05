@@ -32,7 +32,8 @@ app.use(multer());
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url); // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
-app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
+// set the static files location /public/img will be /img for users
+app.use(express.static(__dirname + '/public'));
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -68,7 +69,8 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Load our main route =========================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+// load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app, passport);
 
 // seeding (development stage ONLY!!!) =========================================
 //require('./app/seeding/job.js'); // loads sample job

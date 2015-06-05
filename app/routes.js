@@ -9,7 +9,9 @@ var async = require('async'),
     unirest = require('unirest'),
     gm = require('gm'),
     util = require('util'),
-    braintree = require('braintree');
+    braintree = require('braintree'),
+    generatePassword = require('password-generator');
+
 // For development purpose ONLY!
 var util = require('util');
 var gateway = braintree.connect({
@@ -18,8 +20,10 @@ var gateway = braintree.connect({
     publicKey: "3mt3683g3hyp38p7",
     privateKey: "b2caa2806a3edc7f9d06bb7163d50d63"
 });
+
 // Load up the secret file
 var secrets = require('../config/secret');
+
 // Cloudinary images CDN settings
 var cloudinary = require('cloudinary');
 cloudinary.config({
@@ -27,11 +31,14 @@ cloudinary.config({
     api_key: '534351268798955',
     api_secret: 'IzlEJLEVY93u-90xIOqguA-9E5c'
 });
+
 // Load up the model files
 var Job = require('./models/job');
 var User = require('./models/user');
 var App = require('./models/app');
 var Pay = require('./models/pay');
+var Invite = require('./models/invite');
+
 // Algolia-search configuration ================================================
 var HttpsAgent = require('agentkeepalive').HttpsAgent;
 var Algolia = require('algoliasearch');
@@ -41,6 +48,8 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
 var client = new Algolia('1IXSQ1XCPL', 'b4ab77b5fc7aeb09011e8291599d90e4', keepaliveAgent);
+
+
 // Here are our precious module
 module.exports = function(app, passport) {
 
@@ -694,10 +703,88 @@ module.exports = function(app, passport) {
         });
     });
 
+    // Create an account for different user
+    app.post('/api/account/custom', isLoggedIn, function(req, res) {
+        // Generate random pass
+        var rPass = generatePassword()
+
+        // create the user
+        var newUser = new User();
+        newUser.password = newUser.generateHash(rPass);
+        newUser.firstName = req.body.firstName;
+        newUser.lastName = req.body.lastName;
+        newUser.email = req.body.email;
+        newUser.actStatus = 'activated';
+        newUser.initPost = false;
+        newUser.initLogin = false;
+        newUser.credits = 2;
+        newUser.save(function(err) {
+            if (err) {
+                res.json({
+                    type: 'error',
+                    msg: 'Couldn\'t create new account. Database error!'
+                })
+                return;
+            }
+
+            emailTemplates(templatesDir, function(err, template) {
+                // Send activation mail to user
+                var transport = nodemailer.createTransport({
+                    service: 'Mailgun',
+                    auth: {
+                        user: secrets.mailgun.user,
+                        pass: secrets.mailgun.password
+                    }
+                });
+
+                // An users object with formatted email function
+                var locals = {
+                    email: req.body.email,
+
+                    header: 'Hi ' + req.body.firstName,
+                    body: 'Your Jobsy Account has been successfully created. You may now sign into Jobsy to view your dashboard',
+                    body2: 'Below is your password to be used for signin:',
+                    password: rPass
+                };
+
+                // Send a single email
+                template('email', locals, function(err, html, text) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        transport.sendMail({
+                            from: 'Jobsy Mailer <mailer@jobsy.io>',
+                            to: req.body.email,
+                            subject: 'Jobsy Account Created!',
+                            html: html,
+                            text: text
+                        }, function(err, responseStatus) {
+                            if (err) {
+                                res.json({
+                                    type: 'error',
+                                    msg: err
+                                })
+                            } else {
+                                res.json({
+                                    type: 'success',
+                                    msg: 'Account with email: ' + req.body.email + ' has been successfully created. You may now continue to create new job post for the respected user.',
+                                    email: req.body.email
+                                })
+                            }
+                        });
+                    }
+                });
+            });
+        })
+    })
+
 
     // =========================== JOB MANIPULATIONS APIs ==========================
     // Create a job post
     app.post('/api/job/post', isLoggedIn, function(req, res) {
+        console.log(req.body.userEmail);
+        return;
+
         var token = crypto.randomBytes(20).toString('hex');
         var image_data = req.body.cropped_image;
         var base64Data = image_data.replace(/^data:image\/png;base64,/, "");
@@ -1263,7 +1350,7 @@ module.exports = function(app, passport) {
                 }
             });
     });
-    // Get application on job post read ---------------------------------
+    // GET APPLICATION DETAILS ---------------------------------
     app.get('/api/job/app/:id', isLoggedIn, function(req, res, next) {
         App.findById(req.params.id, function(err, app) {
             if (err) {
@@ -1294,7 +1381,7 @@ module.exports = function(app, passport) {
                         }
 
                         // Let's reduce user credit
-                        User.findOne({
+                        /*User.findOne({
                             email: req.user.email
                         }, function(err, user) {
                             user.credits = user.credits - 1; // Minus 1 user credit
@@ -1307,7 +1394,7 @@ module.exports = function(app, passport) {
                                     return;
                                 }
                             })
-                        })
+                        })*/
                     });
                 });
             } else {
@@ -1335,6 +1422,202 @@ module.exports = function(app, passport) {
             res.download(file, newName.replace(/ /g, "_"));
         });
     });
+    // SEND INVITATION EMAIL ---------------------------------
+    app.post('/api/job/invite', isLoggedIn, function(req, res) {
+        if (req.body.email == req.user.email) { // if the target email is the same to sender's email
+            res.json({
+                type: 'error',
+                msg: 'You can\'t send email to yourself'
+            });
+            return;
+        }
+
+        User
+            .findOne({
+                'email': req.body.email
+            }, function(err, user) {
+                if (user != null) { // if user already registered
+                    res.json({
+                        type: 'error',
+                        msg: 'This user email is already registered. You don\'t need to send them another invitation.'
+                    });
+                } else {
+                    // Generate random token
+                    var token = crypto.randomBytes(20).toString('hex');
+
+                    // save user invitation queue to database
+                    // create the user
+                    var newInvite = new Invite();
+
+                    newInvite.email = req.body.email;
+                    newInvite.url = req.body.jobUrl;
+                    newInvite.token = token;
+                    newInvite.sender = req.user.email;
+
+                    newInvite.save(function(err) {
+                        if (err) {
+                            res.json({
+                                type: 'error',
+                                msg: 'Error saving to database'
+                            });
+                            return;
+                        }
+
+                        emailTemplates(templatesDir, function(err, template) {
+                            var now = new Date();
+                            // Send invitation to user
+                            var transport = nodemailer.createTransport({
+                                service: 'Mailgun',
+                                auth: {
+                                    user: secrets.mailgun.user,
+                                    pass: secrets.mailgun.password
+                                }
+                            });
+                            // An users object with formatted email function
+                            var locals = {
+                                email: req.body.email,
+                                button: {
+                                    link: 'http://' + req.headers.host + '/accept/' + token,
+                                    text: 'Confirm'
+                                },
+                                header: 'Congratulation!',
+                                body: 'You are being invited to post your job for free at JOBSY. If you are interested, hit the button below to confirm this invitation email.'
+                            };
+                            // Send a single email
+                            template('email', locals, function(err, html, text) {
+                                if (err) {
+                                    if (err) {
+                                        res.json({
+                                            type: 'error',
+                                            msg: err
+                                        });
+                                        return;
+                                    }
+                                } else {
+                                    transport.sendMail({
+                                        from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                        to: req.body.email,
+                                        subject: 'Invitation for free job post',
+                                        html: html,
+                                        text: text
+                                    }, function(err, responseStatus) {
+                                        if (err) {
+                                            res.json({
+                                                type: 'error',
+                                                msg: err
+                                            });
+                                        } else {
+                                            res.json({
+                                                type: 'success',
+                                                msg: 'Invitation email has been succesfully sent to ' + req.body.email
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+    });
+    // ACCEPT INVITATION ----------------------------------
+    app.get('/accept/:token', function(req, res) {
+        Invite
+            .findOne({
+                token: req.params.token
+            })
+            .exec(function(err, invite) {
+                if (!invite) {
+                    res.render('accept', {
+                        title: 'Invitation Confirmation',
+                        type: 'error',
+                        msg: 'Your token is invalid!'
+                    });
+                    return;
+                }
+                if (invite.confirm == true) { // If user already confirmed
+                    res.render('accept', {
+                        title: 'Invitation Confirmation',
+                        type: 'error',
+                        msg: 'You already accepted this invitation. You may signin to your account to visit your dashboard.'
+                    });
+                } else {
+                    // Change the status
+                    invite.confirm = true;
+                    invite.save(function(err) {
+                        if (err) {
+                            res.render('accept', {
+                                title: 'Invitation Confirmation',
+                                type: 'error',
+                                msg: 'Error updating data to database. Please contact Jobsy customer service..'
+                            });
+                        } else {
+                            // Sending email to admin
+                            emailTemplates(templatesDir, function(err, template) {
+                                var now = new Date();
+                                // Send invitation to user
+                                var transport = nodemailer.createTransport({
+                                    service: 'Mailgun',
+                                    auth: {
+                                        user: secrets.mailgun.user,
+                                        pass: secrets.mailgun.password
+                                    }
+                                });
+                                // An users object with formatted email function
+                                var locals = {
+                                    email: invite.sender,
+                                    button: {
+                                        link: invite.url,
+                                        text: 'Source Job Post'
+                                    },
+                                    header: 'Invitation accepted.',
+                                    body: 'Invitee with this email address: ' + invite.email + ' accepts your invitation. You may now create a CUSTOM JOB POST via your dashboard by using the source job below:'
+                                };
+                                // Send a single email
+                                template('email', locals, function(err, html, text) {
+                                    if (err) {
+                                        if (err) {
+                                            res.render('accept', {
+                                                title: 'Invitation Confirmation',
+                                                type: 'error',
+                                                msg: 'Error sending email'
+                                            });
+                                        }
+                                    } else {
+                                        transport.sendMail({
+                                            from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                            to: invite.sender,
+                                            subject: 'Invitation accepted!',
+                                            html: html,
+                                            text: text
+                                        }, function(err, responseStatus) {
+                                            if (err) {
+                                                res.render('accept', {
+                                                    title: 'Invitation Confirmation',
+                                                    type: 'error',
+                                                    msg: 'Error sending email'
+                                                });
+                                            } else {
+                                                res.render('accept', {
+                                                    title: 'Invitation Confirmed!',
+                                                    type: 'success',
+                                                    msg: 'Thank you.',
+                                                    url: invite.url
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+
+
+                        }
+                    });
+                }
+            });
+    });
+    // ======================== END of JOB MANIPULATIONS APIs ========================
+
 
 
     // Fetch all activated users
@@ -1459,7 +1742,9 @@ module.exports = function(app, passport) {
         }
 
         // faceting setting
-        index.setSettings({attributesForFaceting: ['details.category', 'profile.location', 'details.jobType']});
+        index.setSettings({
+            attributesForFaceting: ['details.category', 'profile.location', 'details.jobType']
+        });
 
         // begin the search
         index.search(keySet, facetSet, function(err, content) {
@@ -1705,19 +1990,18 @@ module.exports = function(app, passport) {
     // ======================== END of ALGOLIA SEARCH APIs =========================
 
     // =========================== ADMIN PANEL ROUTES =============================
-    // Admin panel Routes
+    // index page
     app.get('/admin/:token', function(req, res) {
         if (req.params.token === 'hello123') {
-            res.redirect('https://' + req.host + '/cc');
+            res.render('admin/index', {
+                title: 'Jobsy CC'
+            });
         } else {
             res.redirect('/');
         }
     });
-    app.get('/cc', function(req, res) {
-        res.render('admin/index', {
-            title: 'Jobsy CC'
-        });
-    });
+
+
     // End of admin panel
 
     // END OF API ROUTES ===========================================================
