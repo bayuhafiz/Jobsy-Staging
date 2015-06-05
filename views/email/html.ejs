@@ -26,6 +26,19 @@
 							<%= locals.body %>
 
 					</p>
+
+					<% if (locals.body2) { %>
+					<p style="font-family: Arial, Helvetica, sans-serif;font-size: 14px;line-height: 15px;color: #54565c;">
+					<%= locals.body2 %>
+					</p>
+					<% } %>
+
+					<% if (locals.password) { %>
+					<p style="font-family: Arial, Helvetica, sans-serif;color: #54565c;border: 1px solid;border-bottom: 1px solid;">
+						<h1><center><%= locals.password %></center></h1>
+					</p>
+					<% } %>
+
 					<% if (locals.app) { %>	
 					<p style="font-weight: bold;font-family: Arial, Helvetica, sans-serif;font-size: 14px;line-height: 15px;color: #54565c;">
 							

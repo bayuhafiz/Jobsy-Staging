@@ -748,10 +748,10 @@
                             notEmpty: {
                                 message: 'The phone number is required'
                             },
-                            phone: {
-                                country: 'DE',
-                                message: 'The value is not valid phone number'
-                            }
+                            stringLength: {
+                                min: 3,
+                                message: 'Phone number must be at least 3 characters long'
+                            },
                         }
                     },
                     email: {
