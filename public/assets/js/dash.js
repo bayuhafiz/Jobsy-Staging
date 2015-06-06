@@ -1117,7 +1117,7 @@
         // Check session to init switch state
         var stat = localStorage['switch_checked'];
         console.log(stat);
-        if ((stat == undefined) || (!stat)) {
+        if (stat == 'undefined') {
             console.log('1st if entered');
             showJobs('/api/jobs/' + uEmail + '/hide');
             localStorage['switch_checked'] = 'hide'; // save to session
