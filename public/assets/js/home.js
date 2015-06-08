@@ -33,22 +33,31 @@
         });
 
         $('#logo_file').on('change', function() {
-            $('#modal_cropper').modal({
-                show: true
-            });
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+                swal({
+                    type: 'error',
+                    title: 'Invalid Extension!',
+                    text: 'Your logo file should be a PNG, JPG or JPEG file'
+                });
+            } else {
+                $('#modal_cropper').modal({
+                    show: true
+                });
 
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                options.imgSrc = e.target.result;
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    options.imgSrc = e.target.result;
 
-                // Attach image to canvas
-                cropper = $('.imageBox').cropbox(options);
+                    // Attach image to canvas
+                    cropper = $('.imageBox').cropbox(options);
+                }
+
+                reader.readAsDataURL(this.files[0]);
+                this.files = [];
+
+                $('.action').fadeIn('slow');
             }
-
-            reader.readAsDataURL(this.files[0]);
-            this.files = [];
-
-            $('.action').fadeIn('slow');
         });
 
         $('#btn-cropper-choose').on('click', function() {
@@ -98,22 +107,31 @@
         });
 
         $('#logo_file_edit').on('change', function() {
-            $('#modal_cropper_edit').modal({
-                show: true
-            });
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+                swal({
+                    type: 'error',
+                    title: 'Invalid Extension!',
+                    text: 'Your logo file should be a PNG, JPG or JPEG file'
+                });
+            } else {
+                $('#modal_cropper_edit').modal({
+                    show: true
+                });
 
-            var reader_edit = new FileReader();
-            reader_edit.onload = function(e) {
-                options_edit.imgSrc = e.target.result;
+                var reader_edit = new FileReader();
+                reader_edit.onload = function(e) {
+                    options_edit.imgSrc = e.target.result;
 
-                // Attach image to canvas
-                cropper_edit = $('.imageBox_edit').cropbox(options_edit);
+                    // Attach image to canvas
+                    cropper_edit = $('.imageBox_edit').cropbox(options_edit);
+                }
+
+                reader_edit.readAsDataURL(this.files[0]);
+                this.files = [];
+
+                $('.action_edit').fadeIn('slow');
             }
-
-            reader_edit.readAsDataURL(this.files[0]);
-            this.files = [];
-
-            $('.action_edit').fadeIn('slow');
         });
 
         // Tool buttons:
@@ -1578,7 +1596,7 @@
         // ========================
         // START EVENT HANDLERS ===
         // ========================
-    
+
 
         // =========== OPEN JOB DETAILS HANDLER ======================
         $('body').on('click', '.item', function(e) {
@@ -1595,22 +1613,22 @@
                     'position': 'relative'
                 })
                 $(this).find('.details-list-box').animate({
-                    'left': '-110px'
-                }).end().siblings()
-                .find('.details-list-box').animate({
-                    'left': '0px'
-                });
+                        'left': '-110px'
+                    }).end().siblings()
+                    .find('.details-list-box').animate({
+                        'left': '0px'
+                    });
 
 
                 $('.img-list-box').css({
                     'position': 'relative'
                 })
                 $(this).find('.img-list-box').animate({
-                    'left': '-120px'
-                }).end().siblings()
-                .find('.img-list-box').animate({
-                    'left': '0px'
-                });
+                        'left': '-120px'
+                    }).end().siblings()
+                    .find('.img-list-box').animate({
+                        'left': '0px'
+                    });
 
 
             };
@@ -2105,7 +2123,7 @@
 
 
 
-        
+
 
 
         $('.attach-btn').click(function() {
