@@ -801,7 +801,8 @@ module.exports = function(app, passport) {
             }
         });
 
-        if (req.body.userEmail == undefined) { // create for own
+        if (req.body.userEmail == undefined) { // create for self
+            console.log('Create job for self');
             User.findById(req.user.id, function(err, user) {
                 if (err) {
                     var msg = {
@@ -1049,8 +1050,9 @@ module.exports = function(app, passport) {
     });
     // Edit job post ---------------------------------
     app.post('/api/job/edit/:id', isLoggedIn, function(req, res, next) {
-        var changed = req.body.changed;
+        console.log('Create job for other user');
 
+        var changed = req.body.changed;
         Job.findById(req.params.id, function(err, job) {
             if (err) {
                 var msg = {
