@@ -109,7 +109,7 @@ window.showJobs = function(url) {
 
                 // EVENT HANDLERS!!!
                 // On job list click
-                $('.collapse-card').on('click', function(e) {
+                $('body').on('click','.collapse-card', function(e) {
                     $(this).siblings().removeClass('active').find('.collapse-card__body').css('display', 'none');
                     $(this).siblings().find('.jobs-toolbox').css('display', 'none');
                     $(this).siblings().find('.time-badge').hide();
@@ -127,8 +127,9 @@ window.showJobs = function(url) {
                         $(this).find('.new-app').show();
                         $(this).find('.apps').show();
                     }
-                    e.preventDefault();
+
                 });
+
 
                 // View application details
                 $('.app-item').on('click', function(e) {
@@ -412,6 +413,11 @@ window.showJobs = function(url) {
             } else { // if no job post at all
                 $('#no-job-post').show();
             }
+
+
         }
     });
+
+
+   
 };
