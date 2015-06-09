@@ -214,6 +214,16 @@
             .formValidation({
                 framework: 'bootstrap',
                 fields: {
+                    logo_file: {
+                        validators: {
+                            file: {
+                                extension: 'jpeg,png',
+                                type: 'image/jpeg,image/png',
+                                maxSize: 2097152, // 2048 * 1024
+                                message: 'The selected file is not valid'
+                            }
+                        }
+                    },
                     companyName: {
                         validators: {
                             notEmpty: {
@@ -314,10 +324,6 @@
                     }
                 }
             })
-            .find('[name="salaryFrom"], [name="salaryTo"]').mask('000.000.000.000', {
-                byPassKeys: [null],
-                reverse: true
-            })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
                 e.preventDefault();
@@ -354,9 +360,7 @@
                     formData.append(val.name, val.value);
                 });
 
-                console.log(JSON.stringify(params));
-
-                /*$.post($form.attr('action'), params, function(result) {
+                $.post($form.attr('action'), params, function(result) {
                     if (result.type == 'success') {
                         // Stop loading
                         loader.stop();
@@ -383,7 +387,7 @@
                             )
                             .appendTo('#status_edit');
                     }
-                });*/
+                });
             })
             .on('err.field.fv', function(e, data) {
                 // Remove button's disable class
@@ -542,10 +546,6 @@
                         }
                     }
                 }
-            })
-            .find('[name="salaryFrom"], [name="salaryTo"]').mask('000.000.000.000', {
-                byPassKeys: [null],
-                reverse: true
             })
             .on('success.form.fv', function(e) {
                 // Prevent form submission
@@ -943,6 +943,144 @@
 
                 // Reset the message element when the form is valid
                 $('#status_invitation').html('');
+            });
+        // EOF
+
+        // CREATE CUSTOM POST #1 STEP
+        $('#form-custom-post')
+            .on('init.field.fv', function(e, data) {
+                // data.fv      --> The FormValidation instance
+                // data.field   --> The field name
+                // data.element --> The field element
+
+                var $parent = data.element.parents('.form-group'),
+                    $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+
+                // You can retrieve the icon element by
+                // $icon = data.element.data('fv.icon');
+
+                data.fv.resetField(data.element);
+            })
+            .formValidation({
+                framework: 'bootstrap',
+                fields: {
+                    firstName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The first name is required'
+                            },
+                            stringLength: {
+                                min: 3,
+                                message: 'Must be more than 2 characters long'
+                            }
+                        }
+                    },
+                    lastName: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The last name is required'
+                            },
+                            stringLength: {
+                                min: 3,
+                                message: 'Must be more than 2 characters long'
+                            }
+                        }
+                    },
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The email address is required'
+                            },
+                            stringCase: {
+                                message: 'Must be in lowercase',
+                                'case': 'lower'
+                            },
+                            remote: {
+                                type: 'GET',
+                                url: 'https://api.mailgun.net/v2/address/validate?callback=?',
+                                crossDomain: true,
+                                name: 'address',
+                                data: {
+                                    // Registry a Mailgun account and get a free API key
+                                    // at https://mailgun.com/signup
+                                    api_key: 'pubkey-83a6-sl6j2m3daneyobi87b3-ksx3q29'
+                                },
+                                dataType: 'jsonp',
+                                validKey: 'is_valid',
+                                message: 'This email address is not valid'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Create button loader instance
+                var loader = Ladda.create(document.querySelector('#btn-submit-custom-post'));
+                // Start loading
+                loader.start();
+
+                // Reset the message element when the form is valid
+                $('#status_custom_post').html('');
+
+                var $form = $(e.target),
+                    fv = $form.data('formValidation');
+
+                // Use Ajax to submit form data
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function(result) {
+                        // ... Process the result ...
+                        if (result.type == 'success') {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+                            swal({
+                                title: "Created!",
+                                text: result.msg,
+                                confirmButtonColor: '#52D5BE',
+                                confirmButtonText: 'Continue creating post >'
+                            }, function(isConfirm) {
+                                if (isConfirm) {
+                                    $('#CustomJobModal').modal('hide');
+
+                                    // Generate post new job modal
+                                    $('<input>').attr({
+                                        type: 'hidden',
+                                        id: 'user-email',
+                                        name: 'userEmail',
+                                        value: result.email
+                                    }).appendTo('#form-create-job');
+                                    $('#PostNewJob').modal('show');
+                                }
+                            });
+                        } else {
+                            // Stop loading
+                            loader.stop();
+                            loader.remove();
+
+                            $('<span/>')
+                                .attr('class', 'ajax_error')
+                                .html(result.msg)
+                                .appendTo('#status_custom_post');
+                        }
+                    }
+                });
+            })
+            .on('err.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-custom-post').removeClass('disable');
+            })
+            .on('success.field.fv', function(e, data) {
+                // Remove button's disable class
+                $('#btn-submit-custom-post').removeClass('disable');
+
+                // Reset the message element when the form is valid
+                $('#status_custom_post').html('');
             });
         // EOF
 
