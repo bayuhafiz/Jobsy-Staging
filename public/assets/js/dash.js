@@ -1048,13 +1048,38 @@
                                 if (isConfirm) {
                                     $('#CustomJobModal').modal('hide');
 
-                                    // Generate post new job modal
+                                    console.log(JSON.stringify(result));
+
+                                    // Generate custom fields on new job modal
                                     $('<input>').attr({
                                         type: 'hidden',
                                         id: 'user-email',
                                         name: 'userEmail',
-                                        value: result.email
+                                        value: result.uEmail
                                     }).appendTo('#form-create-job');
+
+                                    $('<input>').attr({
+                                        type: 'hidden',
+                                        id: 'user-pass',
+                                        name: 'userPass',
+                                        value: result.uPass
+                                    }).appendTo('#form-create-job');
+
+                                    $('<input>').attr({
+                                        type: 'hidden',
+                                        id: 'user-fname',
+                                        name: 'userFirstName',
+                                        value: result.uFirstName
+                                    }).appendTo('#form-create-job');
+
+                                    $('<input>').attr({
+                                        type: 'hidden',
+                                        id: 'user-lname',
+                                        name: 'userLastName',
+                                        value: result.uLastName
+                                    }).appendTo('#form-create-job');
+
+                                    // Show post job modal
                                     $('#PostNewJob').modal('show');
                                 }
                             });

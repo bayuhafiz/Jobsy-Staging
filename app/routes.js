@@ -726,56 +726,16 @@ module.exports = function(app, passport) {
                     msg: 'Couldn\'t create new account. Database error!'
                 })
                 return;
+            } else {
+                res.json({
+                    type: 'success',
+                    msg: 'Account with email: ' + req.body.email + ' has been successfully created. You may now continue to create new job post for the respected user.',
+                    uEmail: req.body.email,
+                    uPass: rPass,
+                    uFirstName: req.body.firstName,
+                    uLastName: req.body.lastName
+                })
             }
-
-            emailTemplates(templatesDir, function(err, template) {
-                // Send activation mail to user
-                var transport = nodemailer.createTransport({
-                    service: 'Mailgun',
-                    auth: {
-                        user: secrets.mailgun.user,
-                        pass: secrets.mailgun.password
-                    }
-                });
-
-                // An users object with formatted email function
-                var locals = {
-                    email: req.body.email,
-
-                    header: 'Hi ' + req.body.firstName,
-                    body: 'Your Jobsy Account has been successfully created. You may now sign into Jobsy to view your dashboard',
-                    body2: 'Below is your password to be used for signin:',
-                    password: rPass
-                };
-
-                // Send a single email
-                template('email', locals, function(err, html, text) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        transport.sendMail({
-                            from: 'Jobsy Mailer <mailer@jobsy.io>',
-                            to: req.body.email,
-                            subject: 'Jobsy Account Created!',
-                            html: html,
-                            text: text
-                        }, function(err, responseStatus) {
-                            if (err) {
-                                res.json({
-                                    type: 'error',
-                                    msg: err
-                                })
-                            } else {
-                                res.json({
-                                    type: 'success',
-                                    msg: 'Account with email: ' + req.body.email + ' has been successfully created. You may now continue to create new job post for the respected user.',
-                                    email: req.body.email
-                                })
-                            }
-                        });
-                    }
-                });
-            });
         })
     })
 
@@ -866,6 +826,8 @@ module.exports = function(app, passport) {
                             res.json(msg);
                             return;
                         }
+
+                        // Saving to search engine
                         var host = req.host; // checking host to determine index
                         if (host == 'localhost') {
                             var index = client.initIndex('Jobs-local');
@@ -892,12 +854,13 @@ module.exports = function(app, passport) {
                                 };
                                 res.json(msg);
                                 return;
+                            } else {
+                                var msg = {
+                                    'type': 'success',
+                                    'msg': 'Job post successfully created!'
+                                };
+                                res.json(msg);
                             }
-                            var msg = {
-                                'type': 'success',
-                                'msg': 'Job post successfully created!'
-                            };
-                            res.json(msg);
                         });
                     });
                 });
@@ -963,52 +926,52 @@ module.exports = function(app, passport) {
                             return;
                         }
 
-                        // Send the client an email
-                        var transport = nodemailer.createTransport({
-                            service: 'Mailgun',
-                            auth: {
-                                user: secrets.mailgun.user,
-                                pass: secrets.mailgun.password
-                            }
-                        });
-                        // An users object with formatted email function
-                        var locals = {
-                            header: 'Your first job post has been created!',
-                            body: 'Your very first job with the position ' + req.body.position + ' at ' + req.body.company + ' has been successfully created.',
-                            footer: 'You may sign into your Jobsy account using email and password sent before, and visit your dashboard to review it'
-                        };
-                        // Send a single email
-                        template('email', locals, function(err, html, text) {
-                            if (err) {
-                                res.json({
-                                    type: 'error',
-                                    msg: err
-                                });
-                                return;
-                            } else {
-                                transport.sendMail({
-                                    from: 'Jobsy Mailer <mailer@jobsy.io>',
-                                    to: req.body.userEmail,
-                                    subject: 'First Job Post',
-                                    html: html,
-                                    text: text
-                                }, function(err, responseStatus) {
-                                    if (err) {
-                                        res.json({
-                                            type: 'error',
-                                            msg: err
-                                        });
-                                        return;
-                                    }
+                        // Sending email to client
+                        emailTemplates(templatesDir, function(err, template) {
+                            // Send the client an email
+                            var transport = nodemailer.createTransport({
+                                service: 'Mailgun',
+                                auth: {
+                                    user: secrets.mailgun.user,
+                                    pass: secrets.mailgun.password
+                                }
+                            });
+                            // An users object with formatted email function
+                            var locals = {
+                                header: 'Your first job post has been created!',
+                                body: 'Your very first job with the position ' + req.body.jobTitle + ' at ' + req.body.companyName + ' has been successfully created.You may sign into your Jobsy account using your email and the following password: ' + req.body.userEmail
+                            };
+
+                            // Send a single email
+                            template('email', locals, function(err, html, text) {
+                                if (err) {
                                     res.json({
-                                        type: 'success',
-                                        msg: 'Job post for account: '+req.body.userEmail+' has been successfully created.'
+                                        type: 'error',
+                                        msg: err
                                     });
-                                });
-                            }
+                                    return;
+                                } else {
+                                    transport.sendMail({
+                                        from: 'Jobsy Mailer <mailer@jobsy.io>',
+                                        to: req.body.userEmail,
+                                        subject: 'First Job Post',
+                                        html: html,
+                                        text: text
+                                    }, function(err, responseStatus) {
+                                        if (err) {
+                                            res.json({
+                                                type: 'error',
+                                                msg: err
+                                            });
+                                            return;
+                                        }
+
+                                    });
+                                }
+                            });
                         });
 
-                        // Saving to serach engine server
+                        // Saving to search engine
                         var host = req.host; // checking host to determine index
                         if (host == 'localhost') {
                             var index = client.initIndex('Jobs-local');
@@ -1035,12 +998,13 @@ module.exports = function(app, passport) {
                                 };
                                 res.json(msg);
                                 return;
+                            } else {
+                                res.json({
+                                    type: 'success',
+                                    msg: 'Job post for account: ' + req.body.userEmail + ' has been successfully created.'
+                                });
+                                res.json(msg);
                             }
-                            var msg = {
-                                'type': 'success',
-                                'msg': 'Job post successfully created!'
-                            };
-                            res.json(msg);
                         });
                     });
                 });
@@ -1759,6 +1723,15 @@ module.exports = function(app, passport) {
                     });
                 }
             });
+    });
+
+    // ACCEPT INVITATION ----------------------------------
+    app.get('/accept', function(req, res) {
+        res.render('accept', {
+            title: 'Invitation Confirmed!',
+            type: 'success',
+            msg: 'Thank you.'
+        });
     });
     // ======================== END of JOB MANIPULATIONS APIs ========================
 
