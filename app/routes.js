@@ -1994,12 +1994,9 @@ module.exports = function(app, passport) {
                 var index = client.initIndex('Jobs-Live');
             }
         }
-        res.json({
-            type: 'success',
-            title: subDomain
-        });
+        console.log(index.indexName);
         return;
-        
+
         Job.find({
             "status": 'published'
         }, {
@@ -2070,10 +2067,7 @@ module.exports = function(app, passport) {
                 var index = client.initIndex('Jobs-Live');
             }
         }
-        res.json({
-            type: 'success',
-            title: subDomain
-        });
+        console.log(index.indexName);
         return;
 
         index.clearIndex(function(err, content) {
