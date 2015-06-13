@@ -833,12 +833,23 @@ module.exports = function(app, passport) {
                         }
 
                         // Saving to search engine
-                        var host = req.host // checking host to determine index
+                        var host = req.host; // checking host to determine index
                         if (host == 'localhost') {
-                            var index = client.initIndex('Jobs-local');
+                            var index = client.initIndex('Jobs-Local');
                         } else {
-                            var index = client.initIndex('Jobs');
+                            var subDomain = host.split('.'); // if not localhost
+                            if (subDomain.length > 2) {
+                                subDomain = subDomain[0].split("-").join(" ");
+                            } else {
+                                subDomain = "";
+                            }
+                            if (subDomain == 'staging') {
+                                var index = client.initIndex('Jobs-Staging');
+                            } else {
+                                var index = client.initIndex('Jobs-Live');
+                            }
                         }
+
                         var arr = {
                             "details": {
                                 "jobType": job.details.jobType,
@@ -979,10 +990,21 @@ module.exports = function(app, passport) {
                         // Saving to search engine
                         var host = req.host; // checking host to determine index
                         if (host == 'localhost') {
-                            var index = client.initIndex('Jobs-local');
+                            var index = client.initIndex('Jobs-Local');
                         } else {
-                            var index = client.initIndex('Jobs');
+                            var subDomain = host.split('.'); // if not localhost
+                            if (subDomain.length > 2) {
+                                subDomain = subDomain[0].split("-").join(" ");
+                            } else {
+                                subDomain = "";
+                            }
+                            if (subDomain == 'staging') {
+                                var index = client.initIndex('Jobs-Staging');
+                            } else {
+                                var index = client.initIndex('Jobs-Live');
+                            }
                         }
+
                         var arr = {
                             "details": {
                                 "jobType": job.details.jobType,
@@ -1094,10 +1116,21 @@ module.exports = function(app, passport) {
                 // Saving to search engine server
                 var host = req.host; // checking host to determine index
                 if (host == 'localhost') {
-                    var index = client.initIndex('Jobs-local');
+                    var index = client.initIndex('Jobs-Local');
                 } else {
-                    var index = client.initIndex('Jobs');
+                    var subDomain = host.split('.'); // if not localhost
+                    if (subDomain.length > 2) {
+                        subDomain = subDomain[0].split("-").join(" ");
+                    } else {
+                        subDomain = "";
+                    }
+                    if (subDomain == 'staging') {
+                        var index = client.initIndex('Jobs-Staging');
+                    } else {
+                        var index = client.initIndex('Jobs-Live');
+                    }
                 }
+
                 var arr = {
                     "details": {
                         "jobType": job.details.jobType,
@@ -1154,10 +1187,21 @@ module.exports = function(app, passport) {
                 // Saving to search engine server
                 var host = req.host; // checking host to determine index
                 if (host == 'localhost') {
-                    var index = client.initIndex('Jobs-local');
+                    var index = client.initIndex('Jobs-Local');
                 } else {
-                    var index = client.initIndex('Jobs');
+                    var subDomain = host.split('.'); // if not localhost
+                    if (subDomain.length > 2) {
+                        subDomain = subDomain[0].split("-").join(" ");
+                    } else {
+                        subDomain = "";
+                    }
+                    if (subDomain == 'staging') {
+                        var index = client.initIndex('Jobs-Staging');
+                    } else {
+                        var index = client.initIndex('Jobs-Live');
+                    }
                 }
+
                 if (job.status == 'published') { // For re-publishing action
                     var arr = {
                         "details": {
@@ -1236,10 +1280,21 @@ module.exports = function(app, passport) {
                 // Saving to search engine server
                 var host = req.host; // checking host to determine index
                 if (host == 'localhost') {
-                    var index = client.initIndex('Jobs-local');
+                    var index = client.initIndex('Jobs-Local');
                 } else {
-                    var index = client.initIndex('Jobs');
+                    var subDomain = host.split('.'); // if not localhost
+                    if (subDomain.length > 2) {
+                        subDomain = subDomain[0].split("-").join(" ");
+                    } else {
+                        subDomain = "";
+                    }
+                    if (subDomain == 'staging') {
+                        var index = client.initIndex('Jobs-Staging');
+                    } else {
+                        var index = client.initIndex('Jobs-Live');
+                    }
                 }
+
                 if (status == 0) { // For deleting action
                     index.deleteObject(job._id, function(err) { // Delete from search engine server 
                         if (err) {
@@ -1796,9 +1851,19 @@ module.exports = function(app, passport) {
     app.get('/api/search/:category/:location/:jobType/:keyword', function(req, res) {
         var host = req.host; // checking host to determine index
         if (host == 'localhost') {
-            var index = client.initIndex('Jobs-local');
+            var index = client.initIndex('Jobs-Local');
         } else {
-            var index = client.initIndex('Jobs');
+            var subDomain = host.split('.'); // if not localhost
+            if (subDomain.length > 2) {
+                subDomain = subDomain[0].split("-").join(" ");
+            } else {
+                subDomain = "";
+            }
+            if (subDomain == 'staging') {
+                var index = client.initIndex('Jobs-Staging');
+            } else {
+                var index = client.initIndex('Jobs-Live');
+            }
         }
 
         // Declare the filters vars
