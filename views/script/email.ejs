@@ -1,0 +1,39 @@
+<!-- BEGIN VENDOR JS -->
+<script src="../assets/plugins/pace/pace.min.js"></script>
+<script src="../assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="../assets/plugins/modernizr.custom.js"></script>
+<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../assets/plugins/boostrapv3/js/bootstrap.min.js"></script>
+<script src="../assets/plugins/jquery/jquery-easy.js"></script>
+<script src="../assets/plugins/pages.min.js"></script>
+<!-- END VENDOR JS -->
+<!-- BEGIN CORE TEMPLATE JS -->
+<!-- Add venobox -->
+<script src="../assets/plugins/strip/dist/js/strip.pkgd.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.jquery.min.js"></script>
+<script>
+$(function() {
+	var host = window.location.hostname;
+	var header = '<a href="http://' + host + '"><img src="../assets/img/jobsy_logo_black.png" style="max-width:280px;margin-bottom:40px;"><span class="bold hint-text" style="font-size:16px;">Email System Control Center</span></a>';
+	$('.header-container').html(header);
+
+	// Algolia configs
+	var client = $.algolia.Client('1IXSQ1XCPL', 'b4ab77b5fc7aeb09011e8291599d90e4');
+	var index_jobs = client.initIndex('Jobs');
+	var index_ujobs = client.initIndex('User-jobs');
+
+	// Users call button
+	$('#users_call').click(function() {
+		$.get('/email/users/call', function(result) {
+			var data = result.msg;
+			Strip.show({
+			  url: 'http://vimeo.com/32071937',
+			  options: {
+			    side: 'top'
+			  }
+			});
+		});
+	})
+});
+</script>
+<!-- END CORE TEMPLATE JS -->

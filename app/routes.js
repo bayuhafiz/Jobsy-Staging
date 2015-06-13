@@ -13,6 +13,10 @@ var async = require('async'),
     generatePassword = require('password-generator'),
     less = require('less');
 
+// Mandrill configuration
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill('jnbaFnbflDUZ6lIZD7PqVw');
+
 // For development purpose ONLY!
 var util = require('util');
 var gateway = braintree.connect({
@@ -48,7 +52,8 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
-var client = new Algolia('1IXSQ1XCPL', 'b4ab77b5fc7aeb09011e8291599d90e4', keepaliveAgent);
+
+var client = new Algolia('QNUF4DGT6P', '53711fb94858631f92fc989860c66a9b', keepaliveAgent);
 
 
 // Here are our precious module
@@ -828,7 +833,7 @@ module.exports = function(app, passport) {
                         }
 
                         // Saving to search engine
-                        var host = req.host; // checking host to determine index
+                        var host = req.host // checking host to determine index
                         if (host == 'localhost') {
                             var index = client.initIndex('Jobs-local');
                         } else {
@@ -1969,23 +1974,25 @@ module.exports = function(app, passport) {
 
 
     // ============================ ALGOLIA CC APIs ============================
-    // Redirect to secure http
     app.get('/alg', function(req, res) {
-        res.redirect('https://' + req.host + '/alg-cc');
-    });
-    app.get('/alg-cc', function(req, res) {
         res.render('alg', {
             msg: 'Select action by clicking buttons below',
             datas: 'none',
             title: 'Algolia Control Center'
         });
     });
+
     app.get('/alg/init', function(req, res) {
         var host = req.host; // checking host to determine index
         if (host == 'localhost') {
-            var index = client.initIndex('Jobs-local');
+            var index = client.initIndex('Jobs-Local');
         } else {
-            var index = client.initIndex('Jobs');
+            var subDomain = host.split('.'); // if not localhost
+            if (subDomain == 'staging') {
+                var index = client.initIndex('Jobs-Staging');
+            } else {
+                var index = client.initIndex('Jobs');
+            }
         }
         Job.find({
             "status": 'published'
@@ -2044,12 +2051,18 @@ module.exports = function(app, passport) {
             }
         });
     });
+    // Clearing index data
     app.get('/alg/clear', function(req, res) {
         var host = req.host; // checking host to determine index
         if (host == 'localhost') {
-            var index = client.initIndex('Jobs-local');
+            var index = client.initIndex('Jobs-Local');
         } else {
-            var index = client.initIndex('Jobs');
+            var subDomain = host.split('.'); // if not localhost
+            if (subDomain == 'staging') {
+                var index = client.initIndex('Jobs-Staging');
+            } else {
+                var index = client.initIndex('Jobs');
+            }
         }
         index.clearIndex(function(err, content) {
             if (err) {
@@ -2105,6 +2118,103 @@ module.exports = function(app, passport) {
         });
     });
     // ======================== END of ALGOLIA SEARCH APIs =========================
+
+
+
+    // ============================ MANDRILL APIs ============================
+    app.get('/email', function(req, res) {
+        res.render('email', {
+            msg: 'Select action by clicking buttons below',
+            datas: 'none',
+            title: 'Mandrill Control Center'
+        });
+    });
+
+    app.get('/email/users/call', function(req, res) {
+        mandrill_client.users.info({}, function(result) {
+            var data = JSON.stringify(result);
+            console.log(data);
+            res.json({
+                type: 'success',
+                title: 'Users Call',
+                msg: data
+            });
+        }, function(e) {
+            // Mandrill returns the error as an object with name and message keys
+            res.json({
+                type: 'error',
+                title: 'Oops!',
+                msg: 'A mandrill error occurred: ' + e.name + ' - ' + e.message
+            });
+            // A mandrill error occurred: Invalid_Key - Invalid API key
+        });
+    });
+
+    app.get('/email/clear', function(req, res) {
+        var host = req.host; // checking host to determine index
+        if (host == 'localhost') {
+            var index = client.initIndex('Jobs-local');
+        } else {
+            var index = client.initIndex('Jobs');
+        }
+        index.clearIndex(function(err, content) {
+            if (err) {
+                res.json({
+                    type: 'error',
+                    msg: err,
+                });
+                return;
+            }
+            res.json({
+                type: 'success',
+                msg: content,
+                title: 'Clearing index..'
+            });
+        });
+    });
+
+    app.get('/email/update/:data', function(req, res) {
+        index.saveObject({
+            firstname: 'Jimmie',
+            lastname: 'Barninger',
+            objectID: 'myID1'
+        }, function(err, content) {
+            if (err) {
+                res.json({
+                    type: 'error',
+                    msg: err,
+                });
+                return;
+            }
+            res.json({
+                type: 'success',
+                msg: JSON.stringify(content),
+                title: 'Updating data..'
+            });
+        });
+    });
+
+    app.get('/email/delete/:id', function(req, res) {
+        var id = req.params.id;
+        index.deleteObject(id, function(err) {
+            if (err) {
+                res.json({
+                    type: 'error',
+                    msg: err,
+                });
+                return;
+            } else {
+                res.json({
+                    type: 'success',
+                    msg: JSON.stringify(content),
+                    title: 'Deleting data..'
+                });
+            }
+        });
+    });
+    // ======================== END of MANDRILL APIs =========================
+
+
 
     // =========================== ADMIN PANEL ROUTES =============================
     // index page
