@@ -1988,18 +1988,18 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
-            if (subDomain === 'staging') {
+            if (subDomain.length > 2) {
+                subDomain = subDomain[0].split("-").join(" ");
+            } else {
+                subDomain = "";
+            }
+            if (subDomain == 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
                 var index = client.initIndex('Jobs-Live');
             }
         }
-        res.json({
-            type: 'success',
-            title: subDomain
-        });
-        return;
-        
+
         Job.find({
             "status": 'published'
         }, {
@@ -2064,17 +2064,17 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
-            if (subDomain === 'staging') {
+            if (subDomain.length > 2) {
+                subDomain = subDomain[0].split("-").join(" ");
+            } else {
+                subDomain = "";
+            }
+            if (subDomain == 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
                 var index = client.initIndex('Jobs-Live');
             }
         }
-        res.json({
-            type: 'success',
-            title: subDomain
-        });
-        return;
 
         index.clearIndex(function(err, content) {
             if (err) {
