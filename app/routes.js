@@ -1988,8 +1988,13 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
-            console.log('sub domain > '+subDomain);
-            if (subDomain === 'staging') {
+            if (subDomain.length > 2) {
+                subDomain = subDomain[0].split("-").join(" ");
+            } else {
+                subDomain = "";
+            }
+            console.log('sub domain > ' + subDomain);
+            if (subDomain == 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
                 var index = client.initIndex('Jobs-Live');
@@ -2062,7 +2067,7 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
-            console.log('sub domain > '+subDomain);
+            console.log('sub domain > ' + subDomain);
             if (subDomain == 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
