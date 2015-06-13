@@ -1988,10 +1988,10 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
-            if (subDomain == 'staging') {
+            if (subDomain === 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
-                var index = client.initIndex('Jobs');
+                var index = client.initIndex('Jobs-Live');
             }
         }
         Job.find({
@@ -2058,10 +2058,10 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
-            if (subDomain == 'staging') {
+            if (subDomain === 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
-                var index = client.initIndex('Jobs');
+                var index = client.initIndex('Jobs-Live');
             }
         }
         index.clearIndex(function(err, content) {
