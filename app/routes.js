@@ -1988,6 +1988,7 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
+            console.log('sub domain > '+subDomain);
             if (subDomain === 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
@@ -2061,7 +2062,8 @@ module.exports = function(app, passport) {
             var index = client.initIndex('Jobs-Local');
         } else {
             var subDomain = host.split('.'); // if not localhost
-            if (subDomain === 'staging') {
+            console.log('sub domain > '+subDomain);
+            if (subDomain == 'staging') {
                 var index = client.initIndex('Jobs-Staging');
             } else {
                 var index = client.initIndex('Jobs-Live');
