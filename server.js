@@ -22,11 +22,20 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var MongoStore = require('connect-mongo')({ session: session });
+var MongoStore = require('connect-mongo')({
+    session: session
+});
 
 // Multer setting ==============================================================
 var multer = require('multer');
 app.use(multer());
+
+// CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 // configuration ===============================================================
 var configDB = require('./config/database.js');
@@ -38,7 +47,9 @@ app.use(express.static(__dirname + '/public'));
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser.json({limit: '50mb'})); // get information from html forms
+app.use(bodyParser.json({
+    limit: '50mb'
+})); // get information from html forms
 app.use(bodyParser.urlencoded({
     limit: '50mb',
     extended: true
@@ -77,9 +88,9 @@ require('./app/routes.js')(app, passport);
 require('./app/seeding/user.js'); // loads sample user
 
 // 404 error handler ===========================================================
-app.use(function(req, res, next){
-  res.status(404);
-  res.redirect('/');
+app.use(function(req, res, next) {
+    res.status(404);
+    res.redirect('/');
 });
 
 // PMX Monitoring setting ======================================================
