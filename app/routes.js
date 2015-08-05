@@ -53,7 +53,7 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
 
-var client = new Algolia('QNUF4DGT6P', '53711fb94858631f92fc989860c66a9b', keepaliveAgent);
+var client = new Algolia('PKCV8830XN', '2037367ac48a16dda4c11ec35944e270', keepaliveAgent);
 
 
 // Here are our precious module
