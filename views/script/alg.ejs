@@ -14,11 +14,11 @@
 <script>
 $(function() {
 	var host = window.location.hostname;
-	var header = '<a href="http://' + host + '"><img src="../assets/img/jobsy_logo_black.png" style="max-width:280px;margin-bottom:40px;"><span class="bold hint-text" style="font-size:16px;">Mandrill Control Center</span></a>';
+	var header = '<a href="http://' + host + '"><img src="//jobsy.io/assets/img/jobsy_logo_black.png" style="max-width:280px;margin-bottom:40px;"><span class="bold hint-text" style="font-size:16px;">Mandrill Control Center</span></a>';
 	$('.header-container').html(header);
 
 	// Algolia configs
-	var client = $.algolia.Client('1IXSQ1XCPL', 'b4ab77b5fc7aeb09011e8291599d90e4');
+	var client = $.algolia.Client('E9C3GK555L', 'ab07caa81aeefd346a305f03705b5f8f');
   	var index_jobs = client.initIndex('Jobs');
   	var index_ujobs = client.initIndex('User-jobs');
 
