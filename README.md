@@ -1,4 +1,4 @@
-[![Jobsy Logo](http://staging.colorblindlabs.com/assets/img/jobsy_logo_black.png)](http://beta.jobsy.io/)
+[![Jobsy Logo](http://jobsy.io/assets/img/jobsy_logo_black.png)](http://beta.jobsy.io/)
 # JOBSY&trade; - RESTFUL API Job Application App
 
 #### Upgraded To Express 4.0
