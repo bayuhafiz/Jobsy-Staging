@@ -52,7 +52,7 @@ var keepaliveAgent = new HttpsAgent({
     maxKeepAliveRequests: 0, // no limit on max requests per keepalive socket
     maxKeepAliveTime: 30000 // keepalive for 30 seconds
 });
-var client = new Algolia('0C3DP08PJ4', 'e800495e92ef6b58b109bb2ee91727e1', keepaliveAgent);
+var client = new Algolia('0C3DP08PJ4', 'e800495e92ef6b58b109bb2ee91727e1', keepaliveAgent); 
 
 
 // Here are our precious module
